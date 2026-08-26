@@ -1,0 +1,337 @@
+/**
+ * WorkPress Standalone Authentication & Access Gateway Stylesheet
+ *
+ * Modern SaaS Architecture:
+ * - Slate Canvas (#f8fafc) & Pure White Elevated Surface (#ffffff)
+ * - Strict Sharp Edges (0px border-radius across all elements)
+ * - Zero Unicode Emojis (Official WordPress Dashicons exclusively)
+ * - Emerald Green (#10b981) Primary Actions & Focus States
+ * - High-accessibility RTL First Typography (Cairo)
+ *
+ * @package WorkPress
+ * @subpackage Assets/CSS
+ * @version 2.1.0
+ */
+
+:root {
+    --wp-primary: #10b981;
+    --wp-primary-hover: #059669;
+    --wp-primary-light: #ecfdf5;
+    --wp-primary-border: #a7f3d0;
+
+    --wp-indigo: #6366f1;
+    --wp-indigo-hover: #4f46e5;
+    --wp-indigo-light: #eef2ff;
+    --wp-indigo-border: #c7d2fe;
+
+    --wp-bg-page: #f8fafc;
+    --wp-bg-card: #ffffff;
+    --wp-bg-subtle: #f1f5f9;
+
+    --wp-border: #e2e8f0;
+    --wp-border-strong: #cbd5e1;
+
+    --wp-text-main: #0f172a;
+    --wp-text-secondary: #475569;
+    --wp-text-muted: #64748b;
+    --wp-text-dim: #94a3b8;
+
+    --wp-danger: #ef4444;
+    --wp-danger-light: #fef2f2;
+    --wp-danger-border: #fecaca;
+    --wp-danger-text: #dc2626;
+
+    --wp-shadow-card: 0 10px 30px -5px rgba(0, 0, 0, 0.08), 0 4px 12px -2px rgba(0, 0, 0, 0.04);
+}
+
+/* Strict Zero Radius Across All Elements */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 0 !important;
+}
+
+body.workpress-auth-body {
+    font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--wp-bg-page);
+    color: var(--wp-text-main);
+    line-height: 1.6;
+    min-height: 100vh;
+    direction: rtl;
+    text-align: right;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem 1rem;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Dashicons Core Integration */
+.dashicons {
+    font-family: dashicons !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1;
+}
+
+/* Main Auth Modal Card */
+.wp-auth-container {
+    width: 100%;
+    max-width: 440px;
+    margin: 0 auto;
+}
+
+.wp-auth-card {
+    background: var(--wp-bg-card);
+    border: 1px solid var(--wp-border);
+    box-shadow: var(--wp-shadow-card);
+    padding: 2.25rem 2rem;
+    position: relative;
+}
+
+/* Header & Brand Area */
+.wp-auth-header {
+    text-align: center;
+    margin-bottom: 1.75rem;
+}
+
+.wp-auth-logo {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+}
+
+.wp-auth-title {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--wp-text-main);
+    margin-bottom: 0.25rem;
+}
+
+.wp-auth-subtitle {
+    font-size: 0.85rem;
+    color: var(--wp-text-muted);
+}
+
+/* View Switcher Tabs */
+.wp-auth-tabs {
+    display: flex;
+    border-bottom: 2px solid var(--wp-border);
+    margin-bottom: 1.5rem;
+}
+
+.wp-auth-tab {
+    flex: 1;
+    text-align: center;
+    padding: 0.6rem 0.5rem;
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--wp-text-muted);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.wp-auth-tab:hover {
+    color: var(--wp-text-main);
+    background: var(--wp-bg-subtle);
+}
+
+.wp-auth-tab.is-active {
+    color: var(--wp-primary);
+    border-bottom-color: var(--wp-primary);
+    font-weight: 800;
+    background: #ffffff;
+}
+
+/* Alert Notification Boxes */
+.wp-auth-alert {
+    padding: 0.75rem 1rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    line-height: 1.5;
+}
+
+.wp-auth-alert-danger {
+    background: var(--wp-danger-light);
+    border: 1px solid var(--wp-danger-border);
+    color: var(--wp-danger-text);
+}
+
+.wp-auth-alert-success {
+    background: var(--wp-primary-light);
+    border: 1px solid var(--wp-primary-border);
+    color: #065f46;
+}
+
+.wp-auth-alert-info {
+    background: var(--wp-indigo-light);
+    border: 1px solid var(--wp-indigo-border);
+    color: #4338ca;
+}
+
+/* Form Controls */
+.wp-auth-group {
+    margin-bottom: 1.2rem;
+}
+
+.wp-auth-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--wp-text-main);
+    margin-bottom: 0.35rem;
+}
+
+.wp-auth-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.wp-auth-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.92rem;
+    padding: 0.65rem 0.95rem;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-main);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.wp-auth-input:focus {
+    border-color: var(--wp-primary);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.wp-auth-input::placeholder {
+    color: var(--wp-text-dim);
+}
+
+.wp-auth-toggle-pass {
+    position: absolute;
+    left: 8px;
+    background: transparent;
+    border: none;
+    color: var(--wp-text-muted);
+    cursor: pointer;
+    padding: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.15s ease;
+}
+
+.wp-auth-toggle-pass:hover {
+    color: var(--wp-text-main);
+}
+
+/* Remember Me & Utility Row */
+.wp-auth-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
+    margin-bottom: 1.5rem;
+}
+
+.wp-auth-checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    color: var(--wp-text-secondary);
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+}
+
+.wp-auth-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--wp-primary);
+    cursor: pointer;
+}
+
+/* Primary Button */
+.wp-auth-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    padding: 0.75rem 1.25rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: #ffffff;
+    background: var(--wp-primary);
+    border: 1px solid var(--wp-primary);
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 8px rgba(16, 185, 129, 0.25);
+    text-decoration: none;
+}
+
+.wp-auth-btn:hover:not(:disabled) {
+    background: var(--wp-primary-hover);
+    border-color: var(--wp-primary-hover);
+    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.35);
+    transform: translateY(-1px);
+}
+
+.wp-auth-btn:disabled {
+    opacity: 0.65;
+    cursor: not-allowed;
+}
+
+/* Footer & Back Link */
+.wp-auth-footer {
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--wp-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--wp-text-muted);
+}
+
+.wp-auth-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--wp-text-secondary);
+    text-decoration: none;
+    font-weight: 700;
+    transition: color 0.15s ease;
+}
+
+.wp-auth-back-link:hover {
+    color: var(--wp-primary);
+}
+
+/* Spinner */
+.wp-auth-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: #ffffff;
+    animation: wpAuthSpin 0.75s linear infinite;
+}
+
+@keyframes wpAuthSpin {
+    to { transform: rotate(360deg); }
+}

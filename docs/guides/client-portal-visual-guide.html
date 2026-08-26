@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>خريطة ودليل مساحة العميل التفاعلية | WorkPress Standalone Client Portal Visual Guide</title>
+    <!-- Google Fonts: Cairo & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0a0e17;
+            --bg-card: rgba(17, 24, 39, 0.85);
+            --bg-card-hover: rgba(30, 41, 59, 0.95);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --border-active: rgba(16, 185, 129, 0.5);
+            --primary: #10b981;
+            --primary-light: #34d399;
+            --primary-glow: rgba(16, 185, 129, 0.25);
+            --blue: #3b82f6;
+            --blue-glow: rgba(59, 130, 246, 0.25);
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #06b6d4;
+            --purple: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.08) 0px, transparent 50%);
+            background-attachment: fixed;
+            padding-bottom: 6rem;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header / Hero */
+        .hero {
+            padding: 4rem 0 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1.25rem;
+            background: rgba(16, 185, 129, 0.12);
+            border: 1px solid var(--primary-glow);
+            border-radius: 9999px;
+            color: var(--primary-light);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            backdrop-filter: blur(8px);
+        }
+
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 30%, #a7f3d0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 850px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Identity Simulation Switcher */
+        .identity-bar {
+            background: rgba(30, 41, 59, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .identity-buttons {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        .identity-btn {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #94a3b8;
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .identity-btn.active {
+            background: #10b981;
+            border-color: #34d399;
+            color: #000;
+            font-weight: 800;
+        }
+
+        /* Interactive Simulator Frame */
+        .simulator-section {
+            margin-bottom: 4rem;
+        }
+
+        .sim-browser-frame {
+            background: #0f172a;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.6);
+        }
+
+        .sim-browser-topbar {
+            background: #1e293b;
+            padding: 0.75rem 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .browser-dots {
+            display: flex;
+            gap: 0.4rem;
+        }
+
+        .browser-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+        .dot-red { background: #ef4444; }
+        .dot-yellow { background: #f59e0b; }
+        .dot-green { background: #10b981; }
+
+        .browser-address {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 0.25rem 1rem;
+            font-size: 0.85rem;
+            color: #94a3b8;
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            direction: ltr;
+        }
+
+        /* Standalone Portal Dedicated Header */
+        .portal-dedicated-header {
+            background: #0b1120;
+            padding: 0.9rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .portal-brand-area {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .portal-brand-title {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-weight: 900;
+            font-size: 1.15rem;
+            color: #fff;
+        }
+
+        .portal-back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .portal-back-link:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .portal-user-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Embedded Portal App */
+        .portal-app-container {
+            padding: 2rem;
+            background: #0a0f1d;
+            min-height: 480px;
+        }
+
+        /* Portal Hero Card */
+        .portal-hero-card {
+            background: linear-gradient(135deg, rgba(30, 41, 59, 0.9) 0%, rgba(15, 23, 42, 0.95) 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .portal-client-info {
+            display: flex;
+            align-items: center;
+            gap: 1.25rem;
+        }
+
+        .client-avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #10b981 0%, #3b82f6 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #fff;
+            font-weight: 900;
+        }
+
+        .portal-project-selector {
+            background: #1e293b;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            outline: none;
+        }
+
+        /* Progress Hero Bar */
+        .portal-kpi-bar {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.25rem 1.75rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .kpi-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.2rem;
+        }
+
+        .kpi-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #f8fafc;
+        }
+
+        .kpi-progress-wrapper {
+            flex-grow: 1;
+            min-width: 200px;
+        }
+
+        .custom-progress-bg {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            overflow: hidden;
+            margin-top: 0.4rem;
+        }
+
+        .custom-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981 0%, #34d399 100%);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        /* Portal Nav Tabs */
+        .portal-nav-tabs {
+            display: flex;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .portal-tab-btn {
+            background: transparent;
+            border: 1px solid transparent;
+            color: #94a3b8;
+            padding: 0.6rem 1.25rem;
+            border-radius: 8px;
+            font-family: 'Cairo', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.2s ease;
+        }
+
+        .portal-tab-btn:hover {
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+        }
+
+        .portal-tab-btn.active {
+            background: rgba(16, 185, 129, 0.15);
+            border-color: var(--primary-glow);
+            color: var(--primary-light);
+        }
+
+        /* Tab Content Area */
+        .portal-tab-content {
+            min-height: 280px;
+        }
+
+        .deliverable-card {
+            background: #131d31;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .deliverable-card:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+            background: #17233c;
+        }
+
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.45rem 1rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            font-family: 'Cairo', sans-serif;
+            transition: all 0.2s;
+        }
+
+        .btn-primary { background: #10b981; color: #fff; }
+        .btn-primary:hover { background: #059669; }
+        .btn-outline { background: transparent; border: 1px solid rgba(255, 255, 255, 0.2); color: #fff; }
+        .btn-outline:hover { background: rgba(255, 255, 255, 0.08); }
+
+        /* Architectural Cards */
+        .section-heading {
+            text-align: center;
+            margin: 4rem 0 2rem;
+        }
+
+        .section-heading h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-heading p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.75rem;
+            margin-bottom: 3rem;
+        }
+
+        .arch-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.75rem;
+            backdrop-filter: blur(12px);
+            transition: transform 0.2s;
+        }
+
+        .arch-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(16, 185, 129, 0.4);
+        }
+
+        .arch-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(16, 185, 129, 0.12);
+            color: var(--primary-light);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .arch-card h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.75rem;
+        }
+
+        .arch-card p {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+
+        /* Stepper Diagram */
+        .timeline-stepper {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(15, 23, 42, 0.6);
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .step-badge {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #10b981;
+            color: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+
+        .step-badge.pending {
+            background: #334155;
+            color: #94a3b8;
+        }
+
+        /* Gatekeeper Notice */
+        .gatekeeper-box {
+            text-align: center;
+            padding: 3.5rem 2rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Hero -->
+        <header class="hero">
+            <div class="badge-pill">
+                <span>🌟</span>
+                <span>WorkPress Standalone Client Portal Visual Specification</span>
+            </div>
+            <h1>بوابة ومساحة العميل المستقلة التفاعلية</h1>
+            <p>معاينة بصرية حية لمساحة العميل المستقلة بهيدر خاص وتصميم معزول (0% تداخل مع ثيم الموقع العام)، مع محاكاة لهندسة التوجيه والتمييز الذكي للأعضاء.</p>
+        </header>
+
+        <!-- Identity Simulator Bar -->
+        <div class="identity-bar">
+            <div>
+                <strong style="color: #fff; font-size: 0.95rem;">محاكي نوع العضو المسجل (Identity Test Mode):</strong>
+                <p style="font-size: 0.8rem; color: #94a3b8;">اختر نوع الحساب لمعاينة كيف يتعامل نظام التوجيه التلقائي في WorkPress مع كل مستخدم:</p>
+            </div>
+            <div class="identity-buttons">
+                <button class="identity-btn active" onclick="setIdentity('client', this)">👤 1. عميل WorkPress معتمد (سامي)</button>
+                <button class="identity-btn" onclick="setIdentity('reader', this)">📖 2. قارئ مدونة عادي (بلا مشاريع)</button>
+                <button class="identity-btn" onclick="setIdentity('admin', this)">👑 3. المدير العام (Admin)</button>
+            </div>
+        </div>
+
+        <!-- Live Interactive Simulator -->
+        <section class="simulator-section">
+            <div class="sim-browser-frame">
+                <!-- Browser Bar -->
+                <div class="sim-browser-topbar">
+                    <div class="browser-dots">
+                        <div class="browser-dot dot-red"></div>
+                        <div class="browser-dot dot-yellow"></div>
+                        <div class="browser-dot dot-green"></div>
+                    </div>
+                    <div class="browser-address">
+                        <span>🔒</span>
+                        <span id="browserUrl">https://yourcompany.com/portal/ (Standalone Canvas Template)</span>
+                    </div>
+                </div>
+
+                <!-- Standalone Dedicated Header (Isolated Canvas) -->
+                <div id="portalHeader" class="portal-dedicated-header">
+                    <div class="portal-brand-area">
+                        <div class="portal-brand-title">
+                            <span style="font-size: 1.5rem;">🏢</span>
+                            <span>شركة الإبداع • بوابة العملاء والمشاريع</span>
+                        </div>
+                        <a href="#site" class="portal-back-link" onclick="alert('التوجيه لواجهة الموقع والمدونة العامة...')">
+                            <span>🌐</span>
+                            <span>العودة للموقع الرئيسي</span>
+                        </a>
+                    </div>
+                    <div class="portal-user-controls">
+                        <span id="userBadge" style="font-size: 0.85rem; color: #34d399; font-weight: 700;">🟢 متصل: أ. سامي (شركة الأفق)</span>
+                        <button class="btn-action btn-outline" style="padding: 0.3rem 0.75rem; font-size: 0.8rem;" onclick="alert('تم تسجيل الخروج بنجاح!')">خروج ⏻</button>
+                    </div>
+                </div>
+
+                <!-- Embedded Client Workspace Application -->
+                <div id="portalContainer" class="portal-app-container">
+                    
+                    <!-- View for Client -->
+                    <div id="clientView">
+                        <!-- Top Client Hero -->
+                        <div class="portal-hero-card">
+                            <div class="portal-client-info">
+                                <div class="client-avatar">س</div>
+                                <div>
+                                    <h3 style="font-size: 1.25rem; font-weight: 800; color: #fff;">مرحباً بك، الأستاذ سامي (شركة الأفق)</h3>
+                                    <p style="font-size: 0.85rem; color: #94a3b8;">حساب عميل معتمد • مساحة متابعة المشاريع والمخرجات الرسمية</p>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label style="font-size: 0.8rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">المشروع المختار:</label>
+                                <select id="projectSelect" class="portal-project-selector" onchange="switchProject(this.value)">
+                                    <option value="portal">🌐 مشروع: تطوير البوابة المؤسسية (PORTAL)</option>
+                                    <option value="brand">🎨 مشروع: إعادة تصميم الهوية البصرية (BRAND)</option>
+                                    <option value="marketing">🚀 مشروع: الحملة التسويقية الربعية (MKT)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Live KPI Radar Bar -->
+                        <div class="portal-kpi-bar">
+                            <div class="kpi-item">
+                                <span class="kpi-label">حالة المشروع</span>
+                                <span id="projStatus" class="kpi-value" style="color: #34d399;">🟢 يسير وفق الخطة</span>
+                            </div>
+
+                            <div class="kpi-item">
+                                <span class="kpi-label">مدير المشروع المكلف</span>
+                                <span class="kpi-value" style="font-size: 1rem;">👑 سارة أحمد (Senior Lead)</span>
+                            </div>
+
+                            <div class="kpi-item">
+                                <span class="kpi-label">الموعد المستهدف للتسليم</span>
+                                <span id="projDeadline" class="kpi-value" style="font-size: 1rem; color: #f59e0b;">📅 15 سبتمبر 2026</span>
+                            </div>
+
+                            <div class="kpi-item kpi-progress-wrapper">
+                                <div style="display: flex; justify-content: space-between; font-size: 0.85rem;">
+                                    <span class="kpi-label">نسبة الإنجاز اللحظية</span>
+                                    <span id="projPercentText" style="font-weight: 800; color: #34d399;">75%</span>
+                                </div>
+                                <div class="custom-progress-bg">
+                                    <div id="projProgressBar" class="custom-progress-fill" style="width: 75%;"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Interactive Portal Tabs -->
+                        <div class="portal-nav-tabs">
+                            <button class="portal-tab-btn active" onclick="switchTab('deliverables', this)">
+                                <span>📦</span>
+                                <span>المخرجات والحلول المعتمدة (3)</span>
+                            </button>
+                            <button class="portal-tab-btn" onclick="switchTab('milestones', this)">
+                                <span>📋</span>
+                                <span>خارطة المراحل والمهام (5)</span>
+                            </button>
+                            <button class="portal-tab-btn" onclick="switchTab('feedback', this)">
+                                <span>💬</span>
+                                <span>الاستفسارات والملاحظات</span>
+                            </button>
+                            <button class="portal-tab-btn" onclick="switchTab('new-request', this)">
+                                <span>🚀</span>
+                                <span>طلب مشروع / خدمة جديدة</span>
+                            </button>
+                        </div>
+
+                        <!-- Tab 1: Deliverables Vault -->
+                        <div id="tab-deliverables" class="portal-tab-content">
+                            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                                <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff;">المخرجات المعتمدة رسمياً الجاهزة للاستلام:</h4>
+                                <span style="font-size: 0.85rem; color: #94a3b8;">مفلترة ومطهرة من المسودات الداخلية 🔒</span>
+                            </div>
+
+                            <div id="deliverablesList">
+                                <!-- Card 1 -->
+                                <div class="deliverable-card">
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <span style="font-size: 2rem;">📄</span>
+                                        <div>
+                                            <h5 style="font-weight: 800; color: #fff; font-size: 1rem;">وثيقة معمارية الخوادم وقواعد البيانات المعتمدة</h5>
+                                            <p style="font-size: 0.8rem; color: #94a3b8;">تم الاعتماد بواسطة قائد المشروع • صيغة PDF (4.2 MB)</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn-action btn-outline" onclick="alert('جاري فتح المعاينة المباشرة للمستند...')">معاينة 👁️</button>
+                                        <button class="btn-action btn-primary" onclick="alert('جاري تنزيل الملف المعتمد...')">تنزيل المخرج 📥</button>
+                                    </div>
+                                </div>
+
+                                <!-- Card 2 -->
+                                <div class="deliverable-card">
+                                    <div style="display: flex; align-items: center; gap: 1rem;">
+                                        <span style="font-size: 2rem;">🎨</span>
+                                        <div>
+                                            <h5 style="font-weight: 800; color: #fff; font-size: 1rem;">نماذج واجهات وتجربة المستخدم (Figma High-Fidelity UI)</h5>
+                                            <p style="font-size: 0.8rem; color: #94a3b8;">تم الاعتماد بواسطة قائد المشروع • رابط مساحة العمل التفاعلية</p>
+                                        </div>
+                                    </div>
+                                    <div style="display: flex; gap: 0.5rem;">
+                                        <button class="btn-action btn-primary" onclick="alert('جاري التوجيه لرابط المخرج المعتمد...')">فتح الرابط المعتمد 🔗</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 2: Milestones Stepper -->
+                        <div id="tab-milestones" class="portal-tab-content" style="display: none;">
+                            <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 1rem;">سير مراحل العمل والمهام التنفيذية (وضع القراءة والمتابعة):</h4>
+                            <div class="timeline-stepper">
+                                <div class="step-item">
+                                    <div class="step-badge">✓</div>
+                                    <div style="flex-grow: 1;">
+                                        <h5 style="font-weight: 800; color: #fff;">المرحلة 1: دراسة المتطلبات وتحديد النطاق التقني</h5>
+                                        <p style="font-size: 0.85rem; color: #94a3b8;">مكتملة ومعتمدة بنسبة 100% • تاريخ الإنجاز: 10 أوت 2026</p>
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <div class="step-badge">✓</div>
+                                    <div style="flex-grow: 1;">
+                                        <h5 style="font-weight: 800; color: #fff;">المرحلة 2: تصميم الهوية وتجربة المستخدم</h5>
+                                        <p style="font-size: 0.85rem; color: #94a3b8;">مكتملة ومعتمدة بنسبة 100% • تاريخ الإنجاز: 18 أوت 2026</p>
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <div class="step-badge" style="background: #f59e0b; color: #000;">⏳</div>
+                                    <div style="flex-grow: 1;">
+                                        <h5 style="font-weight: 800; color: #fff;">المرحلة 3: التطوير والربط البرمجي الكامل</h5>
+                                        <p style="font-size: 0.85rem; color: #f59e0b;">قيد التنفيذ النشط حالياً • الموعد المتوقع: 30 أوت 2026</p>
+                                    </div>
+                                </div>
+                                <div class="step-item">
+                                    <div class="step-badge pending">4</div>
+                                    <div style="flex-grow: 1;">
+                                        <h5 style="font-weight: 800; color: #64748b;">المرحلة 4: الفحص الأمني وتسليم المشروع النهائي</h5>
+                                        <p style="font-size: 0.85rem; color: #64748b;">مجدولة للاكتمال بعد إنهاء مرحلة التطوير</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 3: Feedback Box -->
+                        <div id="tab-feedback" class="portal-tab-content" style="display: none;">
+                            <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem;">قناة التواصل المباشر مع مدير المشروع:</h4>
+                            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1rem;">أرسل أي ملاحظة أو استفسار توجيهي وسيصل إشعار فوري لمدير المشروع للرد عليك.</p>
+                            
+                            <div style="background: rgba(15, 23, 42, 0.6); padding: 1.25rem; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                                <textarea id="feedbackText" rows="3" style="width: 100%; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.75rem; color: #fff; font-family: 'Cairo', sans-serif; font-size: 0.9rem;" placeholder="اكتب استفسارك أو طلب المراجعة هنا..."></textarea>
+                                <div style="display: flex; justify-content: flex-end; margin-top: 0.75rem;">
+                                    <button class="btn-action btn-primary" onclick="submitFeedback()">إرسال الملاحظة لمدير المشروع 🚀</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tab 4: New Request Wizard -->
+                        <div id="tab-new-request" class="portal-tab-content" style="display: none;">
+                            <h4 style="font-size: 1.05rem; font-weight: 800; color: #fff; margin-bottom: 0.5rem;">استوديو طلب مشروع أو خدمة جديدة:</h4>
+                            <p style="font-size: 0.85rem; color: #94a3b8; margin-bottom: 1.25rem;">قدم فكرة مشروعك الجديد مباشرة لتصل كمسودة معتمدة للإدارة العامة للمراجعة والتسعير.</p>
+
+                            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                                <div>
+                                    <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">اسم المشروع / الخدمة المطلوبة:</label>
+                                    <input type="text" placeholder="مثال: تطبيق الجوال لنظام الولاء" style="width: 100%; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.6rem; color: #fff; font-family: 'Cairo', sans-serif;">
+                                </div>
+                                <div>
+                                    <label style="font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 0.3rem;">الميزانية التقديرية المقترحة:</label>
+                                    <input type="text" placeholder="مثال: 5,000 $ - 8,000 $" style="width: 100%; background: #0f172a; border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 8px; padding: 0.6rem; color: #fff; font-family: 'Cairo', sans-serif;">
+                                </div>
+                            </div>
+                            <button class="btn-action btn-primary" onclick="alert('تم إرسال طلب المشروع بنجاح وسيتم التواصل معكم!')">تقديم طلب المشروع للإدارة 📝</button>
+                        </div>
+                    </div>
+
+                    <!-- View for Regular Blog Reader (Gatekeeper) -->
+                    <div id="readerView" style="display: none;">
+                        <div class="gatekeeper-box">
+                            <span style="font-size: 3.5rem; display: block; margin-bottom: 1rem;">🛡️</span>
+                            <h3 style="font-size: 1.4rem; font-weight: 900; color: #fff; margin-bottom: 0.75rem;">مرحباً بك في بوابة مشاريع المنشأة</h3>
+                            <p style="color: #94a3b8; font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                                حسابك الحالي مسجل كـ <strong>«متابع في الموقع العام»</strong>، ولكن ليس لديك مشاريع عمل نشطة أو تعاقدية مربوطة بحسابك حتى الآن.
+                            </p>
+                            <div style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 1.25rem; margin-bottom: 1.5rem; text-align: right;">
+                                <p style="font-size: 0.85rem; color: #f8fafc; margin-bottom: 0.5rem;">💡 <strong>هل أنت عميل تعاقدي جديد للمنشأة؟</strong></p>
+                                <p style="font-size: 0.8rem; color: #94a3b8;">يرجى التواصل مع مدير حسابك لتفعيل مشروعك، أو يمكنك تقديم طلب مشروع جديد الآن.</p>
+                            </div>
+                            <div style="display: flex; justify-content: center; gap: 1rem;">
+                                <a href="#site" class="btn-action btn-outline" onclick="alert('العودة لتصفح مقالات المدونة...')">تصفح مقالات الموقع 🌐</a>
+                                <button class="btn-action btn-primary" onclick="alert('فتح نموذج طلب خدمة جديدة...')">طلب مشروع جديد 📝</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- View for Admin -->
+                    <div id="adminView" style="display: none;">
+                        <div class="gatekeeper-box">
+                            <span style="font-size: 3.5rem; display: block; margin-bottom: 1rem;">👑</span>
+                            <h3 style="font-size: 1.4rem; font-weight: 900; color: #34d399; margin-bottom: 0.75rem;">تم التعرف على حسابك كـ: مدير عام (Administrator)</h3>
+                            <p style="color: #94a3b8; font-size: 1rem; line-height: 1.7; margin-bottom: 1.5rem;">
+                                بصفتك مديراً عاماً، يوجهك نظام WorkPress تلقائياً إلى صالة القيادة المركزية وإدارة كافة مشاريع المنظومة.
+                            </p>
+                            <button class="btn-action btn-primary" style="padding: 0.6rem 1.5rem; font-size: 1rem;" onclick="alert('التوجيه للوحة التحكم الداخلية: /wp-admin/admin.php?page=workpress')">الدخول للوحة القيادة الداخلية (CoWorkPress Plaza) 🚀</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- Architectural Blueprint Cards -->
+        <div class="section-heading">
+            <h2>الركائز المعمارية الأربع لمنظومة العميل المستقلة</h2>
+            <p>كيف تضمن المنظومة حماية الموقع، عزل البيانات، وتجربة مستخدم لا مثيل لها.</p>
+        </div>
+
+        <div class="grid-cards">
+            <div class="arch-card">
+                <div class="arch-icon">🌐</div>
+                <h3>1. العزل البصري (0% CSS Bleed)</h3>
+                <p>تستخدم البوابة خطاف <code>template_include</code> لتقديم قالب مستقل كامل دون استدعاء <code>get_header()</code> الخاص بالثيم العام، مما يمنع نهائياً أي تداخل بين ثيم الموقع ومساحة العميل.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">🔒</div>
+                <h3>2. عزل البيانات (Principle #8)</h3>
+                <p>يتم تقييد الاستعلامات برمجياً عبر الـ Term Meta (<code>_workpress_member_{user_id}</code>). لا يستطيع العميل رؤية أو استدعاء أي مشروع ليس عضواً صريحاً فيه.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">🔑</div>
+                <h3>3. التمييز بالصلاحية والتوجيه الذكي</h3>
+                <p>يتم تمييز العميل بقدرة <code>access_workpress_client_portal</code> وتوجيهه تلقائياً فور الدخول عبر خطاف <code>login_redirect</code> إلى بوابته الخاصة دون تشتيت.</p>
+            </div>
+
+            <div class="arch-card">
+                <div class="arch-icon">✨</div>
+                <h3>4. نقاء المخرجات (Purification)</h3>
+                <p>تتم فلترة كواليس الفريق ومسودات النقاش التمهيدي؛ لا يرى العميل سوى المخرجات والحلول التي اعتمدها مدير المشروع رسمياً (<code>_workpress_is_accepted = 1</code>).</p>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Interactive Simulator Script -->
+    <script>
+        const projectData = {
+            portal: {
+                status: '🟢 يسير وفق الخطة',
+                statusColor: '#34d399',
+                deadline: '📅 15 سبتمبر 2026',
+                percent: '75%',
+                deliverables: [
+                    { title: 'وثيقة معمارية الخوادم وقواعد البيانات المعتمدة', desc: 'تم الاعتماد بواسطة قائد المشروع • صيغة PDF (4.2 MB)', icon: '📄' },
+                    { title: 'نماذج واجهات وتجربة المستخدم (Figma UI)', desc: 'تم الاعتماد بواسطة قائد المشروع • رابط تفاعلي', icon: '🎨' }
+                ]
+            },
+            brand: {
+                status: '🟡 قيد المراجعة والتدقيق',
+                statusColor: '#fbbf24',
+                deadline: '📅 28 أوت 2026',
+                percent: '90%',
+                deliverables: [
+                    { title: 'شعار وهوية الشركة المعتمدة بالصيغ المتجهية (Vector Package)', desc: 'ملفات SVG, AI, PNG عالية الدقة جاهزة للطباعة', icon: '💎' },
+                    { title: 'دليل استخدام العلامة التجارية والألوان الرسمية', desc: 'دليل PDF رسمي معتمد لكافة استخدامات الشعار', icon: '📘' }
+                ]
+            },
+            marketing: {
+                status: '🟢 تم الإطلاق بنجاح',
+                statusColor: '#60a5fa',
+                deadline: '📅 01 أكتوبر 2026',
+                percent: '40%',
+                deliverables: [
+                    { title: 'الخطة التسويقية وجدول الحملات الإعلانية', desc: 'جدول زمني معتمد لمنشورات وإعلانات منصات التواصل', icon: '📊' }
+                ]
+            }
+        };
+
+        function setIdentity(type, btn) {
+            document.querySelectorAll('.identity-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+
+            const clientView = document.getElementById('clientView');
+            const readerView = document.getElementById('readerView');
+            const adminView = document.getElementById('adminView');
+            const userBadge = document.getElementById('userBadge');
+            const browserUrl = document.getElementById('browserUrl');
+
+            clientView.style.display = 'none';
+            readerView.style.display = 'none';
+            adminView.style.display = 'none';
+
+            if (type === 'client') {
+                clientView.style.display = 'block';
+                userBadge.innerHTML = '🟢 متصل: أ. سامي (شركة الأفق)';
+                userBadge.style.color = '#34d399';
+                browserUrl.innerText = 'https://yourcompany.com/portal/ (Standalone Canvas)';
+            } else if (type === 'reader') {
+                readerView.style.display = 'block';
+                userBadge.innerHTML = '👤 متصل: قارئ مدونة (بلا مشاريع)';
+                userBadge.style.color = '#94a3b8';
+                browserUrl.innerText = 'https://yourcompany.com/portal/ (Gatekeeper Notice)';
+            } else if (type === 'admin') {
+                adminView.style.display = 'block';
+                userBadge.innerHTML = '👑 متصل: المدير العام (Admin)';
+                userBadge.style.color = '#f59e0b';
+                browserUrl.innerText = 'https://yourcompany.com/wp-admin/admin.php?page=workpress';
+            }
+        }
+
+        function switchProject(key) {
+            const data = projectData[key];
+            if (!data) return;
+
+            document.getElementById('projStatus').innerText = data.status;
+            document.getElementById('projStatus').style.color = data.statusColor;
+            document.getElementById('projDeadline').innerText = data.deadline;
+            document.getElementById('projPercentText').innerText = data.percent;
+            document.getElementById('projProgressBar').style.width = data.percent;
+
+            let html = '';
+            data.deliverables.forEach(d => {
+                html += `
+                    <div class="deliverable-card">
+                        <div style="display: flex; align-items: center; gap: 1rem;">
+                            <span style="font-size: 2rem;">${d.icon}</span>
+                            <div>
+                                <h5 style="font-weight: 800; color: #fff; font-size: 1rem;">${d.title}</h5>
+                                <p style="font-size: 0.8rem; color: #94a3b8;">${d.desc}</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; gap: 0.5rem;">
+                            <button class="btn-action btn-outline" onclick="alert('جاري فتح المعاينة المباشرة...')">معاينة 👁️</button>
+                            <button class="btn-action btn-primary" onclick="alert('جاري تنزيل الملف...')">تنزيل المخرج 📥</button>
+                        </div>
+                    </div>
+                `;
+            });
+            document.getElementById('deliverablesList').innerHTML = html;
+        }
+
+        function switchTab(tabId, btn) {
+            document.querySelectorAll('.portal-tab-content').forEach(el => el.style.display = 'none');
+            document.querySelectorAll('.portal-tab-btn').forEach(el => el.classList.remove('active'));
+
+            const target = document.getElementById('tab-' + tabId);
+            if (target) target.style.display = 'block';
+            if (btn) btn.classList.add('active');
+        }
+
+        function submitFeedback() {
+            const val = document.getElementById('feedbackText').value;
+            if (!val.trim()) {
+                alert('يرجى كتابة الملاحظة أولاً');
+                return;
+            }
+            alert('تم إرسال ملاحظتك بنجاح لقائد المشروع (سارة أحمد)!');
+            document.getElementById('feedbackText').value = '';
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,420 @@
+import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { tasksApi, projectsApi } from '../api/client.js';
+import TaskCard from '../components/TaskCard.js';
+import TaskModal from '../components/TaskModal.js';
+import TaskAssignmentModal from '../components/TaskAssignmentModal.js';
+import ContributionModal from '../components/ContributionModal.js';
+import TaskQuickPreviewModal from '../components/TaskQuickPreviewModal.js';
+import ConfirmModal from '../components/ConfirmModal.js';
+import FilterBar from '../components/FilterBar.js';
+import Loader from '../components/Loader.js';
+import { isStaffUser } from '../utils/userScope.js';
+import { hooks } from '../utils/hooks.js';
+import { toast } from '../utils/toast.js';
+
+export default function KanbanPage({ refreshKey }) {
+	const [ tasks, setTasks ] = useState( null );
+	const [ projects, setProjects ] = useState( [] );
+	const [ users, setUsers ] = useState( [] );
+	const [ page, setPage ] = useState( 1 );
+	const [ totalPages, setTotalPages ] = useState( 1 );
+	const [ isLoadingMore, setIsLoadingMore ] = useState( false );
+	const [ isDragging, setIsDragging ] = useState( false );
+	const [ dragOverColumn, setDragOverColumn ] = useState( null );
+	const [ isModalOpen, setIsModalOpen ] = useState( false );
+	const [ isAssignmentModalOpen, setIsAssignmentModalOpen ] = useState( false );
+	const [ isContributionModalOpen, setIsContributionModalOpen ] = useState( false );
+	const [ isQuickPreviewModalOpen, setIsQuickPreviewModalOpen ] = useState( false );
+	const [ assignmentTask, setAssignmentTask ] = useState( null );
+	const [ targetTaskForContribution, setTargetTaskForContribution ] = useState( null );
+	const [ selectedTask, setSelectedTask ] = useState( null );
+	const [ quickPreviewTask, setQuickPreviewTask ] = useState( null );
+	const [ confirmModalConfig, setConfirmModalConfig ] = useState( { isActive: false } );
+
+	// Filter States
+	const [ searchQuery, setSearchQuery ] = useState( '' );
+	const [ selectedProject, setSelectedProject ] = useState( '' );
+	const [ selectedAssignee, setSelectedAssignee ] = useState( '' );
+	const [ selectedPriority, setSelectedPriority ] = useState( '' );
+
+	// Load Projects & Users for filters
+	useEffect( () => {
+		projectsApi.list().then( data => {
+			setProjects( Array.isArray( data ) ? data : ( data.items || [] ) );
+		} ).catch( () => {} );
+
+		if ( window.wp && window.wp.apiFetch ) {
+			window.wp.apiFetch( { path: '/wp/v2/users?context=edit&roles=administrator,editor,author,contributor&per_page=100' } )
+				.then( data => {
+					const all = Array.isArray( data ) ? data : [];
+					setUsers( all.filter( isStaffUser ) );
+				} )
+				.catch( () => {} );
+		}
+	}, [] );
+	
+	const fetchTasks = ( pageNum = 1, append = false ) => {
+		if ( pageNum > 1 ) setIsLoadingMore( true );
+		tasksApi.list( { page: pageNum, number: 20, withPagination: true } )
+			.then( res => {
+				setTotalPages( res.totalPages );
+				setPage( pageNum );
+				if ( append && tasks ) {
+					// Merge ensuring no duplicates
+					const newTasks = [...tasks];
+					res.items.forEach( t => {
+						if ( !newTasks.find( existing => existing.id === t.id ) ) {
+							newTasks.push( t );
+						}
+					});
+					setTasks( newTasks );
+				} else {
+					setTasks( res.items );
+				}
+			} )
+			.catch( err => console.error(err) )
+			.finally( () => setIsLoadingMore( false ) );
+	};
+
+	useEffect( () => {
+		fetchTasks( 1, false );
+	}, [refreshKey] );
+
+	// Smart Background Polling
+	const isPollingBlocked = useRef(false);
+	useEffect( () => {
+		isPollingBlocked.current = isDragging || isModalOpen || isAssignmentModalOpen || 
+								   isContributionModalOpen || isQuickPreviewModalOpen || 
+								   confirmModalConfig.isActive;
+	}, [isDragging, isModalOpen, isAssignmentModalOpen, isContributionModalOpen, isQuickPreviewModalOpen, confirmModalConfig.isActive] );
+
+	useEffect( () => {
+		const interval = setInterval( () => {
+			if ( ! isPollingBlocked.current ) {
+				// Silent fetch, no spinner
+				tasksApi.list( { page: 1, number: 20 * page, withPagination: true } )
+					.then( res => {
+						setTasks( res.items );
+					} ).catch( () => {} );
+			}
+		}, 15000 );
+		return () => clearInterval( interval );
+	}, [page] );
+
+	const columns = [ 
+		{ id: 'new', label: 'جديدة / غير مسندة', subtitle: 'بانتظار التكليف وبدء العمل', icon: 'dashicons-tag', color: '#3b82f6', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
+		{ id: 'assigned', label: 'مسندة ومخصصة', subtitle: 'مكلفون بانتظار المساهمة الأولى', icon: 'dashicons-admin-users', color: '#0284c7', bg: '#f0f9ff', headerBg: '#e0f2fe', border: '#bae6fd' }, 
+		{ id: 'in_progress', label: 'قيد الإنجاز والتعاون', subtitle: 'مساهمات جارية قيد التنفيذ', icon: 'dashicons-hammer', color: '#d97706', bg: '#fffbeb', headerBg: '#fef3c7', border: '#fde68a' }, 
+		{ id: 'completed', label: 'مكتملة ومعتمدة', subtitle: 'حلول معتمدة وموثقة بالمعرفة', icon: 'dashicons-awards', color: '#059669', bg: '#ecfdf5', headerBg: '#d1fae5', border: '#a7f3d0' } 
+	];
+
+	const handleCloneTask = ( task ) => {
+		setConfirmModalConfig({
+			isActive: true,
+			title: 'تأكيد الاستنساخ',
+			message: `هل أنت متأكد من استنساخ المهمة "${task.title}"؟`,
+			confirmText: 'استنساخ',
+			confirmColor: 'is-info',
+			onConfirm: () => {
+				tasksApi.create({
+					title: task.title + ' (نسخة)',
+					content: task.content,
+					project_id: task.project_id,
+					priority: task.priority
+				}).then( () => {
+					toast('تم استنساخ المهمة بنجاح', 'success');
+					fetchTasks();
+				} ).catch( err => toast(err.message || 'حدث خطأ أثناء الاستنساخ', 'danger') );
+				setConfirmModalConfig({ isActive: false });
+			}
+		});
+	};
+
+	const handleTrashRequest = ( task ) => {
+		setConfirmModalConfig({
+			isActive: true,
+			title: 'طلب حذف مهمة',
+			message: `هل أنت متأكد من رغبتك في طلب حذف المهمة "${task.title}"؟`,
+			confirmText: 'إرسال الطلب',
+			confirmColor: 'is-warning',
+			isDangerous: false,
+			requiresReason: true,
+			reasonLabel: 'سبب حذف المهمة',
+			isSubmitting: false,
+			onConfirm: ( reason ) => {
+				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
+				tasksApi.trashRequest( task.id, reason )
+					.then( () => {
+						setConfirmModalConfig({ isActive: false });
+						toast( 'تم إرسال طلب حذف المهمة بنجاح', 'info' );
+						fetchTasks();
+					} )
+					.catch( err => {
+						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
+						toast( err.message || 'حدث خطأ أثناء طلب الحذف', 'danger' );
+					} );
+			}
+		});
+	};
+
+	const handleRestoreTask = ( task ) => {
+		setTasks( prev => prev.map( t => t.id === task.id ? { ...t, is_pending_trash: false } : t ) );
+		tasksApi.update( task.id, { is_pending_trash: false } )
+			.then( () => {
+				toast( 'تمت استعادة المهمة بنجاح', 'success' );
+				fetchTasks();
+			} )
+			.catch( err => {
+				toast( err.message || 'حدث خطأ أثناء استعادة المهمة', 'danger' );
+				fetchTasks();
+			} );
+	};
+
+	const handleDeleteTask = ( task ) => {
+		setConfirmModalConfig({
+			isActive: true,
+			title: 'تأكيد الحذف النهائي للمهمة',
+			message: `هل أنت متأكد من حذف هذه المهمة نهائياً ونقلها لسلة المهملات؟`,
+			confirmText: 'حذف',
+			confirmColor: 'is-danger',
+			isDangerous: true,
+			requiresReason: false,
+			isSubmitting: false,
+			onConfirm: () => {
+				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
+				setTasks( prev => prev.filter( t => t.id !== task.id ) );
+				tasksApi.delete( task.id )
+					.then( () => {
+						setConfirmModalConfig({ isActive: false });
+						toast( 'تم حذف المهمة بنجاح', 'success' );
+						fetchTasks();
+					} )
+					.catch( err => {
+						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
+						toast( err.message || 'حدث خطأ أثناء الحذف', 'danger' );
+						fetchTasks();
+					} );
+			}
+		});
+	};
+
+	const projectOptions = [
+		{ value: '', label: '-- جميع المشاريع --' },
+		...projects.map( p => ({ value: p.id, label: p.name }) )
+	];
+
+	const assigneeOptions = [
+		{ value: '', label: '-- جميع المكلفين --' },
+		{ value: 'unassigned', label: 'غير مسندة' },
+		...users.map( u => ({ value: u.id, label: u.name }) )
+	];
+
+	const priorityOptions = [
+		{ value: '', label: '-- جميع الأولويات --' },
+		{ value: 'urgent', label: 'طارئة' },
+		{ value: 'high', label: 'عالية' },
+		{ value: 'medium', label: 'متوسطة' },
+		{ value: 'low', label: 'منخفضة' }
+	];
+
+	const isFilterActive = Boolean( searchQuery || selectedProject || selectedAssignee || selectedPriority );
+
+	const handleResetFilters = () => {
+		setSearchQuery( '' );
+		setSelectedProject( '' );
+		setSelectedAssignee( '' );
+		setSelectedPriority( '' );
+	};
+
+	const filterSingleTask = ( t ) => {
+		if ( searchQuery ) {
+			const q = searchQuery.toLowerCase();
+			const matchTitle = ( t.title || '' ).toLowerCase().includes( q );
+			const matchContent = ( t.content || '' ).toLowerCase().includes( q );
+			if ( ! matchTitle && ! matchContent ) return false;
+		}
+		if ( selectedProject ) {
+			if ( String( t.project_id ) !== String( selectedProject ) ) return false;
+		}
+		if ( selectedAssignee ) {
+			if ( selectedAssignee === 'unassigned' ) {
+				if ( t.assignees && t.assignees.length > 0 ) return false;
+			} else {
+				const hasUser = t.assignees && t.assignees.some( a => String( a.id || a ) === String( selectedAssignee ) );
+				if ( ! hasUser ) return false;
+			}
+		}
+		if ( selectedPriority ) {
+			if ( t.priority !== selectedPriority ) return false;
+		}
+		return true;
+	};
+
+	const filteredTasks = tasks ? tasks.filter( filterSingleTask ) : [];
+
+	const filterTasksForColumn = ( columnId ) => {
+		return filteredTasks.filter( t => {
+			if ( columnId === 'new' ) return t.status === 'new' || t.status === 'open';
+			if ( columnId === 'assigned' ) return t.status === 'assigned';
+			if ( columnId === 'in_progress' ) return t.status === 'in_progress' || t.status === 'in_review';
+			if ( columnId === 'completed' ) return t.status === 'completed' || t.status === 'closed';
+			return false;
+		} );
+	};
+
+	if ( ! tasks ) {
+		return html`
+			<div className="py-6 mt-4">
+				<${Loader} center=${true} label="جاري تحميل لوحة الكانبان..." size="large" />
+			</div>
+		`;
+	}
+
+	return html`
+		<div className="admin-workspace wp-kanban-page">
+			<${FilterBar}
+				search=${{
+					value: searchQuery,
+					onChange: setSearchQuery,
+					placeholder: 'بحث سريع في المهام...',
+				}}
+				filters=${[
+					{
+						key: 'project',
+						label: 'المشروع',
+						icon: 'dashicons-category',
+						value: selectedProject,
+						onChange: setSelectedProject,
+						options: projectOptions,
+						isCustomSelect: true,
+						width: '160px',
+					},
+					{
+						key: 'assignee',
+						label: 'المكلف',
+						icon: 'dashicons-admin-users',
+						value: selectedAssignee,
+						onChange: setSelectedAssignee,
+						users: users.filter( isStaffUser ),
+						isMemberSelect: true,
+						width: '160px',
+					},
+					{
+						key: 'priority',
+						label: 'الأولوية',
+						icon: 'dashicons-flag',
+						value: selectedPriority,
+						onChange: setSelectedPriority,
+						options: priorityOptions,
+						width: '120px',
+					}
+				]}
+				totalCount=${ filteredTasks.length }
+				totalUnfiltered=${ tasks ? tasks.length : 0 }
+				counterLabel="مهمة"
+				isFilterActive=${ isFilterActive }
+				onReset=${ handleResetFilters }
+			/>
+
+			<!-- Status-Colored High-Density Kanban Board -->
+			<div className="columns is-mobile wp-kanban-board mx-0">
+				${ columns.map( col => {
+					const columnTasks = filterTasksForColumn( col.id );
+					return html`
+					<div 
+						key=${ col.id } 
+						className="column p-0 mx-2 wp-kanban-column"
+						style=${{ 
+							borderTop: `4px solid ${ col.color }`,
+							backgroundColor: col.bg,
+							border: `1px solid ${ col.border }`,
+							borderTopWidth: '4px'
+						}}
+					>
+						<!-- Column Header with Status Theme and Count Badge (No Add Icon) -->
+						<div 
+							className="px-3 py-2 is-flex is-justify-content-space-between is-align-items-center wp-border-bottom" 
+							style=${{ backgroundColor: col.headerBg, height: '40px', borderBottom: `1px solid ${ col.border }` }}
+							title=${ col.subtitle }
+						>
+							<div className="is-flex is-align-items-center" style=${{ gap: '6px' }}>
+								<i className=${ `dashicons ${ col.icon }` } style=${{ fontSize: '16px', color: col.color, width: '16px', height: '16px' }}></i>
+								<h3 className="title is-6 mb-0 has-text-weight-bold has-text-dark" style=${{ fontSize: '0.86rem' }}>
+									${ col.label }
+								</h3>
+							</div>
+
+							<span className="wp-dense-chip" style=${{ height: '20px', padding: '0 6px', fontSize: '0.7rem', fontWeight: '900', backgroundColor: '#ffffff', borderColor: col.border, color: col.color }}>
+								${ columnTasks.length }
+							</span>
+						</div>
+						<div className="p-3 wp-kanban-scroll is-flex-grow-1 is-flex is-flex-direction-column">
+							${ columnTasks.length > 0 ? columnTasks.map( task => html`
+								<${TaskCard} 
+									key=${ task.id } 
+									task=${ task } 
+									draggable=${ false }
+									onClick=${ () => window.location.hash = '#/tasks/' + task.id } 
+									onManageAssignment=${ (t) => { setAssignmentTask(t); setIsAssignmentModalOpen(true); } }
+									onAddContribution=${ (t) => { setTargetTaskForContribution(t); setIsContributionModalOpen(true); } }
+									onClone=${ handleCloneTask }
+									onTrashRequest=${ handleTrashRequest }
+									onRestore=${ handleRestoreTask }
+									onDelete=${ handleDeleteTask }
+									onEdit=${ (t) => { setSelectedTask(t); setIsModalOpen(true); } }
+									onQuickPreview=${ (t) => { setQuickPreviewTask(t); setIsQuickPreviewModalOpen(true); } }
+								/>
+							` ) : html`
+								<div className="has-text-centered p-5 has-background-white wp-card wp-kanban-empty-state" style=${{ borderRadius: 0, border: '1px dashed #cbd5e1' }}>
+									<div className="mb-2" style=${{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
+										<i className=${'dashicons ' + col.icon + ' has-text-grey'} style=${{ fontSize: '20px' }}></i>
+									</div>
+									<p className="is-size-7 has-text-grey-dark has-text-weight-bold mb-1">لا توجد مهام في هذا المسار</p>
+									<p className="is-size-7 has-text-grey mb-0">${ col.id === 'open' ? 'المهام الجديدة تظهر هنا' : col.id === 'completed' ? 'تظهر هنا المهام المكتملة' : 'اسحب المهام إلى هنا' }</p>
+								</div>
+							` }
+						</div>
+					</div>
+				` } ) }
+			</div>
+			
+			${ page < totalPages ? html`
+				<div className="has-text-centered mt-5">
+					<button 
+						className=${ `button wp-btn is-white wp-border ${ isLoadingMore ? 'is-loading' : '' }` } 
+						onClick=${ () => fetchTasks( page + 1, true ) }
+					>
+						تحميل المزيد
+					</button>
+				</div>
+			` : null }
+			
+			<${TaskModal} 
+				isActive=${ isModalOpen } 
+				onClose=${ () => { setIsModalOpen(false); setSelectedTask(null); } } 
+				onSave=${ fetchTasks }
+				task=${ selectedTask }
+			/>
+			<${TaskAssignmentModal}
+				isActive=${ isAssignmentModalOpen }
+				onClose=${ () => { setIsAssignmentModalOpen(false); fetchTasks(); } }
+				task=${ assignmentTask }
+			/>
+			<${ContributionModal}
+				isActive=${ isContributionModalOpen }
+				onClose=${ () => setIsContributionModalOpen(false) }
+				onSave=${ () => fetchTasks() }
+				defaultTaskId=${ targetTaskForContribution ? targetTaskForContribution.id : null }
+			/>
+			<${TaskQuickPreviewModal}
+				isActive=${ isQuickPreviewModalOpen }
+				onClose=${ () => { setIsQuickPreviewModalOpen(false); setQuickPreviewTask(null); } }
+				taskId=${ quickPreviewTask ? quickPreviewTask.id : null }
+			/>
+			<${ConfirmModal}
+				...${ confirmModalConfig }
+				onClose=${ () => setConfirmModalConfig({ isActive: false }) }
+			/>
+		</div>
+	`;
+}

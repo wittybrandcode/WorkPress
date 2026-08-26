@@ -1,0 +1,176 @@
+# Copyright (C) 2026 WorkPress Team
+# This file is distributed under the same license as the WorkPress package.
+msgid ""
+msgstr ""
+"Project-Id-Version: WorkPress 2.0.0\n"
+"Report-Msgid-Bugs-To: https://workpress.local/support\n"
+"POT-Creation-Date: 2026-08-19 16:30:00+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2026-YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: ar\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
+"X-Generator: WorkPress i18n Tool\n"
+"X-Domain: workpress\n"
+
+#: workpress.php:5
+msgid "Native Organizational Memory & Work Management Engine for WordPress."
+msgstr "محرك إدارة العمل والذاكرة المؤسسية الأصيل لووردبريس."
+
+#: includes/core/class-workpress-install.php:46
+msgctxt "taxonomy general name"
+msgid "المشاريع"
+msgstr "المشاريع"
+
+#: includes/core/class-workpress-install.php:47
+msgctxt "taxonomy singular name"
+msgid "مشروع"
+msgstr "مشروع"
+
+#: includes/core/class-workpress-install.php:48
+msgid "البحث في المشاريع"
+msgstr "البحث في المشاريع"
+
+#: includes/core/class-workpress-install.php:49
+msgid "جميع المشاريع"
+msgstr "جميع المشاريع"
+
+#: includes/core/class-workpress-install.php:50
+msgid "المشروع الأب"
+msgstr "المشروع الأب"
+
+#: includes/core/class-workpress-install.php:51
+msgid "المشروع الأب:"
+msgstr "المشروع الأب:"
+
+#: includes/core/class-workpress-install.php:52
+msgid "تعديل المشروع"
+msgstr "تعديل المشروع"
+
+#: includes/core/class-workpress-install.php:53
+msgid "تحديث المشروع"
+msgstr "تحديث المشروع"
+
+#: includes/core/class-workpress-install.php:54
+msgid "إضافة مشروع جديد"
+msgstr "إضافة مشروع جديد"
+
+#: includes/core/class-workpress-install.php:55
+msgid "اسم المشروع الجديد"
+msgstr "اسم المشروع الجديد"
+
+#: includes/core/class-workpress-install.php:56
+msgid "المشاريع"
+msgstr "المشاريع"
+
+#: includes/core/class-workpress-install.php:77
+msgctxt "post type general name"
+msgid "عناصر العمل"
+msgstr "عناصر العمل"
+
+#: includes/core/class-workpress-install.php:78
+msgctxt "post type singular name"
+msgid "عنصر عمل"
+msgstr "عنصر عمل"
+
+#: includes/core/class-workpress-install.php:79
+msgctxt "admin menu"
+msgid "WorkPress"
+msgstr "WorkPress"
+
+#: includes/core/class-workpress-install.php:80
+msgctxt "add new on admin bar"
+msgid "عنصر عمل"
+msgstr "عنصر عمل"
+
+#: includes/core/class-workpress-install.php:81
+msgctxt "work_item"
+msgid "إضافة عنصر جديد"
+msgstr "إضافة عنصر جديد"
+
+#: includes/core/class-workpress-install.php:82
+msgid "إضافة عنصر عمل جديد"
+msgstr "إضافة عنصر عمل جديد"
+
+#: includes/core/class-workpress-install.php:83
+msgid "عنصر عمل جديد"
+msgstr "عنصر عمل جديد"
+
+#: includes/core/class-workpress-install.php:84
+msgid "تعديل عنصر العمل"
+msgstr "تعديل عنصر العمل"
+
+#: includes/core/class-workpress-install.php:85
+msgid "عرض عنصر العمل"
+msgstr "عرض عنصر العمل"
+
+#: includes/core/class-workpress-install.php:86
+msgid "جميع عناصر العمل"
+msgstr "جميع عناصر العمل"
+
+#: includes/core/class-workpress-install.php:87
+msgid "البحث في عناصر العمل"
+msgstr "البحث في عناصر العمل"
+
+#: includes/core/class-workpress-install.php:88
+msgid "لم يتم العثور على عناصر عمل"
+msgstr "لم يتم العثور على عناصر عمل"
+
+#: includes/core/class-workpress-install.php:89
+msgid "لا توجد عناصر عمل في سلة المهملات"
+msgstr "لا توجد عناصر عمل في سلة المهملات"
+
+#: includes/services/class-workpress-workflow-service.php:97
+msgid "جديدة"
+msgstr "جديدة"
+
+#: includes/services/class-workpress-workflow-service.php:98
+msgid "مسندة"
+msgstr "مسندة"
+
+#: includes/services/class-workpress-workflow-service.php:99
+msgid "مفتوحة"
+msgstr "مفتوحة"
+
+#: includes/services/class-workpress-workflow-service.php:100
+msgid "قيد التنفيذ"
+msgstr "قيد التنفيذ"
+
+#: includes/services/class-workpress-workflow-service.php:101
+msgid "قيد المراجعة"
+msgstr "قيد المراجعة"
+
+#: includes/services/class-workpress-workflow-service.php:102
+msgid "معتمدة"
+msgstr "معتمدة"
+
+#: includes/services/class-workpress-workflow-service.php:103
+msgid "مكتملة"
+msgstr "مكتملة"
+
+#: includes/services/class-workpress-workflow-service.php:104
+msgid "مغلقة"
+msgstr "مغلقة"
+
+#: includes/services/class-workpress-contribution-service.php:201
+msgid "نوع المساهمة غير موجود."
+msgstr "نوع المساهمة غير موجود."
+
+#: includes/services/class-workpress-contribution-service.php:234
+msgid "المهمة غير موجودة."
+msgstr "المهمة غير موجودة."
+
+#: includes/services/class-workpress-contribution-service.php:239
+msgid "لا يمكن إضافة مساهمات لمهمة مغلقة."
+msgstr "لا يمكن إضافة مساهمات لمهمة مغلقة."
+
+#: includes/services/class-workpress-contribution-service.php:244
+msgid "المستخدم غير موجود."
+msgstr "المستخدم غير موجود."
+
+#: includes/services/class-workpress-contribution-service.php:260
+msgid "فشل في حفظ المساهمة."
+msgstr "فشل في حفظ المساهمة."

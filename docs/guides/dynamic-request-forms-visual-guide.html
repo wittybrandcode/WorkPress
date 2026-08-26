@@ -1,0 +1,1127 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>محاكي ودليل نماذج استقبال الطلبات التجريدية العامة | WorkPress Universal Intake Engine</title>
+    <!-- Google Fonts: Cairo & Plus Jakarta Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #0a0e17;
+            --bg-card: rgba(17, 24, 39, 0.9);
+            --bg-card-hover: rgba(30, 41, 59, 0.95);
+            --border-color: rgba(255, 255, 255, 0.1);
+            --border-active: rgba(99, 102, 241, 0.6);
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --primary-glow: rgba(99, 102, 241, 0.3);
+            --accent-emerald: #10b981;
+            --accent-amber: #f59e0b;
+            --accent-rose: #f43f5e;
+            --accent-cyan: #06b6d4;
+            --accent-purple: #a855f7;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --text-dim: #64748b;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.7;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.18) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.14) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+            padding-bottom: 6rem;
+        }
+
+        .container {
+            max-width: 1320px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        /* Header / Hero */
+        .hero {
+            padding: 4rem 0 2.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .badge-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 1.35rem;
+            background: rgba(99, 102, 241, 0.15);
+            border: 1px solid var(--primary-glow);
+            border-radius: 9999px;
+            color: var(--primary-light);
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1.25rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero h1 {
+            font-size: 2.9rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #ffffff 30%, #c7d2fe 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 880px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* Preset Switcher Bar */
+        .domain-nav {
+            background: rgba(30, 41, 59, 0.75);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 0.6rem;
+            display: flex;
+            gap: 0.5rem;
+            max-width: 1100px;
+            margin: 0 auto 2.5rem;
+            backdrop-filter: blur(12px);
+            overflow-x: auto;
+        }
+
+        .domain-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.85rem 1.2rem;
+            background: transparent;
+            border: 1px solid transparent;
+            border-radius: 14px;
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            white-space: nowrap;
+        }
+
+        .domain-btn:hover {
+            color: #fff;
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .domain-btn.active {
+            color: #fff;
+            background: var(--primary);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 20px var(--primary-glow);
+        }
+
+        /* Live Label Customizer Banner */
+        .live-customizer-banner {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            border-radius: 16px;
+            padding: 1.2rem 1.75rem;
+            margin: 0 auto 3rem;
+            max-width: 1100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .customizer-input-group {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-grow: 1;
+        }
+
+        .customizer-input-group label {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--primary-light);
+            white-space: nowrap;
+        }
+
+        .customizer-input {
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 0.45rem 0.85rem;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.85rem;
+            flex-grow: 1;
+        }
+
+        .customizer-input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Main Interactive Split Layout */
+        .split-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        @media (max-width: 980px) {
+            .split-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Window Frames */
+        .window-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            display: flex;
+            flex-direction: column;
+            backdrop-filter: blur(16px);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+        }
+
+        .window-card:hover {
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .window-header {
+            background: rgba(15, 23, 42, 0.95);
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .window-dots {
+            display: flex;
+            gap: 6px;
+        }
+
+        .dot {
+            width: 11px;
+            height: 11px;
+            border-radius: 50%;
+        }
+        .dot.red { background: #ef4444; }
+        .dot.yellow { background: #f59e0b; }
+        .dot.green { background: #10b981; }
+
+        .window-title {
+            font-size: 0.88rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .window-badge {
+            font-size: 0.72rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-weight: 700;
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--primary-light);
+            border: 1px solid var(--primary-glow);
+        }
+
+        .window-body {
+            padding: 1.75rem;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        /* Form Elements inside Simulator */
+        .sim-form-group {
+            margin-bottom: 1.4rem;
+        }
+
+        .sim-label {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: #e2e8f0;
+            margin-bottom: 0.45rem;
+        }
+
+        .sim-label-hint {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--text-dim);
+        }
+
+        .sim-input, .sim-select, .sim-textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .sim-input:focus, .sim-select:focus, .sim-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px var(--primary-glow);
+            background: rgba(15, 23, 42, 0.95);
+        }
+
+        .sim-textarea {
+            resize: vertical;
+            min-height: 90px;
+        }
+
+        /* Tag Selection Pills */
+        .pills-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.3rem;
+        }
+
+        .pill-btn {
+            padding: 0.4rem 0.9rem;
+            border-radius: 9999px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            font-size: 0.82rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: inherit;
+        }
+
+        .pill-btn:hover {
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .pill-btn.active {
+            background: var(--primary);
+            color: #fff;
+            border-color: var(--primary);
+            box-shadow: 0 2px 10px var(--primary-glow);
+        }
+
+        /* File Upload Zone */
+        .upload-zone {
+            border: 2px dashed rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.4);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--primary-light);
+            background: rgba(99, 102, 241, 0.05);
+        }
+
+        .upload-zone-icon {
+            font-size: 1.8rem;
+            margin-bottom: 0.3rem;
+            display: block;
+        }
+
+        /* Submit Button */
+        .btn-submit-sim {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--primary) 0%, #4f46e5 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px var(--primary-glow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+        }
+
+        .btn-submit-sim:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(99, 102, 241, 0.5);
+        }
+
+        /* Admin Review Vault Card */
+        .admin-project-preview {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .admin-project-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 1.2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .vip-client-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.25rem 0.75rem;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 6px;
+            color: #fbbf24;
+            font-size: 0.78rem;
+            font-weight: 800;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 600px) {
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .spec-item {
+            background: rgba(30, 41, 59, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 10px;
+            padding: 0.75rem 1rem;
+        }
+
+        .spec-item-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-dim);
+            margin-bottom: 0.2rem;
+        }
+
+        .spec-item-value {
+            font-size: 0.92rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
+        .btn-approve-project {
+            width: 100%;
+            padding: 0.85rem;
+            background: linear-gradient(135deg, var(--accent-emerald) 0%, #059669 100%);
+            border: none;
+            border-radius: 12px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 800;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-approve-project:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.45);
+        }
+
+        /* Success Animation Modal / Toast inside Sim */
+        .sim-toast {
+            background: rgba(16, 185, 129, 0.95);
+            color: #fff;
+            padding: 0.85rem 1.25rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 1rem;
+            animation: slideUp 0.3s ease-out;
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.3);
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Features List Grid */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 3rem;
+        }
+
+        .feature-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 16px;
+            padding: 1.75rem;
+            backdrop-filter: blur(12px);
+            transition: transform 0.25s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-card p {
+            font-size: 0.92rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <!-- Hero Section -->
+        <header class="hero">
+            <div class="badge-pill">
+                <span>⚡</span>
+                <span>Universal Meta-Schema Intake Architecture</span>
+            </div>
+            <h1>محاكي ودليل نماذج استقبال الطلبات التجريدية العامة</h1>
+            <p>
+                استكشف كيف يوفر WorkPress لبنات إدخال عامة ومجردة بنسبة 100%، حيث يملك المدير حرية مطلقة في تسمية الحقول وتحديد خياراتها لتناسب أي نشاط تجاري في العالم دون قيود.
+            </p>
+
+            <!-- Domain Presets Switcher -->
+            <div class="domain-nav" id="domainNav">
+                <button class="domain-btn active" data-domain="universal">
+                    <span>🏢</span>
+                    <span>النموذج العام التجريدي (Universal)</span>
+                </button>
+                <button class="domain-btn" data-domain="services">
+                    <span>💼</span>
+                    <span>استشارات وأعمال عامة</span>
+                </button>
+                <button class="domain-btn" data-domain="creative">
+                    <span>🎨</span>
+                    <span>إنتاج ومحتوى إبداعي</span>
+                </button>
+                <button class="domain-btn" data-domain="technical">
+                    <span>💻</span>
+                    <span>حلول وتطوير تقني</span>
+                </button>
+                <button class="domain-btn" data-domain="operations">
+                    <span>⚙️</span>
+                    <span>عمليات وتشغيل ولوجستيات</span>
+                </button>
+            </div>
+
+            <!-- Live Customizer: Rename Fields in Real-time -->
+            <div class="live-customizer-banner">
+                <span style="font-size: 0.9rem; font-weight: 800; color: #fff;">🛠️ جرب تخصيص وتغيير مسميات الحقول فورياً:</span>
+                
+                <div class="customizer-input-group">
+                    <label>مسمى العنوان:</label>
+                    <input type="text" class="customizer-input" id="customTitleLabelInput" value="عنوان الطلب / اسم المشروع:" oninput="handleCustomLabelChange('title', this.value)">
+                </div>
+
+                <div class="customizer-input-group">
+                    <label>مسمى الشرح:</label>
+                    <input type="text" class="customizer-input" id="customDescLabelInput" value="بيان وشرح تفاصيل الطلب:" oninput="handleCustomLabelChange('desc', this.value)">
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Live Simulator -->
+        <div class="split-grid">
+            <!-- Left: Client Portal Live Form Simulator -->
+            <div class="window-card">
+                <div class="window-header">
+                    <div class="window-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="window-title">
+                        <span>🌐</span>
+                        <span>بوابة العميل المستقلة (/portal/#/new-request)</span>
+                    </div>
+                    <span class="window-badge">واجهة الزبون التفاعلية</span>
+                </div>
+
+                <div class="window-body">
+                    <!-- Request Type Selector -->
+                    <div class="sim-form-group">
+                        <label class="sim-label">
+                            <span>📋 نوع الطلب / باقة الخدمة:</span>
+                            <span class="sim-label-hint">قائمة النماذج المؤسسة من المدير</span>
+                        </label>
+                        <select class="sim-select" id="formTypeSelector" onchange="handleFormTypeChange(this.value)">
+                            <!-- Injected dynamically -->
+                        </select>
+                    </div>
+
+                    <hr style="border: 0; border-top: 1px solid var(--border-color); margin: 1.25rem 0;">
+
+                    <!-- Dynamic Fields Container -->
+                    <div id="dynamicFieldsContainer">
+                        <!-- Injected via JavaScript based on chosen domain/form -->
+                    </div>
+
+                    <button class="btn-submit-sim" id="btnSubmitSim" onclick="simulateSubmitRequest()">
+                        <span>🚀</span>
+                        <span>إرسال طلب المشروع واعتماد البيانات</span>
+                    </button>
+
+                    <div id="submitSuccessToast" style="display: none;" class="sim-toast">
+                        <span>✅</span>
+                        <span>تم تقديم طلب المشروع بنجاح! سينشأ كمشروع رسمي CPT_PROJECT لدى المدير.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Admin Review & Establishment Simulator -->
+            <div class="window-card">
+                <div class="window-header">
+                    <div class="window-dots">
+                        <span class="dot red"></span>
+                        <span class="dot yellow"></span>
+                        <span class="dot green"></span>
+                    </div>
+                    <div class="window-title">
+                        <span>🏢</span>
+                        <span>لوحة المدير التنفيذية: مراجعة واعتماد الطلب</span>
+                    </div>
+                    <span class="window-badge" style="background: rgba(16, 185, 129, 0.2); color: #34d399; border-color: rgba(16, 185, 129, 0.3);">
+                        Admin Review Vault
+                    </span>
+                </div>
+
+                <div class="window-body">
+                    <div class="admin-project-preview" id="adminPreviewBox">
+                        <div class="admin-project-header">
+                            <div>
+                                <div class="vip-client-tag mb-1">
+                                    <span>💼</span>
+                                    <span>طلب مشروع جديد من عميل ⭐</span>
+                                </div>
+                                <h3 style="font-size: 1.2rem; font-weight: 800; color: #fff; margin-top: 0.3rem;" id="adminProjectTitle">
+                                    مشروع تقديم استشارة وتطوير عمليات متكاملة
+                                </h3>
+                                <p style="font-size: 0.8rem; color: var(--text-dim);">
+                                    مقدم الطلب: <strong style="color: #cbd5e1;">الأستاذ طارق العمري (عميل مسجل)</strong>
+                                </p>
+                            </div>
+                            <span class="window-badge" style="background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3);">
+                                قيد المراجعة والتسعير
+                            </span>
+                        </div>
+
+                        <!-- Scope Content -->
+                        <div style="background: rgba(15, 23, 42, 0.6); padding: 0.85rem 1rem; border-radius: 10px; margin-bottom: 1rem;">
+                            <span class="spec-item-label" id="adminDescLabel">بيان وشرح تفاصيل الطلب:</span>
+                            <p style="font-size: 0.88rem; color: #e2e8f0; margin-top: 0.2rem;" id="adminDescVal">
+                                نطلب تنفيذ العمل وفق الشروط والمواصفات المحددة، مع الالتزام بالجدول الزمني المرفق وتسليم المخرجات معتمدة.
+                            </p>
+                        </div>
+
+                        <!-- Submitted Specs Vault -->
+                        <h4 style="font-size: 0.85rem; font-weight: 800; color: var(--primary-light); margin-bottom: 0.4rem; display: flex; align-items: center; gap: 0.4rem;">
+                            <span>📦</span>
+                            <span>المواصفات والمتطلبات المكتملة (Dynamic Specs Vault):</span>
+                        </h4>
+                        <div class="specs-grid" id="adminSpecsGrid">
+                            <!-- Injected dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Admin Action -->
+                    <button class="btn-approve-project" id="btnApproveSim" onclick="simulateApproveProject()">
+                        <span>👑</span>
+                        <span>اعتماد وتأسيس المشروع رسمياً وتعيين المهام ➔</span>
+                    </button>
+
+                    <div id="approveSuccessToast" style="display: none;" class="sim-toast" style="background: #6366f1;">
+                        <span>🎉</span>
+                        <span>تم تحويل الطلب إلى مشروع نشط (Active Project) وتأسيس مهام الفريق بنجاح!</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architectural Principles Grid -->
+        <div class="features-grid">
+            <div class="feature-card">
+                <span class="feature-icon">🧩</span>
+                <h3>تجريد كامل للحقول (Complete Field Abstraction)</h3>
+                <p>لا يفرض النظام مسميات ثابتة؛ بل يحدد المدير مسمى حقل العنوان، حقل الوصف، والحقول التخصصية بحسب نشاط المنشأة.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">🏛️</span>
+                <h3>الطلب مشروع كامل (CPT_PROJECT)</h3>
+                <p>ينشأ الطلب ككيان مشروع رسمي وليس مهمة فرعية، موسوماً بحالة `is_client_request` لمراجعته وتوزيع مهامه.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">💡</span>
+                <h3>عنوان ذكي باقتراحات مسبقة + كتابة حرة</h3>
+                <p>قائمة خيارات سريعة شائعة تسرع على الزبون الاختيار مع مرونة تامة لكتابة عنوان مخصص في أي لحظة.</p>
+            </div>
+
+            <div class="feature-card">
+                <span class="feature-icon">📦</span>
+                <h3>خزينة المواصفات المهيكلة (Specs Vault)</h3>
+                <p>تُحفظ كافة الخانات التي عبأها العميل بصيغة JSON مهيكلة لتعرض للمدير وفريق العمل بمسمياتها الأصلية.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Universal & Generic Presets Database
+        const DOMAINS_DATA = {
+            universal: {
+                name: 'النموذج العام التجريدي (Universal)',
+                forms: [
+                    { id: 'standard_request', name: '📋 نموذج طلب خدمة / عمل قياسي' },
+                    { id: 'urgent_request', name: '⚡ نموذج طلب عاجل وذو أولوية' },
+                    { id: 'custom_proposal', name: '📝 نموذج مقترح مشروع مخصص' }
+                ],
+                titleLabel: 'عنوان الطلب / اسم المشروع:',
+                titlePlaceholder: 'اكتب اسم أو عنوان طلبك...',
+                titleSuggestions: [
+                    'تنفيذ مشروع وخدمة جديدة متكاملة',
+                    'طلب تعديل وتطوير على أعمال سابقة',
+                    'استشارة فنية ودراسة متطلبات متخصصة',
+                    'مهمة دورية وإشراف تنفيذي'
+                ],
+                descLabel: 'بيان وشرح تفاصيل الطلب:',
+                descPlaceholder: 'وضح بالتفصيل ما تريده من فريق العمل، المخرجات المستهدفة، وأي متطلبات خاصة...',
+                specs: [
+                    {
+                        type: 'select_custom',
+                        label: 'تصنيف أو نوع الخدمة المطلوبة:',
+                        options: ['خدمة أساسية قياسية', 'خدمة متقدمة شاملة', 'حزمة مخصصة بحسب الاتفاق']
+                    },
+                    {
+                        type: 'pills',
+                        label: 'الخيارات والمواصفات المحددة:',
+                        options: ['تسليم سريع ومستعجل', 'توثيق وتدريب مفصل', 'مراجعة واعتماد رسمي', 'دعم ومتابعة مستمرة']
+                    },
+                    {
+                        type: 'numeric',
+                        label: 'الميزانية أو الكمية التقديرية (اختياري):',
+                        placeholder: 'مثال: 5,000'
+                    },
+                    {
+                        type: 'date',
+                        label: 'تاريخ الإنجاز المطلوب (Target Deadline):'
+                    },
+                    {
+                        type: 'upload',
+                        label: 'ملفات ومستندات مرجعية داعمة للطلب:'
+                    }
+                ]
+            },
+
+            services: {
+                name: 'استشارات وأعمال عامة',
+                forms: [
+                    { id: 'consulting', name: '💼 استشارة ودراسة أعمال' },
+                    { id: 'audit', name: '📊 تدقيق ومراجعة شاملة' }
+                ],
+                titleLabel: 'موضوع الاستشارة أو المعاملة:',
+                titlePlaceholder: 'مثال: دراسة جدوى وتطوير منظومة العمل',
+                titleSuggestions: [
+                    'استشارة استراتيجية وتطوير نموذج العمل',
+                    'دراسة وتحليل الجدوى الاقتصادية للمشروع',
+                    'مراجعة وتدقيق الإجراءات والامتثال'
+                ],
+                descLabel: 'وقائع المسألة وتفاصيل الاستفسار:',
+                descPlaceholder: 'اشرح خلفية الموضوع، التحديات الحالية، والهدف المنشود...',
+                specs: [
+                    {
+                        type: 'pills',
+                        label: 'المجال التخصصي للاستشارة:',
+                        options: ['استشارات إدارية وتنظيمية', 'استشارات مالية واستثمارية', 'حوكمة وإجراءات تشغيلية']
+                    },
+                    {
+                        type: 'select_custom',
+                        label: 'طريقة تقديم الاستشارة:',
+                        options: ['تقرير خطي مفصل وموثق', 'جلسة استشارية مرئية عبر Zoom', 'متابعة ميدانية وإشراف']
+                    },
+                    {
+                        type: 'upload',
+                        label: 'المستندات والبيانات ذات الصلة:'
+                    }
+                ]
+            },
+
+            creative: {
+                name: 'إنتاج ومحتوى إبداعي',
+                forms: [
+                    { id: 'content_creation', name: '✍️ صناعة محتوى وترجمة وتحرير' },
+                    { id: 'media_production', name: '🎬 إنتاج فني وتصميم مرئي' }
+                ],
+                titleLabel: 'عنوان العمل أو المشروع الإبداعي:',
+                titlePlaceholder: 'مثال: إنتاج فيديو تعريفي أو كتابة محتوى',
+                titleSuggestions: [
+                    'تصميم وإنتاج هوية بصرية ومواد تسويقية',
+                    'صياغة وترجمة محتوى ترويجي متخصص',
+                    'إنتاج موشن جرافيك وتعديل وسائط مرئية'
+                ],
+                descLabel: 'الرسالة المستهدفة وأسلوب الطرح:',
+                descPlaceholder: 'صف الفكرة الإبداعية، النبرة المفضلة، والجمهور المستهدف...',
+                specs: [
+                    {
+                        type: 'pills',
+                        label: 'المخرجات المطلوبة:',
+                        options: ['ملفات مفتوحة قابلة للتعديل', 'نسخ عالية الجودة للنشر', 'دليل أسلوب وإرشادات استخدام']
+                    },
+                    {
+                        type: 'numeric',
+                        label: 'الكمية أو الحجم التقديري (عدد الكلمات/الدقائق):',
+                        placeholder: 'مثال: 1,500 كلمة أو 3 دقائق'
+                    },
+                    {
+                        type: 'upload',
+                        label: 'مراجع وأمثلة ملهمة (Moodboard):'
+                    }
+                ]
+            },
+
+            technical: {
+                name: 'حلول وتطوير تقني',
+                forms: [
+                    { id: 'web_dev', name: '💻 تطوير موقع أو تطبيق ويب' },
+                    { id: 'sys_integration', name: '🔌 ربط وتكامل أنظمة وAPI' }
+                ],
+                titleLabel: 'اسم المنظومة أو الحل التقني المطلوب:',
+                titlePlaceholder: 'مثال: منصة حجوزات ذكية أو ربط بوابة دفع',
+                titleSuggestions: [
+                    'تطوير منصة ويب تفاعلية متكاملة',
+                    'بناء لوحة تحكم وإدارة عمليات سحابية',
+                    'ربط وتكامل برمجي مع أنظمة خارجية'
+                ],
+                descLabel: 'المتطلبات الوظيفية والمعمارية:',
+                descPlaceholder: 'وضح سير العمل، المنصات، وبوابات الدفع والتكاملات المطلوبة...',
+                specs: [
+                    {
+                        type: 'pills',
+                        label: 'المنصات وبيئات التشغيل المستهدفة:',
+                        options: ['تطبيق ويب Web App', 'تطبيق هواتف ذكية Mobile', 'لوحة تحكم إدارية Dashboard']
+                    },
+                    {
+                        type: 'select_custom',
+                        label: 'مستوى الأمان والتحميل المتوقع:',
+                        options: ['استخدام متوسط ومباشر', 'مؤسسي عالي الأمان مع تشفير', 'سحابي متعدد المستأجرين']
+                    },
+                    {
+                        type: 'upload',
+                        label: 'كراسة المواصفات الفنية (SRS):'
+                    }
+                ]
+            },
+
+            operations: {
+                name: 'عمليات وتشغيل ولوجستيات',
+                forms: [
+                    { id: 'logistics', name: '🚚 إدارة سلاسل إمداد ونقل' },
+                    { id: 'maintenance', name: '🔧 تشغيل وصيانة دورية' }
+                ],
+                titleLabel: 'موضوع العملية أو خطة التشغيل:',
+                titlePlaceholder: 'مثال: خطة توريد وتشغيل معدات الربع الأول',
+                titleSuggestions: [
+                    'إدارة شحنة وتوريد مواد للموقع',
+                    'خطة تشغيل وصيانة وقائية للمنشأة',
+                    'إشراف ميداني ومطابقة معايير السلامة'
+                ],
+                descLabel: 'جدول العمل ونطاق التوريد والتشغيل:',
+                descPlaceholder: 'اشرح متطلبات التنفيذ، المواقع الجغرافية، والاشتراطات الفنية...',
+                specs: [
+                    {
+                        type: 'pills',
+                        label: 'نطاق الموقع والمتابعة:',
+                        options: ['تنفيذ محلي في الموقع', 'إشراف وتنسيق عن بعد', 'توريد مع الفحص والتركيب']
+                    },
+                    {
+                        type: 'date',
+                        label: 'موعد البدء والاستلام المستهدف:'
+                    },
+                    {
+                        type: 'upload',
+                        label: 'بوالص الشحن أو جداول الكميات (BOQ):'
+                    }
+                ]
+            }
+        };
+
+        let currentDomain = 'universal';
+
+        function initApp() {
+            setupDomainSwitcher();
+            renderDomain(currentDomain);
+        }
+
+        function setupDomainSwitcher() {
+            const buttons = document.querySelectorAll('.domain-btn');
+            buttons.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    buttons.forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentDomain = btn.dataset.domain;
+                    renderDomain(currentDomain);
+                });
+            });
+        }
+
+        function renderDomain(domainKey) {
+            const data = DOMAINS_DATA[domainKey];
+            if (!data) return;
+
+            // Sync Customizer Input values
+            document.getElementById('customTitleLabelInput').value = data.titleLabel;
+            document.getElementById('customDescLabelInput').value = data.descLabel;
+
+            // 1. Render Form Type Dropdown
+            const selector = document.getElementById('formTypeSelector');
+            selector.innerHTML = data.forms.map(f => `<option value="${f.id}">${f.name}</option>`).join('');
+
+            // 2. Render Dynamic Form Fields
+            renderFormFields(data);
+
+            // 3. Update Admin Preview Box
+            updateAdminPreview(data);
+
+            // Hide previous toasts
+            document.getElementById('submitSuccessToast').style.display = 'none';
+            document.getElementById('approveSuccessToast').style.display = 'none';
+        }
+
+        function renderFormFields(data) {
+            const container = document.getElementById('dynamicFieldsContainer');
+            let html = `
+                <!-- Smart Title -->
+                <div class="sim-form-group">
+                    <label class="sim-label">
+                        <span id="renderedTitleLabel">${data.titleLabel}</span>
+                        <span class="sim-label-hint">اقتراحات سريعة + كتابة حرة</span>
+                    </label>
+                    <select class="sim-select" id="simTitleSelect" onchange="handleTitlePresetChange(this.value)">
+                        ${data.titleSuggestions.map(s => `<option value="${s}">${s}</option>`).join('')}
+                        <option value="__custom__">✍️ أخرى: كتابة عنوان مخصص...</option>
+                    </select>
+                    <input type="text" class="sim-input" id="simCustomTitleInput" placeholder="${data.titlePlaceholder}" style="display: none; margin-top: 0.5rem;" oninput="syncAdminTitle(this.value)">
+                </div>
+
+                <!-- Scope Description -->
+                <div class="sim-form-group">
+                    <label class="sim-label">
+                        <span id="renderedDescLabel">${data.descLabel}</span>
+                    </label>
+                    <textarea class="sim-textarea" placeholder="${data.descPlaceholder}" id="simDescInput" oninput="syncAdminDesc(this.value)">${data.descPlaceholder.split('...')[0]}</textarea>
+                </div>
+            `;
+
+            // Render Specs
+            data.specs.forEach((spec, idx) => {
+                if (spec.type === 'select_custom') {
+                    html += `
+                        <div class="sim-form-group">
+                            <label class="sim-label"><span>${spec.label}</span></label>
+                            <select class="sim-select">
+                                ${spec.options.map(opt => `<option value="${opt}">${opt}</option>`).join('')}
+                                <option value="__custom__">✍️ خيار آخر مخصص...</option>
+                            </select>
+                        </div>
+                    `;
+                } else if (spec.type === 'pills') {
+                    html += `
+                        <div class="sim-form-group">
+                            <label class="sim-label"><span>${spec.label}</span></label>
+                            <div class="pills-container">
+                                ${spec.options.map((pill, pi) => `
+                                    <button type="button" class="pill-btn ${pi === 0 || pi === 1 ? 'active' : ''}" onclick="togglePill(this)">
+                                        ${pill}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                } else if (spec.type === 'numeric') {
+                    html += `
+                        <div class="sim-form-group">
+                            <label class="sim-label"><span>${spec.label}</span></label>
+                            <input type="text" class="sim-input" placeholder="${spec.placeholder}" value="${spec.placeholder.replace('مثال: ', '')}">
+                        </div>
+                    `;
+                } else if (spec.type === 'date') {
+                    html += `
+                        <div class="sim-form-group">
+                            <label class="sim-label"><span>${spec.label}</span></label>
+                            <input type="date" class="sim-input" value="2026-09-30">
+                        </div>
+                    `;
+                } else if (spec.type === 'upload') {
+                    html += `
+                        <div class="sim-form-group">
+                            <label class="sim-label"><span>${spec.label}</span></label>
+                            <div class="upload-zone">
+                                <span class="upload-zone-icon">📁</span>
+                                <p style="font-size: 0.85rem; font-weight: 700; color: #fff;">انقر أو اسحب الملفات هنا للرفع المباشر</p>
+                                <p style="font-size: 0.72rem; color: var(--text-dim);">PDF, DOCX, ZIP, صور ومستندات (حتى 50 ميجابايت)</p>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+
+            container.innerHTML = html;
+        }
+
+        function handleCustomLabelChange(field, newLabel) {
+            if (field === 'title') {
+                const el = document.getElementById('renderedTitleLabel');
+                if (el) el.innerText = newLabel;
+            } else if (field === 'desc') {
+                const el = document.getElementById('renderedDescLabel');
+                if (el) el.innerText = newLabel;
+                const adminEl = document.getElementById('adminDescLabel');
+                if (adminEl) adminEl.innerText = newLabel;
+            }
+        }
+
+        function handleTitlePresetChange(val) {
+            const customInput = document.getElementById('simCustomTitleInput');
+            if (val === '__custom__') {
+                customInput.style.display = 'block';
+                customInput.focus();
+                syncAdminTitle(customInput.value || 'طلب مشروع مخصص');
+            } else {
+                customInput.style.display = 'none';
+                syncAdminTitle(val);
+            }
+        }
+
+        function togglePill(el) {
+            el.classList.toggle('active');
+        }
+
+        function syncAdminTitle(val) {
+            document.getElementById('adminProjectTitle').innerText = val;
+        }
+
+        function syncAdminDesc(val) {
+            document.getElementById('adminDescVal').innerText = val;
+        }
+
+        function updateAdminPreview(data) {
+            document.getElementById('adminProjectTitle').innerText = data.titleSuggestions[0];
+            document.getElementById('adminDescLabel').innerText = data.descLabel;
+            document.getElementById('adminDescVal').innerText = data.descPlaceholder.split('...')[0];
+
+            const grid = document.getElementById('adminSpecsGrid');
+            let specsHtml = '';
+
+            if (data.specs) {
+                data.specs.forEach(s => {
+                    let sampleVal = 'معتمد';
+                    if (s.type === 'select_custom') sampleVal = s.options[0];
+                    else if (s.type === 'pills') sampleVal = s.options.slice(0, 2).join(' + ');
+                    else if (s.type === 'numeric') sampleVal = s.placeholder.replace('مثال: ', '') + ' (تقديري)';
+                    else if (s.type === 'date') sampleVal = '30 سبتمبر 2026';
+                    else if (s.type === 'upload') sampleVal = '2 ملفات ومستندات مرفقة 📄';
+
+                    specsHtml += `
+                        <div class="spec-item">
+                            <div class="spec-item-label">${s.label.replace(':', '')}</div>
+                            <div class="spec-item-value">${sampleVal}</div>
+                        </div>
+                    `;
+                });
+            }
+
+            grid.innerHTML = specsHtml;
+        }
+
+        function handleFormTypeChange(formId) {
+            // Can adapt specs based on specific sub-form if needed
+        }
+
+        function simulateSubmitRequest() {
+            const toast = document.getElementById('submitSuccessToast');
+            toast.style.display = 'flex';
+            toast.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function simulateApproveProject() {
+            const toast = document.getElementById('approveSuccessToast');
+            toast.style.display = 'flex';
+            toast.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        // Run
+        document.addEventListener('DOMContentLoaded', initApp);
+    </script>
+</body>
+</html>

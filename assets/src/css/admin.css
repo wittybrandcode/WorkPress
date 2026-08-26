@@ -1,0 +1,2096 @@
+/**
+ * WorkPress Admin Overrides for Bulma
+ * 
+ * We use Bulma as our primary framework. 
+ * This file contains minor overrides to fix WP Admin conflicts 
+ * and specific layout needs (like Kanban horizontal scroll).
+ */
+
+@import url('../../css/cairo.css');
+
+:root {
+    /* النظام اللوني الأساسي */
+    --wp-text-primary: #0f172a;
+    --wp-text-secondary: #64748b;
+    --wp-text-muted: #94a3b8;
+    
+    /* الأزرار والتفاعل */
+    --wp-hover-fill: #757E8E;
+    --wp-accent-green: #10b981;
+    --wp-danger: #f14668;
+    --wp-info: #3e8ed0;
+    
+    /* الحدود */
+    --wp-border: #e2e8f0;
+    --wp-border-subtle: #f1f5f9;
+    --wp-border-dark: #ededed;
+    
+    /* الخلفيات */
+    --wp-bg-page: #f5f5f5;
+    --wp-bg-card: #ffffff;
+    --wp-bg-footer: #f8fafc;
+    --wp-bg-column: #ebecf0;
+    
+    /* الظلال */
+    --wp-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
+    --wp-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+    --wp-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.1);
+    --wp-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    
+    /* التحريك */
+    --wp-transition-fast: 0.15s ease;
+    --wp-transition-base: 0.2s ease;
+    --wp-transition-slow: 0.3s ease;
+}
+
+/* ==========================================================================
+   WorkPress Square Snake Emerald Loader Keyframes
+   ========================================================================== */
+@keyframes wpSquareSnake {
+    0%, 100% {
+        opacity: 0.12;
+        transform: scale(0.85);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.wp-square-snake-loader {
+    display: inline-grid;
+    vertical-align: middle;
+    line-height: 1;
+    user-select: none;
+}
+
+.wp-square-snake-loader .wp-square-cell {
+    border-radius: 0 !important;
+    will-change: opacity, transform;
+}
+
+.wp-loader-container {
+    animation: fadeIn 0.2s ease;
+}
+
+
+/* ==========================================================================
+   WP Admin Menu Protections (Anti-Bulma Bleed) & Full Width SPA Overrides
+   ========================================================================== */
+/* Bulma sets box-sizing: border-box globally. 
+   We revert it for WP Admin core elements to prevent visual bugs. */
+#adminmenuwrap *,
+#adminmenu *,
+#wpadminbar * {
+    box-sizing: content-box;
+}
+
+#wpcontent {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+#wpbody {
+    padding-top: 0 !important;
+}
+#wpbody-content {
+    padding-bottom: 0 !important;
+}
+.wrap {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+#wpbody-content > .notice,
+#wpbody-content > .update-nag {
+    display: none !important; /* Hide generic WP notices in SPA mode to avoid breaking full width */
+}
+
+/* ==========================================================================
+   WorkPress Specific Layouts & Global Typography
+   ========================================================================== */
+.workpress-spa,
+.workpress-spa *:not(.dashicons):not(.mce-ico):not(i),
+.workpress-spa h1,
+.workpress-spa h2,
+.workpress-spa h3,
+.workpress-spa h4,
+.workpress-spa h5,
+.workpress-spa h6,
+.workpress-spa .title,
+.workpress-spa .subtitle,
+.workpress-spa .button,
+.workpress-spa .input,
+.workpress-spa .textarea,
+.workpress-spa .select select {
+    font-family: 'Cairo', sans-serif !important;
+}
+
+/* ==========================================================================
+   STRICT RIGHT ANGLES ENFORCEMENT
+   ========================================================================== */
+.workpress-spa *,
+.workpress-spa *::before,
+.workpress-spa *::after {
+    border-radius: 0 !important;
+}
+
+/* ==========================================================================
+   Zero Focus Rings, Outlines & Shadow Boxes on Click / Active
+   ========================================================================== */
+.workpress-spa a:focus,
+.workpress-spa a:active,
+.workpress-spa a:focus-visible,
+.workpress-spa a:focus-within,
+.workpress-spa button:focus,
+.workpress-spa button:active,
+.workpress-spa button:focus-visible,
+.workpress-spa .button:focus,
+.workpress-spa .button:active,
+.workpress-spa .button:focus-visible,
+.workpress-spa .wp-header-btn:focus,
+.workpress-spa .wp-header-btn:active,
+.workpress-spa .wp-header-btn:focus-visible,
+.workpress-spa .wp-btn:focus,
+.workpress-spa .wp-btn:active,
+.workpress-spa .wp-btn:focus-visible,
+.workpress-spa .wp-icon-button:focus,
+.workpress-spa .wp-icon-button:active,
+.workpress-spa .wp-icon-button:focus-visible,
+.workpress-spa [tabindex]:focus,
+.workpress-spa svg:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Specific reset for Header Navigation links and Brand Logo */
+.workpress-header-wrapper a,
+.workpress-header-wrapper a:focus,
+.workpress-header-wrapper a:active,
+.workpress-header-wrapper a:focus-visible,
+.workpress-header-wrapper button,
+.workpress-header-wrapper button:focus,
+.workpress-header-wrapper button:active,
+.workpress-header-wrapper button:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+}
+
+/* Header Navigation Button & Active Pill */
+.workpress-spa .wp-header-btn {
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    padding: 0.35rem 0.65rem !important;
+    height: 32px !important;
+    transition: all 0.15s ease !important;
+}
+.workpress-spa .wp-header-btn .icon,
+.workpress-spa .wp-header-btn i {
+    color: #64748b !important;
+    transition: color 0.15s ease !important;
+}
+.workpress-spa .wp-header-btn:hover {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+}
+.workpress-spa .wp-header-btn:hover .icon,
+.workpress-spa .wp-header-btn:hover i,
+.workpress-spa .wp-header-btn:hover span,
+.workpress-spa .wp-header-btn:hover .has-text-weight-bold {
+    color: #ffffff !important;
+}
+.workpress-spa .wp-header-btn.is-active {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+    font-weight: 900 !important;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.25) !important;
+}
+.workpress-spa .wp-header-btn.is-active .icon,
+.workpress-spa .wp-header-btn.is-active i,
+.workpress-spa .wp-header-btn.is-active span,
+.workpress-spa .wp-header-btn.is-active .has-text-weight-bold {
+    color: #ffffff !important;
+}
+
+/* Tight Button Groups */
+.workpress-spa .wp-btn-group-tight {
+    display: inline-flex !important;
+    align-items: center !important;
+}
+.workpress-spa .wp-btn-group-tight .button {
+    border-radius: 0 !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    color: #475569 !important;
+    margin: 0 !important;
+    font-weight: 700 !important;
+    height: 28px !important;
+    font-size: 0.8rem !important;
+    transition: all 0.15s ease !important;
+}
+.workpress-spa .wp-btn-group-tight .button + .button {
+    margin-right: -1px !important;
+}
+.workpress-spa .wp-btn-group-tight .button:hover {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+    z-index: 2 !important;
+}
+.workpress-spa .wp-btn-group-tight .button:hover .icon,
+.workpress-spa .wp-btn-group-tight .button:hover i {
+    color: #ffffff !important;
+}
+.workpress-spa .wp-btn-group-tight .button.is-active {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+    font-weight: 900 !important;
+    z-index: 3 !important;
+}
+.workpress-spa .wp-btn-group-tight .button.is-active .icon,
+.workpress-spa .wp-btn-group-tight .button.is-active i {
+    color: #ffffff !important;
+}
+
+/* Allow text inputs, search boxes and textareas to keep their clean emerald focus border */
+.workpress-spa input.input:focus,
+.workpress-spa textarea.textarea:focus,
+.workpress-spa select:focus,
+.workpress-spa .wp-filter-input:focus {
+    outline: none !important;
+    box-shadow: 0 0 0 1px #10b981 !important;
+    border-color: #10b981 !important;
+}
+
+/* Sharp Minimalist Dashboard Utility Classes (Updated to Modern SaaS) */
+.workpress-spa .wp-card {
+    border-radius: 0;
+    border: 1px solid var(--wp-border-dark);
+    box-shadow: var(--wp-shadow-sm);
+    background-color: var(--wp-bg-card);
+    transition: transform var(--wp-transition-base), box-shadow var(--wp-transition-base);
+}
+.workpress-spa .wp-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--wp-shadow-md);
+}
+
+/* Specific Hover Effect for Project Cards */
+.workpress-spa .wp-project-card {
+    position: relative;
+}
+.workpress-spa .wp-project-card:hover {
+    border-color: var(--wp-hover-fill);
+    outline: 2px solid var(--wp-hover-fill);
+    outline-offset: -1px;
+    z-index: 10;
+    box-shadow: var(--wp-shadow-lg);
+}
+
+/* Custom Dropdown Items */
+.workpress-spa .wp-dropdown-item {
+    color: var(--wp-text-primary);
+    background-color: var(--wp-bg-card);
+    transition: background-color var(--wp-transition-fast), color var(--wp-transition-fast);
+}
+.workpress-spa .wp-dropdown-item:hover {
+    background-color: var(--wp-bg-column);
+    color: var(--wp-text-primary);
+}
+
+.wp-card.is-dark {
+    background-color: var(--wp-text-primary);
+    color: #ffffff;
+}
+.wp-card.is-dark .title, .wp-card.is-dark .heading {
+    color: #ffffff !important;
+}
+.wp-card.is-primary {
+    background-color: var(--wp-accent-green);
+    color: #ffffff;
+    border-color: var(--wp-accent-green) !important;
+}
+.wp-card.is-primary .title, .wp-card.is-primary .heading {
+    color: #ffffff !important;
+}
+.wp-stat-number {
+    font-size: 3rem !important;
+    font-weight: 900 !important;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+.wp-stat-label {
+    font-size: 1.1rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Helper Utilities */
+.wp-gap-xs { gap: 4px !important; }
+.wp-gap-sm { gap: 8px !important; }
+.wp-gap-md { gap: 16px !important; }
+.wp-border-top { border-top: 1px solid var(--wp-border-dark) !important; }
+.wp-border-bottom { border-bottom: 1px solid var(--wp-border-dark) !important; }
+.wp-border { border: 1px solid var(--wp-border-dark) !important; }
+.wp-text-truncate {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.wp-dropdown-content-custom {
+    border-radius: 0 !important;
+    border: 1px solid var(--wp-border-dark) !important;
+    box-shadow: var(--wp-shadow-md) !important;
+}
+.wp-skeleton-bg {
+    background-color: var(--wp-bg-column) !important;
+    border: 2px dashed var(--wp-border-dark) !important;
+}
+
+/* Unified Button Design System (Applies everywhere) */
+.workpress-spa .button,
+.workpress-spa .wp-sidebar-action {
+    background-color: #ffffff !important;
+    color: var(--wp-text-primary) !important;
+    border: 1px solid var(--wp-border) !important;
+    border-radius: 0 !important;
+    box-shadow: var(--wp-shadow-sm) !important;
+    transition: all var(--wp-transition-fast) !important;
+}
+.workpress-spa .button:hover,
+.workpress-spa .wp-sidebar-action:hover {
+    background-color: var(--wp-hover-fill) !important;
+    color: #ffffff !important;
+    border-color: var(--wp-hover-fill) !important;
+    transform: translateY(-1px);
+    box-shadow: var(--wp-shadow-md) !important;
+}
+.workpress-spa .button.is-active,
+.workpress-spa .wp-sidebar-action.is-active {
+    background-color: var(--wp-accent-green) !important;
+    color: #ffffff !important;
+    border-color: var(--wp-accent-green) !important;
+}
+.workpress-spa .button.is-active:hover,
+.workpress-spa .wp-sidebar-action.is-active:hover {
+    background-color: var(--wp-text-primary) !important;
+    border-color: var(--wp-text-primary) !important;
+}
+
+/* Modern SaaS Custom Scrollbar for Kanban */
+.wp-kanban-scroll {
+    overflow-y: auto;
+}
+/* Ensure the scrollbar is styled on WebKit browsers */
+.wp-kanban-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.wp-kanban-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.wp-kanban-scroll::-webkit-scrollbar-thumb {
+    background: var(--wp-border);
+    border-radius: 0;
+}
+.wp-kanban-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--wp-text-muted);
+}
+
+/* Kanban Columns */
+.wp-kanban-column {
+    min-height: 400px;
+    background-color: var(--wp-bg-column);
+    border: 1px solid var(--wp-border);
+    border-radius: 0;
+    transition: all var(--wp-transition-base);
+}
+.wp-kanban-dropzone-active {
+    background-color: var(--wp-border-subtle) !important;
+    border: 2px dashed var(--wp-accent-green) !important;
+}
+
+.wp-kanban-column-header-icon {
+    border-left: 1px solid var(--wp-border-dark);
+    color: var(--wp-text-secondary);
+}
+.wp-kanban-dropzone-active .wp-kanban-column-header-icon {
+    color: var(--wp-accent-green);
+}
+
+.wp-kanban-column-header-count {
+    color: var(--wp-text-primary);
+    min-width: 28px;
+}
+.wp-kanban-dropzone-active .wp-kanban-column-header-count {
+    color: var(--wp-accent-green);
+}
+
+.wp-kanban-empty-state {
+    border: 2px dashed var(--wp-border-dark);
+    border-radius: 0;
+}
+.wp-kanban-dropzone-active .wp-kanban-empty-state {
+    border-color: var(--wp-accent-green);
+}
+
+.workpress-spa .button .dashicons,
+.workpress-spa .wp-sidebar-action .dashicons {
+    color: inherit;
+}
+
+/* Specific sizing for sidebar action */
+.wp-sidebar-action {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-bottom: 8px;
+    gap: 12px;
+}
+
+.workpress-spa .wp-icon-button {
+    width: 36px !important;
+    height: 36px !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+.workpress-spa .wp-icon-button .icon {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+.workpress-spa .wp-icon-button .dashicons {
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 1 !important;
+    font-size: 20px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.workpress-app {
+    padding: 1.5rem;
+    min-height: calc(100vh - 32px); /* WP Admin bar offset */
+    background: #f5f5f5; /* Light grey background for the app */
+}
+
+/* Kanban Board Specific */
+.workpress-kanban-board {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2rem;
+    height: calc(100vh - 200px); /* Fill remaining height */
+    align-items: flex-start;
+}
+
+.workpress-kanban-board .column {
+    flex: 1;
+    min-width: 320px;
+    background-color: #ebecf0; /* Trello-like column bg */
+    border-radius: 6px;
+    margin-right: 1rem;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+}
+
+.workpress-kanban-board .column:last-child {
+    margin-left: 1rem;
+}
+
+.workpress-kanban-column-header {
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 1.1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.workpress-kanban-dropzone {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0 0.5rem 0.5rem 0.5rem;
+    min-height: 150px;
+}
+
+/* Draggable Task Card */
+.workpress-kanban-dropzone .card {
+    margin-bottom: 0.75rem;
+    cursor: grab;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
+
+.workpress-kanban-dropzone .card:active {
+    cursor: grabbing;
+}
+
+/* Header Buttons Sizing and Alignment (Colors handled by unified system) */
+.wp-header-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 16px !important;
+    height: 36px !important;
+    gap: 8px !important;
+}
+.wp-header-btn .icon {
+    margin: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    height: auto !important;
+}
+.wp-header-btn .dashicons {
+    font-size: 18px !important;
+    height: 18px !important;
+    width: 18px !important;
+    line-height: 1 !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.wp-header-btn span:not(.icon) {
+    display: inline-flex;
+    align-items: center;
+    line-height: 1;
+    margin-top: 2px; /* Slight nudge for Arabic text */
+}
+
+/* Compact Image Button (Header Style) */
+.wp-compact-image-btn {
+    width: 44px !important;
+    height: 44px !important;
+    min-width: 44px !important;
+    min-height: 44px !important;
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    background-color: #ffffff !important;
+    box-shadow: none !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    padding: 0 !important;
+    transition: all 0.2s ease !important;
+}
+
+.wp-compact-image-btn .dashicons {
+    color: #0f172a !important;
+    font-size: 20px !important;
+    width: 20px !important;
+    height: 20px !important;
+    line-height: 1 !important;
+    transition: color 0.2s ease !important;
+}
+
+.wp-compact-image-btn:hover {
+    background-color: #0f172a !important;
+    border-color: #0f172a !important;
+    box-shadow: none !important;
+}
+
+.wp-compact-image-btn:hover .dashicons {
+    color: #ffffff !important;
+}
+
+/* Utility to override Bulma's z-index on modals if it falls under WP Admin */
+.modal {
+    z-index: 99999; 
+}
+.modal-card {
+    max-height: calc(100vh - 60px) !important;
+    display: flex;
+    flex-direction: column;
+}
+.modal-card-body {
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+.modal-card-foot, .modal-card-head {
+    flex: 0 0 auto;
+}
+
+/* Kanban Card Icon Actions */
+.wp-icon-action {
+    color: #363636;
+    cursor: pointer;
+    transition: color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+.wp-icon-action .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+.wp-icon-action.action-delete:hover {
+    color: #f14668;
+}
+.wp-icon-action.action-edit:hover {
+    color: #3e8ed0;
+}
+.wp-icon-action.action-preview:hover {
+    color: #48c774;
+}
+.wp-icon-action.action-board:hover {
+    color: #00d1b2;
+}
+
+/* Enforce Bulma Buttons against WP Admin interference */
+.workpress-app .button {
+    border-radius: 4px !important;
+    font-family: 'Cairo', sans-serif !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: calc(0.5em - 1px) 1em !important;
+    height: 2.5em !important;
+    box-shadow: none !important;
+    border: 1px solid #dbdbdb !important;
+    background-color: white !important;
+    color: #363636 !important;
+    line-height: 1.5 !important;
+}
+
+.workpress-app .button.is-primary {
+    background-color: #00d1b2 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+}
+.workpress-app .button.is-primary:hover {
+    background-color: #00c4a7 !important;
+}
+
+.workpress-app .button.is-info {
+    background-color: #3e8ed0 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+}
+
+.workpress-app .button.is-danger {
+    background-color: #f14668 !important;
+    border-color: transparent !important;
+    color: #fff !important;
+}
+
+.workpress-app .button.is-light {
+    background-color: #f5f5f5 !important;
+    border-color: transparent !important;
+    color: rgba(0,0,0,.7) !important;
+}
+
+/* ==========================================================================
+   Premium Aesthetic Polish (WOW Factor)
+   ========================================================================== */
+
+/* Premium Box Shadows & Transitions */
+.workpress-app .card,
+.workpress-app .box {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    padding: 0 !important; /* Override WP Core .card padding */
+}
+
+/* Fix WP Core figure margins */
+.workpress-app figure.image {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* Round top corners for card images */
+.workpress-app .card-image img {
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+    display: block;
+}
+
+.workpress-app .wp-hover-lift:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Glassmorphism Utilities */
+.wp-glassmorphism {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+}
+
+/* Modal Animations */
+.modal.is-active .modal-card {
+    animation: wpModalZoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes wpModalZoomIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Dashboard Widget Circular Icons */
+.wp-icon-circle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    flex-shrink: 0;
+}
+.wp-icon-circle .dashicons {
+    font-size: 32px;
+    width: 32px;
+    height: 32px;
+}
+.wp-icon-circle.is-info-light { background-color: #eef6fc; color: #3e8ed0; }
+.wp-icon-circle.is-warning-light { background-color: #fffbef; color: #eebb05; }
+.wp-icon-circle.is-success-light { background-color: #effaf3; color: #48c774; }
+
+/* Dashboard Typography Polish */
+.wp-stat-number {
+    font-weight: 900 !important;
+    letter-spacing: -1px;
+}
+
+/* ==========================================================================
+   Neo-Brutalist Modal & Form Overrides (Refined Light Design)
+   ========================================================================== */
+
+/* Modal Overrides */
+.modal-background,
+.workpress-spa .modal-background {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.workpress-spa .modal-card,
+.modal-card {
+    width: 60% !important;
+    max-width: 60% !important;
+    min-width: 600px !important;
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    background-color: #ffffff !important;
+}
+.workpress-spa .modal-card-head {
+    border-radius: 0 !important;
+    border-bottom: 1px solid #f1f5f9 !important;
+    background-color: #ffffff !important;
+    padding: 16px 20px !important;
+}
+.workpress-spa .modal-card-foot {
+    border-radius: 0 !important;
+    border-top: 1px solid #f1f5f9 !important;
+    background-color: #f8fafc !important;
+    padding: 14px 20px !important;
+}
+.workpress-spa .modal-card-body {
+    border-radius: 0 !important;
+    background-color: #ffffff !important;
+}
+.workpress-spa .delete {
+    border-radius: 0 !important;
+    background-color: #0f172a !important;
+    transition: background-color 0.2s ease;
+}
+.workpress-spa .delete:hover {
+    background-color: #f14668 !important;
+}
+
+/* Form Elements Overrides */
+.workpress-spa .wp-title-input {
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    padding: 8px 14px !important;
+    height: 44px !important;
+    background: #ffffff !important;
+    margin-bottom: 0 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    border-radius: 0 !important;
+    color: #0f172a !important;
+    transition: border-color 0.2s ease !important;
+    box-sizing: border-box !important;
+}
+.workpress-spa .wp-title-input:focus,
+.workpress-spa .wp-title-input:active {
+    border-color: #cbd5e1 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px #cbd5e1 !important;
+}
+
+.workpress-spa .input:not(.wp-title-input),
+.workpress-spa .textarea,
+.workpress-spa .select select {
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    background-color: #ffffff !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #0f172a !important;
+    font-size: 0.85rem !important;
+    height: 36px !important;
+}
+
+.workpress-spa .select select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230F172A%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: left 10px center !important;
+    background-size: 9px auto !important;
+    padding-left: 26px !important;
+    padding-right: 10px !important;
+}
+
+.workpress-spa .select {
+    height: 36px !important;
+}
+
+.workpress-spa .input:not(.wp-title-input):focus,
+.workpress-spa .textarea:focus,
+.workpress-spa .select select:focus {
+    border-color: #cbd5e1 !important;
+    box-shadow: 0 0 0 1px #cbd5e1 !important;
+    outline: none !important;
+}
+
+/* Modal Sticky Top Toolbar */
+.wp-modal-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.wp-metadata-toolbar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.wp-metadata-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.wp-metadata-item .input,
+.wp-metadata-item .select,
+.wp-metadata-item .select select {
+    flex: 1;
+    width: 100% !important;
+}
+
+.wp-metadata-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+/* Compact Dashboard List Rows */
+.wp-dashboard-compact-item {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    padding: 8px 14px !important;
+    margin-bottom: 6px !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0 !important;
+    text-decoration: none !important;
+    transition: all 0.15s ease-in-out !important;
+    font-size: 0.875rem !important;
+    box-sizing: border-box !important;
+}
+
+.wp-dashboard-compact-item strong,
+.wp-dashboard-compact-item span,
+.wp-dashboard-compact-item div,
+.wp-dashboard-compact-item i,
+.wp-dashboard-compact-item .dashicons {
+    color: #0f172a !important;
+    transition: color 0.15s ease-in-out !important;
+}
+
+.wp-dashboard-compact-item .wp-compact-tag {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-radius: 0 !important;
+    padding: 2px 8px !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    transition: all 0.15s ease-in-out !important;
+}
+
+
+.wp-dashboard-compact-item:hover {
+    background-color: #757E8E !important;
+    border-color: #757E8E !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 10px rgba(117, 126, 142, 0.25) !important;
+}
+
+.wp-dashboard-compact-item:hover strong,
+.wp-dashboard-compact-item:hover span,
+.wp-dashboard-compact-item:hover div,
+.wp-dashboard-compact-item:hover i,
+.wp-dashboard-compact-item:hover .dashicons {
+    color: #ffffff !important;
+}
+
+.wp-dashboard-compact-item:hover .wp-compact-tag {
+    background-color: rgba(255, 255, 255, 0.25) !important;
+    color: #ffffff !important;
+}
+
+/* Kanban Enhanced Drag & Drop Feedback */
+.wp-kanban-column {
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+    border: 1px solid #cbd5e1 !important;
+}
+
+.wp-kanban-dropzone-active {
+    background-color: #e2e8f0 !important;
+    border: 4px solid #10b981 !important;
+    box-shadow: none !important;
+}
+
+.wp-task-card-dragging {
+    opacity: 1 !important;
+    border: 1px solid #cbd5e1 !important;
+    transform: scale(0.98);
+}
+
+.wp-icon-hover {
+    color: #0f172a !important;
+    transition: color 0.15s ease-in-out !important;
+}
+
+.wp-icon-hover:hover {
+    color: #757E8E !important;
+}
+.wp-icon-hover:hover * {
+    color: #757E8E !important;
+}
+
+/* ==========================================================================
+   Real-Time UI & Micro-Animations
+   ========================================================================== */
+.wp-fade-out {
+    opacity: 0 !important;
+    transform: scale(0.95) !important;
+    pointer-events: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.wp-slide-in {
+    animation: wpSlideInAnim 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes wpSlideInAnim {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.wp-updating {
+    opacity: 0.6 !important;
+    pointer-events: none !important;
+    filter: grayscale(20%);
+    transition: all 0.2s ease !important;
+}
+
+/* Toast System Animations */
+.wp-toast-container {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    pointer-events: none;
+}
+
+.wp-toast {
+    pointer-events: auto;
+    min-width: 300px;
+    max-width: 450px;
+    border-radius: 0 !important; /* WorkPress Sharp UI */
+    box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1) !important;
+    animation: wpToastEnter 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.wp-toast.wp-toast-exit {
+    opacity: 0;
+    transform: translateX(100px);
+}
+
+@keyframes wpToastEnter {
+    from {
+        opacity: 0;
+        transform: translateX(100px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* ==========================================================================
+   WorkPress Unified Sticky Compact FilterBar System
+   ========================================================================== */
+.wp-filter-toolbar {
+    background-color: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0 !important;
+    padding: 0.45rem 1rem;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.wp-filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.wp-filter-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.wp-filter-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.wp-filter-label i {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #64748b;
+}
+
+.wp-filter-input {
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.8rem !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 0 !important;
+    padding: 0 8px !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+}
+
+.wp-filter-input:focus {
+    border-color: #0284c7 !important;
+    box-shadow: 0 0 0 1px #0284c7 !important;
+}
+
+.wp-filter-search-box {
+    position: relative;
+    min-width: 180px;
+    max-width: 260px;
+    flex: 1;
+}
+
+.wp-filter-search-box .wp-filter-input {
+    padding-right: 28px !important;
+    width: 100%;
+}
+
+.wp-filter-search-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wp-filter-search-clear {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.wp-filter-search-clear:hover {
+    color: #e11d48;
+}
+
+.wp-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+}
+
+.wp-filter-counter {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #475569;
+    background-color: #f8fafc;
+    padding: 3px 8px;
+    border: 1px solid #e2e8f0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 0 !important;
+    white-space: nowrap;
+}
+
+.wp-filter-reset-btn {
+    height: 28px !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    border-radius: 0 !important;
+    padding: 0 8px !important;
+    border: 1px solid #fecdd3 !important;
+    color: #e11d48 !important;
+    background-color: #fff1f2 !important;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+    text-decoration: none !important;
+}
+
+.wp-filter-reset-btn:hover {
+    background-color: #ffe4e6 !important;
+    color: #be123c !important;
+    border-color: #fda4af !important;
+}
+
+@media screen and (max-width: 768px) {
+    .wp-filter-toolbar {
+        top: 0;
+        position: relative;
+    }
+    .wp-filter-search-box {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+@keyframes wpShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+}
+
+@keyframes wpSquareSnake {
+    0%, 100% { opacity: 0.25; transform: scale(0.85); }
+    50% { opacity: 1; transform: scale(1); }
+}
+
+/* ==========================================================================
+   Executive Report & Printable Knowledge Book Styles (WorkPress v1.4.0)
+   ========================================================================== */
+
+.wp-report-modal .modal-card {
+    width: 900px !important;
+    max-width: 95vw !important;
+}
+
+.wp-report-canvas {
+    background: #ffffff;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    padding: 36px 40px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    line-height: 1.6;
+}
+
+.wp-report-header {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.wp-report-brand-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.wp-report-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.wp-report-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.wp-report-metric-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 14px 16px;
+    text-align: center;
+}
+
+.wp-report-metric-val {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.wp-report-metric-lbl {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.wp-report-section-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0f172a;
+    border-right: 4px solid #0f172a;
+    padding-right: 10px;
+    margin: 24px 0 14px 0;
+}
+
+.wp-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+}
+
+.wp-report-table th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 800;
+    text-align: right;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+}
+
+.wp-report-table td {
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.wp-report-table tr:nth-child(even) td {
+    background-color: #f8fafc;
+}
+
+.wp-deliverable-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-right: 4px solid #10b981;
+}
+
+.wp-deliverable-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.wp-deliverable-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 12px 16px;
+    font-family: inherit;
+    white-space: pre-wrap;
+    font-size: 0.88rem;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+/* Sign-off Signature Blocks */
+.wp-signoff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 30px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.wp-signoff-box {
+    border: 1px dashed #94a3b8;
+    background: #f8fafc;
+    padding: 16px;
+    text-align: center;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.wp-signoff-role {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #0f172a;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.wp-signoff-line {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: auto;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 6px;
+}
+
+/* ==========================================================================
+   Native Print Engine Optimization (@media print)
+   ========================================================================== */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 12mm 15mm;
+    }
+
+    /* Hide WP Admin Elements & UI Shell */
+    #adminmenumain,
+    #adminmenuback,
+    #adminmenuwrap,
+    #wpadminbar,
+    #wpfooter,
+    .modal-background,
+    .modal-card-head,
+    .modal-card-foot,
+    .wp-report-no-print,
+    .wp-filter-toolbar,
+    .button,
+    button {
+        display: none !important;
+    }
+
+    body, 
+    #wpwrap, 
+    #wpcontent, 
+    #wpbody, 
+    #wpbody-content, 
+    .workpress-app,
+    .modal,
+    .modal.is-active,
+    .modal-card,
+    .modal-card-body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: static !important;
+        overflow: visible !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .wp-report-canvas {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .wp-report-metric-card,
+    .wp-deliverable-item,
+    .wp-signoff-grid,
+    .wp-report-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
+}
+
+/* ==========================================================================
+   WorkPress Central Actionable Decision & Toast Engine (Full Colored Atmosphere)
+   ========================================================================== */
+.wp-toast-deck-container {
+    position: fixed;
+    bottom: 24px;
+    left: 24px;
+    z-index: 999999;
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 10px;
+    pointer-events: none;
+    max-width: 440px;
+    width: calc(100vw - 48px);
+    direction: rtl;
+    text-align: right;
+}
+
+.wp-toast-card {
+    pointer-events: auto;
+    position: relative;
+    padding: 14px 16px 16px 16px;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+    font-family: 'Cairo', sans-serif !important;
+    border-radius: 0 !important;
+    animation: wpToastEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    transition: all 0.2s ease;
+    user-select: none;
+    overflow: hidden;
+}
+
+.wp-toast-card:hover {
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
+    transform: translateY(-2px);
+}
+
+/* Full-Container Colored Themes */
+.wp-toast-success {
+    background: #064e3b !important;
+    border: 1px solid #059669 !important;
+    border-right: 5px solid #34d399 !important;
+    color: #ffffff !important;
+}
+.wp-toast-success .wp-toast-icon-col i {
+    color: #6ee7b7 !important;
+}
+.wp-toast-success .wp-toast-progress-fill {
+    background: #34d399 !important;
+}
+
+.wp-toast-error {
+    background: #7f1d1d !important;
+    border: 1px solid #b91c1c !important;
+    border-right: 5px solid #f87171 !important;
+    color: #ffffff !important;
+}
+.wp-toast-error .wp-toast-icon-col i {
+    color: #fca5a5 !important;
+}
+.wp-toast-error .wp-toast-progress-fill {
+    background: #f87171 !important;
+}
+
+.wp-toast-warning {
+    background: #78350f !important;
+    border: 1px solid #b45309 !important;
+    border-right: 5px solid #fbbf24 !important;
+    color: #ffffff !important;
+}
+.wp-toast-warning .wp-toast-icon-col i {
+    color: #fde68a !important;
+}
+.wp-toast-warning .wp-toast-progress-fill {
+    background: #fbbf24 !important;
+}
+
+.wp-toast-info {
+    background: #0c4a6e !important;
+    border: 1px solid #0284c7 !important;
+    border-right: 5px solid #38bdf8 !important;
+    color: #ffffff !important;
+}
+.wp-toast-info .wp-toast-icon-col i {
+    color: #7dd3fc !important;
+}
+.wp-toast-info .wp-toast-progress-fill {
+    background: #38bdf8 !important;
+}
+
+.wp-toast-decision {
+    background: #1e1b4b !important;
+    border: 1px solid #4338ca !important;
+    border-right: 5px solid #818cf8 !important;
+    color: #ffffff !important;
+}
+.wp-toast-decision .wp-toast-icon-col i {
+    color: #a5b4fc !important;
+}
+.wp-toast-decision .wp-toast-progress-fill {
+    background: #818cf8 !important;
+}
+
+/* Icon Column */
+.wp-toast-icon-col {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    padding-top: 1px;
+}
+.wp-toast-icon-col .dashicons {
+    font-size: 22px;
+    width: 22px;
+    height: 22px;
+    line-height: 1;
+}
+
+/* Body Column */
+.wp-toast-body-col {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.wp-toast-title {
+    font-size: 0.9rem;
+    font-weight: 900;
+    color: #ffffff;
+    line-height: 1.3;
+    font-family: 'Cairo', sans-serif !important;
+}
+
+.wp-toast-message {
+    font-size: 0.86rem;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.45;
+    font-family: 'Cairo', sans-serif !important;
+    word-break: break-word;
+}
+
+/* Single Action Link */
+.wp-toast-action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.76rem;
+    font-weight: 800;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 3px 10px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    align-self: flex-start;
+    transition: all 0.15s ease;
+    border-radius: 0 !important;
+    cursor: pointer;
+    font-family: 'Cairo', sans-serif !important;
+    margin-top: 2px;
+}
+.wp-toast-action-btn:hover {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #ffffff;
+}
+.wp-toast-action-btn .dashicons {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+    line-height: 1;
+}
+
+/* Multiple Interactive Decision Buttons Row */
+.wp-toast-actions-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 6px;
+}
+
+.wp-toast-interactive-btn {
+    font-family: 'Cairo', sans-serif !important;
+    border-radius: 0 !important;
+    font-size: 0.76rem;
+    font-weight: 800;
+    padding: 4px 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+    border: 1px solid transparent;
+    line-height: 1.3;
+}
+.wp-toast-interactive-btn .dashicons {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+    line-height: 1;
+}
+
+.wp-toast-btn-primary {
+    background: #ffffff;
+    color: #0f172a;
+    border-color: #ffffff;
+}
+.wp-toast-btn-primary:hover {
+    background: #f8fafc;
+    transform: translateY(-1px);
+}
+
+.wp-toast-btn-secondary {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+.wp-toast-btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.wp-toast-btn-danger {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+.wp-toast-btn-danger:hover {
+    background: #b91c1c;
+}
+
+.wp-toast-btn-undo {
+    background: #ffffff;
+    color: #064e3b;
+    border-color: #ffffff;
+    font-weight: 900;
+}
+.wp-toast-btn-undo:hover {
+    background: #f0fdf4;
+    transform: translateY(-1px);
+}
+
+/* Close Button (×) */
+.wp-toast-close-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    width: 22px;
+    height: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    flex-shrink: 0;
+    transition: color 0.15s ease;
+    border-radius: 0 !important;
+}
+.wp-toast-close-btn:hover {
+    color: #ffffff;
+}
+.wp-toast-close-btn .dashicons {
+    font-size: 16px;
+    width: 16px;
+    height: 16px;
+    line-height: 1;
+}
+
+/* Progress Countdown Bar */
+.wp-toast-progress-track {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+}
+
+.wp-toast-progress-fill {
+    height: 100%;
+    width: 100%;
+    transform-origin: right;
+    animation: wpToastProgress linear forwards;
+}
+
+@keyframes wpToastProgress {
+    from {
+        transform: scaleX(1);
+    }
+    to {
+        transform: scaleX(0);
+    }
+}
+
+/* Dismiss All Header */
+.wp-toast-dismiss-all-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2px;
+}
+
+.wp-toast-dismiss-all-btn {
+    pointer-events: auto;
+    background: #0f172a;
+    color: #cbd5e1;
+    border: 1px solid #334155;
+    font-size: 0.72rem;
+    font-weight: 800;
+    font-family: 'Cairo', sans-serif !important;
+    padding: 3px 10px;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+    border-radius: 0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: all 0.15s ease;
+}
+.wp-toast-dismiss-all-btn:hover {
+    background: #ef4444;
+    color: #ffffff;
+    border-color: #ef4444;
+}
+.wp-toast-dismiss-all-btn .dashicons {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+    line-height: 1;
+}
+
+/* Animations */
+@keyframes wpToastEnter {
+    from {
+        opacity: 0;
+        transform: translateY(16px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.wp-toast-exit {
+    opacity: 0 !important;
+    transform: translateX(-24px) scale(0.92) !important;
+    transition: all 0.25s cubic-bezier(0.4, 0, 1, 1) !important;
+}
+
+/* ==========================================================================
+   WorkPress Ultimate High-Density Compact Design System Tokens & Utilities
+   ========================================================================== */
+
+/* 1. Micro-Sized Icon Buttons (Zero Bloat, Pure Geometry) */
+.wp-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    cursor: pointer;
+    border-radius: 0 !important;
+    font-family: 'Cairo', sans-serif !important;
+    transition: all 0.12s ease;
+    flex-shrink: 0;
+    user-select: none;
+}
+.wp-icon-btn:hover {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+.wp-icon-btn.is-dense {
+    width: 22px;
+    height: 22px;
+}
+.wp-icon-btn.is-small {
+    width: 26px;
+    height: 26px;
+}
+.wp-icon-btn.is-medium {
+    width: 32px;
+    height: 32px;
+}
+.wp-icon-btn.is-dark {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+.wp-icon-btn.is-dark:hover {
+    background: #1e293b;
+    border-color: #38bdf8;
+    color: #38bdf8;
+}
+.wp-icon-btn.is-primary {
+    background: #2563eb;
+    color: #ffffff;
+    border-color: #2563eb;
+}
+.wp-icon-btn.is-primary:hover {
+    background: #1d4ed8;
+}
+.wp-icon-btn.is-danger {
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+.wp-icon-btn.is-danger:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+.wp-icon-btn .dashicons {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    line-height: 1;
+}
+.wp-icon-btn.is-dense .dashicons {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+}
+.wp-icon-btn.is-medium .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+/* 2. Tight Connected Button Groups (Unified Outer Border) */
+.wp-btn-group-tight {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    user-select: none;
+}
+.wp-btn-group-tight .button,
+.wp-btn-group-tight button,
+.wp-btn-group-tight a {
+    border: none !important;
+    border-left: 1px solid #cbd5e1 !important;
+    border-radius: 0 !important;
+    height: 28px !important;
+    padding: 0 10px !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.wp-btn-group-tight .button:last-child,
+.wp-btn-group-tight button:last-child,
+.wp-btn-group-tight a:last-child {
+    border-left: none !important;
+}
+.wp-btn-group-tight .button:hover,
+.wp-btn-group-tight button:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.wp-btn-group-tight .button.is-active,
+.wp-btn-group-tight button.is-active {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+}
+
+/* 3. Micro Information Chips (High-Density Counter Badges) */
+.wp-dense-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 20px;
+    padding: 0 5px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #475569;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 0 !important;
+    user-select: none;
+    line-height: 1;
+}
+.wp-dense-chip .dashicons {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    line-height: 1;
+    color: #64748b;
+}
+.wp-dense-chip.is-success {
+    background: #ecfdf5;
+    color: #059669;
+    border-color: #a7f3d0;
+}
+.wp-dense-chip.is-success .dashicons {
+    color: #059669;
+}
+.wp-dense-chip.is-warning {
+    background: #fffbeb;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.wp-dense-chip.is-warning .dashicons {
+    color: #d97706;
+}
+.wp-dense-chip.is-danger {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+.wp-dense-chip.is-danger .dashicons {
+    color: #dc2626;
+}
+.wp-dense-chip.is-info {
+    background: #f0f9ff;
+    color: #0284c7;
+    border-color: #bae6fd;
+}
+.wp-dense-chip.is-info .dashicons {
+    color: #0284c7;
+}
+
+/* 4. High-Density Compact Toolbars & Action Bars */
+.wp-dense-toolbar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* 5. Smart Micro Tooltip Utility (Instant CSS-Powered Tooltip) */
+[data-wp-tooltip] {
+    position: relative;
+}
+[data-wp-tooltip]::after {
+    content: attr(data-wp-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    right: 50%;
+    transform: translateX(50%) translateY(4px);
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif !important;
+    padding: 3px 8px;
+    white-space: nowrap;
+    border-radius: 0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border: 1px solid #334155;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 999999;
+}
+[data-wp-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(50%) translateY(0);
+}
+
+
+
+
+
+
