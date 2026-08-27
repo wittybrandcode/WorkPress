@@ -156,6 +156,6 @@ $portal_config = array(
     <script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
 
     <!-- WorkPress Portal SPA Application -->
-    <script type="module" src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-app.js?v=' . $portal_js_ver ); ?>"></script>
+    <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-app.js?v=' . $portal_js_ver ); ?>"></script>
 </body>
 </html>
