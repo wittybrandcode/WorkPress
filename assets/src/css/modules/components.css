@@ -77,7 +77,7 @@
 /* ==========================================================================
    Universal RTL Button & Icon Optical Alignment
    ========================================================================== */
-.workpress-spa .button,
+.workpress-spa .button:not(.wp-settings-tab-btn),
 .workpress-spa .wp-header-btn,
 .workpress-spa .wp-about-nav-btn {
     display: inline-flex !important;
@@ -88,6 +88,107 @@
     vertical-align: middle !important;
     gap: 6px !important;
     line-height: 1 !important;
+}
+
+/* ==========================================================================
+   Settings Sidebar Navigation Tab Buttons (Right-Aligned in RTL)
+   ========================================================================== */
+.workpress-spa .wp-settings-tab-btn,
+.wp-settings-tab-btn {
+    width: 100% !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-start !important;
+    direction: rtl !important;
+    text-align: right !important;
+    height: 38px !important;
+    padding: 0 12px !important;
+    border: 1px solid #e2e8f0 !important;
+    border-radius: 0 !important;
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    font-size: 0.84rem !important;
+    font-weight: 600 !important;
+    gap: 10px !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
+    box-shadow: none !important;
+    margin-bottom: 3px !important;
+    box-sizing: border-box !important;
+}
+
+.workpress-spa .wp-settings-tab-btn .icon,
+.wp-settings-tab-btn .icon {
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: #64748b !important;
+    flex-shrink: 0 !important;
+}
+
+.workpress-spa .wp-settings-tab-btn .icon .dashicons,
+.workpress-spa .wp-settings-tab-btn .icon i,
+.wp-settings-tab-btn .icon .dashicons,
+.wp-settings-tab-btn .icon i {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
+    color: inherit !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+.workpress-spa .wp-settings-tab-btn span:not(.icon),
+.wp-settings-tab-btn span:not(.icon) {
+    flex: 1 !important;
+    text-align: right !important;
+    white-space: nowrap !important;
+    overflow: hidden !important;
+    text-overflow: ellipsis !important;
+    line-height: 1.2 !important;
+    color: inherit !important;
+    display: inline-block !important;
+}
+
+.workpress-spa .wp-settings-tab-btn:hover,
+.wp-settings-tab-btn:hover {
+    background-color: #f1f5f9 !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
+}
+
+.workpress-spa .wp-settings-tab-btn:hover .icon,
+.wp-settings-tab-btn:hover .icon {
+    color: #0f172a !important;
+}
+
+.workpress-spa .wp-settings-tab-btn.is-active,
+.wp-settings-tab-btn.is-active {
+    background-color: #008478 !important;
+    color: #ffffff !important;
+    border-color: #008478 !important;
+    font-weight: 800 !important;
+    box-shadow: 0 2px 6px rgba(0, 132, 120, 0.25) !important;
+}
+
+.workpress-spa .wp-settings-tab-btn.is-active .icon,
+.workpress-spa .wp-settings-tab-btn.is-active .icon .dashicons,
+.workpress-spa .wp-settings-tab-btn.is-active .icon i,
+.wp-settings-tab-btn.is-active .icon,
+.wp-settings-tab-btn.is-active .icon .dashicons,
+.wp-settings-tab-btn.is-active .icon i {
+    color: #ffffff !important;
+}
+
+.workpress-spa .wp-settings-tab-btn.is-active span,
+.wp-settings-tab-btn.is-active span {
+    color: #ffffff !important;
 }
 
 /* Override Bulma's LTR-specific margins on icons inside buttons */
@@ -127,7 +228,7 @@
     vertical-align: middle !important;
 }
 
-.workpress-spa .button span:not(.icon),
+.workpress-spa .button:not(.wp-settings-tab-btn) span:not(.icon),
 .workpress-spa .wp-header-btn span:not(.icon),
 .workpress-spa .wp-about-nav-btn span:not(.icon) {
     display: inline-flex !important;

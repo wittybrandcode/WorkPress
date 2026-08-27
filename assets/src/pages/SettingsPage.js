@@ -581,7 +581,7 @@ export default function SettingsPage() {
 			<div className="column is-2">
 				<div className="wp-card p-3">
 					<h2 className="title is-6 mb-3 has-text-weight-bold" style=${{ borderBottom: '1px solid #ededed', paddingBottom: '0.5rem', color: '#64748b' }}>الإعدادات</h2>
-					<div className="is-flex is-flex-direction-column" style=${{ gap: '6px' }}>
+					<div className="is-flex is-flex-direction-column" style=${{ gap: '4px' }}>
 						${tabs.map(tab => {
 							const isActive = activeTab === tab.id;
 							return html`
@@ -591,18 +591,9 @@ export default function SettingsPage() {
 										setActiveTab(tab.id);
 										window.location.hash = '#/settings?tab=' + tab.id;
 									}}
-									className=${`button wp-header-btn is-fullwidth ${isActive ? 'is-active' : ''}`}
-									style=${{
-										justifyContent: 'flex-start',
-										textAlign: 'right',
-										borderRadius: '0',
-										fontWeight: isActive ? '700' : '600',
-										fontSize: '0.85rem',
-										paddingLeft: '0.75rem',
-										paddingRight: '0.75rem'
-									}}
+									className=${`button wp-settings-tab-btn ${isActive ? 'is-active' : ''}`}
 								>
-									<span className="icon is-small ml-2" style=${{ marginLeft: '8px' }}>
+									<span className="icon">
 										<i className=${`dashicons ${tab.icon}`}></i>
 									</span>
 									<span>${tab.label}</span>
