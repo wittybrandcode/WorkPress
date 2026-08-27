@@ -57,7 +57,7 @@ export default function AboutWorkPressTab() {
 						className=${`button wp-about-nav-btn ${activeSection === sec.id ? 'is-active' : ''}`}
 						onClick=${() => setActiveSection(sec.id)}
 					>
-						<span className="icon is-small"><i className=${`dashicons ${sec.icon}`}></i></span>
+						<span className="icon"><i className=${`dashicons ${sec.icon}`}></i></span>
 						<span>${sec.label}</span>
 					</button>
 				`)}

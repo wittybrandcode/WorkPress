@@ -28,13 +28,16 @@
     color: #334155 !important;
     font-size: 0.82rem !important;
     font-weight: 700 !important;
-    padding: 0.35rem 0.65rem !important;
+    padding: 0 10px !important;
     height: 32px !important;
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    gap: 8px !important;
+    gap: 6px !important;
+    direction: rtl !important;
     transition: all 0.15s ease !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
 }
 
 .workpress-spa .wp-header-btn .icon,
@@ -71,11 +74,67 @@
     color: #ffffff !important;
 }
 
-.wp-header-btn span:not(.icon) {
-    display: inline-flex;
-    align-items: center;
-    line-height: 1;
-    margin-top: 2px;
+/* ==========================================================================
+   Universal RTL Button & Icon Optical Alignment
+   ========================================================================== */
+.workpress-spa .button,
+.workpress-spa .wp-header-btn,
+.workpress-spa .wp-about-nav-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    direction: rtl !important;
+    text-align: center !important;
+    vertical-align: middle !important;
+    gap: 6px !important;
+    line-height: 1 !important;
+}
+
+/* Override Bulma's LTR-specific margins on icons inside buttons */
+.workpress-spa .button .icon,
+.workpress-spa .button .icon:first-child,
+.workpress-spa .button .icon:last-child,
+.workpress-spa .button .icon:first-child:not(:last-child),
+.workpress-spa .button .icon:last-child:not(:first-child),
+.workpress-spa .wp-header-btn .icon,
+.workpress-spa .wp-about-nav-btn .icon {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 18px !important;
+    height: 18px !important;
+    flex-shrink: 0 !important;
+    line-height: 1 !important;
+}
+
+.workpress-spa .button .icon .dashicons,
+.workpress-spa .button .dashicons,
+.workpress-spa .wp-header-btn .icon .dashicons,
+.workpress-spa .wp-header-btn .dashicons,
+.workpress-spa .wp-about-nav-btn .icon .dashicons,
+.workpress-spa .wp-about-nav-btn .dashicons {
+    width: 18px !important;
+    height: 18px !important;
+    font-size: 18px !important;
+    line-height: 18px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    vertical-align: middle !important;
+}
+
+.workpress-spa .button span:not(.icon),
+.workpress-spa .wp-header-btn span:not(.icon),
+.workpress-spa .wp-about-nav-btn span:not(.icon) {
+    display: inline-flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 
 /* ==========================================================================

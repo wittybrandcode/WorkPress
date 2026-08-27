@@ -246,16 +246,49 @@
     border-radius: 0 !important;
     font-size: 0.84rem !important;
     font-weight: 700 !important;
-    padding: 0.4rem 0.85rem !important;
+    padding: 0 14px !important;
     height: 34px !important;
     border: 1px solid #e2e8f0 !important;
     background-color: #ffffff !important;
     color: #475569 !important;
     cursor: pointer;
     transition: all 0.15s ease;
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 6px !important;
+    direction: rtl !important;
+    line-height: 1 !important;
+    box-sizing: border-box !important;
+}
+.wp-about-nav-btn .icon {
+    margin: 0 !important;
+    padding: 0 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 1 !important;
+}
+.wp-about-nav-btn .icon .dashicons,
+.wp-about-nav-btn .icon i {
+    font-size: 18px !important;
+    width: 18px !important;
+    height: 18px !important;
+    line-height: 18px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+.wp-about-nav-btn span:not(.icon) {
+    display: inline-flex !important;
+    align-items: center !important;
+    line-height: 1 !important;
+    margin: 0 !important;
+    padding: 0 !important;
 }
 .wp-about-nav-btn:hover {
     background-color: #f8fafc !important;
@@ -266,6 +299,7 @@
     background-color: #008478 !important;
     color: #ffffff !important;
     border-color: #008478 !important;
+    font-weight: 800 !important;
 }
 .wp-about-nav-btn.is-active .icon,
 .wp-about-nav-btn.is-active i {

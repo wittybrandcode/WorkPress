@@ -220,28 +220,22 @@ export default function App() {
 					<!-- أزرار الإجراءات السريعة -->
 					<div className="is-flex is-align-items-center" style=${{ gap: '10px' }}>
 						${ (isAdmin || userCaps.canManageProjects) && html`
-							<button className="button wp-header-btn is-flex is-align-items-center" onClick=${() => setIsProjectModalOpen(true)}>
+							<button className="button wp-header-btn" onClick=${() => setIsProjectModalOpen(true)}>
+								<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
 								<span className="has-text-weight-bold">مشروع</span>
-								<span className="icon is-small" style=${{ marginRight: '6px', display: 'flex', alignItems: 'center' }}>
-									<i className="dashicons dashicons-plus-alt2" style=${{ fontSize: '16px', height: '16px', lineHeight: '16px' }}></i>
-								</span>
 							</button>
 						` }
 						
 						${ (isAdmin || userCaps.canCreateTasks) && html`
-							<button className="button is-primary wp-btn is-flex is-align-items-center" onClick=${ () => setIsTaskModalOpen( true ) }>
+							<button className="button is-primary wp-header-btn" onClick=${ () => setIsTaskModalOpen( true ) }>
+								<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
 								<span className="has-text-weight-bold">مهمة</span>
-								<span className="icon is-small" style=${{ marginRight: '6px', display: 'flex', alignItems: 'center' }}>
-									<i className="dashicons dashicons-plus-alt2" style=${{ fontSize: '16px', height: '16px', lineHeight: '16px' }}></i>
-								</span>
 							</button>
 						` }
 						
-						<button className="button wp-header-btn is-flex is-align-items-center" onClick=${() => setIsContributionModalOpen(true)}>
+						<button className="button wp-header-btn" onClick=${() => setIsContributionModalOpen(true)}>
+							<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
 							<span className="has-text-weight-bold">مساهمة</span>
-							<span className="icon is-small" style=${{ marginRight: '6px', display: 'flex', alignItems: 'center' }}>
-								<i className="dashicons dashicons-plus-alt2" style=${{ fontSize: '16px', height: '16px', lineHeight: '16px' }}></i>
-							</span>
 						</button>
 
 						${ hooks.applyFilters('workpress_header_actions', []).map((Component, i) => html`<${Component} key=${i} />`) }
