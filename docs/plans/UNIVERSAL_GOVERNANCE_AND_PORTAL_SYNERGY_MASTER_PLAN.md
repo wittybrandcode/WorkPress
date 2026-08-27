@@ -3,6 +3,9 @@
 
 ---
 
+> **نوع الوثيقة:** الخطة الهندسية والتنفيذية الشاملة للحوكمة ونظام التفويض الثلاثي  
+> **حالة الخطة:** ✅ **منفذة ومكتملة 100% في الإنتاج (Shipped in Production)**  
+> **الإصدار المنفذ:** WorkPress v2.0.0+  
 > **المرجعية المعمارية العليا:**
 > - [FIRST_PRINCIPLES.md](file:///C:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/docs/core/FIRST_PRINCIPLES.md) (المبادئ الأولى: 4، 6، 7، 8، 9، 10، 13، 14، 17، 19)
 > - [ARCHITECTURE.md](file:///C:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/docs/core/ARCHITECTURE.md) (عقود التفويض، العضوية، والمساهمات)

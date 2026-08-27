@@ -2,7 +2,8 @@
 ## WorkPress Universal Dynamic Request Forms & Domain-Agnostic Intake Architecture (v1.2 Roadmap)
 
 > **نوع الوثيقة:** الخريطة التنفيذية والهندسية الكبرى الشاملة لنظام استقبال وبناء نماذج الطلبات التجريدية  
-> **الإصدار المستهدف:** WorkPress v1.2.0 (Dynamic Intake Milestone)  
+> **حالة الخطة:** ✅ **منفذة ومكتملة 100% في الإنتاج (Shipped in Production)**  
+> **الإصدار المنفذ:** WorkPress v1.2.0+  
 > **الهدف:** بناء محرك استقبال طلبات ومشاريع فائق المرونة والتجريد (Domain-Agnostic Meta-Engine)، يمنح المدير لوحة تحكم لبناء وتخصيص نماذج الطلبات ومسميات الحقول ونوعيتها وفق أي مجال تجاري في العالم، وتوليد واجهة الطلب ديناميكياً في بوابة الزبون، مع تحويل الطلبات إلى مشاريع رسمية معلقة (`CPT_PROJECT`) في ووردبريس تحمل بطاقة مواصفات فنية مهيكلة جاهزة للمراجعة والاعتماد.  
 > **المرجعية العليا:** [FIRST_PRINCIPLES.md](../core/FIRST_PRINCIPLES.md) | [ARCHITECTURE.md](../core/ARCHITECTURE.md) | [PRD.md](../core/PRD.md) | [DYNAMIC_REQUEST_FORMS_NARRATIVE_GUIDE.md](../guides/DYNAMIC_REQUEST_FORMS_NARRATIVE_GUIDE.md)
 

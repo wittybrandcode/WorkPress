@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v2.2.0--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
+  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v2.2.1--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
   <a href="https://wordpress.org/"><img src="https://img.shields.io/badge/WordPress-6.0%20➔%207.x-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress" /></a>
   <a href="https://php.net/"><img src="https://img.shields.io/badge/PHP-8.0%20➔%208.3-777bb4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv2-00192f?style=for-the-badge" alt="License" /></a>
@@ -61,7 +61,7 @@
 2. 🛡️ **Truth-Driven State:** No synthetic statuses or manual checkboxes. Verifiable contributions and evidence are the sole drivers of progress, logged forever in an immutable audit timeline.
 3. ⚡ **Cascading Completion & Knowledge Extraction:** Accepting a solution contribution completes the task, updates project metrics, closes finished milestones, and indexes the solution into a permanent Knowledge Base.
 4. 🏢 **Standalone Portal & 4-Tier Citizenship:** An isolated `Zero CSS Bleed` portal at `/portal/` completely separate from `/wp-admin/`, preventing client access to sensitive internal technical discussions.
-5. 🔒 **Tri-Partite Authorization Formula:** Strict operational security: $\text{CanPerform} = \text{GlobalCap} \land \text{ProjectVisibility} \land \text{ResourceRelationship}$ governed by 8 atomic capability packages.
+5. 🔒 **Tri-Partite Authorization Formula:** Strict operational security: $\text{CanPerform} = \text{GlobalCap} \land \text{ProjectVisibility} \land \text{ResourceRelationship}$ governed by 8 atomic capability packages (34 granular capabilities).
 6. 📡 **Cryptographic Webhooks Pipeline:** Real-time event dispatching signed with `HMAC-SHA256` keys, supporting Discord, Slack, Microsoft Teams, and custom ERP webhooks.
 
 ---
@@ -92,17 +92,16 @@
 
 ---
 
-## 🛡️ 8 Atomic Capability Packages (27 Capabilities)
+## 🛡️ 8 Atomic Capability Packages (34 Capabilities)
 
 ```text
-1. workpress_project_management    ➔ manage_workpress_projects, create_workpress_projects, edit_workpress_projects, delete_workpress_projects, archive_workpress_projects
-2. workpress_task_execution        ➔ create_workpress_tasks, edit_workpress_tasks, assign_workpress_tasks, delete_workpress_tasks, close_workpress_tasks
-3. workpress_contribution_flow     ➔ submit_workpress_contributions, review_workpress_contributions, accept_workpress_contributions, delete_workpress_contributions
-4. workpress_knowledge_governance  ➔ view_workpress_knowledge, publish_workpress_knowledge, export_workpress_knowledge
-5. workpress_client_portal         ➔ access_workpress_portal, submit_workpress_requests, review_workpress_deliverables, signoff_workpress_deliverables
-6. workpress_webhooks_integration  ➔ manage_workpress_webhooks, test_workpress_webhooks
-7. workpress_security_audit        ➔ view_workpress_audit_logs, manage_workpress_trash, purge_workpress_data
-8. workpress_system_configuration  ➔ manage_workpress_settings, manage_workpress_capabilities
+1. Project Management      ➔ read_workpress_projects, create_workpress_projects, edit_workpress_projects, delete_workpress_projects, manage_project_members
+2. Task Execution          ➔ read_workpress_tasks, create_workpress_tasks, edit_assigned_tasks, edit_others_workpress_tasks, change_task_status, assign_tasks, delete_workpress_tasks
+3. Contribution Flow       ➔ read_contributions, add_contributions, edit_contributions, delete_contributions, accept_solutions, revoke_solutions
+4. Requests Management     ➔ submit_work_requests, view_incoming_requests, triage_requests, approve_requests, reject_requests
+5. Knowledge Governance    ➔ read_knowledge_base, generate_executive_reports, export_knowledge_book
+6. System Administration   ➔ access_workpress_admin, manage_workpress_settings, manage_intake_forms, manage_webhooks
+7. Client Portal           ➔ access_workpress_portal, view_own_deliverables, submit_client_feedback, signoff_project_deliverables
 ```
 
 ---
@@ -214,19 +213,18 @@
 
 ---
 
-## 🛡️ مصفوفة الصلاحيات والحزم الذرية الـ 8 (Atomic Capability Packages)
+## 🛡️ مصفوفة الصلاحيات والحزم الذرية (34 Atomic Capabilities)
 
-توفر المنظومة **27 صلاحية ذرية سيادية** مقسمة في 8 حزم مبرمجة، قابلة للتعديل والتخصيص الفوري لكل دور:
+توفر المنظومة **34 صلاحية ذرية سيادية** مجمعة في حزم مبرمجة، قابلة للتعديل والتخصيص الفوري لكل دور ومستخدم:
 
 ```text
-1. workpress_project_management    ➔ manage_workpress_projects, create_workpress_projects, edit_workpress_projects, delete_workpress_projects, archive_workpress_projects
-2. workpress_task_execution        ➔ create_workpress_tasks, edit_workpress_tasks, assign_workpress_tasks, delete_workpress_tasks, close_workpress_tasks
-3. workpress_contribution_flow     ➔ submit_workpress_contributions, review_workpress_contributions, accept_workpress_contributions, delete_workpress_contributions
-4. workpress_knowledge_governance  ➔ view_workpress_knowledge, publish_workpress_knowledge, export_workpress_knowledge
-5. workpress_client_portal         ➔ access_workpress_portal, submit_workpress_requests, review_workpress_deliverables, signoff_workpress_deliverables
-6. workpress_webhooks_integration  ➔ manage_workpress_webhooks, test_workpress_webhooks
-7. workpress_security_audit        ➔ view_workpress_audit_logs, manage_workpress_trash, purge_workpress_data
-8. workpress_system_configuration  ➔ manage_workpress_settings, manage_workpress_capabilities
+1. إدارة المشاريع       ➔ read_workpress_projects, create_workpress_projects, edit_workpress_projects, delete_workpress_projects, manage_project_members
+2. تنفيذ المهام         ➔ read_workpress_tasks, create_workpress_tasks, edit_assigned_tasks, edit_others_workpress_tasks, change_task_status, assign_tasks, delete_workpress_tasks
+3. تدفق المساهمات       ➔ read_contributions, add_contributions, edit_contributions, delete_contributions, accept_solutions, revoke_solutions
+4. وارد واستقبال الطلبات ➔ submit_work_requests, view_incoming_requests, triage_requests, approve_requests, reject_requests
+5. حوكمة وبنك المعرفة   ➔ read_knowledge_base, generate_executive_reports, export_knowledge_book
+6. إدارة وتكوين النظام  ➔ access_workpress_admin, manage_workpress_settings, manage_intake_forms, manage_webhooks
+7. بوابة المستفيدين     ➔ access_workpress_portal, view_own_deliverables, submit_client_feedback, signoff_project_deliverables
 ```
 
 ---

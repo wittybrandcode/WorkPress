@@ -1,8 +1,9 @@
-# الفهرس الشامل والأرشيف التوثيقي لمنظومة WorkPress
-## WorkPress Master Documentation Index & Knowledge Base
+# 📑 الفهرس الشامل والأرشيف التوثيقي لمنظومة WorkPress
+## WorkPress Master Documentation Index & Knowledge Architecture
 
-> **هذا الملف هو الخريطة المرجعية العليا لكافة وثائق، خطط، دراسات، وأدلة منظومة WorkPress.**  
-> تم تنظيم وتطهير التوثيق في **8 مجلدات معمارية متخصصة** تمثل المرجع المؤسسي الكامل للإصدار الإنتاجي المستقر **WorkPress v1.5.0** والابتكارات المستقبلية للإصدارات القادمة (**v1.6 ➔ v2.0+**).
+> **هذا الملف هو الخريطة المرجعية العليا لكافة وثائق، خطط، دراسات، أدلة، وتقارير تدقيق منظومة WorkPress.**  
+> تم تنظيم وتطهير التوثيق في **8 مجلدات معمارية متخصصة** تمثل المرجع المؤسسي الكامل للإصدار المستقر **WorkPress v2.2.1** والآفاق المستقبلية للإصدارات القادمة (**v3.0+**).  
+> **المرجع الحاكم الأعلى:** [FIRST_PRINCIPLES.md](core/FIRST_PRINCIPLES.md) | [دستور وركبرس](../.agents/rules/workpress-constitution.md)
 
 ---
 
@@ -21,21 +22,25 @@ docs/
 │   ├── SYSTEM_MAINTAINABILITY_AND_HARDENING_REPORT.md # خطة منهجة النظام وقابلية الصيانة والتطوير المستدام
 │   └── WEBHOOKS_AND_INTEGRATIONS_ARCHITECTURE.md     # ⚡ المعمارية البرمجية الشاملة لمحرك خطافات الويب والتكامل المؤسسي
 │
-├── 🗺️ plans/                                         # 2. الخطط الهندسية والتنفيذية المباشرة
-│   ├── UNIVERSAL_GOVERNANCE_AND_PORTAL_SYNERGY_MASTER_PLAN.md # 👑 الخطة الكبرى للحوكمة العامة وتأطير المستفيدين والتفويض الثلاثي
-│   ├── CLIENT_PORTAL_MASTER_ROADMAP.md              # 🌟 خريطة طريق وهندسة بوابة ومساحة العميل المستقلة (v1.1)
-│   ├── DYNAMIC_REQUEST_FORMS_MASTER_ROADMAP.md      # 🌟 خريطة طريق منظومة نماذج الطلبات الديناميكية (v1.2)
-│   ├── ENTERPRISE_HARDENING_AND_RESILIENCE_MASTER_PLAN.md # 🛡️ الخطة الكبرى للتحصين والصلابة والأداء الفائق (v1.3)
-│   ├── EXECUTIVE_REPORTING_AND_ANALYTICS_MASTER_PLAN.md   # 📊 الخطة الكبرى للتقارير التنفيذية وكتاب المعرفة (v1.4)
-│   ├── ENTERPRISE_WEBHOOKS_AND_INTEGRATIONS_MASTER_PLAN.md # 🔗 الخطة التنفيذية لخطافات الويب والتكامل الخارجي (v1.5)
-│   └── CLIENT_INTERACTIVE_EXPERIENCE_AND_SYNERGY_MASTER_PLAN.md # 🌟 الخطة الكبرى لتجربة العميل التفاعلية والتكامل الشامل (v1.6)
+├── 🗺️ plans/                                         # 2. الخطط الهندسية والتنفيذية
+│   ├── WORKPRESS_ARCHITECTURAL_AND_LOGIC_REMEDIATION_MASTER_PLAN.md # 🛡️ خطة التحصين والمعالجة المعمارية الشاملة (v2.2.1)
+│   ├── UNIVERSAL_GOVERNANCE_AND_PORTAL_SYNERGY_MASTER_PLAN.md # 👑 خطة الحوكمة العامة وتأطير المستفيدين والتفويض الثلاثي [منفذة]
+│   ├── CLIENT_PORTAL_MASTER_ROADMAP.md              # 🌟 خريطة طريق وهندسة بوابة ومساحة العميل المستقلة [منفذة]
+│   ├── DYNAMIC_REQUEST_FORMS_MASTER_ROADMAP.md      # 🌟 خريطة طريق منظومة نماذج الطلبات واستوديو الفرز [منفذة]
+│   ├── ENTERPRISE_HARDENING_AND_RESILIENCE_MASTER_PLAN.md # 🛡️ خطة التحصين والصلابة والأداء الفائق [منفذة]
+│   ├── EXECUTIVE_REPORTING_AND_ANALYTICS_MASTER_PLAN.md   # 📊 خطة التقارير التنفيذية وكتاب المعرفة والتحليلات [منفذة]
+│   ├── ENTERPRISE_WEBHOOKS_AND_INTEGRATIONS_MASTER_PLAN.md # 🔗 خطة خطافات الويب والتكامل الخارجي [منفذة]
+│   └── CLIENT_INTERACTIVE_EXPERIENCE_AND_SYNERGY_MASTER_PLAN.md # 🌟 خطة تجربة العميل التفاعلية والتكامل الشامل [منفذة]
 │
-├── 🏆 releases/                                     # 3. الإصدارات السابقة ووثائق الاعتماد
-│   ├── V1_FINAL_RELEASE_ROADMAP.md                  # 🗺️ خريطة طريق الإصدار النهائي الشاملة (المكتملة 100%)
+├── 🛡️ audits/                                       # 3. التدقيق المؤسسي والمراجعة المعمارية
+│   ├── WORKPRESS_DEEP_CODE_AND_ARCHITECTURE_AUDIT.md # 🔍 التقرير المعماري والبرمجي المجهري الشامل (13 بنداً مصححاً)
+│   ├── WORKPRESS_ENTERPRISE_ARCHITECTURAL_AUDIT.md  # التقرير المعماري والتدقيق الشامل لجودة ونقاء المنظومة
+│   ├── WORKPRESS_ATOMIC_UI_UX_MASTER_AUDIT.md       # تقرير التدقيق المعماري لتجربة وواجهات المستخدم الذرية
+│   └── WORKPRESS_V2_ATOMIC_STATUS_REPORT.md         # التقرير الشامل لحالة المنظومة والمحركات الذرية v2
+│
+├── 🏆 releases/                                     # 4. الإصدارات السابقة ووثائق الاعتماد
+│   ├── V1_FINAL_RELEASE_ROADMAP.md                  # 🗺️ خريطة طريق الإصدار النهائي الشاملة v1.0
 │   └── WORKPRESS_V1_RELEASE_SIGNOFF.md              # 🏆 وثيقة الإطلاق والاعتماد الرسمي لـ WorkPress v1.0.0
-│
-├── 🛡️ audits/                                       # 4. التدقيق المؤسسي والمراجعة الهندسية
-│   └── WORKPRESS_ENTERPRISE_ARCHITECTURAL_AUDIT.md  # التقرير المعماري والتدقيق الشامل لجودة ونقاء المنظومة
 │
 ├── 📖 guides/                                       # 5. الأدلة التشغيلية والمرئية للمستخدم
 │   ├── WORKPRESS_NARRATIVE_GUIDE.md                 # الدليل السردي الشامل للوحة التحكم الداخلية
@@ -48,21 +53,21 @@ docs/
 ├── 📘 usage-guides/                                 # 6. أدلة الاستخدام والتكامل العملي خطوة بخطوة
 │   └── WEBHOOKS_USAGE_GUIDE.md                      # 🚀 الدليل العملي لربط خطافات الويب مع Make و Discord و Slack والإيميل
 │
-├── 🎨 design-system/                                # 7. نظام التصميم والعلامة التجارية (محتفظ به للمراجعة)
+├── 🎨 design-system/                                # 7. نظام التصميم والعلامة التجارية (0px Sharp Geometry)
 │   ├── BRAND_IDENTITY_GUIDELINES.md                 # دليل الهوية البصرية وشعار العلامة التجارية
-│   ├── 01-TOKENS.md                                 # الرموز التصميمية والمتمعايير اللونية
-│   ├── 02-COMPONENTS.md                             # مكتبة المكونات القياسية
+│   ├── 01-TOKENS.md                                 # الرموز التصميمية والمعايير اللونية
+│   ├── 02-COMPONENTS.md                             # مكتبة المكونات القياسية (35+ مكوناً)
 │   ├── 03-LAYOUTS-AND-VIEWS.md                      # تخطيط الصفحات والمناظير
 │   └── 04-MODERN-SAAS-DECISIONS.md                  # القرارات البصرية المعاصرة
 │
-└── 💡 backlog/                                      # 🌟 8. بنك الأفكار والابتكارات المؤجلة (v1.6 ➔ v2.0+)
+└── 💡 backlog/                                      # 8. بنك الأفكار والابتكارات المستقبلية (v3.0+)
     ├── README.md                                    # فهرس الابتكارات ومصفوفة الأولويات وخريطة الإصدارات
-    ├── 01-CLIENT-AND-VIEWER-PORTAL.md               # ✅ (مكتمل ومنفذ) بوابة ومنظور العميل والمشاهد المستقلة
-    ├── 02-EXECUTIVE-REPORTING-AND-ANALYTICS.md      # ✅ (مكتمل ومنفذ) التقارير التنفيذية المنسقة PDF ولوحة التحليلات
-    ├── 03-ENTERPRISE-WEBHOOKS-AND-INTEGRATIONS.md   # ✅ (مكتمل ومنفذ) خطافات الويب المؤسسية (Slack, Teams, Discord, Zapier)
-    ├── 04-KNOWLEDGE-AI-AND-RAG-ENGINE.md            # 🧠 محرك الذكاء الاصطناعي المؤسسي المبني على المعرفة
-    ├── 05-WORKFLOW-PRODUCTIVITY-TOOLS.md            # 🎯 تتبع الوقت، قوائم الفحص، التفاعلات، ومخطط جانت
-    └── 06-OFFICE-PACKS-ECOSYSTEM.md                 # 📦 حزم القطاعات المتخصصة (محاماة، تسويق، برمجة)
+    ├── 01-CLIENT-AND-VIEWER-PORTAL.md               # ✅ [منفذ في v1.1] بوابة ومنظور العميل والمشاهد المستقلة
+    ├── 02-EXECUTIVE-REPORTING-AND-ANALYTICS.md      # ✅ [منفذ في v1.4] التقارير التنفيذية PDF وكتاب المعرفة والتحليلات
+    ├── 03-ENTERPRISE-WEBHOOKS-AND-INTEGRATIONS.md   # ✅ [منفذ في v1.5] خطافات الويب المؤسسية (Slack, Teams, Discord, Zapier)
+    ├── 05-WORKFLOW-PRODUCTIVITY-TOOLS.md            # ✅ [منفذ في v2.0-v2.2] تتبع الوقت، قوائم الفحص، ومخطط جانت
+    ├── 04-KNOWLEDGE-AI-AND-RAG-ENGINE.md            # 🧠 محرك الذكاء الاصطناعي المؤسسي المبني على المعرفة (الآفاق القادمة)
+    └── 06-OFFICE-PACKS-ECOSYSTEM.md                 # 📦 منظومة حزم القطاعات المتخصصة (الآفاق القادمة)
 ```
 
 ---
@@ -73,63 +78,71 @@ docs/
 * [FIRST_PRINCIPLES.md](core/FIRST_PRINCIPLES.md): الوثيقة الأعلى سلطة في المشروع، تتضمن المبادئ الـ 21 غير القابلة للكسر وقواعد اتخاذ القرار.
 * [PRD.md](core/PRD.md): مواصفات المنتج الأساسية، وحالات الاستخدام، والحدود التشغيلية.
 * [ARCHITECTURE.md](core/ARCHITECTURE.md): الهيكلية التقنية وكيفية ترسيخ نماذج ووردبريس كمصدر وحيد للحقيقة.
+* [GOVERNANCE_AND_CITIZENSHIP_SPECIFICATION.md](core/GOVERNANCE_AND_CITIZENSHIP_SPECIFICATION.md): مواصفة الحوكمة وهرم المواطنة الرباعي ونظام التفويض الثلاثي.
 * [SYSTEM_SYNTHESIS_AND_ONTOLOGY_STUDY.md](core/SYSTEM_SYNTHESIS_AND_ONTOLOGY_STUDY.md): التركيب الأنطولوجي الشامل لكافة مفاهيم العمل والمساهمة والذاكرة.
-* [SYSTEM_MAINTAINABILITY_AND_HARDENING_REPORT.md](core/SYSTEM_MAINTAINABILITY_AND_HARDENING_REPORT.md): وثيقة استراتيجية منهجة النظام وقابلية الصيانة والتطوير المستدام وخارطة طريق التقوية الهندسية.
-* [WEBHOOKS_AND_INTEGRATIONS_ARCHITECTURE.md](core/WEBHOOKS_AND_INTEGRATIONS_ARCHITECTURE.md): ⚡ **التوثيق البرمجي والمعماري لمحرك خطافات الويب والتكامل المؤسسي**.
+* [SYSTEM_MAINTAINABILITY_AND_HARDENING_REPORT.md](core/SYSTEM_MAINTAINABILITY_AND_HARDENING_REPORT.md): وثيقة استراتيجية منهجة النظام وقابلية الصيانة والتطوير المستدام.
+* [WEBHOOKS_AND_INTEGRATIONS_ARCHITECTURE.md](core/WEBHOOKS_AND_INTEGRATIONS_ARCHITECTURE.md): التوثيق البرمجي والمعماري لمحرك خطافات الويب والتكامل المؤسسي.
 
 ---
 
-### 2. 🗺️ الخطط الهندسية والتنفيذية المباشرة (`docs/plans/`)
-* [CLIENT_PORTAL_MASTER_ROADMAP.md](plans/CLIENT_PORTAL_MASTER_ROADMAP.md): 🌟 **الخريطة التنفيذية والهندسية لبوابة ومساحة العميل المستقلة (v1.1)**.
-* [DYNAMIC_REQUEST_FORMS_MASTER_ROADMAP.md](plans/DYNAMIC_REQUEST_FORMS_MASTER_ROADMAP.md): 🌟 **الخريطة التنفيذية لنظام نماذج استقبال الطلبات والمشاريع التجريدية (v1.2)**.
-* [ENTERPRISE_HARDENING_AND_RESILIENCE_MASTER_PLAN.md](plans/ENTERPRISE_HARDENING_AND_RESILIENCE_MASTER_PLAN.md): 🛡️ **الخطة التنفيذية للتحصين المؤسسي، الصلابة، والصقل الشامل (v1.3)**.
-* [EXECUTIVE_REPORTING_AND_ANALYTICS_MASTER_PLAN.md](plans/EXECUTIVE_REPORTING_AND_ANALYTICS_MASTER_PLAN.md): 📊 **الخطة الكبرى للتقارير التنفيذية وكتاب المعرفة والتحليلات (v1.4)**.
-* [ENTERPRISE_WEBHOOKS_AND_INTEGRATIONS_MASTER_PLAN.md](plans/ENTERPRISE_WEBHOOKS_AND_INTEGRATIONS_MASTER_PLAN.md): 🔗 **الخطة التنفيذية لمحرك خطافات الويب والتكاملات الخارجية (v1.5)**.
-* [CLIENT_INTERACTIVE_EXPERIENCE_AND_SYNERGY_MASTER_PLAN.md](plans/CLIENT_INTERACTIVE_EXPERIENCE_AND_SYNERGY_MASTER_PLAN.md): 🌟 **الخطة الكبرى لتجربة العميل التفاعلية والتكامل الشامل (v1.6)**.
+### 2. 🗺️ الخطط الهندسية والتنفيذية (`docs/plans/`)
+* [WORKPRESS_ARCHITECTURAL_AND_LOGIC_REMEDIATION_MASTER_PLAN.md](plans/WORKPRESS_ARCHITECTURAL_AND_LOGIC_REMEDIATION_MASTER_PLAN.md): 🛡️ **خطة التحصين والمعالجة المعمارية الشاملة المنفذة للإصدار v2.2.1**.
+* [UNIVERSAL_GOVERNANCE_AND_PORTAL_SYNERGY_MASTER_PLAN.md](plans/UNIVERSAL_GOVERNANCE_AND_PORTAL_SYNERGY_MASTER_PLAN.md): خطة الحوكمة والتفويض الثلاثي وعزل المساحات.
+* [CLIENT_PORTAL_MASTER_ROADMAP.md](plans/CLIENT_PORTAL_MASTER_ROADMAP.md): خريطة طريق وهندسة بوابة ومساحة العميل المستقلة.
+* [DYNAMIC_REQUEST_FORMS_MASTER_ROADMAP.md](plans/DYNAMIC_REQUEST_FORMS_MASTER_ROADMAP.md): خريطة طريق نظام نماذج استقبال الطلبات واستوديو الفرز.
+* [ENTERPRISE_HARDENING_AND_RESILIENCE_MASTER_PLAN.md](plans/ENTERPRISE_HARDENING_AND_RESILIENCE_MASTER_PLAN.md): خطة التحصين المؤسسي، الصلابة، والأداء الفائق.
+* [EXECUTIVE_REPORTING_AND_ANALYTICS_MASTER_PLAN.md](plans/EXECUTIVE_REPORTING_AND_ANALYTICS_MASTER_PLAN.md): خطة التقارير التنفيذية وكتاب المعرفة والتحليلات.
+* [ENTERPRISE_WEBHOOKS_AND_INTEGRATIONS_MASTER_PLAN.md](plans/ENTERPRISE_WEBHOOKS_AND_INTEGRATIONS_MASTER_PLAN.md): خطة محرك خطافات الويب والتكاملات الخارجية.
+* [CLIENT_INTERACTIVE_EXPERIENCE_AND_SYNERGY_MASTER_PLAN.md](plans/CLIENT_INTERACTIVE_EXPERIENCE_AND_SYNERGY_MASTER_PLAN.md): خطة تجربة العميل التفاعلية والتكامل الشامل.
 
 ---
 
-### 3. 🏆 الإصدارات السابقة والاعتماد الرسمي (`docs/releases/`)
-* [V1_FINAL_RELEASE_ROADMAP.md](releases/V1_FINAL_RELEASE_ROADMAP.md): 🗺️ **الخريطة المرجعية العليا للإصدار النهائي v1.0** — حصر شامل لكافة المراحل الست المنفذة بنسبة 100%.
-* [WORKPRESS_V1_RELEASE_SIGNOFF.md](releases/WORKPRESS_V1_RELEASE_SIGNOFF.md): 🏆 **وثيقة الإطلاق والاعتماد النهائي** — التقرير الختامي وتوقيع جاهزية المنظومة للإنتاج.
+### 3. 🛡️ التدقيق والمراجعة المعمارية (`docs/audits/`)
+* [WORKPRESS_DEEP_CODE_AND_ARCHITECTURE_AUDIT.md](audits/WORKPRESS_DEEP_CODE_AND_ARCHITECTURE_AUDIT.md): 🔍 **تقرير الفحص والتدقيق المعماري المجهري الشامل (13 بنداً معالجاً)**.
+* [WORKPRESS_ENTERPRISE_ARCHITECTURAL_AUDIT.md](audits/WORKPRESS_ENTERPRISE_ARCHITECTURAL_AUDIT.md): التقرير المعماري والتدقيق الشامل لجودة ونقاء المنظومة ومقاييس الأمان.
+* [WORKPRESS_ATOMIC_UI_UX_MASTER_AUDIT.md](audits/WORKPRESS_ATOMIC_UI_UX_MASTER_AUDIT.md): تقرير التدقيق المعماري لتجربة وواجهات المستخدم الذرية وتناسق نظام 0px.
+* [WORKPRESS_V2_ATOMIC_STATUS_REPORT.md](audits/WORKPRESS_V2_ATOMIC_STATUS_REPORT.md): التقرير المرجعي لحالة ومواصفات المحركات الذرية في الإصدار v2.0.
 
 ---
 
-### 4. 🛡️ التدقيق المؤسسي الشامل (`docs/audits/`)
-* [WORKPRESS_ENTERPRISE_ARCHITECTURAL_AUDIT.md](audits/WORKPRESS_ENTERPRISE_ARCHITECTURAL_AUDIT.md): التقرير المعماري والتدقيق الشامل لجودة ونقاء المنظومة ومقاييس الكود والأمان.
+### 4. 🏆 الإصدارات السابقة والاعتماد الرسمي (`docs/releases/`)
+* [V1_FINAL_RELEASE_ROADMAP.md](releases/V1_FINAL_RELEASE_ROADMAP.md): الخريطة المرجعية العليا للإصدار النهائي v1.0.
+* [WORKPRESS_V1_RELEASE_SIGNOFF.md](releases/WORKPRESS_V1_RELEASE_SIGNOFF.md): وثيقة الإطلاق والاعتماد النهائي للإصدار v1.0.0.
 
 ---
 
 ### 5. 📖 الأدلة التشغيلية والمرئية (`docs/guides/`)
-* [WORKPRESS_NARRATIVE_GUIDE.md](guides/WORKPRESS_NARRATIVE_GUIDE.md): الدليل التشغيلي النصي الشامل لكافة شاشات وأزرار وخصائص لوحة التحكم الداخلية.
-* [workpress-visual-guide.html](guides/workpress-visual-guide.html): تطبيق الويب البصري التفاعلي لرحلة العمل والمحطات السبعة في WorkPress.
-* [CLIENT_PORTAL_NARRATIVE_GUIDE.md](guides/CLIENT_PORTAL_NARRATIVE_GUIDE.md): 🌟 **الدليل السردي الشامل لمساحة وبوابة العميل المدمجة**.
-* [client-portal-visual-guide.html](guides/client-portal-visual-guide.html): 🌟 **المحاكي البصري التفاعلي لمساحة العميل داخل الموقع الخارجي**.
-* [DYNAMIC_REQUEST_FORMS_NARRATIVE_GUIDE.md](guides/DYNAMIC_REQUEST_FORMS_NARRATIVE_GUIDE.md): 🌟 **الدليل السردي والمعماري لنظام نماذج الطلبات الديناميكية والتكيفية**.
-* [dynamic-request-forms-visual-guide.html](guides/dynamic-request-forms-visual-guide.html): 🌟 **المحاكي البصري التفاعلي لنماذج استقبال الطلبات واستعراضها للمدير عبر مختلف الأنشطة**.
+* [WORKPRESS_NARRATIVE_GUIDE.md](guides/WORKPRESS_NARRATIVE_GUIDE.md): الدليل التشغيلي النصي الشامل لكافة شاشات لوحة التحكم الداخلية.
+* [workpress-visual-guide.html](guides/workpress-visual-guide.html): تطبيق الويب البصري التفاعلي لرحلة العمل في WorkPress.
+* [CLIENT_PORTAL_NARRATIVE_GUIDE.md](guides/CLIENT_PORTAL_NARRATIVE_GUIDE.md): الدليل السردي الشامل لمساحة وبوابة العميل المستقلة.
+* [client-portal-visual-guide.html](guides/client-portal-visual-guide.html): المحاكي البصري التفاعلي لبوابة العميل.
+* [DYNAMIC_REQUEST_FORMS_NARRATIVE_GUIDE.md](guides/DYNAMIC_REQUEST_FORMS_NARRATIVE_GUIDE.md): الدليل السردي لنظام نماذج استقبال الطلبات الديناميكية.
+* [dynamic-request-forms-visual-guide.html](guides/dynamic-request-forms-visual-guide.html): المحاكي البصري التفاعلي لنماذج استقبال الطلبات واستوديو الفرز.
 
 ---
 
 ### 6. 📘 أدلة الاستخدام والتكامل العملي (`docs/usage-guides/`)
-* [WEBHOOKS_USAGE_GUIDE.md](usage-guides/WEBHOOKS_USAGE_GUIDE.md): 🚀 **الدليل التشغيلي الشامل لربط خطافات الويب مع Make.com و Discord و Slack و Zapier وإعداد إشعارات البريد الإلكتروني المنسقة بالعربية واستكشاف الأخطاء**.
+* [WEBHOOKS_USAGE_GUIDE.md](usage-guides/WEBHOOKS_USAGE_GUIDE.md): الدليل التشغيلي الشامل لربط خطافات الويب مع Make.com و Discord و Slack و Zapier وإعداد إشعارات البريد الإلكتروني.
 
 ---
 
 ### 7. 🎨 نظام التصميم والهوية البصرية (`docs/design-system/`)
-> *ملاحظة: هذه الملفات تم الاحتفاظ بها كمرجع تصميمي وسيتم مراجعتها وتطويرها في جولة لاحقة.*
 * [BRAND_IDENTITY_GUIDELINES.md](design-system/BRAND_IDENTITY_GUIDELINES.md): دليل الهوية البصرية، الشعار، والطباعة.
 * [01-TOKENS.md](design-system/01-TOKENS.md): الرموز التصميمية والمتغيرات اللونية.
-* [02-COMPONENTS.md](design-system/02-COMPONENTS.md): مكتبة المكونات القياسية.
+* [02-COMPONENTS.md](design-system/02-COMPONENTS.md): مكتبة المكونات القياسية ونظام الزوايا الحادة (0px Sharp Geometry).
 * [03-LAYOUTS-AND-VIEWS.md](design-system/03-LAYOUTS-AND-VIEWS.md): تخطيط الصفحات والمناظير.
-* [04-MODERN-SAAS-DECISIONS.md](design-system/04-MODERN-SAAS-DECISIONS.md): القرارات البصرية المعاصرة.
+* [04-MODERN-SAAS-DECISIONS.md](design-system/04-MODERN-SAAS-DECISIONS.md): القرارات البصرية والمعمارية لواجهات الـ SaaS.
 
 ---
 
 ### 8. 💡 بنك الأفكار والابتكارات المستقبلية (`docs/backlog/`)
-* [README.md](backlog/README.md): 🌟 **فهرس الابتكارات وخريطة الإصدارات** (مصفوفة الأولويات والأثر التشغيلي).
-* [01-CLIENT-AND-VIEWER-PORTAL.md](backlog/01-CLIENT-AND-VIEWER-PORTAL.md): ✅ **(مكتمل ومنفذ في الإنتاج v1.1 - v1.3)** المواصفات الهندسية لبوابة ومنظور العميل والمشاهد المستقلة.
-* [02-EXECUTIVE-REPORTING-AND-ANALYTICS.md](backlog/02-EXECUTIVE-REPORTING-AND-ANALYTICS.md): ✅ **(مكتمل ومنفذ في الإنتاج v1.4)** تقارير المشاريع التنفيذية PDF وكتاب المعرفة ولوحة التحليلات.
-* [03-ENTERPRISE-WEBHOOKS-AND-INTEGRATIONS.md](backlog/03-ENTERPRISE-WEBHOOKS-AND-INTEGRATIONS.md): ✅ **(مكتمل ومنفذ في الإنتاج v1.5)** خطافات الويب والأتمتة الخارجية (Slack, Teams, Discord, Zapier).
+* [README.md](backlog/README.md): فهرس الابتكارات ومصفوفة الأولويات وخريطة الإصدارات القادمة (v3.0+).
+* [01-CLIENT-AND-VIEWER-PORTAL.md](backlog/01-CLIENT-AND-VIEWER-PORTAL.md): ✅ [منفذ في الإنتاج] المواصفات الهندسية لبوابة العميل المستقلة.
+* [02-EXECUTIVE-REPORTING-AND-ANALYTICS.md](backlog/02-EXECUTIVE-REPORTING-AND-ANALYTICS.md): ✅ [منفذ في الإنتاج] تقارير المشاريع التنفيذية PDF وكتاب المعرفة والتحليلات.
+* [03-ENTERPRISE-WEBHOOKS-AND-INTEGRATIONS.md](backlog/03-ENTERPRISE-WEBHOOKS-AND-INTEGRATIONS.md): ✅ [منفذ في الإنتاج] خطافات الويب والأتمتة الخارجية.
+* [05-WORKFLOW-PRODUCTIVITY-TOOLS.md](backlog/05-WORKFLOW-PRODUCTIVITY-TOOLS.md): ✅ [منفذ في الإنتاج] أدوات الإنتاجية (تتبع الوقت، قوائم الفحص، ومخطط جانت).
 * [04-KNOWLEDGE-AI-AND-RAG-ENGINE.md](backlog/04-KNOWLEDGE-AI-AND-RAG-ENGINE.md): محرك الذكاء الاصطناعي المؤسسي المبني على المعرفة الحقيقية.
-* [05-WORKFLOW-PRODUCTIVITY-TOOLS.md](backlog/05-WORKFLOW-PRODUCTIVITY-TOOLS.md): أدوات الإنتاجية الميدانية (تتبع الوقت، قوائم الفحص، التفاعلات، ومخطط جانت).
 * [06-OFFICE-PACKS-ECOSYSTEM.md](backlog/06-OFFICE-PACKS-ECOSYSTEM.md): منظومة حزم القطاعات المتخصصة (محاماة، تسويق، برمجة، استشارات).
+
+---
+*تم تنقيح وتحديث هذا الفهرس ليمثل المرجع التوثيقي الرسمي لإصدار WorkPress v2.2.1.*

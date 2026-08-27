@@ -5,6 +5,22 @@
 
 ---
 
+## [2.2.1] — 2026-08-27 (Deep Architectural & Logic Hardening)
+
+### 🛡️ التحصين الأمني والمعماري (Security & Architecture Hardening):
+- **معالجة خطاف الحذف الأمني (`WorkPress_Security_Service`)**: تصحيح إرسال `$term_id` وتأمين إشعارات الحذف النهائي للمشاريع.
+- **مطابقة الصلاحيات الرسمية 100% (`WorkPress_Keys`)**: توحيد ثوابت `CAP_ACCESS_PORTAL` و `CAP_EDIT_ASSIGNED_TASKS` و `CAP_EDIT_OTHERS_TASKS` مع سجل الصلاحيات.
+- **توحيد توقيع خطاف الطلبات (`WorkPress_Hooks`)**: مزامنة معاملات `fire_project_request_submitted` مع مستمعات التنبيهات والـ Webhooks.
+- **تصحيح استخراج بيانات التقارير التنفيذية (`WorkPress_Report_Service`)**: سحب أسماء المكلفين من `$task['assignees']` وقراءة `due_at` بدقة.
+- **دعم رتبة المدير الفني (`WorkPress_Project_Service`)**: إدراج `ROLE_MANAGER` (`manager`) ضمن فحص قيادة المشروع `is_user_lead`.
+- **توحيد مفتاح نوع المساهمة (`WorkPress_Keys`)**: مطابقة `META_CONTRIBUTION_TYPE` مع المعيار `_workpress_contribution_type`.
+- **مبدأ DRY في استوديو الإعدادات (`WorkPress_REST_Settings_Controller`)**: تفويض مخطط النماذج إلى `ProjectService` المركزية وتضمين `sound_transition`.
+- **أمان سلة المهملات وإلغاء التفعيل**: إضافة فحوصات Null Safety في `Trash_Controller` وتهيئة آمنة لكائن `$wp_roles`.
+- **تنقية استعلامات بنك المعرفة (`WorkPress_Knowledge_Service`)**: حظر تسريب المساهمات قيد طلب الحذف أو غير المعتمدة.
+- **تأمين وعود الواجهة الأمامية**: تغليف طلبات النسخ للذاكرة والـ API بكتل `.catch()` واستعادة حالات التحميل بأمان.
+
+---
+
 ## [2.2.0] — 2026-08-26 (Stable Release — Production Ready)
 
 ### 🌟 الإضافات والميزات الجديدة (Added):
