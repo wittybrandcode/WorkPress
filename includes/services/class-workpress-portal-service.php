@@ -1225,6 +1225,15 @@ class WorkPress_Portal_Service {
 		$js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $js_path ) ? filemtime( $js_path ) : '1.2.0' );
 		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm' ), $js_ver, true );
 
+		add_filter( 'script_loader_tag', function( $tag, $handle, $src ) {
+			if ( 'workpress-portal-js' === $handle ) {
+				if ( false === strpos( $tag, 'type="module"' ) ) {
+					$tag = preg_replace( '/<script\b([^>]*\bsrc=[\'"][^\'"]*[\'"][^>]*)>/i', '<script type="module"$1>', $tag );
+				}
+			}
+			return $tag;
+		}, 10, 3 );
+
 		$custom_logo_id = get_theme_mod( 'custom_logo' );
 		$logo_url       = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : '';
 		$current_user   = wp_get_current_user();
