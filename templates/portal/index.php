@@ -159,6 +159,7 @@ $portal_config = array(
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-core.js?v=' . $portal_js_ver ); ?>"></script>
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-gateway.js?v=' . $portal_js_ver ); ?>"></script>
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-radar.js?v=' . $portal_js_ver ); ?>"></script>
+    <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-modals.js?v=' . $portal_js_ver ); ?>"></script>
 
     <!-- WorkPress Portal SPA Application -->
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-app.js?v=' . $portal_js_ver ); ?>"></script>
