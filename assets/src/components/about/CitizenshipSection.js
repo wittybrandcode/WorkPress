@@ -34,7 +34,7 @@ export default function CitizenshipSection() {
 					<div className="wp-card p-4 h-100" style=${{ borderTop: '3px solid #d97706' }}>
 						<span className="tag is-warning is-light mb-2">الطبقة 4: المستفيد الخارجي</span>
 						<h4 className="title is-6 mb-1 has-text-weight-bold">العميل (WorkPress Client)</h4>
-						<p className="is-size-7 has-text-grey">فضاء البوابة المستقلة فقط `/portal/`، تقديم الطلبات، مراجعة المخرجات، والتوقيع الرقمي.</p>
+						<p className="is-size-7 has-text-grey">فضاء البوابة المستقلة فقط <code>/portal/</code>، تقديم الطلبات، مراجعة المخرجات، والتوقيع الرقمي.</p>
 					</div>
 				</div>
 			</div>

@@ -5,7 +5,7 @@
  * @subpackage CSS
  */
 
-@import url('../../css/cairo.css');
+@import url('../../../css/cairo.css');
 
 :root {
     /* النظام اللوني الأساسي */
