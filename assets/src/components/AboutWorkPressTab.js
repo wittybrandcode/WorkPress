@@ -55,7 +55,7 @@ export default function AboutWorkPressTab() {
 						color: '#047857',
 						border: '1px solid #a7f3d0'
 					}}>
-						WorkPress v2.2.0 — Stable Release
+						WorkPress v2.2.1 — Stable Release
 					</span>
 					<span className="tag is-dark has-text-weight-bold" style=${{ 
 						borderRadius: 0, 
@@ -130,7 +130,7 @@ export default function AboutWorkPressTab() {
 					<!-- 6 Core Architectural Pillars (الركائز الهندسية الست للمنظومة) -->
 					<h3 className="title is-5 mb-3 has-text-weight-bold has-text-dark is-flex is-align-items-center">
 						<span className="icon ml-2" style=${{ marginLeft: '8px' }}><i className="dashicons dashicons-grid-view has-text-success"></i></span>
-						<span>الركائز الهندسية الست لمنظومة WorkPress v2.2.0</span>
+						<span>الركائز الهندسية الست لمنظومة WorkPress v2.2.1</span>
 					</h3>
 
 					<div className="columns is-multiline">
@@ -911,7 +911,7 @@ export default function AboutWorkPressTab() {
 					<span>منظومة إدارة وتوثيق العمل والذاكرة المؤسسية الأصلية في ووردبريس</span>
 				</div>
 				<div>
-					<strong className="has-text-dark">WorkPress Engine v2.2.0 Stable — Production Certified</strong>
+					<strong className="has-text-dark">WorkPress Engine v2.2.1 Stable — Production Certified</strong>
 				</div>
 			</div>
 
