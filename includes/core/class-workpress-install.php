@@ -360,11 +360,18 @@ class WorkPress_Install {
 		$all_new_caps = WorkPress_Capabilities_Registry::get_all_capability_keys();
 		$caps_to_remove = array_merge($old_custom_caps, $all_new_caps);
 		
-		foreach ( wp_roles()->roles as $role_name => $role_info ) {
-			$role = get_role( $role_name );
-			if ( $role ) {
-				foreach ( $caps_to_remove as $cap ) {
-					$role->remove_cap( $cap );
+		global $wp_roles;
+		if ( ! isset( $wp_roles ) ) {
+			$wp_roles = new WP_Roles();
+		}
+		
+		if ( ! empty( $wp_roles->roles ) && is_array( $wp_roles->roles ) ) {
+			foreach ( $wp_roles->roles as $role_name => $role_info ) {
+				$role = get_role( $role_name );
+				if ( $role ) {
+					foreach ( $caps_to_remove as $cap ) {
+						$role->remove_cap( $cap );
+					}
 				}
 			}
 		}

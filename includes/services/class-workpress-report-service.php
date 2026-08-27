@@ -71,9 +71,9 @@ class WorkPress_Report_Service {
 				'title'       => $task['title'],
 				'status'      => $status,
 				'priority'    => $priority,
-				'assignee'    => ! empty( $task['assignee'] ) ? $task['assignee']['display_name'] : __( 'غير مسند', 'workpress' ),
+				'assignee'    => ! empty( $task['assignees'] ) && is_array( $task['assignees'] ) ? implode( '، ', array_filter( wp_list_pluck( $task['assignees'], 'display_name' ) ) ) : __( 'غير مسند', 'workpress' ),
 				'created_at'  => $task['created_at'],
-				'due_date'    => ! empty( $task['due_date'] ) ? $task['due_date'] : null,
+				'due_date'    => ! empty( $task['due_at'] ) ? $task['due_at'] : null,
 			);
 		}
 

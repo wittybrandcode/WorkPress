@@ -418,7 +418,7 @@ class WorkPress_Project_Service {
 		}
 
 		$member_role = get_term_meta( $project_id, '_workpress_member_' . $user_id, true );
-		return 'lead' === $member_role;
+		return in_array( $member_role, array( 'manager', 'lead', WorkPress_Membership_Service::ROLE_MANAGER ), true );
 	}
 
 	/**

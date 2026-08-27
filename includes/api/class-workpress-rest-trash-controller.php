@@ -119,7 +119,7 @@ class WorkPress_REST_Trash_Controller extends WP_REST_Controller {
 		if ( ! empty( $admins ) ) {
 			WorkPress_Notification_Service::notify_many( $admins, array(
 				'type'       => 'deletion_requested',
-				'task_id'    => $entity_type === 'task' ? $entity_id : ($entity_type === 'contribution' ? $comment->comment_post_ID : 0),
+				'task_id'    => $entity_type === 'task' ? $entity_id : ( ( $entity_type === 'contribution' && ! empty( $comment ) ) ? (int) $comment->comment_post_ID : 0 ),
 				'project_id' => $project_id,
 				'actor_id'   => $user_id,
 				// We pass reason indirectly, or API will reconstruct it. 

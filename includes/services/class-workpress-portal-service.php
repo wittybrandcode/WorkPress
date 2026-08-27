@@ -1185,9 +1185,13 @@ class WorkPress_Portal_Service {
 			}
 			$cover_url = $cover_id ? wp_get_attachment_image_url( $cover_id, 'large' ) : '';
 
+			$prj_prefix = get_term_meta( $project_id, '_workpress_prefix', true ) ?: 'PRJ';
+			$task_ref   = $task_post ? ( get_post_meta( $task_post->ID, '_workpress_ref_key', true ) ?: $prj_prefix . '-' . $task_post->ID ) : '';
+
 			$deliverables[] = array(
 				'id'            => (int) $comment->comment_ID,
 				'task_id'       => (int) $comment->comment_post_ID,
+				'task_ref'      => $task_ref,
 				'task_title'    => $task_post ? $task_post->post_title : '',
 				'content'       => $comment->comment_content,
 				'accepted_at'   => $comment->comment_date,

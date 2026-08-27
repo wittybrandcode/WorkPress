@@ -643,10 +643,10 @@ class WorkPress_Task_Service {
 		$author_user = get_userdata( $post->post_author );
 		$author_name = $author_user ? $author_user->display_name : '';
 
-		$status   = get_post_meta( $post->ID, '_workpress_status', true ) ?: ( get_post_meta( $post->ID, '_status', true ) ?: 'open' );
+		$status   = get_post_meta( $post->ID, '_workpress_status', true ) ?: 'open';
 		$status   = self::normalize_status( $status );
 
-		$priority = get_post_meta( $post->ID, '_workpress_priority', true ) ?: ( get_post_meta( $post->ID, '_priority', true ) ?: 'medium' );
+		$priority = get_post_meta( $post->ID, '_workpress_priority', true ) ?: 'medium';
 		
 		$cover_id  = (int) get_post_meta( $post->ID, '_workpress_cover_id', true );
 		$cover_url = $cover_id ? wp_get_attachment_image_url( $cover_id, 'large' ) : '';

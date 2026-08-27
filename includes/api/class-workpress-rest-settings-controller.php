@@ -11,6 +11,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 
+	protected $namespace;
+	protected $rest_base;
+
 	public function __construct() {
 		$this->namespace = 'workpress/v1';
 		$this->rest_base = 'settings';
@@ -55,64 +58,18 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 			'sound_notification' => get_option( 'workpress_sound_notification', 'notification' ),
 			'sound_celebration'  => get_option( 'workpress_sound_celebration', 'celebration' ),
 			'sound_button'       => get_option( 'workpress_sound_button', 'button' ),
-			'sound_caution'       => get_option( 'workpress_sound_caution', 'caution' ),
+			'sound_transition'   => get_option( 'workpress_sound_transition', 'transition_up' ),
+			'sound_caution'      => get_option( 'workpress_sound_caution', 'caution' ),
 			'sound_events_config' => get_option( 'workpress_sound_events_config', array() ),
 			'intake_forms_schema' => get_option( 'workpress_intake_forms_schema', WorkPress_Project_Service::get_default_intake_forms_schema() ),
 		) );
 	}
 
 	public static function get_default_intake_forms_schema() {
-		return array(
-			array(
-				'id'                => 'standard_request',
-				'name'              => 'نموذج طلب خدمة / عمل قياسي',
-				'title_label'       => 'عنوان الطلب / اسم المشروع:',
-				'title_placeholder' => 'اكتب اسم أو عنوان طلبك...',
-				'title_suggestions' => array(
-					'تنفيذ مشروع وخدمة جديدة متكاملة',
-					'طلب تعديل وتطوير على أعمال سابقة',
-					'استشارة فنية ودراسة متطلبات متخصصة',
-					'مهمة دورية وإشراف تنفيذي',
-				),
-				'desc_label'        => 'بيان وشرح تفاصيل الطلب:',
-				'desc_placeholder'  => 'وضح بالتفصيل ما تريده من فريق العمل، المخرجات المستهدفة، وأي متطلبات خاصة...',
-				'specs'             => array(
-					array(
-						'id'          => 'service_tier',
-						'type'        => 'select_custom',
-						'label'       => 'تصنيف أو نوع الخدمة المطلوبة:',
-						'options'     => array( 'خدمة أساسية قياسية', 'خدمة متقدمة شاملة', 'حزمة مخصصة بحسب الاتفاق' ),
-						'required'    => true,
-					),
-					array(
-						'id'          => 'deliverables_options',
-						'type'        => 'pills',
-						'label'       => 'الخيارات والمواصفات المحددة:',
-						'options'     => array( 'تسليم سريع ومستعجل', 'توثيق وتدريب مفصل', 'مراجعة واعتماد رسمي', 'دعم ومتابعة مستمرة' ),
-						'required'    => false,
-					),
-					array(
-						'id'          => 'budget_est',
-						'type'        => 'numeric',
-						'label'       => 'الميزانية أو الكمية التقديرية (اختياري):',
-						'placeholder' => 'مثال: 5,000',
-						'required'    => false,
-					),
-					array(
-						'id'          => 'target_date',
-						'type'        => 'date',
-						'label'       => 'تاريخ الإنجاز المطلوب (Target Deadline):',
-						'required'    => false,
-					),
-					array(
-						'id'          => 'attachments',
-						'type'        => 'upload',
-						'label'       => 'ملفات ومستندات مرجعية داعمة للطلب:',
-						'required'    => false,
-					),
-				),
-			),
-		);
+		if ( class_exists( 'WorkPress_Project_Service' ) ) {
+			return WorkPress_Project_Service::get_default_intake_forms_schema();
+		}
+		return array();
 	}
 
 	public function update_settings( $request ) {

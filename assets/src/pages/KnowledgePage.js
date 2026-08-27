@@ -45,6 +45,8 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 		const url = `${window.location.origin}${window.location.pathname}#/tasks/${item.task_id}`;
 		navigator.clipboard.writeText( url ).then( () => {
 			toast( 'تم نسخ رابط الحل المعرفي بنجاح!', 'success' );
+		} ).catch( () => {
+			toast( 'تعذر نسخ الرابط إلى الحافظة', 'danger' );
 		} );
 	};
 

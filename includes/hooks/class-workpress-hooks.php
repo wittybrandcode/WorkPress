@@ -154,12 +154,12 @@ class WorkPress_Hooks {
 	/**
 	 * Fire when a project request is submitted by a client.
 	 *
-	 * @param int    $project_id Term ID.
-	 * @param string $form_id Form template key.
-	 * @param int    $client_user_id Client User ID.
+	 * @param int   $project_id     Term ID.
+	 * @param int   $client_user_id Client User ID.
+	 * @param array $specs          Request specifications payload.
 	 */
-	public static function fire_project_request_submitted( $project_id, $form_id, $client_user_id ) {
-		do_action( 'workpress_project_request_submitted', $project_id, $form_id, $client_user_id );
+	public static function fire_project_request_submitted( $project_id, $client_user_id, $specs = array() ) {
+		do_action( 'workpress_project_request_submitted', $project_id, $client_user_id, $specs );
 	}
 
 	/**

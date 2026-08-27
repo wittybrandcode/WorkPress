@@ -88,7 +88,7 @@ class WorkPress_Security_Service {
 		if ( ! empty( $users_to_notify ) ) {
 			WorkPress_Notification_Service::notify_many( $users_to_notify, array(
 				'type'       => 'project_permanently_deleted',
-				'project_id' => $term->term_id,
+				'project_id' => (int) $term_id,
 				'actor_id'   => get_current_user_id(),
 			) );
 		}

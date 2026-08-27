@@ -83,8 +83,6 @@ class WorkPress_Hibernation_Service {
 		}
 
 		$frozen_count = 0;
-		$user         = get_userdata( $user_id );
-		$user_name    = $user ? $user->display_name : '#' . $user_id;
 
 		foreach ( $terms as $term ) {
 			$current_status = get_term_meta( $term->term_id, '_workpress_status', true ) ?: 'active';
@@ -147,8 +145,6 @@ class WorkPress_Hibernation_Service {
 		}
 
 		$unfrozen_count = 0;
-		$user           = get_userdata( $user_id );
-		$user_name      = $user ? $user->display_name : '#' . $user_id;
 
 		foreach ( $terms as $term ) {
 			$pre_status = get_term_meta( $term->term_id, '_workpress_pre_freeze_status', true ) ?: 'active';

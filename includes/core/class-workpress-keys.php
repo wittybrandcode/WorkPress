@@ -79,7 +79,7 @@ final class WorkPress_Keys {
 	// =========================================================================
 	// 5. Meta Keys — Contribution / Comment
 	// =========================================================================
-	const META_CONTRIBUTION_TYPE    = '_workpress_type';
+	const META_CONTRIBUTION_TYPE    = '_workpress_contribution_type';
 	const META_CONTRIBUTION_PAYLOAD = '_workpress_payload';
 	const META_IS_ACCEPTED          = '_workpress_is_accepted';
 	const META_ACCEPTED_AT          = '_workpress_accepted_at';
@@ -160,13 +160,15 @@ final class WorkPress_Keys {
 	// =========================================================================
 	// 13. System Capabilities
 	// =========================================================================
-	const CAP_MANAGE_WORKPRESS        = 'manage_workpress';
+	const CAP_MANAGE_WORKPRESS        = 'manage_workpress_settings';
 	const CAP_CREATE_PROJECTS         = 'create_workpress_projects';
 	const CAP_EDIT_PROJECTS           = 'edit_workpress_projects';
 	const CAP_DELETE_PROJECTS         = 'delete_workpress_projects';
 	const CAP_MANAGE_PROJECT_MEMBERS  = 'manage_project_members';
 	const CAP_CREATE_TASKS            = 'create_workpress_tasks';
-	const CAP_EDIT_TASKS              = 'edit_workpress_tasks';
+	const CAP_EDIT_ASSIGNED_TASKS     = 'edit_assigned_tasks';
+	const CAP_EDIT_OTHERS_TASKS       = 'edit_others_workpress_tasks';
+	const CAP_EDIT_TASKS              = 'edit_assigned_tasks';
 	const CAP_DELETE_TASKS            = 'delete_workpress_tasks';
 	const CAP_ASSIGN_TASKS            = 'assign_tasks';
 	const CAP_CREATE_CONTRIBUTIONS    = 'add_contributions';
@@ -176,7 +178,8 @@ final class WorkPress_Keys {
 	const CAP_REVOKE_SOLUTIONS        = 'revoke_solutions';
 	const CAP_VIEW_KNOWLEDGE          = 'read_knowledge_base';
 	const CAP_MANAGE_SETTINGS         = 'manage_workpress_settings';
-	const CAP_ACCESS_PORTAL           = 'access_workpress_client_portal';
+	const CAP_ACCESS_PORTAL           = 'access_workpress_portal';
+	const CAP_ACCESS_CLIENT_PORTAL    = 'access_workpress_portal';
 	const ROLE_CLIENT                 = 'workpress_client';
 
 	/**

@@ -48,15 +48,29 @@ class WorkPress_Knowledge_Service {
 		$comment_args = array(
 			'post__in'   => $task_ids,
 			'post_type'  => WorkPress_Install::CPT_WORK_ITEM,
-			'status'     => 'all',
+			'status'     => 'approve',
+			'type'       => 'wp_contribution',
 			'orderby'    => 'comment_date',
 			'order'      => 'DESC',
 			'number'     => (int) $per_page,
 			'offset'     => ( (int) $page - 1 ) * (int) $per_page,
 			'meta_query' => array(
+				'relation' => 'AND',
 				array(
 					'key'   => '_workpress_is_accepted',
 					'value' => '1',
+				),
+				array(
+					'relation' => 'OR',
+					array(
+						'key'     => '_workpress_is_pending_trash',
+						'value'   => '1',
+						'compare' => '!=',
+					),
+					array(
+						'key'     => '_workpress_is_pending_trash',
+						'compare' => 'NOT EXISTS',
+					),
 				),
 			),
 		);

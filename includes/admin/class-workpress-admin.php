@@ -172,7 +172,7 @@ class WorkPress_Admin {
 			'userAvatar'         => get_avatar_url( $current_user->ID, array( 'size' => 64 ) ),
 			'isAdmin'            => $is_admin,
 			'pluginUrl'          => WORKPRESS_URL,
-			'version'            => '1.0',
+			'version'            => WORKPRESS_VERSION,
 			'logoUrl'            => WORKPRESS_URL . 'assets/src/brand/workpress-logo.svg',
 		);
 	}
