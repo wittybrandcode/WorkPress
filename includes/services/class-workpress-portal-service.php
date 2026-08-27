@@ -1219,6 +1219,7 @@ class WorkPress_Portal_Service {
 		wp_enqueue_style( 'workpress-portal-css', WORKPRESS_URL . 'assets/css/portal.css', array( 'dashicons' ), $css_ver );
 
 		wp_enqueue_script( 'preact', 'https://unpkg.com/preact@10.19.3/dist/preact.umd.js', array(), '10.19.3', true );
+		wp_enqueue_script( 'preact-hooks', 'https://unpkg.com/preact@10.19.3/hooks/dist/hooks.umd.js', array( 'preact' ), '10.19.3', true );
 		wp_enqueue_script( 'htm', 'https://unpkg.com/htm@3.1.1/dist/htm.umd.js', array( 'preact' ), '3.1.1', true );
 
 		$js_path = WORKPRESS_PATH . 'assets/src/portal/portal-app.js';

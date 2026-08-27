@@ -152,6 +152,7 @@ $portal_config = array(
 
     <!-- Preact & HTM Zero-Build Engine -->
     <script src="https://unpkg.com/preact@10.19.3/dist/preact.umd.js"></script>
+    <script src="https://unpkg.com/preact@10.19.3/hooks/dist/hooks.umd.js"></script>
     <script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
 
     <!-- WorkPress Portal SPA Application -->
