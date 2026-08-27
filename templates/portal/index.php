@@ -155,8 +155,9 @@ $portal_config = array(
     <script src="https://unpkg.com/preact@10.19.3/hooks/dist/hooks.umd.js"></script>
     <script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
 
-    <!-- WorkPress Portal Core (API, Sound, Brand) -->
+    <!-- WorkPress Portal Core & Modules -->
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-core.js?v=' . $portal_js_ver ); ?>"></script>
+    <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-gateway.js?v=' . $portal_js_ver ); ?>"></script>
 
     <!-- WorkPress Portal SPA Application -->
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-app.js?v=' . $portal_js_ver ); ?>"></script>
