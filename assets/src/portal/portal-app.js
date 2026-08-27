@@ -1,17 +1,14 @@
 /**
- * WorkPress Client Portal SPA Application (Modern SaaS Design System)
+ * WorkPress Client Portal SPA Application (Modern SaaS Controller)
  *
- * Implements WorkPress Official Brand Identity:
- * - Two-tier institutional header with official vector SVG WorkPressLogo
- * - Native WordPress Dashicons integration (Zero Unicode Emojis)
- * - Strict sharp edges (0px border-radius across all elements)
- * - Modern SaaS Clean Card and Grid layout with Cairo & Plus Jakarta Sans typography
- * - High-clarity Deliverables Vault, Milestones Roadmap, Request Studio & Executive Radar
- * - Zero-build Preact + HTM Single Page Application
+ * Implements WorkPress Official Brand Architecture:
+ * - Lean State Controller & Reactive Router (Preact + HTM)
+ * - Zero-build modular presentation layer
+ * - 100% semantic BEM CSS classes with strict sharp edges (0px radius)
  *
  * @package WorkPress
  * @subpackage Assets/JS
- * @version 2.2.1
+ * @version 2.2.2
  */
 
 (function() {
@@ -115,27 +112,37 @@
             };
         }
 
-        async openProjectReport(projectId) {
-            if (!projectId) return;
-            playPortalSound('button');
-            this.setState({ reportLoading: true, reportModalOpen: true });
-            try {
-                const res = await apiFetch(`projects/${projectId}/report`);
-                if (res.success && res.data) {
-                    this.setState({ reportModalData: res.data, reportLoading: false });
-                    playPortalSound('celebration');
-                } else {
-                    throw new Error(res.message || 'تعذر جلب التقرير التنفيذي');
+        componentDidMount() {
+            if (this.state.isLoggedIn) {
+                if (this.state.inGatewayTransition || config.canAccessPortal === false || this.state.executiveType === 'subscriber') {
+                    this.setState({ loading: false });
+                    this.startGatewayCountdown();
+                    return;
                 }
-            } catch (err) {
-                console.error(err);
-                this.setState({ reportLoading: false, reportModalOpen: false });
-                alert(err.message || 'حدث خطأ أثناء تحميل التقرير');
+
+                if (this.state.executiveType !== 'client' && this.state.executiveType !== 'subscriber') {
+                    this.fetchRadarIntelligence();
+                }
+                this.fetchProjects();
+                this.fetchIntakeForms();
+                this.fetchPulseAndNotifications();
+                
+                this.pulseTimer = setInterval(() => {
+                    this.fetchPulseAndNotifications();
+                }, 6000);
+
+                document.addEventListener('visibilitychange', this.handleVisibilityChange);
+                window.addEventListener('hashchange', this.handleHashChange);
+            } else {
+                this.setState({ loading: false });
             }
         }
 
-        closeProjectReport() {
-            this.setState({ reportModalOpen: false, reportModalData: null });
+        componentWillUnmount() {
+            if (this.pulseTimer) clearInterval(this.pulseTimer);
+            if (this.gatewayTimer) clearInterval(this.gatewayTimer);
+            document.removeEventListener('visibilitychange', this.handleVisibilityChange);
+            window.removeEventListener('hashchange', this.handleHashChange);
         }
 
         startGatewayCountdown() {
@@ -176,43 +183,6 @@
             }, 1000);
         }
 
-        componentDidMount() {
-            if (this.state.isLoggedIn) {
-                // If in gateway transition or standard subscriber, start auto-redirect timer with audio tick
-                if (this.state.inGatewayTransition || config.canAccessPortal === false || this.state.executiveType === 'subscriber') {
-                    this.setState({ loading: false });
-                    this.startGatewayCountdown();
-                    return;
-                }
-
-                if (this.state.executiveType !== 'client' && this.state.executiveType !== 'subscriber') {
-                    this.fetchRadarIntelligence();
-                }
-                this.fetchProjects();
-                this.fetchIntakeForms();
-                this.fetchPulseAndNotifications();
-                
-                // Live Pulse Polling every 6 seconds
-                this.pulseTimer = setInterval(() => {
-                    this.fetchPulseAndNotifications();
-                }, 6000);
-
-                // Session Keep-Alive & Routing Listeners
-                document.addEventListener('visibilitychange', this.handleVisibilityChange);
-                window.addEventListener('hashchange', this.handleHashChange);
-            } else {
-                this.setState({ loading: false });
-            }
-        }
-
-        componentWillUnmount() {
-            if (this.pulseTimer) clearInterval(this.pulseTimer);
-            if (this.gatewayTimer) clearInterval(this.gatewayTimer);
-            if (this.subscriberTimer) clearInterval(this.subscriberTimer);
-            document.removeEventListener('visibilitychange', this.handleVisibilityChange);
-            window.removeEventListener('hashchange', this.handleHashChange);
-        }
-
         async fetchPulseAndNotifications() {
             if (!this.state.isLoggedIn) return;
             try {
@@ -245,9 +215,7 @@
                         prevUnreadCount: newUnread
                     });
                 }
-            } catch (err) {
-                // Fail silently
-            }
+            } catch (err) {}
         }
 
         async markNotificationAsRead(notificationId) {
@@ -257,9 +225,7 @@
                     notifications: prevState.notifications.map(n => n.id === notificationId ? { ...n, is_read: 1 } : n),
                     unreadNotificationsCount: Math.max(0, prevState.unreadNotificationsCount - 1)
                 }));
-            } catch (err) {
-                // Fail silently
-            }
+            } catch (err) {}
         }
 
         async markAllNotificationsAsRead() {
@@ -270,9 +236,7 @@
                     unreadNotificationsCount: 0
                 }));
                 playPortalSound('button');
-            } catch (err) {
-                // Fail silently
-            }
+            } catch (err) {}
         }
 
         async fetchRadarIntelligence() {
@@ -283,7 +247,6 @@
                     this.setState({ radarData: res.data, radarLoading: false });
                 }
             } catch (err) {
-                console.error('Radar Intelligence error:', err);
                 this.setState({ radarLoading: false });
             }
         }
@@ -332,9 +295,7 @@
                         selectedFormId: active.id
                     });
                 }
-            } catch (err) {
-                console.error('Fetch intake forms error:', err);
-            }
+            } catch (err) {}
         }
 
         handleFormTypeChange(formId) {
@@ -350,10 +311,7 @@
 
         handleSpecChange(key, value) {
             this.setState(prevState => ({
-                reqSpecs: {
-                    ...prevState.reqSpecs,
-                    [key]: value
-                }
+                reqSpecs: { ...prevState.reqSpecs, [key]: value }
             }));
         }
 
@@ -367,10 +325,7 @@
                     current.push(pillValue);
                 }
                 return {
-                    reqSpecs: {
-                        ...prevState.reqSpecs,
-                        [key]: current
-                    }
+                    reqSpecs: { ...prevState.reqSpecs, [key]: current }
                 };
             });
             playPortalSound('button');
@@ -383,10 +338,7 @@
             const blockedExtensions = ['php', 'phtml', 'exe', 'sh', 'bat', 'cmd', 'js', 'py', 'cgi', 'pl', 'asp', 'aspx'];
 
             this.setState(prevState => ({
-                uploadingSpecs: {
-                    ...prevState.uploadingSpecs,
-                    [specKey]: true
-                }
+                uploadingSpecs: { ...prevState.uploadingSpecs, [specKey]: true }
             }));
 
             try {
@@ -402,9 +354,7 @@
 
                     const res = await fetch(`${config.apiUrl}/upload-file`, {
                         method: 'POST',
-                        headers: {
-                            'X-WP-Nonce': config.restNonce || ''
-                        },
+                        headers: { 'X-WP-Nonce': config.restNonce || '' },
                         body: formData
                     });
 
@@ -419,10 +369,7 @@
                                 size: json.size || ''
                             });
                             return {
-                                reqSpecs: {
-                                    ...prevState.reqSpecs,
-                                    [specKey]: currentFiles
-                                }
+                                reqSpecs: { ...prevState.reqSpecs, [specKey]: currentFiles }
                             };
                         });
                         playPortalSound('button');
@@ -431,14 +378,10 @@
                     }
                 }
             } catch (uploadErr) {
-                console.error('File upload error:', uploadErr);
                 alert(uploadErr.message || 'تعذر رفع الملف، يرجى المحاولة ثانية.');
             } finally {
                 this.setState(prevState => ({
-                    uploadingSpecs: {
-                        ...prevState.uploadingSpecs,
-                        [specKey]: false
-                    }
+                    uploadingSpecs: { ...prevState.uploadingSpecs, [specKey]: false }
                 }));
             }
         }
@@ -448,10 +391,7 @@
                 const currentFiles = Array.isArray(prevState.reqSpecs[specKey]) ? [...prevState.reqSpecs[specKey]] : [];
                 currentFiles.splice(fileIdx, 1);
                 return {
-                    reqSpecs: {
-                        ...prevState.reqSpecs,
-                        [specKey]: currentFiles
-                    }
+                    reqSpecs: { ...prevState.reqSpecs, [specKey]: currentFiles }
                 };
             });
             playPortalSound('button');
@@ -464,9 +404,7 @@
                     if (res && res.nonce) {
                         config.restNonce = res.nonce;
                     }
-                } catch (e) {
-                    // Fail silently
-                }
+                } catch (e) {}
             }
         };
 
@@ -484,7 +422,6 @@
                     this.setState({ loading: false });
                 }
             } catch (err) {
-                console.error('Fetch projects error:', err);
                 this.setState({ loading: false });
             }
         }
@@ -506,7 +443,6 @@
                     feedbackTask: milestones.length > 0 ? milestones[0].id : ''
                 });
             } catch (err) {
-                console.error('Load project details error:', err);
             } finally {
                 this.setState({ loading: false });
             }
@@ -537,7 +473,6 @@
 
                     playPortalSound('celebration');
 
-                    // Show Universal Smart Gateway for all users upon authenticating
                     this.setState({
                         isLoggedIn: true,
                         user: res.user,
@@ -579,7 +514,6 @@
                     feedbackError: ''
                 });
 
-                // Auto clear banner
                 setTimeout(() => {
                     this.setState({ feedbackSuccess: '' });
                 }, 5000);
@@ -633,46 +567,26 @@
             }
         }
 
-        renderSmartGatewayCard() {
-            const { renderSmartGatewayCard } = window.WorkPressPortal || {};
-            if (typeof renderSmartGatewayCard === 'function') {
-                return renderSmartGatewayCard({
-                    user: this.state.user,
-                    gatewayCountdown: this.state.gatewayCountdown,
-                    executiveType: this.state.executiveType,
-                    roleLabel: this.state.roleLabel,
-                    onClientEnter: () => {
-                        if (this.gatewayTimer) {
-                            clearInterval(this.gatewayTimer);
-                            this.gatewayTimer = null;
-                        }
-                        this.setState({ inGatewayTransition: false, loading: false });
-                        this.fetchProjects();
-                        this.fetchIntakeForms();
-                        this.fetchPulseAndNotifications();
-                    }
-                });
+        async openProjectReport(projectId) {
+            if (!projectId) return;
+            playPortalSound('button');
+            this.setState({ reportLoading: true, reportModalOpen: true });
+            try {
+                const res = await apiFetch(`projects/${projectId}/report`);
+                if (res.success && res.data) {
+                    this.setState({ reportModalData: res.data, reportLoading: false });
+                    playPortalSound('celebration');
+                } else {
+                    throw new Error(res.message || 'تعذر جلب التقرير التنفيذي');
+                }
+            } catch (err) {
+                this.setState({ reportLoading: false, reportModalOpen: false });
+                alert(err.message || 'حدث خطأ أثناء تحميل التقرير');
             }
-            return null;
         }
 
-        renderExecutiveRadar() {
-            const { renderExecutiveRadar } = window.WorkPressPortal || {};
-            if (typeof renderExecutiveRadar === 'function') {
-                return renderExecutiveRadar({
-                    user: this.state.user,
-                    executiveType: this.state.executiveType,
-                    roleLabel: this.state.roleLabel,
-                    adminUrl: this.state.adminUrl,
-                    radarData: this.state.radarData,
-                    radarLoading: this.state.radarLoading,
-                    isProfileMenuOpen: this.state.isProfileMenuOpen,
-                    onToggleProfileMenu: (isOpen) => this.setState({ isProfileMenuOpen: isOpen }),
-                    onPreviewAsClient: () => this.setState({ isPreviewAsClient: true }),
-                    onRefreshRadar: () => this.fetchRadarIntelligence()
-                });
-            }
-            return null;
+        closeProjectReport() {
+            this.setState({ reportModalOpen: false, reportModalData: null });
         }
 
         render() {
@@ -689,386 +603,107 @@
 
             // 1. Standalone Login Canvas (When not logged in)
             if (!isLoggedIn) {
-                return html`
-                    <div style="min-height: 100vh; display: flex; align-items: center; justify-content: center; background: var(--wp-bg-page); padding: 2rem;">
-                        <div class="wp-portal-card" style="max-width: 440px; width: 100%; padding: 2.5rem 2rem; box-shadow: var(--wp-shadow-md); text-align: center;">
-                            
-                            <!-- Official Vector Brand Logo -->
-                            <div style="display: flex; justify-content: center; margin-bottom: 1.5rem;">
-                                ${renderWorkPressLogo(38)}
-                            </div>
-
-                            <h1 style="font-size: 1.35rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.25rem;">
-                                تسجيل الدخول
-                            </h1>
-                            <p style="font-size: 0.85rem; color: var(--wp-text-muted); margin-bottom: 1.75rem;">
-                                مرحباً بك، يرجى إدخال بيانات الدخول للمتابعة
-                            </p>
-
-                            ${loginError && html`
-                                <div style="background: var(--wp-danger-light); border: 1px solid var(--wp-danger-border); color: var(--wp-danger-text); padding: 0.65rem 1rem; font-size: 0.85rem; font-weight: 700; margin-bottom: 1.25rem; text-align: right;">
-                                    ${loginError}
-                                </div>
-                            `}
-
-                            <form onSubmit=${this.handleLogin.bind(this)} style="text-align: right;">
-                                <div class="portal-form-group">
-                                    <label class="portal-label">اسم المستخدم أو البريد الإلكتروني</label>
-                                    <input 
-                                        type="text" 
-                                        class="portal-input" 
-                                        value=${loginUsername} 
-                                        onInput=${e => this.setState({ loginUsername: e.target.value })} 
-                                        placeholder="اسم الحساب أو email@domain.com"
-                                        required 
-                                    />
-                                </div>
-
-                                <div class="portal-form-group">
-                                    <label class="portal-label">كلمة المرور</label>
-                                    <input 
-                                        type="password" 
-                                        class="portal-input" 
-                                        value=${loginPassword} 
-                                        onInput=${e => this.setState({ loginPassword: e.target.value })} 
-                                        placeholder="••••••••"
-                                        required 
-                                    />
-                                </div>
-
-                                <button type="submit" class="btn-portal btn-portal-primary" style="width: 100%; margin-top: 1.25rem; padding: 0.75rem; justify-content: center;" disabled=${loginLoading}>
-                                    <i class="dashicons dashicons-lock" style="margin-left: 4px;"></i>
-                                    <span>${loginLoading ? 'جاري التحقق...' : 'تسجيل الدخول'}</span>
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                `;
+                return window.WorkPressPortal?.renderLoginCanvas ? window.WorkPressPortal.renderLoginCanvas({
+                    loginUsername,
+                    loginPassword,
+                    loginLoading,
+                    loginError,
+                    onUsernameChange: (val) => this.setState({ loginUsername: val }),
+                    onPasswordChange: (val) => this.setState({ loginPassword: val }),
+                    onLoginSubmit: this.handleLogin.bind(this),
+                    renderWorkPressLogo
+                }) : null;
             }
 
-            // 2. Universal Smart Welcome Gateway (For all logged in users during transition or for subscribers)
+            // 2. Universal Smart Welcome Gateway
             if (isLoggedIn && (inGatewayTransition || executiveType === 'subscriber' || config.canAccessPortal === false)) {
-                return this.renderSmartGatewayCard();
+                return window.WorkPressPortal?.renderSmartGatewayCard ? window.WorkPressPortal.renderSmartGatewayCard({
+                    user,
+                    gatewayCountdown: this.state.gatewayCountdown,
+                    executiveType,
+                    roleLabel,
+                    onClientEnter: () => {
+                        if (this.gatewayTimer) {
+                            clearInterval(this.gatewayTimer);
+                            this.gatewayTimer = null;
+                        }
+                        this.setState({ inGatewayTransition: false, loading: false });
+                        this.fetchProjects();
+                        this.fetchIntakeForms();
+                        this.fetchPulseAndNotifications();
+                    }
+                }) : null;
             }
 
-            // 3. Executive Intelligence Radar View (For Admins, Project Leads, and Members)
+            // 3. Executive Intelligence Radar View (For Staff)
             if (executiveType !== 'client' && !isPreviewAsClient) {
-                return this.renderExecutiveRadar();
+                return window.WorkPressPortal?.renderExecutiveRadar ? window.WorkPressPortal.renderExecutiveRadar({
+                    user,
+                    executiveType,
+                    roleLabel,
+                    adminUrl: this.state.adminUrl,
+                    radarData: this.state.radarData,
+                    radarLoading: this.state.radarLoading,
+                    isProfileMenuOpen,
+                    onToggleProfileMenu: (isOpen) => this.setState({ isProfileMenuOpen: isOpen }),
+                    onPreviewAsClient: () => this.setState({ isPreviewAsClient: true }),
+                    onRefreshRadar: () => this.fetchRadarIntelligence()
+                }) : null;
             }
 
-            // Active Intake Form Schema
-            const activeForm = (intakeForms && intakeForms.find(f => f.id === selectedFormId)) || (intakeForms && intakeForms[0]) || {
-                name: 'طلب مشروع جديد',
-                title_label: 'عنوان الطلب / اسم المشروع:',
-                title_placeholder: 'اكتب اسم أو عنوان طلبك...',
-                desc_label: 'بيان وشرح تفاصيل الطلب:',
-                desc_placeholder: 'وضح بالتفصيل ما تريده من فريق العمل...',
-                title_suggestions: [],
-                specs: []
-            };
-
+            const activeForm = (intakeForms && intakeForms.find(f => f.id === selectedFormId)) || (intakeForms && intakeForms[0]) || {};
             const myRequestsCount = projects.filter(p => p.is_client_request).length;
 
             // 4. Authenticated Client Workspace
             return html`
                 <div class="portal-app-wrapper" onClick=${() => { if (isNotificationsOpen || isProfileMenuOpen) this.setState({ isNotificationsOpen: false, isProfileMenuOpen: false }); }}>
                     
-                    <!-- Real-Time Floating Approval Toast Notification -->
-                    ${activeToastAlert && html`
-                        <div 
-                            style="position: fixed; top: 20px; left: 50%; transform: translateX(-50%); z-index: 999999; max-width: 540px; width: 92%; background: #ffffff; border: 2px solid var(--wp-primary); padding: 1rem 1.25rem; box-shadow: var(--wp-shadow-modal); display: flex; align-items: center; justify-content: space-between; gap: 1rem;"
-                            onClick=${e => e.stopPropagation()}
-                        >
-                            <div style="display: flex; align-items: center; gap: 10px;">
-                                <i class="dashicons dashicons-yes-alt" style="color: var(--wp-primary); font-size: 24px;"></i>
-                                <div>
-                                    <div style="color: var(--wp-text-main); font-weight: 800; font-size: 0.9rem;" dangerouslySetInnerHTML=${{ __html: activeToastAlert.message }}></div>
-                                    <div style="color: var(--wp-text-muted); font-size: 0.78rem;">تم تحديث حالة طلبكم رسمياً.</div>
-                                </div>
-                            </div>
-
-                            <button 
-                                type="button" 
-                                class="btn-portal btn-portal-outline btn-portal-sm"
-                                onClick=${() => this.setState({ activeToastAlert: null })}
-                            >
-                                إغلاق
-                            </button>
-                        </div>
-                    `}
-
-                    <!-- Preview Mode Banner (for Executives) -->
-                    ${(executiveType !== 'client' && isPreviewAsClient) && html`
-                        <div style="background: var(--wp-bg-subtle); border-bottom: 2px solid var(--wp-indigo); padding: 0.5rem 1.5rem; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 1000;">
-                            <div style="display: flex; align-items: center; gap: 6px; color: var(--wp-text-secondary); font-weight: 700; font-size: 0.82rem;">
-                                <i class="dashicons dashicons-visibility" style="color: var(--wp-indigo);"></i>
-                                <span>وضع المعاينة التجريبية كزبون — استعراض البوابة كما يراها العميل تماماً.</span>
-                            </div>
-
-                            <button 
-                                class="btn-portal btn-portal-indigo btn-portal-sm"
-                                onClick=${() => {
-                                    this.setState({ isPreviewAsClient: false });
-                                    playPortalSound('button');
-                                }}
-                            >
-                                <span>العودة للرادار التنفيذي</span>
-                            </button>
-                        </div>
-                    `}
-
-                    <!-- TWO-TIER WORKPRESS INSTITUTIONAL HEADER -->
-                    <div class="portal-header-wrapper">
-                        
-                        <!-- Top Tier -->
-                        <div class="portal-top-bar">
-                            <div class="portal-brand-area">
-                                <a href="#/" style="text-decoration: none;">
-                                    ${renderWorkPressLogo(32)}
-                                </a>
-                                <span class="portal-site-badge">
-                                    <i class="dashicons dashicons-portfolio"></i>
-                                    <span>مساحة المستفيد</span>
-                                </span>
-                                <a href="${config.siteUrl}" class="portal-back-link">
-                                    <span>العودة للموقع الرئيسي</span>
-                                    <i class="dashicons dashicons-external"></i>
-                                </a>
-                            </div>
-
-                            <div class="portal-user-controls">
-                                <!-- Notification Bell Button & Drawer Popover -->
-                                <div style="position: relative;">
-                                    <button 
-                                        type="button" 
-                                        class="btn-portal btn-portal-outline btn-portal-sm" 
-                                        style="position: relative; padding: 0.4rem 0.65rem;"
-                                        onClick=${(e) => {
-                                            e.stopPropagation();
-                                            this.setState(prevState => ({ isNotificationsOpen: !prevState.isNotificationsOpen, isProfileMenuOpen: false }));
-                                            playPortalSound('button');
-                                        }}
-                                        title="التنبيهات والإشعارات"
-                                    >
-                                        <i class="dashicons dashicons-bell" style="font-size: 18px; color: ${unreadNotificationsCount > 0 ? 'var(--wp-warning)' : 'inherit'};"></i>
-                                        ${unreadNotificationsCount > 0 ? html`
-                                            <span style="background: var(--wp-danger); color: #fff; font-size: 0.7rem; font-weight: 900; padding: 1px 5px; margin-right: 4px;">
-                                                ${unreadNotificationsCount}
-                                            </span>
-                                        ` : null}
-                                    </button>
-
-                                    <!-- Notification Popover Drawer -->
-                                    ${isNotificationsOpen && html`
-                                        <div 
-                                            class="portal-popover-drawer"
-                                            onClick=${e => e.stopPropagation()}
-                                        >
-                                            <div class="portal-popover-header">
-                                                <div style="display: flex; align-items: center; gap: 6px; font-weight: 800; font-size: 0.88rem; color: var(--wp-text-main);">
-                                                    <i class="dashicons dashicons-bell"></i>
-                                                    <span>التنبيهات المباشرة</span>
-                                                </div>
-                                                ${unreadNotificationsCount > 0 ? html`
-                                                    <button 
-                                                        type="button" 
-                                                        style="background: none; border: none; color: var(--wp-indigo); font-size: 0.75rem; font-weight: 700; cursor: pointer; text-decoration: underline;"
-                                                        onClick=${() => this.markAllNotificationsAsRead()}
-                                                    >
-                                                        تحديد الكل كمقروء
-                                                    </button>
-                                                ` : null}
-                                            </div>
-
-                                            <div style="max-height: 340px; overflow-y: auto; padding: 0.5rem;">
-                                                ${notifications.length === 0 ? html`
-                                                    <div style="padding: 2rem 1rem; text-align: center; color: var(--wp-text-muted); font-size: 0.85rem;">
-                                                        <i class="dashicons dashicons-inbox" style="font-size: 32px; height: 32px; width: 32px; display: block; margin: 0 auto 0.5rem;"></i>
-                                                        <p>لا توجد تنبيهات جديدة</p>
-                                                    </div>
-                                                ` : html`
-                                                    <div style="display: flex; flex-direction: column; gap: 0.35rem;">
-                                                        ${notifications.map(n => html`
-                                                            <div 
-                                                                key=${n.id}
-                                                                style="background: ${n.is_read ? 'var(--wp-bg-subtle)' : 'var(--wp-primary-light)'}; border: 1px solid ${n.is_read ? 'var(--wp-border)' : 'var(--wp-primary-border)'}; padding: 0.65rem; cursor: pointer;"
-                                                                onClick=${() => {
-                                                                    if (!n.is_read) this.markNotificationAsRead(n.id);
-                                                                    if (n.project_id) {
-                                                                        this.setState({ selectedProjectId: n.project_id, isNotificationsOpen: false });
-                                                                        this.loadProjectDetails(n.project_id);
-                                                                        this.navigateToTab('deliverables');
-                                                                    }
-                                                                }}
-                                                            >
-                                                                <div style="font-size: 0.82rem; color: var(--wp-text-main); line-height: 1.4; font-weight: ${n.is_read ? '500' : '700'};" dangerouslySetInnerHTML=${{ __html: n.message }}></div>
-                                                                <div style="display: flex; justify-content: space-between; align-items: center; font-size: 0.72rem; color: var(--wp-text-muted); margin-top: 4px;">
-                                                                    <span>${n.created_at ? n.created_at.substring(0, 16) : ''}</span>
-                                                                    ${n.project_id ? html`
-                                                                        <span style="color: var(--wp-primary); font-weight: 700; display: inline-flex; align-items: center; gap: 3px;">
-                                                                            <span>عرض المشروع</span>
-                                                                            <i class="dashicons dashicons-arrow-left-alt" style="font-size: 14px;"></i>
-                                                                        </span>
-                                                                    ` : null}
-                                                                </div>
-                                                            </div>
-                                                        `)}
-                                                    </div>
-                                                `}
-                                            </div>
-                                        </div>
-                                    `}
-                                </div>
-
-                                <!-- User Profile Trigger & Dropdown Menu -->
-                                <div style="position: relative;">
-                                    <button 
-                                        type="button" 
-                                        class="portal-profile-trigger ${isProfileMenuOpen ? 'is-active' : ''}" 
-                                        onClick=${(e) => {
-                                            e.stopPropagation();
-                                            this.setState(prevState => ({ isProfileMenuOpen: !prevState.isProfileMenuOpen, isNotificationsOpen: false }));
-                                            playPortalSound('button');
-                                        }}
-                                        title="الملف الشخصي والخيارات"
-                                    >
-                                        ${user.avatar_url ? html`
-                                            <img src="${user.avatar_url}" alt="${user.display_name}" class="portal-avatar-img" />
-                                        ` : html`
-                                            <div style="width: 28px; height: 28px; background: var(--wp-bg-subtle); display: flex; align-items: center; justify-content: center;">
-                                                <i class="dashicons dashicons-admin-users" style="font-size: 18px; color: var(--wp-text-secondary);"></i>
-                                            </div>
-                                        `}
-                                        <i class="dashicons dashicons-arrow-down-alt2" style="font-size: 14px; color: var(--wp-text-muted);"></i>
-                                    </button>
-
-                                    <!-- Profile Dropdown Popover -->
-                                    ${isProfileMenuOpen && html`
-                                        <div 
-                                            class="portal-profile-dropdown"
-                                            onClick=${e => e.stopPropagation()}
-                                        >
-                                            <div class="portal-profile-header">
-                                                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 0.35rem;">
-                                                    ${user.avatar_url ? html`
-                                                        <img src="${user.avatar_url}" alt="${user.display_name}" style="width: 36px; height: 36px; object-fit: cover; border: 1px solid var(--wp-border);" />
-                                                    ` : html`
-                                                        <div style="width: 36px; height: 36px; background: var(--wp-primary-light); border: 1px solid var(--wp-primary-border); display: flex; align-items: center; justify-content: center; color: var(--wp-primary);">
-                                                            <i class="dashicons dashicons-admin-users" style="font-size: 20px;"></i>
-                                                        </div>
-                                                    `}
-                                                    <div>
-                                                        <div style="display: flex; align-items: center; gap: 6px;">
-                                                            <span style="font-weight: 800; font-size: 0.92rem; color: var(--wp-text-main);">
-                                                                ${user.display_name}
-                                                            </span>
-                                                            <span style="background: var(--wp-warning-light); border: 1px solid var(--wp-warning-border); color: var(--wp-warning-text); font-size: 0.72rem; font-weight: 800; padding: 1px 6px;">
-                                                                ${roleLabel || 'مستفيد'}
-                                                            </span>
-                                                        </div>
-                                                        ${user.email ? html`
-                                                            <div style="font-size: 0.78rem; color: var(--wp-text-muted); margin-top: 1px;">
-                                                                ${user.email}
-                                                            </div>
-                                                        ` : null}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div style="padding: 0.35rem 0;">
-                                                ${(executiveType !== 'client') && html`
-                                                    <a href="${adminUrl || '/wp-admin/admin.php?page=workpress#/'}" class="portal-profile-item">
-                                                        <i class="dashicons dashicons-dashboard" style="color: var(--wp-indigo);"></i>
-                                                        <span>غرفة عمليات CoWorkPress</span>
-                                                    </a>
-                                                `}
-
-                                                <a href="${config.siteUrl || '/'}" class="portal-profile-item">
-                                                    <i class="dashicons dashicons-admin-home" style="color: var(--wp-text-muted);"></i>
-                                                    <span>الموقع الرئيسي</span>
-                                                </a>
-
-                                                <a 
-                                                    href="${config.logoutUrl || (config.siteUrl + 'wp-login.php?action=logout')}" 
-                                                    class="portal-profile-item is-logout"
-                                                >
-                                                    <i class="dashicons dashicons-migrate"></i>
-                                                    <span>تسجيل الخروج</span>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    `}
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Second Tier: Primary Action CTA & Project Switcher Dropdown -->
-                        <div class="portal-action-bar">
-                            <div class="portal-action-right">
-                                <button 
-                                    class="btn-portal btn-portal-primary btn-portal-sm" 
-                                    style="font-weight: 800;"
-                                    onClick=${() => this.navigateToTab('new-request')}
-                                >
-                                    <i class="dashicons dashicons-plus-alt2"></i>
-                                    <span>طلب خدمة / مشروع جديد</span>
-                                </button>
-                            </div>
-
-                            ${projects.length > 0 ? html`
-                                <div class="portal-action-left" style="display: flex; align-items: center; gap: 8px;">
-                                    <span style="font-size: 0.85rem; font-weight: 700; color: var(--wp-text-secondary); display: inline-flex; align-items: center; gap: 4px;">
-                                        <i class="dashicons dashicons-portfolio" style="color: var(--wp-text-muted);"></i>
-                                        <span>المشروع النشط:</span>
-                                    </span>
-                                    <select class="portal-switcher-select" value=${selectedProjectId} onChange=${this.handleProjectChange.bind(this)}>
-                                        ${projects.map(p => html`
-                                            <option key=${p.id} value=${p.id}>${p.name} (${p.prefix})</option>
-                                        `)}
-                                    </select>
-                                </div>
-                            ` : null}
-                        </div>
-
-                        <!-- Third Tier: Navigation Tabs Bar -->
-                        <div class="portal-tabs-bar">
-                            <button 
-                                type="button"
-                                class="portal-tab-pill ${activeTab === 'deliverables' ? 'is-active' : ''}"
-                                onClick=${() => this.navigateToTab('deliverables')}
-                            >
-                                <i class="dashicons dashicons-portfolio"></i>
-                                <span>المخرجات المعتمدة (${deliverables.length})</span>
-                            </button>
-
-                            <button 
-                                type="button"
-                                class="portal-tab-pill ${activeTab === 'milestones' ? 'is-active' : ''}"
-                                onClick=${() => this.navigateToTab('milestones')}
-                            >
-                                <i class="dashicons dashicons-clipboard"></i>
-                                <span>المراحل والمهام (${milestones.length})</span>
-                            </button>
-
-                            <button 
-                                type="button"
-                                class="portal-tab-pill ${activeTab === 'feedback' ? 'is-active' : ''}"
-                                onClick=${() => this.navigateToTab('feedback')}
-                            >
-                                <i class="dashicons dashicons-format-chat"></i>
-                                <span>الاستفسارات والملاحظات</span>
-                            </button>
-
-                            <button 
-                                type="button"
-                                class="portal-tab-pill ${activeTab === 'my-requests' ? 'is-active' : ''}"
-                                onClick=${() => this.navigateToTab('my-requests')}
-                            >
-                                <i class="dashicons dashicons-email-alt"></i>
-                                <span>سجل طلباتي (${myRequestsCount})</span>
-                            </button>
-                        </div>
-                    </div>
+                    <!-- Institutional Header & Navigation -->
+                    ${window.WorkPressPortal?.renderPortalHeader && window.WorkPressPortal.renderPortalHeader({
+                        activeToastAlert,
+                        onCloseToastAlert: () => this.setState({ activeToastAlert: null }),
+                        executiveType,
+                        isPreviewAsClient,
+                        onReturnToRadar: () => {
+                            this.setState({ isPreviewAsClient: false });
+                            playPortalSound('button');
+                        },
+                        config,
+                        renderWorkPressLogo,
+                        notifications,
+                        unreadNotificationsCount,
+                        isNotificationsOpen,
+                        onToggleNotifications: (e) => {
+                            e.stopPropagation();
+                            this.setState(prevState => ({ isNotificationsOpen: !prevState.isNotificationsOpen, isProfileMenuOpen: false }));
+                            playPortalSound('button');
+                        },
+                        onMarkNotificationRead: (id) => this.markNotificationAsRead(id),
+                        onMarkAllNotificationsRead: () => this.markAllNotificationsAsRead(),
+                        onSelectNotificationProject: (pid) => {
+                            this.setState({ selectedProjectId: pid, isNotificationsOpen: false });
+                            this.loadProjectDetails(pid);
+                            this.navigateToTab('deliverables');
+                        },
+                        user,
+                        roleLabel,
+                        adminUrl: this.state.adminUrl,
+                        isProfileMenuOpen,
+                        onToggleProfileMenu: (e) => {
+                            e.stopPropagation();
+                            this.setState(prevState => ({ isProfileMenuOpen: !prevState.isProfileMenuOpen, isNotificationsOpen: false }));
+                            playPortalSound('button');
+                        },
+                        projects,
+                        selectedProjectId,
+                        onProjectChange: this.handleProjectChange.bind(this),
+                        activeTab,
+                        onNavigateToTab: (tab) => this.navigateToTab(tab),
+                        deliverablesCount: deliverables.length,
+                        milestonesCount: milestones.length,
+                        myRequestsCount,
+                        playPortalSound
+                    })}
 
                     <main class="portal-container">
                         ${loading && html`

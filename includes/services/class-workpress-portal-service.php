@@ -1225,6 +1225,14 @@ class WorkPress_Portal_Service {
 		$core_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $core_js_path ) ? filemtime( $core_js_path ) : '1.2.0' );
 		wp_enqueue_script( 'workpress-portal-core-js', WORKPRESS_URL . 'assets/src/portal/portal-core.js', array( 'preact', 'htm' ), $core_js_ver, true );
 
+		$login_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-login.js';
+		$login_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $login_js_path ) ? filemtime( $login_js_path ) : '1.2.0' );
+		wp_enqueue_script( 'workpress-portal-login-js', WORKPRESS_URL . 'assets/src/portal/portal-login.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $login_js_ver, true );
+
+		$header_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-header.js';
+		$header_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $header_js_path ) ? filemtime( $header_js_path ) : '1.2.0' );
+		wp_enqueue_script( 'workpress-portal-header-js', WORKPRESS_URL . 'assets/src/portal/portal-header.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $header_js_ver, true );
+
 		$gw_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-gateway.js';
 		$gw_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $gw_js_path ) ? filemtime( $gw_js_path ) : '1.2.0' );
 		wp_enqueue_script( 'workpress-portal-gateway-js', WORKPRESS_URL . 'assets/src/portal/portal-gateway.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $gw_js_ver, true );
@@ -1247,7 +1255,7 @@ class WorkPress_Portal_Service {
 
 		$js_path = WORKPRESS_PATH . 'assets/src/portal/portal-app.js';
 		$js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $js_path ) ? filemtime( $js_path ) : '1.2.0' );
-		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm', 'workpress-portal-core-js', 'workpress-portal-gateway-js', 'workpress-portal-radar-js', 'workpress-portal-modals-js', 'workpress-portal-request-js', 'workpress-portal-workspace-js' ), $js_ver, true );
+		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm', 'workpress-portal-core-js', 'workpress-portal-login-js', 'workpress-portal-header-js', 'workpress-portal-gateway-js', 'workpress-portal-radar-js', 'workpress-portal-modals-js', 'workpress-portal-request-js', 'workpress-portal-workspace-js' ), $js_ver, true );
 
 		$custom_logo_id = get_theme_mod( 'custom_logo' );
 		$logo_url       = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : '';

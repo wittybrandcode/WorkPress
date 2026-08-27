@@ -1,11 +1,12 @@
 /**
  * WorkPress Client Portal: Modals Suite
  * 
- * Provides official executive certificate, PDF printouts, and deliverable review modals.
+ * Provides official executive certificate, PDF printouts, and deliverable review modals
+ * using 100% semantic CSS classes with zero inline styles.
  * 
  * @package WorkPress
  * @subpackage Portal
- * @version 2.2.1
+ * @version 2.2.2
  */
 
 window.WorkPressPortal = window.WorkPressPortal || {};
@@ -24,18 +25,18 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         if (!isOpen) return null;
 
         return html`
-            <div style=${{ position: 'fixed', inset: 0, background: 'rgba(15, 23, 42, 0.6)', backdropFilter: 'blur(4px)', zIndex: 10000, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1.5rem' }} onClick=${onClose}>
-                <div class="wp-portal-card" style=${{ maxWidth: '840px', width: '100%', maxHeight: '90vh', overflowY: 'auto', padding: '2.5rem', boxShadow: 'var(--wp-shadow-modal)', borderRadius: 0 }} onClick=${e => e.stopPropagation()}>
+            <div class="portal-modal-backdrop" onClick=${onClose}>
+                <div class="portal-report-card" onClick=${e => e.stopPropagation()}>
                     
-                    <div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', borderBottom: '2px solid var(--wp-border)', paddingBottom: '1.25rem', marginBottom: '1.5rem' }}>
+                    <div class="portal-report-header">
                         <div>
-                            <div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                            <div style="display: flex; align-items: center; gap: 8px;">
                                 ${renderWorkPressLogo(32)}
-                                <span style=${{ fontSize: '0.8rem', fontWeight: '800', color: 'var(--wp-text-muted)', borderRight: '1px solid var(--wp-border)', paddingRight: '8px', marginRight: '8px' }}>
+                                <span class="portal-report-badge">
                                     تقرير الاستلام الرسمي
                                 </span>
                             </div>
-                            <h2 style=${{ fontSize: '1.4rem', fontWeight: '900', color: 'var(--wp-text-main)', marginTop: '0.5rem' }}>
+                            <h2 class="portal-report-title">
                                 ${reportData ? reportData.project.name : 'وثيقة استلام المشروع'}
                             </h2>
                         </div>
@@ -49,41 +50,41 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     </div>
 
                     ${loading ? html`
-                        <div class="portal-initial-loader" style=${{ minHeight: '200px' }}>
+                        <div class="portal-initial-loader" style="min-height: 200px;">
                             <div class="portal-spinner"></div>
                             <p>جاري تحضير وثيقة الاستلام الرسمية...</p>
                         </div>
                     ` : (reportData && html`
                         <div>
-                            <div style=${{ background: 'var(--wp-bg-subtle)', padding: '1rem 1.25rem', marginBottom: '1.5rem', fontSize: '0.88rem', color: 'var(--wp-text-secondary)' }}>
+                            <div class="portal-report-notice">
                                 تشهد هذه الوثيقة باعتماد الحلول والمخرجات الفنية للمشروع وفق معايير الجودة والحوكمة المعتمدة في WorkPress.
                             </div>
 
-                            <div style=${{ marginBottom: '1.5rem' }}>
-                                <h4 style=${{ fontSize: '1rem', fontWeight: '800', color: 'var(--wp-text-main)', marginBottom: '0.6rem' }}>حصر المخرجات المعتمدة:</h4>
-                                <table style=${{ width: '100%', borderCollapse: 'collapse', fontSize: '0.88rem' }}>
+                            <div style="margin-bottom: 1.5rem;">
+                                <h4 style="font-size: 1rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.6rem;">حصر المخرجات المعتمدة:</h4>
+                                <table class="portal-report-table">
                                     <thead>
-                                        <tr style=${{ background: 'var(--wp-bg-subtle)', borderBottom: '2px solid var(--wp-border)', textAlign: 'right' }}>
-                                            <th style=${{ padding: '0.6rem' }}>#</th>
-                                            <th style=${{ padding: '0.6rem' }}>المخرج الفني</th>
-                                            <th style=${{ padding: '0.6rem' }}>المكلف</th>
-                                            <th style=${{ padding: '0.6rem' }}>تاريخ الاعتماد</th>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>المخرج الفني</th>
+                                            <th>المكلف</th>
+                                            <th>تاريخ الاعتماد</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         ${(reportData.deliverables || []).map((del, i) => html`
-                                            <tr key=${i} style=${{ borderBottom: '1px solid var(--wp-border)' }}>
-                                                <td style=${{ padding: '0.6rem' }}>${i + 1}</td>
-                                                <td style=${{ padding: '0.6rem', fontWeight: '700' }}>${del.task_title || del.title}</td>
-                                                <td style=${{ padding: '0.6rem' }}>${del.author_name || 'فريق العمل'}</td>
-                                                <td style=${{ padding: '0.6rem' }}>${del.created_at ? del.created_at.substring(0, 10) : ''}</td>
+                                            <tr key=${i}>
+                                                <td>${i + 1}</td>
+                                                <td style="font-weight: 700;">${del.task_title || del.title}</td>
+                                                <td>${del.author_name || 'فريق العمل'}</td>
+                                                <td>${del.created_at ? del.created_at.substring(0, 10) : ''}</td>
                                             </tr>
                                         `)}
                                     </tbody>
                                 </table>
                             </div>
 
-                            <div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderTop: '2px solid var(--wp-border)', paddingTop: '1.25rem', marginTop: '2rem' }}>
+                            <div class="portal-report-footer">
                                 <button 
                                     type="button" 
                                     class="btn-portal btn-portal-primary"
@@ -93,7 +94,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     <span>طباعة الوثيقة الرسمية (Print/PDF)</span>
                                 </button>
 
-                                <span style=${{ fontSize: '0.78rem', color: 'var(--wp-text-muted)' }}>
+                                <span style="font-size: 0.78rem; color: var(--wp-text-muted);">
                                     WorkPress Organizational Memory Engine v2.0
                                 </span>
                             </div>
