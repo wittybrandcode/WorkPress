@@ -1,0 +1,340 @@
+/**
+ * WorkPress CSS Module: UI Components & Utilities
+ * 
+ * @package WorkPress
+ * @subpackage CSS
+ */
+
+/* Header Navigation & Topbar */
+.workpress-header-wrapper a,
+.workpress-header-wrapper a:focus,
+.workpress-header-wrapper a:active,
+.workpress-header-wrapper a:focus-visible,
+.workpress-header-wrapper button,
+.workpress-header-wrapper button:focus,
+.workpress-header-wrapper button:active,
+.workpress-header-wrapper button:focus-visible {
+    outline: none !important;
+    box-shadow: none !important;
+    text-decoration: none !important;
+}
+
+.workpress-spa .wp-header-btn {
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    background-color: #ffffff !important;
+    color: #334155 !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    padding: 0.35rem 0.65rem !important;
+    height: 32px !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    transition: all 0.15s ease !important;
+}
+
+.workpress-spa .wp-header-btn .icon,
+.workpress-spa .wp-header-btn i {
+    color: #64748b !important;
+    transition: color 0.15s ease !important;
+}
+
+.workpress-spa .wp-header-btn:hover {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+}
+
+.workpress-spa .wp-header-btn:hover .icon,
+.workpress-spa .wp-header-btn:hover i,
+.workpress-spa .wp-header-btn:hover span,
+.workpress-spa .wp-header-btn:hover .has-text-weight-bold {
+    color: #ffffff !important;
+}
+
+.workpress-spa .wp-header-btn.is-active {
+    background-color: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+    font-weight: 900 !important;
+    box-shadow: 0 2px 4px rgba(15, 23, 42, 0.25) !important;
+}
+
+.workpress-spa .wp-header-btn.is-active .icon,
+.workpress-spa .wp-header-btn.is-active i,
+.workpress-spa .wp-header-btn.is-active span,
+.workpress-spa .wp-header-btn.is-active .has-text-weight-bold {
+    color: #ffffff !important;
+}
+
+/* 1. Micro-Sized Icon Buttons (Zero Bloat, Pure Geometry) */
+.wp-icon-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    color: #334155;
+    cursor: pointer;
+    border-radius: 0 !important;
+    font-family: 'Cairo', sans-serif !important;
+    transition: all 0.12s ease;
+    flex-shrink: 0;
+    user-select: none;
+}
+.wp-icon-btn:hover {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+.wp-icon-btn.is-dense {
+    width: 22px;
+    height: 22px;
+}
+.wp-icon-btn.is-small {
+    width: 26px;
+    height: 26px;
+}
+.wp-icon-btn.is-medium {
+    width: 32px;
+    height: 32px;
+}
+.wp-icon-btn.is-dark {
+    background: #0f172a;
+    color: #ffffff;
+    border-color: #0f172a;
+}
+.wp-icon-btn.is-dark:hover {
+    background: #1e293b;
+    border-color: #38bdf8;
+    color: #38bdf8;
+}
+.wp-icon-btn.is-primary {
+    background: #008478;
+    color: #ffffff;
+    border-color: #008478;
+}
+.wp-icon-btn.is-primary:hover {
+    background: #00564f;
+}
+.wp-icon-btn.is-danger {
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+.wp-icon-btn.is-danger:hover {
+    background: #dc2626;
+    color: #ffffff;
+    border-color: #dc2626;
+}
+.wp-icon-btn .dashicons {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    line-height: 1;
+}
+.wp-icon-btn.is-dense .dashicons {
+    font-size: 13px;
+    width: 13px;
+    height: 13px;
+}
+.wp-icon-btn.is-medium .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+/* 2. Tight Connected Button Groups (Unified Outer Border) */
+.wp-btn-group-tight {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    background: #ffffff;
+    user-select: none;
+}
+.wp-btn-group-tight .button,
+.wp-btn-group-tight button,
+.wp-btn-group-tight a {
+    border: none !important;
+    border-left: 1px solid #cbd5e1 !important;
+    border-radius: 0 !important;
+    height: 28px !important;
+    padding: 0 10px !important;
+    font-size: 0.75rem !important;
+    font-weight: 700 !important;
+    color: #475569 !important;
+    background: transparent !important;
+    margin: 0 !important;
+    box-shadow: none !important;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+.wp-btn-group-tight .button:last-child,
+.wp-btn-group-tight button:last-child,
+.wp-btn-group-tight a:last-child {
+    border-left: none !important;
+}
+.wp-btn-group-tight .button:hover,
+.wp-btn-group-tight button:hover {
+    background: #f1f5f9 !important;
+    color: #0f172a !important;
+}
+.wp-btn-group-tight .button.is-active,
+.wp-btn-group-tight button.is-active {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+}
+
+/* 3. Micro Information Chips (High-Density Counter Badges) */
+.wp-dense-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    height: 20px;
+    padding: 0 5px;
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #475569;
+    background: #f1f5f9;
+    border: 1px solid #e2e8f0;
+    border-radius: 0 !important;
+    user-select: none;
+    line-height: 1;
+}
+.wp-dense-chip .dashicons {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+    line-height: 1;
+    color: #64748b;
+}
+.wp-dense-chip.is-success {
+    background: #ecfdf5;
+    color: #059669;
+    border-color: #a7f3d0;
+}
+.wp-dense-chip.is-success .dashicons {
+    color: #059669;
+}
+.wp-dense-chip.is-warning {
+    background: #fffbeb;
+    color: #d97706;
+    border-color: #fde68a;
+}
+.wp-dense-chip.is-warning .dashicons {
+    color: #d97706;
+}
+.wp-dense-chip.is-danger {
+    background: #fef2f2;
+    color: #dc2626;
+    border-color: #fca5a5;
+}
+.wp-dense-chip.is-danger .dashicons {
+    color: #dc2626;
+}
+.wp-dense-chip.is-info {
+    background: #f0f9ff;
+    color: #0284c7;
+    border-color: #bae6fd;
+}
+.wp-dense-chip.is-info .dashicons {
+    color: #0284c7;
+}
+
+/* 4. High-Density Compact Toolbars */
+.wp-dense-toolbar {
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1rem;
+    background: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+/* 5. Smart Micro Tooltips */
+[data-wp-tooltip] {
+    position: relative;
+}
+[data-wp-tooltip]::after {
+    content: attr(data-wp-tooltip);
+    position: absolute;
+    bottom: calc(100% + 6px);
+    right: 50%;
+    transform: translateX(50%) translateY(4px);
+    background: #0f172a;
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 700;
+    font-family: 'Cairo', sans-serif !important;
+    padding: 3px 8px;
+    white-space: nowrap;
+    border-radius: 0 !important;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    border: 1px solid #334155;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.15s ease, transform 0.15s ease;
+    z-index: 999999;
+}
+[data-wp-tooltip]:hover::after {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(50%) translateY(0);
+}
+
+/* Cards & Surfaces */
+.workpress-spa .wp-card {
+    border-radius: 0;
+    border: 1px solid var(--wp-border-dark);
+    box-shadow: var(--wp-shadow-sm);
+    background-color: var(--wp-bg-card);
+    transition: transform var(--wp-transition-base), box-shadow var(--wp-transition-base);
+}
+.workpress-spa .wp-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--wp-shadow-md);
+}
+
+.workpress-spa .wp-project-card {
+    position: relative;
+}
+.workpress-spa .wp-project-card:hover {
+    border-color: var(--wp-hover-fill);
+    outline: 2px solid var(--wp-hover-fill);
+    outline-offset: -1px;
+    z-index: 10;
+    box-shadow: var(--wp-shadow-lg);
+}
+
+/* Modals & Overlays */
+.modal {
+    z-index: 99999; 
+}
+.modal-background,
+.workpress-spa .modal-background {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+    background: rgba(0, 0, 0, 0.75) !important;
+    backdrop-filter: blur(10px) !important;
+    -webkit-backdrop-filter: blur(10px) !important;
+}
+
+.modal-card {
+    max-height: calc(100vh - 60px) !important;
+    display: flex;
+    flex-direction: column;
+}
+.modal-card-body {
+    overflow-y: auto;
+    flex: 1 1 auto;
+}
+.modal-card-foot, .modal-card-head {
+    flex: 0 0 auto;
+}

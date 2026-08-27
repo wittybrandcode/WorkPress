@@ -1,0 +1,128 @@
+/**
+ * WorkPress CSS Module: Gantt Chart & Timeline Engine
+ * 
+ * @package WorkPress
+ * @subpackage CSS
+ */
+
+.wp-gantt-container {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    border-radius: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+}
+
+.wp-gantt-toolbar {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #e2e8f0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #f8fafc;
+}
+
+.wp-gantt-timeline-wrapper {
+    overflow-x: auto;
+    overflow-y: auto;
+    position: relative;
+}
+
+.wp-gantt-header-row {
+    display: flex;
+    border-bottom: 2px solid #cbd5e1;
+    background-color: #f1f5f9;
+    font-weight: 700;
+    font-size: 0.75rem;
+    color: #475569;
+}
+
+.wp-gantt-scale-cell {
+    border-left: 1px solid #e2e8f0;
+    padding: 6px 8px;
+    text-align: center;
+    flex-shrink: 0;
+    user-select: none;
+}
+
+.wp-gantt-tree-row {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.15s ease;
+}
+.wp-gantt-tree-row:hover {
+    background-color: #f8fafc;
+}
+
+.wp-gantt-tree-cell-title {
+    width: 280px;
+    min-width: 280px;
+    padding: 8px 12px;
+    border-left: 1px solid #e2e8f0;
+    background-color: #ffffff;
+    position: sticky;
+    right: 0;
+    z-index: 5;
+}
+
+.wp-gantt-bar-container {
+    position: relative;
+    flex-grow: 1;
+    height: 36px;
+    display: flex;
+    align-items: center;
+}
+
+.wp-gantt-bar {
+    position: absolute;
+    height: 20px;
+    border-radius: 0;
+    background-color: #008478;
+    color: #ffffff;
+    font-size: 0.68rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    padding: 0 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    transition: transform 0.15s ease, background-color 0.15s ease;
+    cursor: pointer;
+}
+.wp-gantt-bar:hover {
+    background-color: #00564f;
+    transform: scaleY(1.1);
+}
+
+.wp-gantt-bar.is-completed {
+    background-color: #10b981;
+}
+
+.wp-gantt-bar.is-overdue {
+    background-color: #ef4444;
+}
+
+/* Live Time Needle (Red vertical indicator) */
+.wp-gantt-needle {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background-color: #ef4444;
+    z-index: 10;
+    pointer-events: none;
+}
+.wp-gantt-needle::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: -4px;
+    width: 10px;
+    height: 10px;
+    background-color: #ef4444;
+    transform: rotate(45deg);
+}

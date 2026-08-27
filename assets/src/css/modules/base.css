@@ -1,0 +1,107 @@
+/**
+ * WorkPress CSS Module: Base & Reset Overrides
+ * 
+ * @package WorkPress
+ * @subpackage CSS
+ */
+
+/* Bulma sets box-sizing: border-box globally. 
+   We revert it for WP Admin core elements to prevent visual bugs. */
+#adminmenuwrap *,
+#adminmenu *,
+#wpadminbar * {
+    box-sizing: content-box;
+}
+
+#wpcontent {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}
+
+#wpbody {
+    padding-top: 0 !important;
+}
+
+#wpbody-content {
+    padding-bottom: 0 !important;
+}
+
+.wrap {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+#wpbody-content > .notice,
+#wpbody-content > .update-nag {
+    display: none !important; /* Hide generic WP notices in SPA mode to avoid breaking full width */
+}
+
+/* WorkPress Specific Layouts & Global Typography */
+.workpress-spa,
+.workpress-spa *:not(.dashicons):not(.mce-ico):not(i),
+.workpress-spa h1,
+.workpress-spa h2,
+.workpress-spa h3,
+.workpress-spa h4,
+.workpress-spa h5,
+.workpress-spa h6,
+.workpress-spa .title,
+.workpress-spa .subtitle,
+.workpress-spa .button,
+.workpress-spa .input,
+.workpress-spa .textarea,
+.workpress-spa .select select {
+    font-family: 'Cairo', sans-serif !important;
+}
+
+/* STRICT RIGHT ANGLES ENFORCEMENT */
+.workpress-spa *,
+.workpress-spa *::before,
+.workpress-spa *::after {
+    border-radius: 0 !important;
+}
+
+/* Zero Focus Rings, Outlines & Shadow Boxes on Click / Active */
+.workpress-spa a:focus,
+.workpress-spa a:active,
+.workpress-spa a:focus-visible,
+.workpress-spa a:focus-within,
+.workpress-spa button:focus,
+.workpress-spa button:active,
+.workpress-spa button:focus-visible,
+.workpress-spa .button:focus,
+.workpress-spa .button:active,
+.workpress-spa .button:focus-visible,
+.workpress-spa .wp-header-btn:focus,
+.workpress-spa .wp-header-btn:active,
+.workpress-spa .wp-header-btn:focus-visible,
+.workpress-spa .wp-btn:focus,
+.workpress-spa .wp-btn:active,
+.workpress-spa .wp-btn:focus-visible,
+.workpress-spa .wp-icon-button:focus,
+.workpress-spa .wp-icon-button:active,
+.workpress-spa .wp-icon-button:focus-visible,
+.workpress-spa [tabindex]:focus,
+.workpress-spa svg:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+/* Custom Scrollbars */
+.workpress-spa ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+
+.workpress-spa ::-webkit-scrollbar-track {
+    background: #f1f5f9;
+}
+
+.workpress-spa ::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 0;
+}
+
+.workpress-spa ::-webkit-scrollbar-thumb:hover {
+    background: #94a3b8;
+}

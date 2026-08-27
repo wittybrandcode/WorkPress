@@ -1,0 +1,134 @@
+/**
+ * WorkPress CSS Module: Forms, Inputs & Studio Builders
+ * 
+ * @package WorkPress
+ * @subpackage CSS
+ */
+
+/* Form Elements Overrides */
+.workpress-spa .wp-title-input {
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    padding: 8px 14px !important;
+    height: 44px !important;
+    background: #ffffff !important;
+    margin-bottom: 0 !important;
+    direction: rtl !important;
+    text-align: right !important;
+    border-radius: 0 !important;
+    color: #0f172a !important;
+    transition: border-color 0.2s ease !important;
+    box-sizing: border-box !important;
+}
+
+.workpress-spa .wp-title-input:focus,
+.workpress-spa .wp-title-input:active {
+    border-color: #cbd5e1 !important;
+    outline: none !important;
+    box-shadow: 0 0 0 1px #cbd5e1 !important;
+}
+
+.workpress-spa .input:not(.wp-title-input),
+.workpress-spa .textarea,
+.workpress-spa .select select {
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    box-shadow: none !important;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease !important;
+    background-color: #ffffff !important;
+    direction: rtl !important;
+    text-align: right !important;
+    color: #0f172a !important;
+    font-size: 0.85rem !important;
+    height: 36px !important;
+}
+
+.workpress-spa .select select {
+    -webkit-appearance: none !important;
+    -moz-appearance: none !important;
+    appearance: none !important;
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230F172A%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-repeat: no-repeat !important;
+    background-position: left 10px center !important;
+    background-size: 9px auto !important;
+    padding-left: 26px !important;
+    padding-right: 10px !important;
+}
+
+.workpress-spa .select {
+    height: 36px !important;
+}
+
+.workpress-spa .input:not(.wp-title-input):focus,
+.workpress-spa .textarea:focus,
+.workpress-spa .select select:focus {
+    border-color: #008478 !important;
+    box-shadow: 0 0 0 1px #008478 !important;
+    outline: none !important;
+}
+
+/* Modal Sticky Top Toolbar & Metadata Grid */
+.wp-modal-sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: #ffffff;
+    border-bottom: 1px solid #f1f5f9;
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+}
+
+.wp-metadata-toolbar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 16px;
+    width: 100%;
+}
+
+.wp-metadata-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.wp-metadata-item .input,
+.wp-metadata-item .select,
+.wp-metadata-item .select select {
+    flex: 1;
+    width: 100% !important;
+}
+
+.wp-metadata-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #64748b;
+    white-space: nowrap;
+}
+
+/* Form Builder & Studio Card Utilities */
+.wp-form-builder-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0;
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    transition: all 0.15s ease;
+}
+.wp-form-builder-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.wp-form-field-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 12px;
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    margin-bottom: 8px;
+    border-radius: 0;
+}

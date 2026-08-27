@@ -43,7 +43,7 @@ export default function TaskCard( { task, isSkeleton, onClick, draggable, onDrag
 
 	if (isSkeleton) {
 		return html`
-			<div className="box wp-card p-0 mb-3 wp-skeleton-bg" style=${{ height: '140px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+			<div className="box wp-card p-0 mb-3 wp-task-card-skeleton">
 				<div>
 					<span className="icon is-large has-text-grey"><i className="dashicons dashicons-portfolio" style=${{ fontSize: '48px', width: '48px', height: '48px' }}></i></span>
 				</div>

@@ -1,0 +1,79 @@
+/**
+ * WorkPress CSS Module: Variables & Design Tokens
+ * 
+ * @package WorkPress
+ * @subpackage CSS
+ */
+
+@import url('../../css/cairo.css');
+
+:root {
+    /* النظام اللوني الأساسي */
+    --wp-text-primary: #0f172a;
+    --wp-text-secondary: #64748b;
+    --wp-text-muted: #94a3b8;
+    
+    /* الألوان السيادية والعلامة التجارية */
+    --wp-brand-primary: #008478;
+    --wp-brand-secondary: #00564f;
+    --wp-brand-accent: #10b981;
+
+    /* الأزرار والتفاعل */
+    --wp-hover-fill: #757E8E;
+    --wp-accent-green: #10b981;
+    --wp-danger: #f14668;
+    --wp-info: #3e8ed0;
+    
+    /* الحدود */
+    --wp-border: #e2e8f0;
+    --wp-border-subtle: #f1f5f9;
+    --wp-border-dark: #ededed;
+    
+    /* الخلفيات */
+    --wp-bg-page: #f5f5f5;
+    --wp-bg-card: #ffffff;
+    --wp-bg-footer: #f8fafc;
+    --wp-bg-column: #ebecf0;
+    
+    /* الظلال */
+    --wp-shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.02);
+    --wp-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.06);
+    --wp-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.1);
+    --wp-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+    
+    /* التحريك */
+    --wp-transition-fast: 0.15s ease;
+    --wp-transition-base: 0.2s ease;
+    --wp-transition-slow: 0.3s ease;
+
+    /* الهندسة الصارمة */
+    --wp-radius: 0px;
+}
+
+/* Square Snake Emerald Loader Keyframes */
+@keyframes wpSquareSnake {
+    0%, 100% {
+        opacity: 0.12;
+        transform: scale(0.85);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.wp-square-snake-loader {
+    display: inline-grid;
+    vertical-align: middle;
+    line-height: 1;
+    user-select: none;
+}
+
+.wp-square-snake-loader .wp-square-cell {
+    border-radius: 0 !important;
+    will-change: opacity, transform;
+}
+
+.wp-loader-container {
+    animation: fadeIn 0.2s ease;
+}

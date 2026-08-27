@@ -1,0 +1,118 @@
+/**
+ * WorkPress CSS Module: Kanban Board & Task Cards
+ * 
+ * @package WorkPress
+ * @subpackage CSS
+ */
+
+/* Kanban Board Container */
+.workpress-kanban-board {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding-bottom: 2rem;
+    height: calc(100vh - 200px);
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+/* Kanban Columns */
+.wp-kanban-column {
+    min-height: 400px;
+    background-color: var(--wp-bg-column);
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 0 !important;
+    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
+    display: flex;
+    flex-direction: column;
+    max-height: 100%;
+    min-width: 320px;
+    flex: 1;
+}
+
+.wp-kanban-column-header {
+    padding: 0.85rem 1rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #ffffff;
+}
+
+.wp-kanban-column-header-icon {
+    border-left: 1px solid var(--wp-border-dark);
+    color: var(--wp-text-secondary);
+}
+
+.wp-kanban-column-header-count {
+    color: var(--wp-text-primary);
+    min-width: 28px;
+    font-weight: 800;
+}
+
+/* Dropzone & Drag Feedback */
+.workpress-kanban-dropzone {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 0.75rem 0.5rem;
+    min-height: 150px;
+}
+
+.wp-kanban-dropzone-active {
+    background-color: #e2e8f0 !important;
+    border: 4px solid #10b981 !important;
+    box-shadow: none !important;
+}
+
+.wp-kanban-dropzone-active .wp-kanban-column-header-icon,
+.wp-kanban-dropzone-active .wp-kanban-column-header-count {
+    color: var(--wp-accent-green);
+}
+
+.wp-kanban-empty-state {
+    border: 2px dashed var(--wp-border-dark);
+    border-radius: 0;
+    padding: 2rem 1rem;
+    text-align: center;
+    color: #94a3b8;
+}
+.wp-kanban-dropzone-active .wp-kanban-empty-state {
+    border-color: var(--wp-accent-green);
+}
+
+/* Draggable Task Card */
+.wp-task-card-dragging {
+    opacity: 0.75 !important;
+    border: 2px dashed #008478 !important;
+    transform: scale(0.98);
+}
+
+.wp-task-card-skeleton {
+    height: 140px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f8fafc;
+    border: 1px dashed #cbd5e1;
+}
+
+/* Scrollbar for Kanban */
+.wp-kanban-scroll {
+    overflow-y: auto;
+}
+.wp-kanban-scroll::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+}
+.wp-kanban-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+.wp-kanban-scroll::-webkit-scrollbar-thumb {
+    background: var(--wp-border);
+    border-radius: 0;
+}
+.wp-kanban-scroll::-webkit-scrollbar-thumb:hover {
+    background: var(--wp-text-muted);
+}
