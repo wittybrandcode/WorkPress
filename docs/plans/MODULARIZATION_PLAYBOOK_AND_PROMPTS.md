@@ -48,25 +48,18 @@
 
 ---
 
-### 3. استوديو فرز وإدارة الطلبات (`RequestsPage.js`) 🔴 [P1]
+### 3. استوديو فرز وإدارة الطلبات (`RequestsPage.js`) ✅ [مُنجز ومثبت في المستودع]
 - **المسار**: [`assets/src/pages/RequestsPage.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/pages/RequestsPage.js)
-- **الحجم والأسطر**: 53.0 KB | 1,122 سطر
-- **الهدف**: عزل لوحة الفرز ونوافذ التقييم والتحويل والرفض في `assets/src/components/requests/`.
-- **المخرجات المستهدفة**:
-  - `RequestTriageBoard.js` (لوحة كانبان لفرز الطلبات)
-  - `RequestEvaluationModal.js` (نافذة الفحص والتقدير الفني والمالي)
-  - `RequestConversionModal.js` (نافذة تحويل الطلب إلى مشروع رسمي وتعيين القائد)
-  - `RequestFilterBar.js` (شريط فلترة وبحث الطلبات)
-  - `RequestsPage.js` (متحكم الصفحة الرشيق)
-
-> 📋 **البرومبت التشغيلي (Operational Prompt):**
-> ```text
-> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لتفكيك استوديو فرز الطلبات assets/src/pages/RequestsPage.js:
-> 1. إنشاء مجلد assets/src/components/requests/ واستخراج (RequestTriageBoard.js, RequestEvaluationModal.js, RequestConversionModal.js, RequestFilterBar.js).
-> 2. تجريد الـ Inline CSS وضبط كلاسات BEM في admin.css.
-> 3. تحويل RequestsPage.js لمتحكم حالة نقي يدير طلبات الـ REST والتنقل.
-> 4. التحقق بـ node --check واختبار test_e2e_lifecycle.php والتثبيت في Git.
-> ```
+- **الحجم الجديد**: 11.8 KB | 264 سطر (بدلاً من 53.0 KB و 1,122 سطر)
+- **المكونات المستخرجة في `assets/src/components/requests/`**:
+  - ✅ `RequestFilterBar.js` (شريط الفلاتر، القوالب، الترتيب، وتبديل طرق العرض الثلاث)
+  - ✅ `RequestCardsView.js` (عرض البطاقات والمواصفات المستلمة وأزرار الإجراءات)
+  - ✅ `RequestTriageBoard.js` (لوحة كانبان الفرز بالأعمدة الأربعة: وارد، دراسة، معتمد، مرفوض)
+  - ✅ `RequestTableView.js` (جدول الفرز السريع مع الإجراءات الفورية)
+  - ✅ `RequestConversionModal.js` (نافذة اعتماد وتدشين المشروع وتعيين القائد والميزانية)
+  - ✅ `RequestEvaluationModal.js` (نوافذ التقييم الفني وقيد الدراسة والرفض مع إشعار العميل)
+- **الـ CSS المفرغ**: تم إنشاء [`assets/src/css/modules/requests.css`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/css/modules/requests.css) واستيراده في `admin.css`.
+- **الحالة**: **100% PASS** (تم الفحص واختبار `test_e2e_lifecycle.php` والتثبيت بالالتزام `4abec2a`).
 
 ---
 
