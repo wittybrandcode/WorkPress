@@ -390,7 +390,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                             </div>
                                         `)}
                                     </div>
-                                `)}
+                                `}
                             </div>
                         `}
                     </div>
