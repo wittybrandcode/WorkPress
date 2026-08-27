@@ -1,128 +1,234 @@
 /**
  * WorkPress CSS Module: Gantt Chart & Timeline Engine
  * 
+ * Complete modular stylesheet adhering to WorkPress Constitution:
+ * - Strict 0px sharp geometry
+ * - Institutional BEM class naming
+ * - Cairo & Plus Jakarta Sans typography
+ *
  * @package WorkPress
- * @subpackage CSS
+ * @subpackage CSS/Modules
  */
 
-.wp-gantt-container {
+.wp-gantt-root {
+    display: flex;
+    flex-direction: column;
     background-color: #ffffff;
-    border: 1px solid #cbd5e1;
+    border: 1px solid #e2e8f0;
+    min-height: 640px;
     border-radius: 0;
+}
+
+.wp-gantt-controls-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid #e2e8f0;
+    background-color: #f8fafc;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+}
+
+.wp-gantt-filter-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.wp-gantt-scale-group {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+}
+
+.wp-gantt-split-layout {
+    display: flex;
+    flex: 1;
     overflow: hidden;
+    position: relative;
+}
+
+/* Right Master Table (380px) */
+.wp-gantt-master-table {
+    width: 380px;
+    min-width: 380px;
+    border-left: 2px solid #cbd5e1;
+    background-color: #ffffff;
+    z-index: 10;
     display: flex;
     flex-direction: column;
 }
 
-.wp-gantt-toolbar {
-    padding: 0.75rem 1rem;
-    border-bottom: 1px solid #e2e8f0;
+.wp-gantt-table-header {
+    height: 58px;
+    padding: 0 0.75rem;
     display: flex;
-    justify-content: space-between;
     align-items: center;
-    background-color: #f8fafc;
-}
-
-.wp-gantt-timeline-wrapper {
-    overflow-x: auto;
-    overflow-y: auto;
-    position: relative;
-}
-
-.wp-gantt-header-row {
-    display: flex;
-    border-bottom: 2px solid #cbd5e1;
+    justify-content: space-between;
     background-color: #f1f5f9;
-    font-weight: 700;
-    font-size: 0.75rem;
-    color: #475569;
+    border-bottom: 2px solid #cbd5e1;
+    font-weight: 800;
+    font-size: 0.82rem;
+    color: #0f172a;
 }
 
-.wp-gantt-scale-cell {
-    border-left: 1px solid #e2e8f0;
-    padding: 6px 8px;
-    text-align: center;
-    flex-shrink: 0;
+.wp-gantt-project-row {
+    height: 34px;
+    padding: 0 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f8fafc;
+    border-bottom: 1px solid #e2e8f0;
+    cursor: pointer;
     user-select: none;
 }
 
-.wp-gantt-tree-row {
+.wp-gantt-task-row {
+    height: 38px;
+    padding: 0 0.75rem 0 1rem;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     border-bottom: 1px solid #f1f5f9;
+    font-size: 0.8rem;
+    background-color: #ffffff;
     transition: background-color 0.15s ease;
 }
-.wp-gantt-tree-row:hover {
-    background-color: #f8fafc;
+
+.wp-gantt-task-row.is-hovered {
+    background-color: #f1f5f9;
 }
 
-.wp-gantt-tree-cell-title {
-    width: 280px;
-    min-width: 280px;
-    padding: 8px 12px;
-    border-left: 1px solid #e2e8f0;
-    background-color: #ffffff;
-    position: sticky;
-    right: 0;
-    z-index: 5;
-}
-
-.wp-gantt-bar-container {
+/* Left Canvas & Timeline */
+.wp-gantt-canvas-container {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
     position: relative;
-    flex-grow: 1;
-    height: 36px;
-    display: flex;
-    align-items: center;
 }
 
-.wp-gantt-bar {
+.wp-gantt-sticky-header {
+    height: 58px;
+    display: flex;
+    flex-direction: column;
+    border-bottom: 2px solid #cbd5e1;
+    background-color: #f8fafc;
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    user-select: none;
+}
+
+.wp-gantt-grid-overlay {
     position: absolute;
-    height: 20px;
-    border-radius: 0;
-    background-color: #008478;
-    color: #ffffff;
-    font-size: 0.68rem;
-    font-weight: 700;
+    top: 58px;
+    bottom: 0;
+    right: 0;
+    left: 0;
     display: flex;
-    align-items: center;
-    padding: 0 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    transition: transform 0.15s ease, background-color 0.15s ease;
-    cursor: pointer;
-}
-.wp-gantt-bar:hover {
-    background-color: #00564f;
-    transform: scaleY(1.1);
+    pointer-events: none;
+    z-index: 1;
 }
 
-.wp-gantt-bar.is-completed {
-    background-color: #10b981;
-}
-
-.wp-gantt-bar.is-overdue {
-    background-color: #ef4444;
-}
-
-/* Live Time Needle (Red vertical indicator) */
-.wp-gantt-needle {
+/* Needles */
+.wp-gantt-needle-today {
     position: absolute;
     top: 0;
     bottom: 0;
     width: 2px;
     background-color: #ef4444;
-    z-index: 10;
-    pointer-events: none;
+    z-index: 4;
+    box-shadow: 0 0 8px rgba(239, 68, 68, 0.45);
 }
-.wp-gantt-needle::before {
-    content: '';
+
+.wp-gantt-needle-today-flag {
+    position: absolute;
+    top: -18px;
+    right: -14px;
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 4px;
+    border-radius: 0;
+}
+
+.wp-gantt-needle-now {
     position: absolute;
     top: 0;
-    right: -4px;
-    width: 10px;
-    height: 10px;
+    bottom: 0;
+    width: 2px;
     background-color: #ef4444;
-    transform: rotate(45deg);
+    z-index: 5;
+    box-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+}
+
+.wp-gantt-needle-now-flag {
+    position: absolute;
+    top: -20px;
+    right: -18px;
+    background-color: #ef4444;
+    color: #ffffff;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 1px 5px;
+    border-radius: 0;
+    white-space: nowrap;
+}
+
+/* Task Bar */
+.wp-gantt-bar-wrapper {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    z-index: 3;
+}
+
+.wp-gantt-bar-wrapper.is-hovered {
+    z-index: 10;
+}
+
+.wp-gantt-bar-inner {
+    height: 24px;
+    border-radius: 0;
+    cursor: pointer;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    transition: all 0.15s ease;
+    position: relative;
+}
+
+.wp-gantt-bar-inner:hover {
+    box-shadow: 0 3px 10px rgba(0,0,0,0.18);
+    transform: translateY(-1px);
+}
+
+/* Tooltip & Popover */
+.wp-gantt-tooltip-fixed {
+    position: fixed;
+    width: 350px;
+    background-color: #0f172a;
+    color: #ffffff;
+    padding: 0.85rem 1rem;
+    border-radius: 0;
+    box-shadow: 0 16px 36px rgba(15,23,42,0.45);
+    z-index: 9999;
+    pointer-events: none;
+    border: 1px solid #334155;
+    font-size: 0.82rem;
+    line-height: 1.4;
+}
+
+.wp-gantt-popover-fixed {
+    position: fixed;
+    z-index: 99999;
 }
