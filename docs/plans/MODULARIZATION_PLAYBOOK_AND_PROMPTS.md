@@ -34,25 +34,17 @@
 
 ---
 
-### 2. محرك ومخطط جانت التفاعلي (`GanttChart.js`) 🔴 [P1]
+### 2. محرك ومخطط جانت التفاعلي (`GanttChart.js`) ✅ [مُنجز ومثبت في المستودع]
 - **المسار**: [`assets/src/components/GanttChart.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/components/GanttChart.js)
-- **الحجم والأسطر**: 47.2 KB | 1,236 سطر
-- **الهدف**: عزل خوارزميات الحساب الزمني، متجهات SVG، والتحكم بالمقاييس في `assets/src/components/gantt/`.
-- **المخرجات المستهدفة**:
-  - `GanttScaleBar.js` (شريط التبديل بين الأيام، الأسابيع، الأشهر، الأرباع)
-  - `GanttGridCanvas.js` (شبكة التواريخ والخلفية)
-  - `GanttDependencyLinks.js` (حساب ورسم خطوط ربط الاعتمادات)
-  - `GanttTaskRow.js` (شريط المهمة وسحب وتعديل المواعيد)
-  - `GanttChart.js` (مكون المنسق الرئيسي)
-
-> 📋 **البرومبت التشغيلي (Operational Prompt):**
-> ```text
-> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لتفكيك محرك مخطط جانت assets/src/components/GanttChart.js:
-> 1. إنشاء مجلد assets/src/components/gantt/ واستخراج (GanttScaleBar.js, GanttGridCanvas.js, GanttDependencyLinks.js, GanttTaskRow.js).
-> 2. تجريد أي أنماط مضمنة ونقلها إلى admin.css مع الحفاظ على الحواف الحادة 0px.
-> 3. إبقاء GanttChart.js كمنسق رشيق يربط الحسابات بالعرض.
-> 4. التحقق عبر node --check واختبار test_gantt_chart.php و test_e2e_lifecycle.php بنسبة 100% PASS ثم التثبيت في Git.
-> ```
+- **الحجم الجديد**: 14.2 KB | 365 سطر (بدلاً من 47.2 KB و 1,236 سطر)
+- **المكونات المستخرجة في `assets/src/components/gantt/`**:
+  - ✅ `GanttScaleBar.js` (شريط الفلاتر، التبديل الزمني، وأزرار المقاييس الأربعة)
+  - ✅ `GanttTableSidebar.js` (الجدول الجانبي الأيمن، طي وتوسيع المشاريع، والكوادر)
+  - ✅ `GanttGridCanvas.js` (ترويسة التواريخ والشهور، شبكة الخلفية، وخط اليوم والآن)
+  - ✅ `GanttTaskRow.js` (شريط المهمة الملون، نسبة الإنجاز الداخلية، وزر إعادة الجدولة)
+  - ✅ `GanttTooltip.js` (تلميح التمرير الذكي الفاخر بدون أي تداخل بصري)
+- **الـ CSS المفرغ**: تم توسيع [`assets/src/css/modules/gantt.css`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/css/modules/gantt.css) بكلاسات BEM معيارية.
+- **الحالة**: **100% PASS** (تم الفحص واختبار `test_gantt_chart.php` و `test_e2e_lifecycle.php` والتثبيت بالالتزام `b2fd0de`).
 
 ---
 
