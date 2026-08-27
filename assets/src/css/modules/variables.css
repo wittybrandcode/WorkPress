@@ -50,7 +50,9 @@
     --wp-radius: 0px;
 }
 
-/* Square Snake Emerald Loader Keyframes */
+/* ==========================================================================
+   WorkPress Square Snake Emerald Loader Keyframes
+   ========================================================================== */
 @keyframes wpSquareSnake {
     0%, 100% {
         opacity: 0.12;
@@ -76,4 +78,9 @@
 
 .wp-loader-container {
     animation: fadeIn 0.2s ease;
+}
+
+@keyframes wpShimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
 }

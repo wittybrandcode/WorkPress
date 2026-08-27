@@ -1,10 +1,189 @@
 /**
- * WorkPress CSS Module: Encyclopedia & About WorkPress Presentation
+ * WorkPress CSS Module: Encyclopedia, About WorkPress Presentation & Executive Report Canvas
  * 
  * @package WorkPress
  * @subpackage CSS
  */
 
+/* ==========================================================================
+   Executive Report & Printable Knowledge Book Styles
+   ========================================================================== */
+.wp-report-modal .modal-card {
+    width: 900px !important;
+    max-width: 95vw !important;
+}
+
+.wp-report-canvas {
+    background: #ffffff;
+    color: #0f172a;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    padding: 36px 40px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    line-height: 1.6;
+}
+
+.wp-report-header {
+    border-bottom: 2px solid #0f172a;
+    padding-bottom: 20px;
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.wp-report-brand-title {
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: #0f172a;
+    letter-spacing: -0.5px;
+    margin-bottom: 4px;
+}
+
+.wp-report-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #334155;
+    padding: 4px 10px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.wp-report-metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.wp-report-metric-card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 14px 16px;
+    text-align: center;
+}
+
+.wp-report-metric-val {
+    font-size: 1.6rem;
+    font-weight: 900;
+    color: #0f172a;
+    line-height: 1.2;
+}
+
+.wp-report-metric-lbl {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #64748b;
+    margin-top: 4px;
+}
+
+.wp-report-section-title {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #0f172a;
+    border-right: 4px solid #0f172a;
+    padding-right: 10px;
+    margin: 24px 0 14px 0;
+}
+
+.wp-report-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 0.85rem;
+}
+
+.wp-report-table th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 800;
+    text-align: right;
+    padding: 10px 12px;
+    border: 1px solid #cbd5e1;
+}
+
+.wp-report-table td {
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: middle;
+}
+
+.wp-report-table tr:nth-child(even) td {
+    background-color: #f8fafc;
+}
+
+.wp-deliverable-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    padding: 16px 20px;
+    margin-bottom: 16px;
+    border-right: 4px solid #10b981;
+}
+
+.wp-deliverable-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.wp-deliverable-content {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 12px 16px;
+    font-family: inherit;
+    white-space: pre-wrap;
+    font-size: 0.88rem;
+    color: #1e293b;
+    line-height: 1.6;
+}
+
+/* Sign-off Signature Blocks */
+.wp-signoff-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    margin-top: 30px;
+    page-break-inside: avoid;
+    break-inside: avoid;
+}
+
+.wp-signoff-box {
+    border: 1px dashed #94a3b8;
+    background: #f8fafc;
+    padding: 16px;
+    text-align: center;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.wp-signoff-role {
+    font-weight: 800;
+    font-size: 0.85rem;
+    color: #0f172a;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 6px;
+    margin-bottom: 12px;
+}
+
+.wp-signoff-line {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: auto;
+    border-top: 1px solid #cbd5e1;
+    padding-top: 6px;
+}
+
+/* ==========================================================================
+   Encyclopedia & About WorkPress Presentation Styles
+   ========================================================================== */
 .wp-about-page {
     color: #0f172a;
 }

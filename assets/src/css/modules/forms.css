@@ -1,11 +1,182 @@
 /**
- * WorkPress CSS Module: Forms, Inputs & Studio Builders
+ * WorkPress CSS Module: Forms, Inputs, Sticky FilterBars & Studio Builders
  * 
  * @package WorkPress
  * @subpackage CSS
  */
 
-/* Form Elements Overrides */
+/* ==========================================================================
+   WorkPress Unified Sticky Compact FilterBar System
+   ========================================================================== */
+.wp-filter-toolbar {
+    background-color: #ffffff;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: none;
+    border-left: none;
+    border-right: none;
+    border-radius: 0 !important;
+    padding: 0.45rem 1rem;
+    margin: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.wp-filter-group {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    flex: 1;
+    min-width: 0;
+}
+
+.wp-filter-item {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.wp-filter-label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #475569;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.wp-filter-label i {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    color: #64748b;
+}
+
+.wp-filter-input {
+    height: 32px !important;
+    min-height: 32px !important;
+    font-size: 0.8rem !important;
+    border: 1px solid #cbd5e1 !important;
+    border-radius: 0 !important;
+    padding: 0 8px !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    box-shadow: none !important;
+}
+
+.wp-filter-input:focus {
+    border-color: #008478 !important;
+    box-shadow: 0 0 0 1px #008478 !important;
+}
+
+.wp-filter-search-box {
+    position: relative;
+    min-width: 180px;
+    max-width: 260px;
+    flex: 1;
+}
+
+.wp-filter-search-box .wp-filter-input {
+    padding-right: 28px !important;
+    width: 100%;
+}
+
+.wp-filter-search-icon {
+    position: absolute;
+    right: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    pointer-events: none;
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.wp-filter-search-clear {
+    position: absolute;
+    left: 8px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+}
+
+.wp-filter-search-clear:hover {
+    color: #e11d48;
+}
+
+.wp-filter-actions {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-right: auto;
+}
+
+.wp-filter-counter {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #475569;
+    background-color: #f8fafc;
+    padding: 3px 8px;
+    border: 1px solid #e2e8f0;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    border-radius: 0 !important;
+    white-space: nowrap;
+}
+
+.wp-filter-reset-btn {
+    height: 28px !important;
+    font-size: 0.72rem !important;
+    font-weight: 700 !important;
+    border-radius: 0 !important;
+    padding: 0 8px !important;
+    border: 1px solid #fecdd3 !important;
+    color: #e11d48 !important;
+    background-color: #fff1f2 !important;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    transition: all 0.15s ease;
+    text-decoration: none !important;
+}
+
+.wp-filter-reset-btn:hover {
+    background-color: #ffe4e6 !important;
+    color: #be123c !important;
+    border-color: #fda4af !important;
+}
+
+@media screen and (max-width: 768px) {
+    .wp-filter-toolbar {
+        top: 0;
+        position: relative;
+    }
+    .wp-filter-search-box {
+        max-width: 100%;
+        width: 100%;
+    }
+}
+
+/* ==========================================================================
+   Form Controls, Inputs & Selects
+   ========================================================================== */
 .workpress-spa .wp-title-input {
     border: 1px solid #e2e8f0 !important;
     box-shadow: none !important;
@@ -25,9 +196,9 @@
 
 .workpress-spa .wp-title-input:focus,
 .workpress-spa .wp-title-input:active {
-    border-color: #cbd5e1 !important;
+    border-color: #008478 !important;
     outline: none !important;
-    box-shadow: 0 0 0 1px #cbd5e1 !important;
+    box-shadow: 0 0 0 1px #008478 !important;
 }
 
 .workpress-spa .input:not(.wp-title-input),
@@ -63,10 +234,14 @@
 
 .workpress-spa .input:not(.wp-title-input):focus,
 .workpress-spa .textarea:focus,
-.workpress-spa .select select:focus {
-    border-color: #008478 !important;
-    box-shadow: 0 0 0 1px #008478 !important;
+.workpress-spa .select select:focus,
+.workpress-spa input.input:focus,
+.workpress-spa textarea.textarea:focus,
+.workpress-spa select:focus,
+.workpress-spa .wp-filter-input:focus {
     outline: none !important;
+    box-shadow: 0 0 0 1px #008478 !important;
+    border-color: #008478 !important;
 }
 
 /* Modal Sticky Top Toolbar & Metadata Grid */

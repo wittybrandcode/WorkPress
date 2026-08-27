@@ -1,10 +1,13 @@
 /**
- * WorkPress CSS Module: Base & Reset Overrides
+ * WorkPress CSS Module: Base Resets, Protections & Global Layout
  * 
  * @package WorkPress
  * @subpackage CSS
  */
 
+/* ==========================================================================
+   WP Admin Menu Protections (Anti-Bulma Bleed) & Full Width SPA Overrides
+   ========================================================================== */
 /* Bulma sets box-sizing: border-box globally. 
    We revert it for WP Admin core elements to prevent visual bugs. */
 #adminmenuwrap *,
@@ -17,26 +20,24 @@
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
-
 #wpbody {
     padding-top: 0 !important;
 }
-
 #wpbody-content {
     padding-bottom: 0 !important;
 }
-
 .wrap {
     margin: 0 !important;
     padding: 0 !important;
 }
-
 #wpbody-content > .notice,
 #wpbody-content > .update-nag {
     display: none !important; /* Hide generic WP notices in SPA mode to avoid breaking full width */
 }
 
-/* WorkPress Specific Layouts & Global Typography */
+/* ==========================================================================
+   WorkPress Specific Layouts & Global Typography
+   ========================================================================== */
 .workpress-spa,
 .workpress-spa *:not(.dashicons):not(.mce-ico):not(i),
 .workpress-spa h1,
@@ -54,14 +55,18 @@
     font-family: 'Cairo', sans-serif !important;
 }
 
-/* STRICT RIGHT ANGLES ENFORCEMENT */
+/* ==========================================================================
+   STRICT RIGHT ANGLES ENFORCEMENT
+   ========================================================================== */
 .workpress-spa *,
 .workpress-spa *::before,
 .workpress-spa *::after {
     border-radius: 0 !important;
 }
 
-/* Zero Focus Rings, Outlines & Shadow Boxes on Click / Active */
+/* ==========================================================================
+   Zero Focus Rings, Outlines & Shadow Boxes on Click / Active
+   ========================================================================== */
 .workpress-spa a:focus,
 .workpress-spa a:active,
 .workpress-spa a:focus-visible,
@@ -92,16 +97,123 @@
     width: 6px;
     height: 6px;
 }
-
 .workpress-spa ::-webkit-scrollbar-track {
     background: #f1f5f9;
 }
-
 .workpress-spa ::-webkit-scrollbar-thumb {
     background: #cbd5e1;
     border-radius: 0;
 }
-
 .workpress-spa ::-webkit-scrollbar-thumb:hover {
     background: #94a3b8;
+}
+
+.workpress-app {
+    padding: 1.5rem;
+    min-height: calc(100vh - 32px); /* WP Admin bar offset */
+    background: #f5f5f5; /* Light grey background for the app */
+}
+
+/* Glassmorphism Utilities */
+.wp-glassmorphism {
+    background: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+    position: sticky;
+    top: 0;
+    z-index: 30;
+}
+
+/* Real-Time Micro-Animations */
+.wp-fade-out {
+    opacity: 0 !important;
+    transform: scale(0.95) !important;
+    pointer-events: none !important;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.wp-slide-in {
+    animation: wpSlideInAnim 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes wpSlideInAnim {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.wp-updating {
+    opacity: 0.6 !important;
+    pointer-events: none !important;
+    filter: grayscale(20%);
+    transition: all 0.2s ease !important;
+}
+
+/* Native Print Engine Optimization (@media print) */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 12mm 15mm;
+    }
+
+    /* Hide WP Admin Elements & UI Shell */
+    #adminmenumain,
+    #adminmenuback,
+    #adminmenuwrap,
+    #wpadminbar,
+    #wpfooter,
+    .modal-background,
+    .modal-card-head,
+    .modal-card-foot,
+    .wp-report-no-print,
+    .wp-filter-toolbar,
+    .button,
+    button {
+        display: none !important;
+    }
+
+    body, 
+    #wpwrap, 
+    #wpcontent, 
+    #wpbody, 
+    #wpbody-content, 
+    .workpress-app,
+    .modal,
+    .modal.is-active,
+    .modal-card,
+    .modal-card-body {
+        background: #ffffff !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        position: static !important;
+        overflow: visible !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        height: auto !important;
+        max-height: none !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    .wp-report-canvas {
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        width: 100% !important;
+    }
+
+    .wp-report-metric-card,
+    .wp-deliverable-item,
+    .wp-signoff-grid,
+    .wp-report-table tr {
+        page-break-inside: avoid !important;
+        break-inside: avoid !important;
+    }
 }
