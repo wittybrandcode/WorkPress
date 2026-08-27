@@ -1,0 +1,112 @@
+/**
+ * WorkPress Admin Settings Stylesheet Module
+ *
+ * Implements clean BEM classes for settings tabs, role dropdowns,
+ * capability matrix, sound events matrix, and localization preview.
+ *
+ * @package WorkPress
+ * @subpackage CSS/Modules
+ */
+
+.wp-settings-tab-btn {
+    width: 100%;
+    justify-content: flex-start;
+    border-radius: 0 !important;
+    border: 1px solid transparent;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--wp-text-main, #0f172a);
+    background: transparent;
+    text-align: right;
+    padding: 0.5rem 0.75rem;
+    transition: all 0.15s ease;
+}
+
+.wp-settings-tab-btn:hover {
+    background: var(--wp-bg-subtle, #f1f5f9);
+    color: var(--wp-primary, #10b981);
+}
+
+.wp-settings-tab-btn.is-active {
+    background: #0f172a !important;
+    color: #ffffff !important;
+    border-color: #0f172a !important;
+}
+
+.wp-settings-card {
+    background: #ffffff;
+    border: 1px solid var(--wp-border, #e2e8f0);
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.wp-settings-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--wp-border, #e2e8f0);
+    padding-bottom: 0.75rem;
+    margin-bottom: 1.25rem;
+}
+
+/* Role Dropdown Component */
+.wp-role-dropdown-container {
+    width: 100%;
+    position: relative;
+}
+
+.wp-role-dropdown-trigger {
+    width: 100%;
+    padding: 6px 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #0f172a;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    user-select: none;
+}
+
+.wp-role-dropdown-menu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    left: 0;
+    z-index: 100;
+    background-color: #ffffff;
+    border: 1px solid #0f172a;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    margin-top: 2px;
+}
+
+.wp-role-dropdown-item {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    color: #0f172a;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.15s ease;
+}
+
+.wp-role-dropdown-item:hover,
+.wp-role-dropdown-item.is-active {
+    background-color: #f1f5f9;
+    font-weight: bold;
+}
+
+/* Settings Preview Box */
+.wp-settings-preview-box {
+    background-color: #f8fafc;
+    border: 2px solid #0f172a;
+    padding: 1rem;
+}
+
+/* Sound volume range */
+.wp-sound-range-slider {
+    flex-grow: 1;
+    accent-color: #6366f1;
+    cursor: pointer;
+}

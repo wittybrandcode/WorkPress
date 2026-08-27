@@ -28,3 +28,7 @@
 
 /* 7. Encyclopedia, Pillars, Citizenship & About WorkPress Presentation */
 @import url('modules/about.css');
+
+/* 8. Admin Settings Tabs & Granular Role Controls */
+@import url('modules/settings.css');
+
