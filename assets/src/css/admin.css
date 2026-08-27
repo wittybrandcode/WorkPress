@@ -32,3 +32,7 @@
 /* 8. Admin Settings Tabs & Granular Role Controls */
 @import url('modules/settings.css');
 
+/* 9. Request Studio, Triage Kanban & Client Specifications Vault */
+@import url('modules/requests.css');
+
+

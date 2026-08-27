@@ -1,0 +1,96 @@
+/**
+ * WorkPress CSS Module: Request Studio & Triage Board
+ * 
+ * Implements clean BEM classes for request filter bar, triage kanban board,
+ * client specification vault summaries, and modal evaluation sheets.
+ *
+ * @package WorkPress
+ * @subpackage CSS/Modules
+ */
+
+.wp-requests-filter-card {
+    background-color: #ffffff;
+    border-top: 3px solid #6366f1;
+    border-radius: 0;
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.wp-request-card {
+    background-color: #ffffff;
+    border-radius: 0;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    transition: all 0.15s ease;
+}
+
+.wp-request-card.is-pending {
+    border: 2px solid #f59e0b;
+    border-right: 6px solid #f59e0b;
+    box-shadow: 0 4px 14px rgba(245, 158, 11, 0.12);
+}
+
+.wp-request-card.is-review {
+    border: 2px solid #0284c7;
+    border-right: 6px solid #0284c7;
+}
+
+.wp-request-card.is-rejected {
+    border: 2px solid #ef4444;
+    border-right: 6px solid #ef4444;
+}
+
+.wp-request-card.is-active {
+    border: 1px solid #e2e8f0;
+    border-right: 6px solid #6366f1;
+}
+
+.wp-request-card-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.wp-request-specs-box {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0;
+    padding: 0.75rem;
+}
+
+.wp-request-specs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 160px;
+    overflow-y: auto;
+}
+
+/* Kanban Columns */
+.wp-request-kanban-col {
+    padding: 0.75rem;
+    border-radius: 0;
+    min-height: 100%;
+}
+
+.wp-request-kanban-col.is-pending {
+    background-color: #fef3c7;
+    border: 1.5px solid #fde68a;
+}
+
+.wp-request-kanban-col.is-review {
+    background-color: #e0f2fe;
+    border: 1.5px solid #bae6fd;
+}
+
+.wp-request-kanban-col.is-active {
+    background-color: #d1fae5;
+    border: 1.5px solid #a7f3d0;
+}
+
+.wp-request-kanban-col.is-archive {
+    background-color: #f1f5f9;
+    border: 1.5px solid #cbd5e1;
+}
