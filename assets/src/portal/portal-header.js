@@ -370,9 +370,9 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                 value=${selectedProjectId || ''} 
                                                 onChange=${onProjectChange}
                                             >
-                                                <option value="">🏢 اختر مشروعاً...</option>
+                                                <option value="">اختر مشروعاً...</option>
                                                 ${projects.map(p => html`
-                                                    <option key=${p.id} value=${p.id}>📁 ${p.name} (${p.prefix})</option>
+                                                    <option key=${p.id} value=${p.id}>${p.name} (${p.prefix || ('PRJ-' + p.id)})</option>
                                                 `)}
                                             </select>
                                         </div>
