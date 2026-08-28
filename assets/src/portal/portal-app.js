@@ -74,11 +74,12 @@
                 radarLoading: false,
                 isPreviewAsClient: false,
                 projects: [],
+                requests: [],
                 selectedProjectId: null,
                 projectData: null,
                 deliverables: [],
                 milestones: [],
-                activeTab: isRequestRoute ? 'new-request' : 'deliverables',
+                activeTab: isRequestRoute ? 'new-request' : 'dashboard',
                 loading: true,
                 feedbackTask: '',
                 feedbackMsg: '',
@@ -124,6 +125,7 @@
                     this.fetchRadarIntelligence();
                 }
                 this.fetchProjects();
+                this.fetchClientRequests();
                 this.fetchIntakeForms();
                 this.fetchPulseAndNotifications();
                 
@@ -255,31 +257,51 @@
             const hash = window.location.hash || '#/';
             if (hash.startsWith('#/new-request') || hash.startsWith('#/request')) {
                 this.setState({ activeTab: 'new-request' });
+            } else if (hash.startsWith('#/my-requests')) {
+                this.setState({ activeTab: 'my-requests' });
+            } else if (hash.startsWith('#/project/')) {
+                const parts = hash.replace('#/project/', '').split('/');
+                const pid = parseInt(parts[0], 10);
+                const subtab = parts[1] || 'deliverables';
+                if (pid && pid !== this.state.selectedProjectId) {
+                    this.setState({ selectedProjectId: pid, activeTab: subtab });
+                    this.loadProjectDetails(pid);
+                } else {
+                    this.setState({ activeTab: subtab });
+                }
             } else if (hash.startsWith('#/milestones') || hash.startsWith('#/roadmap')) {
                 this.setState({ activeTab: 'milestones' });
             } else if (hash.startsWith('#/feedback') || hash.startsWith('#/messages')) {
                 this.setState({ activeTab: 'feedback' });
-            } else if (hash.startsWith('#/my-requests')) {
-                this.setState({ activeTab: 'my-requests' });
             } else {
-                this.setState({ activeTab: 'deliverables' });
+                this.setState({ activeTab: 'dashboard', selectedProjectId: null });
             }
         };
 
         navigateToTab(tabName) {
             playPortalSound('button');
             this.setState({ activeTab: tabName });
-            if (tabName === 'new-request') {
+            if (tabName === 'dashboard') {
+                this.setState({ selectedProjectId: null });
+                window.location.hash = '#/';
+            } else if (tabName === 'new-request') {
                 window.location.hash = '#/new-request';
             } else if (tabName === 'my-requests') {
                 window.location.hash = '#/my-requests';
-            } else if (tabName === 'milestones') {
-                window.location.hash = '#/milestones';
-            } else if (tabName === 'feedback') {
-                window.location.hash = '#/feedback';
+            } else if (this.state.selectedProjectId) {
+                window.location.hash = '#/project/' + this.state.selectedProjectId + '/' + tabName;
             } else {
-                window.location.hash = '#/';
+                window.location.hash = '#/' + tabName;
             }
+        }
+
+        async fetchClientRequests() {
+            try {
+                const res = await apiFetch('my-requests');
+                if (res && res.success && res.data) {
+                    this.setState({ requests: res.data });
+                }
+            } catch (err) {}
         }
 
         async fetchIntakeForms() {
@@ -414,13 +436,19 @@
                 const res = await apiFetch('my-projects');
                 const projs = res.data || [];
                 this.setState({ projects: projs });
-                if (projs.length > 0) {
-                    const defaultId = this.state.selectedProjectId || projs[0].id;
-                    this.setState({ selectedProjectId: defaultId });
-                    this.loadProjectDetails(defaultId);
-                } else {
-                    this.setState({ loading: false });
+
+                // Check if current hash specifies a project
+                const hash = window.location.hash || '';
+                if (hash.startsWith('#/project/')) {
+                    const pid = parseInt(hash.replace('#/project/', '').split('/')[0], 10);
+                    if (pid) {
+                        this.setState({ selectedProjectId: pid });
+                        this.loadProjectDetails(pid);
+                        return;
+                    }
                 }
+
+                this.setState({ loading: false });
             } catch (err) {
                 this.setState({ loading: false });
             }
@@ -449,9 +477,16 @@
         }
 
         handleProjectChange(e) {
-            const newId = parseInt(e.target.value, 10);
-            this.setState({ selectedProjectId: newId });
-            this.loadProjectDetails(newId);
+            const val = e.target.value;
+            if (!val) {
+                this.setState({ selectedProjectId: null, activeTab: 'dashboard' });
+                window.location.hash = '#/';
+            } else {
+                const newId = parseInt(val, 10);
+                this.setState({ selectedProjectId: newId, activeTab: 'deliverables' });
+                this.loadProjectDetails(newId);
+                window.location.hash = '#/project/' + newId;
+            }
             playPortalSound('button');
         }
 
@@ -713,7 +748,32 @@
                             </div>
                         `}
 
-                        <!-- VIEW 1: REQUEST STUDIO -->
+                        <!-- VIEW 1: EXECUTIVE CLIENT DASHBOARD (HOME HUB) -->
+                        ${!loading && (!selectedProjectId || activeTab === 'dashboard') && activeTab !== 'new-request' && window.WorkPressPortal?.renderPortalDashboard && window.WorkPressPortal.renderPortalDashboard({
+                            user,
+                            roleLabel,
+                            projects,
+                            requests: this.state.requests,
+                            pulse: this.state.radarData || {},
+                            notifications,
+                            onSelectProject: (pid) => {
+                                this.setState({ selectedProjectId: pid, activeTab: 'deliverables' });
+                                this.loadProjectDetails(pid);
+                                window.location.hash = '#/project/' + pid;
+                            },
+                            onOpenRequestModal: () => this.navigateToTab('new-request'),
+                            onOpenDeliverableReview: (candidate) => {
+                                if (candidate && candidate.project_id) {
+                                    this.setState({ selectedProjectId: candidate.project_id, activeTab: 'deliverables' });
+                                    this.loadProjectDetails(candidate.project_id);
+                                    window.location.hash = '#/project/' + candidate.project_id + '/deliverables';
+                                }
+                            },
+                            onOpenProjectReport: (id) => this.openProjectReport(id),
+                            playPortalSound
+                        })}
+
+                        <!-- VIEW 2: REQUEST STUDIO -->
                         ${!loading && activeTab === 'new-request' && window.WorkPressPortal?.renderRequestStudio && window.WorkPressPortal.renderRequestStudio({
                             projects,
                             activeForm,
@@ -738,8 +798,8 @@
                             onResetSuccess: () => this.setState({ reqSuccess: '', reqCustomTitle: '', reqDesc: '', reqSpecs: {} })
                         })}
 
-                        <!-- VIEW 2 & 3: WORKSPACE & ACTIVE PROJECT DASHBOARD -->
-                        ${!loading && window.WorkPressPortal?.renderWorkspace && window.WorkPressPortal.renderWorkspace({
+                        <!-- VIEW 3: ACTIVE PROJECT WORKSPACE -->
+                        ${!loading && selectedProjectId && activeTab !== 'new-request' && activeTab !== 'dashboard' && window.WorkPressPortal?.renderWorkspace && window.WorkPressPortal.renderWorkspace({
                             projects,
                             projectData,
                             selectedProjectId,

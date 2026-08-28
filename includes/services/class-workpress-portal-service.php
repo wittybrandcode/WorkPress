@@ -885,13 +885,17 @@ class WorkPress_Portal_Service {
 		$req_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $req_js_path ) ? filemtime( $req_js_path ) : '1.2.0' );
 		wp_enqueue_script( 'workpress-portal-request-js', WORKPRESS_URL . 'assets/src/portal/portal-request.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $req_js_ver, true );
 
+		$dash_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-dashboard.js';
+		$dash_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $dash_js_path ) ? filemtime( $dash_js_path ) : '1.2.0' );
+		wp_enqueue_script( 'workpress-portal-dashboard-js', WORKPRESS_URL . 'assets/src/portal/portal-dashboard.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $dash_js_ver, true );
+
 		$ws_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-workspace.js';
 		$ws_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $ws_js_path ) ? filemtime( $ws_js_path ) : '1.2.0' );
 		wp_enqueue_script( 'workpress-portal-workspace-js', WORKPRESS_URL . 'assets/src/portal/portal-workspace.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $ws_js_ver, true );
 
 		$js_path = WORKPRESS_PATH . 'assets/src/portal/portal-app.js';
 		$js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $js_path ) ? filemtime( $js_path ) : '1.2.0' );
-		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm', 'workpress-portal-core-js', 'workpress-portal-login-js', 'workpress-portal-header-js', 'workpress-portal-gateway-js', 'workpress-portal-radar-js', 'workpress-portal-modals-js', 'workpress-portal-request-js', 'workpress-portal-workspace-js' ), $js_ver, true );
+		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm', 'workpress-portal-core-js', 'workpress-portal-login-js', 'workpress-portal-header-js', 'workpress-portal-gateway-js', 'workpress-portal-radar-js', 'workpress-portal-modals-js', 'workpress-portal-request-js', 'workpress-portal-dashboard-js', 'workpress-portal-workspace-js' ), $js_ver, true );
 
 		if ( class_exists( 'WorkPress_REST_Settings_Controller' ) ) {
 			$logo_url    = WorkPress_REST_Settings_Controller::get_custom_logo_url();

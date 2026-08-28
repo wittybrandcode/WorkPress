@@ -1353,6 +1353,469 @@ a:hover {
 }
 
 /* -------------------------------------------------------------
+ * 11.5 CLIENT EXECUTIVE DASHBOARD & HUB (PORTAL-DASHBOARD)
+ * ------------------------------------------------------------- */
+.portal-dashboard-wrapper {
+    max-width: 1280px;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.portal-dash-welcome-card {
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+    padding: 1.75rem;
+}
+
+.portal-dash-welcome-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.portal-dash-user-intro {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.portal-dash-avatar-wrapper {
+    width: 54px;
+    height: 54px;
+    flex-shrink: 0;
+}
+
+.portal-dash-avatar {
+    width: 54px;
+    height: 54px;
+    object-fit: cover;
+    border: 2px solid var(--wp-border);
+}
+
+.portal-dash-avatar-placeholder {
+    width: 54px;
+    height: 54px;
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wp-text-muted);
+}
+
+.portal-dash-greeting {
+    font-size: 1.25rem;
+    color: var(--wp-text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.portal-dash-role-badge {
+    background: #f1f5f9;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 1px 8px;
+}
+
+.portal-dash-subtitle {
+    font-size: 0.85rem;
+    color: var(--wp-text-secondary);
+    margin-top: 2px;
+}
+
+.portal-dash-cta-btn {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.92rem;
+    font-weight: 800;
+}
+
+.portal-dash-kpi-ribbon {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.portal-dash-kpi-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 0.85rem 1rem;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+}
+
+.portal-dash-kpi-icon-box {
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.portal-dash-kpi-icon-box.is-indigo { background: #e0e7ff; color: #4338ca; }
+.portal-dash-kpi-icon-box.is-emerald { background: #dcfce7; color: #15803d; }
+.portal-dash-kpi-icon-box.is-amber { background: #fef3c7; color: #b45309; }
+.portal-dash-kpi-icon-box.is-sky { background: #e0f2fe; color: #0369a1; }
+
+.portal-dash-kpi-num {
+    font-size: 1.35rem;
+    font-weight: 900;
+    color: var(--wp-text-main);
+    display: block;
+    line-height: 1.1;
+}
+
+.portal-dash-kpi-lbl {
+    font-size: 0.75rem;
+    color: var(--wp-text-secondary);
+    font-weight: 700;
+}
+
+/* ZONE 2: ACTION REQUIRED BOX */
+.portal-dash-action-box {
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    padding: 1.25rem 1.5rem;
+}
+
+.portal-dash-action-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid #fef3c7;
+}
+
+.portal-dash-action-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: #92400e;
+    margin: 0;
+}
+
+.portal-dash-candidates-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.portal-dash-candidate-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    background: #ffffff;
+    border: 1px solid #fef3c7;
+    padding: 0.85rem 1rem;
+}
+
+.portal-dash-candidate-num {
+    width: 24px;
+    height: 24px;
+    background: #fef3c7;
+    color: #92400e;
+    font-weight: 800;
+    font-size: 0.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portal-dash-candidate-title {
+    font-size: 0.9rem;
+    color: var(--wp-text-main);
+}
+
+.portal-dash-candidate-meta {
+    font-size: 0.75rem;
+    color: #78350f;
+    margin-top: 2px;
+}
+
+/* 2-COLUMN GRID LAYOUT */
+.portal-dash-grid-layout {
+    display: grid;
+    grid-template-columns: 1fr 340px;
+    gap: 1.5rem;
+    align-items: start;
+}
+
+.portal-dash-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 0.75rem;
+}
+
+.portal-dash-section-title {
+    font-size: 1.15rem;
+    font-weight: 900;
+    color: var(--wp-text-main);
+    margin: 0;
+}
+
+.portal-dash-section-desc {
+    font-size: 0.8rem;
+    color: var(--wp-text-secondary);
+    margin-top: 2px;
+}
+
+/* PORTFOLIO GRID & CARDS */
+.portal-dash-portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+}
+
+.portal-dash-project-card {
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.portal-dash-project-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+}
+
+.portal-dash-project-card.is-completed {
+    border-top: 3px solid var(--wp-emerald);
+}
+
+.portal-dash-prj-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 0.75rem;
+}
+
+.portal-dash-prj-badge {
+    font-size: 0.72rem;
+    font-weight: 800;
+    color: #64748b;
+    font-family: monospace;
+    display: block;
+    margin-bottom: 2px;
+}
+
+.portal-dash-prj-name {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: var(--wp-text-main);
+    margin: 0;
+    line-height: 1.3;
+}
+
+.portal-dash-prj-desc {
+    font-size: 0.8rem;
+    color: var(--wp-text-secondary);
+    margin-bottom: 1rem;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.portal-dash-progress-box {
+    margin-bottom: 1rem;
+    background: #f8fafc;
+    padding: 0.65rem 0.85rem;
+    border: 1px solid #f1f5f9;
+}
+
+.portal-dash-progress-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    margin-bottom: 6px;
+    color: var(--wp-text-secondary);
+}
+
+.portal-dash-progress-labels strong {
+    color: var(--wp-text-main);
+}
+
+.portal-dash-progress-track {
+    height: 6px;
+    background: #e2e8f0;
+    overflow: hidden;
+}
+
+.portal-dash-progress-fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.portal-dash-prj-meta-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    font-size: 0.75rem;
+    margin-bottom: 1rem;
+    padding-top: 0.65rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.portal-dash-meta-lbl {
+    color: #64748b;
+    display: block;
+    font-size: 0.7rem;
+}
+
+.portal-dash-meta-val {
+    color: #0f172a;
+    font-weight: 700;
+    font-size: 0.78rem;
+}
+
+.portal-dash-prj-footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 0.5rem;
+}
+
+.portal-dash-enter-btn {
+    flex: 1;
+    justify-content: center;
+    font-weight: 800;
+}
+
+/* REQUESTS LIST */
+.portal-dash-requests-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.portal-dash-request-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.85rem 1rem;
+    border-bottom: 1px solid #f1f5f9;
+}
+
+.portal-dash-request-row:last-child {
+    border-bottom: none;
+}
+
+.portal-dash-req-tag {
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 0.75rem;
+    color: #64748b;
+    background: #f1f5f9;
+    padding: 2px 6px;
+}
+
+.portal-dash-req-title {
+    font-size: 0.88rem;
+    color: var(--wp-text-main);
+}
+
+.portal-dash-req-date {
+    font-size: 0.72rem;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+/* SIDE COLUMN: ACTIVITY STREAM */
+.portal-dash-side-box {
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    padding: 1.25rem;
+}
+
+.portal-dash-side-title {
+    font-size: 0.95rem;
+    font-weight: 800;
+    color: var(--wp-text-main);
+    margin: 0 0 1rem 0;
+    padding-bottom: 0.65rem;
+    border-bottom: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center;
+}
+
+.portal-dash-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    position: relative;
+    padding-right: 12px;
+    border-right: 2px solid #e2e8f0;
+}
+
+.portal-dash-timeline-item {
+    position: relative;
+}
+
+.portal-dash-timeline-dot {
+    position: absolute;
+    right: -17px;
+    top: 4px;
+    width: 8px;
+    height: 8px;
+    background: var(--wp-emerald);
+    border: 2px solid #ffffff;
+    box-shadow: 0 0 0 1px var(--wp-emerald);
+}
+
+.portal-dash-timeline-title {
+    font-size: 0.82rem;
+    color: var(--wp-text-main);
+    display: block;
+}
+
+.portal-dash-timeline-msg {
+    font-size: 0.75rem;
+    color: var(--wp-text-secondary);
+    margin: 2px 0;
+    line-height: 1.4;
+}
+
+.portal-dash-timeline-time {
+    font-size: 0.68rem;
+    color: #94a3b8;
+    display: block;
+}
+
+.portal-dash-trust-box {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 1rem;
+}
+
+@media (max-width: 900px) {
+    .portal-dash-grid-layout {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* -------------------------------------------------------------
  * 12. RESPONSIVE UTILITIES
  * ------------------------------------------------------------- */
 @media (max-width: 768px) {
