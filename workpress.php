@@ -3,7 +3,7 @@
  * Plugin Name: WorkPress
  * Plugin URI:  https://workpress.local
  * Description: Native Organizational Memory & Work Management Engine for WordPress.
- * Version:     2.2.1
+ * Version:     2.2.3
  * Author:      WorkPress Team
  * Text Domain: workpress
  * Domain Path: /languages
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'WORKPRESS_VERSION', '2.2.1' );
+define( 'WORKPRESS_VERSION', '2.2.3' );
 define( 'WORKPRESS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WORKPRESS_URL', plugin_dir_url( __FILE__ ) );
 

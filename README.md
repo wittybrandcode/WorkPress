@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v2.2.1--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
+  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v2.2.3--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
   <a href="https://wordpress.org/"><img src="https://img.shields.io/badge/WordPress-6.0%20➔%207.x-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress" /></a>
   <a href="https://php.net/"><img src="https://img.shields.io/badge/PHP-8.0%20➔%208.3-777bb4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv2-00192f?style=for-the-badge" alt="License" /></a>
