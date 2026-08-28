@@ -44,6 +44,7 @@ require_once WORKPRESS_PATH . 'includes/services/class-workpress-template-servic
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-security-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-export-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-portal-service.php';
+require_once WORKPRESS_PATH . 'includes/services/class-workpress-portal-signoff-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-report-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-webhook-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-hibernation-service.php';
