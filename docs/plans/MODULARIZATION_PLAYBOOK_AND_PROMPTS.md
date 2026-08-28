@@ -92,23 +92,15 @@
 
 ---
 
-### 6. صفحة تفاصيل المهمة ومسار الانتقالات (`TaskDetailPage.js`) 🟡 [P2]
+### 6. صفحة تفاصيل المهمة ومسار الانتقالات (`TaskDetailPage.js`) ✅ [مُنجز ومثبت في المستودع]
 - **المسار**: [`assets/src/pages/TaskDetailPage.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/pages/TaskDetailPage.js)
-- **الحجم والأسطر**: 33.1 KB | 707 سطر
-- **الهدف**: عزل ترويسة المهمة والأزرار، الشريط الجانبي للميتاداتا، وتيار المساهمات.
-- **المخرجات المستهدفة**:
-  - `TaskHeaderActions.js` (ترويسة المهمة وأزرار الانتقال والاعتماد)
-  - `TaskMetaSidebar.js` (الشريط الجانبي للمكلفين والمشروع والمواعيد)
-  - `TaskContributionsStream.js` (خط زمن المساهمات والحلول)
-  - `TaskDetailPage.js` (متحكم الصفحة الرشيق)
-
-> 📋 **البرومبت التشغيلي (Operational Prompt):**
-> ```text
-> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لتفكيك صفحة تفاصيل المهمة assets/src/pages/TaskDetailPage.js:
-> 1. استخراج (TaskHeaderActions.js, TaskMetaSidebar.js, TaskContributionsStream.js) في assets/src/components/task-detail/.
-> 2. تجريد الـ CSS المضمن ونقله لـ admin.css.
-> 3. التحقق بـ node --check واختبار test_task_checklists.php و test_time_tracking.php و test_e2e_lifecycle.php والتثبيت في Git.
-> ```
+- **الحجم الجديد**: 9.7 KB | 239 سطر (بدلاً من 33.1 KB و 707 سطر)
+- **المكونات المستخرجة في `assets/src/components/task-detail/`**:
+  - ✅ `TaskHeaderActions.js` (ترويسة المهمة وأزرار الانتقال والرمز وتعديل المهمة)
+  - ✅ `TaskContributionsStream.js` (خط زمن المساهمات والحلول، المرفقات، طلبات الحذف، ونموذج الإرسال)
+  - ✅ `TaskMetaSidebar.js` (الشريط الجانبي لميتاداتا المهمة، الحالة المشتقة، الأولوية، وإدارة المكلفين)
+- **الـ CSS المفرغ**: تم إنشاء [`assets/src/css/modules/task-detail.css`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/css/modules/task-detail.css) واستيراده في `admin.css`.
+- **الحالة**: **100% PASS** (تم الفحص واختبار `test_task_checklists.php` و `test_time_tracking.php` و `test_e2e_lifecycle.php` والتثبيت بالالتزام `f9c9141`).
 
 ---
 
