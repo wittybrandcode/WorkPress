@@ -63,24 +63,17 @@
 
 ---
 
-### 4. لوحة القيادة التنفيذية (`DashboardPage.js`) 🟡 [P2]
+### 4. لوحة القيادة التنفيذية (`DashboardPage.js`) ✅ [مُنجز ومثبت في المستودع]
 - **المسار**: [`assets/src/pages/DashboardPage.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/pages/DashboardPage.js)
-- **الحجم والأسطر**: 39.8 KB | 810 سطر
-- **الهدف**: استخراج بطاقات مؤشرات السرعة، مخطط عبء العمل، وتيار الأنشطة في `assets/src/components/dashboard/`.
-- **المخرجات المستهدفة**:
-  - `VelocityKpiGrid.js` (شبكة بطاقات المؤشرات الرقمية الحية)
-  - `TeamWorkloadCard.js` (مخطط توزيع عبء العمل على الكوادر)
-  - `RecentActivityFeed.js` (تيار الأنشطة والقرارات المعرفية)
-  - `DashboardPage.js` (منسق الصفحة الرئيسي)
-
-> 📋 **البرومبت التشغيلي (Operational Prompt):**
-> ```text
-> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لتفكيك لوحة القيادة assets/src/pages/DashboardPage.js:
-> 1. استخراج المكونات في assets/src/components/dashboard/ (VelocityKpiGrid.js, TeamWorkloadCard.js, RecentActivityFeed.js).
-> 2. عزل الـ Styles إلى admin.css والتأكد من الحواف الحادة 0px.
-> 3. إعادة صياغة DashboardPage.js كمنسق رشيق.
-> 4. التحقق بـ node --check واختبار test_e2e_lifecycle.php والتثبيت في Git.
-> ```
+- **الحجم الجديد**: 11.4 KB | 260 سطر (بدلاً من 39.8 KB و 810 سطر)
+- **المكونات المستخرجة في `assets/src/components/dashboard/`**:
+  - ✅ `DashboardPerspectiveToolbar.js` (شريط تبديل المناظير الثلاثة ومؤشرات الإنجاز العامة)
+  - ✅ `AdminPerspectiveView.js` (منظور الإدارة العليا: بطاقات KPI، صندوق التدخلات العاجلة، ورادار المشاريع)
+  - ✅ `LeadPerspectiveView.js` (منظور قيادة المشاريع: فحص واعتماد الحلول وتوزيع المهام ومشاريعي)
+  - ✅ `MemberPerspectiveView.js` (منظور الكادر المنفذ: المهام المسندة، قيد الإنجاز، ومستكشف المعرفة)
+  - ✅ `DashboardModals.js` (حزمة نوافذ العمليات الشاملة للمشاريع والمهام والتقارير)
+- **الـ CSS المفرغ**: تم إنشاء [`assets/src/css/modules/dashboard.css`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/css/modules/dashboard.css) واستيراده في `admin.css`.
+- **الحالة**: **100% PASS** (تم الفحص واختبار `test_e2e_lifecycle.php` والتثبيت بالالتزام `0747668`).
 
 ---
 
