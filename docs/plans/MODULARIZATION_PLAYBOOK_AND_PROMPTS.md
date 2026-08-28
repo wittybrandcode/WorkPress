@@ -77,23 +77,18 @@
 
 ---
 
-### 5. استوديو وباني نماذج الاستقبال (`IntakeFormsPage.js` + `IntakeFormsBuilderTab.js`) 🟡 [P2]
-- **المسار**: [`assets/src/pages/IntakeFormsPage.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/pages/IntakeFormsPage.js) & [`IntakeFormsBuilderTab.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/components/IntakeFormsBuilderTab.js)
-- **الحجم والأسطر**: 53.2 KB | 1,289 سطر
-- **الهدف**: عزل محرر الحقول، المعاينة الحية، ومحرر الخيارات في `assets/src/components/forms/`.
-- **المخرجات المستهدفة**:
-  - `FormFieldEditor.js` (محرر خصائص ونوع الحقل)
-  - `FormSchemaPreview.js` (العرض والمعاينة التفاعلية الحية للنموذج)
-  - `FormPillsSelector.js` (إدارة خيارات الخانات متعددة الاختيار)
-  - `IntakeFormsPage.js` (المتحكم الرئيسي)
-
-> 📋 **البرومبت التشغيلي (Operational Prompt):**
-> ```text
-> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لتفكيك استوديو نماذج الاستقبال:
-> 1. تقسيم assets/src/components/IntakeFormsBuilderTab.js إلى (FormFieldEditor.js, FormSchemaPreview.js, FormPillsSelector.js) في assets/src/components/forms/.
-> 2. تنظيف الـ Inline CSS وربط الكلاسات في admin.css.
-> 3. التحقق بـ node --check واختبار test_e2e_lifecycle.php والتثبيت في Git.
-> ```
+### 5. استوديو وباني نماذج الاستقبال (`IntakeFormsPage.js` + `IntakeFormsBuilderTab.js`) ✅ [مُنجز ومثبت في المستودع]
+- **المسارات**: [`assets/src/pages/IntakeFormsPage.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/pages/IntakeFormsPage.js) & [`IntakeFormsBuilderTab.js`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/components/IntakeFormsBuilderTab.js)
+- **الحجم الجديد**: 19.8 KB | 528 سطر إجمالي (بدلاً من 53.2 KB و 1,289 سطر)
+- **المكونات المستخرجة في `assets/src/components/forms/`**:
+  - ✅ `FormFieldPrimitives.js` (سجل الخانات واللبنات العامة وقالب النموذج الافتراضي الموحد)
+  - ✅ `FormFieldEditor.js` (محرر بطاقة الخانة التفاعلية، إعادة الترتيب، الحذف، والخيارات)
+  - ✅ `FormPillsSelector.js` (مدير وسوم الخيارات والوسوم متعددة الاختيار)
+  - ✅ `FormCanvasBuilder.js` (لوحة البناء ذات العمودين: لوحة اللبنات وكانفاس التعديل المباشر)
+  - ✅ `FormSchemaPreview.js` (نافذة المعاينة الفورية لواجهة العميل في البوابة)
+  - ✅ `IntakeFormsToolbar.js` (شريط الأدوات العلوي لتبديل القوالب والمعاينة والحفظ)
+- **الـ CSS المفرغ**: تم توسيع [`assets/src/css/modules/forms.css`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/assets/src/css/modules/forms.css) بكلاسات BEM معيارية.
+- **الحالة**: **100% PASS** (تم الفحص واختبار `test_e2e_lifecycle.php` والتثبيت بالالتزام `d834a39`).
 
 ---
 
