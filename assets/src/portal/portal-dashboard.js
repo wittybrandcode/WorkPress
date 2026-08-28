@@ -122,86 +122,45 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         return html`
             <div class="portal-dashboard-wrapper">
                 
-                <!-- ZONE 1: EXECUTIVE WELCOME BANNER & STATS -->
-                <div class="portal-dash-welcome-card mb-5">
-                    <div class="portal-dash-welcome-top">
-                        <div class="portal-dash-user-intro">
-                            <div class="portal-dash-avatar-wrapper">
-                                ${user.avatar ? html`
-                                    <img src=${user.avatar} alt=${user.display_name} class="portal-dash-avatar" />
-                                ` : html`
-                                    <div class="portal-dash-avatar-placeholder">
-                                        <i class="dashicons dashicons-admin-users"></i>
-                                    </div>
-                                `}
-                            </div>
-                            <div>
-                                <div class="portal-dash-greeting">
-                                    <span>مرحباً بك، </span>
-                                    <strong>${user.display_name || 'سعادة المستفيد'}</strong>
-                                    <span class="portal-dash-role-badge">${roleLabel}</span>
-                                </div>
-                                <p class="portal-dash-subtitle">
-                                    أهلاً بك في مساحة متابعة المشاريع والمخرجات الفنية لمنظومة WorkPress.
-                                </p>
-                            </div>
+                <!-- ZONE 1: TOP KPI METRICS RIBBON -->
+                <div class="portal-dash-kpi-ribbon mb-4">
+                    <div class="portal-dash-kpi-item">
+                        <div class="portal-dash-kpi-icon-box is-indigo">
+                            <i class="dashicons dashicons-portfolio"></i>
                         </div>
-
-                        <div class="portal-dash-actions">
-                            <button 
-                                type="button" 
-                                class="btn-portal btn-portal-primary portal-dash-cta-btn"
-                                onClick=${() => {
-                                    playPortalSound('button');
-                                    onOpenRequestModal();
-                                }}
-                            >
-                                <i class="dashicons dashicons-plus-alt2"></i>
-                                <span>طلب مشروع / خدمة جديدة</span>
-                            </button>
+                        <div>
+                            <span class="portal-dash-kpi-num">${activeProjects.length}</span>
+                            <span class="portal-dash-kpi-lbl">مشاريع جارية</span>
                         </div>
                     </div>
 
-                    <!-- Top KPI Badges Ribbon -->
-                    <div class="portal-dash-kpi-ribbon">
-                        <div class="portal-dash-kpi-item">
-                            <div class="portal-dash-kpi-icon-box is-indigo">
-                                <i class="dashicons dashicons-portfolio"></i>
-                            </div>
-                            <div>
-                                <span class="portal-dash-kpi-num">${activeProjects.length}</span>
-                                <span class="portal-dash-kpi-lbl">مشاريع جارية</span>
-                            </div>
+                    <div class="portal-dash-kpi-item">
+                        <div class="portal-dash-kpi-icon-box is-emerald">
+                            <i class="dashicons dashicons-yes-alt"></i>
                         </div>
-
-                        <div class="portal-dash-kpi-item">
-                            <div class="portal-dash-kpi-icon-box is-emerald">
-                                <i class="dashicons dashicons-yes-alt"></i>
-                            </div>
-                            <div>
-                                <span class="portal-dash-kpi-num">${totalDeliverablesCount}</span>
-                                <span class="portal-dash-kpi-lbl">مخرجات مستلمة</span>
-                            </div>
+                        <div>
+                            <span class="portal-dash-kpi-num">${totalDeliverablesCount}</span>
+                            <span class="portal-dash-kpi-lbl">مخرجات مستلمة</span>
                         </div>
+                    </div>
 
-                        <div class="portal-dash-kpi-item">
-                            <div class="portal-dash-kpi-icon-box is-amber">
-                                <i class="dashicons dashicons-chart-area"></i>
-                            </div>
-                            <div>
-                                <span class="portal-dash-kpi-num">${averageProgress}%</span>
-                                <span class="portal-dash-kpi-lbl">متوسط الإنجاز الكلي</span>
-                            </div>
+                    <div class="portal-dash-kpi-item">
+                        <div class="portal-dash-kpi-icon-box is-amber">
+                            <i class="dashicons dashicons-chart-area"></i>
                         </div>
+                        <div>
+                            <span class="portal-dash-kpi-num">${averageProgress}%</span>
+                            <span class="portal-dash-kpi-lbl">متوسط الإنجاز الكلي</span>
+                        </div>
+                    </div>
 
-                        <div class="portal-dash-kpi-item">
-                            <div class="portal-dash-kpi-icon-box is-sky">
-                                <i class="dashicons dashicons-forms"></i>
-                            </div>
-                            <div>
-                                <span class="portal-dash-kpi-num">${requests.length}</span>
-                                <span class="portal-dash-kpi-lbl">إجمالي الطلبات</span>
-                            </div>
+                    <div class="portal-dash-kpi-item">
+                        <div class="portal-dash-kpi-icon-box is-sky">
+                            <i class="dashicons dashicons-forms"></i>
+                        </div>
+                        <div>
+                            <span class="portal-dash-kpi-num">${requests.length}</span>
+                            <span class="portal-dash-kpi-lbl">إجمالي الطلبات</span>
                         </div>
                     </div>
                 </div>
