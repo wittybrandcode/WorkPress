@@ -35,4 +35,8 @@
 /* 9. Request Studio, Triage Kanban & Client Specifications Vault */
 @import url('modules/requests.css');
 
+/* 10. Executive Dashboard, KPI Grids & Operational Perspectives */
+@import url('modules/dashboard.css');
+
+
 
