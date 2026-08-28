@@ -121,15 +121,15 @@
 
 ---
 
-### 8. متحكم REST للبوابة المستقلة (`class-workpress-rest-portal-controller.php`) 🟡 [P2]
+### 8. متحكم REST للبوابة المستقلة (`class-workpress-rest-portal-controller.php`) ✅ [مُنجز ومثبت في المستودع]
 - **المسار**: [`includes/api/class-workpress-rest-portal-controller.php`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/includes/api/class-workpress-rest-portal-controller.php)
-- **الحجم والأسطر**: 43.5 KB | 1,432 سطر
-- **الهدف**: استخراج معالجات الطلبات (Handlers) المخصصة للبوابة (Requests, Feedback, Pulse, Signoff).
-
-> 📋 **البرومبت التشغيلي (Operational Prompt):**
-> ```text
-> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لتفكيك متحكم REST للبوابة includes/api/class-workpress-rest-portal-controller.php واستخراج Request Handlers مخصصة في includes/api/portal/ واختبار حزمة test_auth_service.php و test_e2e_lifecycle.php والتثبيت في Git.
-> ```
+- **الحجم الجديد**: 10.5 KB | 345 سطر (بدلاً من 43.5 KB و 1,432 سطر)
+- **المعالجات المستخرجة في `includes/api/portal/`**:
+  - ✅ `class-workpress-portal-auth-handler.php` (المصادقة، فحص الصلاحيات، وتجديد النونس)
+  - ✅ `class-workpress-portal-requests-handler.php` (نماذج الاستقبال، رفع المرفقات، وتقديم الطلبات)
+  - ✅ `class-workpress-portal-projects-handler.php` (المشاريع، المراحل، المخرجات المعتمدة، والتسليم النهائي)
+  - ✅ `class-workpress-portal-pulse-handler.php` (الملاحظات، رادار القيادة، النبض، وقنوات الإشعارات والملف الشخصي)
+- **الحالة**: **100% PASS** (تم الفحص واختبار `test_auth_service.php` و `test_e2e_lifecycle.php` والتثبيت بالالتزام `3fa513f`).
 
 ---
 
