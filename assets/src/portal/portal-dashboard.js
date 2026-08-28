@@ -88,6 +88,8 @@ window.WorkPressPortal = window.WorkPressPortal || {};
             playPortalSound = () => {}
         } = props;
 
+        const renderCover = window.WorkPressPortal?.renderCardCover || (() => null);
+
         // Pagination states
         const [prjPage, setPrjPage] = useState ? useState(1) : [1, () => {}];
         const [reqPage, setReqPage] = useState ? useState(1) : [1, () => {}];
@@ -228,6 +230,9 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                 <div key=${idx} class="portal-dash-candidate-row">
                                     <div style="display: flex; align-items: center; gap: 12px; flex: 1;">
                                         <span class="portal-dash-candidate-num">${idx + 1}</span>
+                                        <div class="portal-dash-row-thumb">
+                                            ${renderCover(candidate, 'deliverable', '40px')}
+                                        </div>
                                         <div>
                                             <strong class="portal-dash-candidate-title">${candidate.task_title || candidate.title}</strong>
                                             <div class="portal-dash-candidate-meta">
@@ -294,74 +299,79 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
                                         return html`
                                             <div key=${proj.id} class="portal-dash-project-card ${isDone ? 'is-completed' : ''}">
-                                                <div class="portal-dash-prj-top">
-                                                    <div>
-                                                        <span class="portal-dash-prj-badge">${proj.prefix || ('PRJ-' + proj.id)}</span>
-                                                        <h4 class="portal-dash-prj-name">${proj.name}</h4>
-                                                    </div>
-                                                    <span class="portal-badge ${isDone ? 'portal-badge-emerald' : 'portal-badge-indigo'}">
-                                                        ${isDone ? 'مكتمل' : 'قيد التنفيذ'}
-                                                    </span>
-                                                </div>
+                                                <!-- Top Project Cover Image or Smart Vector Default -->
+                                                ${renderCover(proj, 'project', '135px')}
 
-                                                ${proj.description ? html`
-                                                    <p class="portal-dash-prj-desc">${proj.description}</p>
-                                                ` : null}
-
-                                                <!-- Progress Bar & Percentage -->
-                                                <div class="portal-dash-progress-box">
-                                                    <div class="portal-dash-progress-labels">
-                                                        <span>نسبة الإنجاز الفني</span>
-                                                        <strong>${progressVal}%</strong>
+                                                <div class="portal-dash-project-card-body">
+                                                    <div class="portal-dash-prj-top">
+                                                        <div>
+                                                            <span class="portal-dash-prj-badge">${proj.prefix || ('PRJ-' + proj.id)}</span>
+                                                            <h4 class="portal-dash-prj-name">${proj.name}</h4>
+                                                        </div>
+                                                        <span class="portal-badge ${isDone ? 'portal-badge-emerald' : 'portal-badge-indigo'}">
+                                                            ${isDone ? 'مكتمل' : 'قيد التنفيذ'}
+                                                        </span>
                                                     </div>
-                                                    <div class="portal-dash-progress-track">
-                                                        <div 
-                                                            class="portal-dash-progress-fill" 
-                                                            style=${{ width: `${progressVal}%`, backgroundColor: isDone ? '#10b981' : '#6366f1' }}
-                                                        ></div>
-                                                    </div>
-                                                </div>
 
-                                                <!-- Project Metadata Footer -->
-                                                <div class="portal-dash-prj-meta-grid">
-                                                    <div>
-                                                        <span class="portal-dash-meta-lbl">المسؤول الفني:</span>
-                                                        <strong class="portal-dash-meta-val">${(proj.lead && proj.lead.name) ? proj.lead.name : 'فريق WorkPress'}</strong>
-                                                    </div>
-                                                    <div>
-                                                        <span class="portal-dash-meta-lbl">الموعد المستهدف:</span>
-                                                        <strong class="portal-dash-meta-val">${proj.due_at ? proj.due_at.substring(0, 10) : 'مرن'}</strong>
-                                                    </div>
-                                                </div>
+                                                    ${proj.description ? html`
+                                                        <p class="portal-dash-prj-desc">${proj.description}</p>
+                                                    ` : null}
 
-                                                <!-- Card Action Button -->
-                                                <div class="portal-dash-prj-footer">
-                                                    <button 
-                                                        type="button" 
-                                                        class="btn-portal btn-portal-outline btn-portal-sm portal-dash-enter-btn"
-                                                        onClick=${() => {
-                                                            playPortalSound('transition');
-                                                            onSelectProject(proj.id);
-                                                        }}
-                                                    >
-                                                        <span>دخول مساحة العمل والتفاصيل</span>
-                                                        <i class="dashicons dashicons-arrow-left-alt"></i>
-                                                    </button>
+                                                    <!-- Progress Bar & Percentage -->
+                                                    <div class="portal-dash-progress-box">
+                                                        <div class="portal-dash-progress-labels">
+                                                            <span>نسبة الإنجاز الفني</span>
+                                                            <strong>${progressVal}%</strong>
+                                                        </div>
+                                                        <div class="portal-dash-progress-track">
+                                                            <div 
+                                                                class="portal-dash-progress-fill" 
+                                                                style=${{ width: `${progressVal}%`, backgroundColor: isDone ? '#10b981' : '#6366f1' }}
+                                                            ></div>
+                                                        </div>
+                                                    </div>
 
-                                                    ${isDone && html`
+                                                    <!-- Project Metadata Footer -->
+                                                    <div class="portal-dash-prj-meta-grid">
+                                                        <div>
+                                                            <span class="portal-dash-meta-lbl">المسؤول الفني:</span>
+                                                            <strong class="portal-dash-meta-val">${(proj.lead && proj.lead.name) ? proj.lead.name : 'فريق WorkPress'}</strong>
+                                                        </div>
+                                                        <div>
+                                                            <span class="portal-dash-meta-lbl">الموعد المستهدف:</span>
+                                                            <strong class="portal-dash-meta-val">${proj.due_at ? proj.due_at.substring(0, 10) : 'مرن'}</strong>
+                                                        </div>
+                                                    </div>
+
+                                                    <!-- Card Action Button -->
+                                                    <div class="portal-dash-prj-footer">
                                                         <button 
                                                             type="button" 
-                                                            class="btn-portal btn-portal-emerald btn-portal-sm"
-                                                            title="استعراض وطباعة وثيقة الاستلام الرسمية"
-                                                            onClick=${(e) => {
-                                                                e.stopPropagation();
-                                                                onOpenProjectReport(proj.id);
+                                                            class="btn-portal btn-portal-outline btn-portal-sm portal-dash-enter-btn"
+                                                            onClick=${() => {
+                                                                playPortalSound('transition');
+                                                                onSelectProject(proj.id);
                                                             }}
                                                         >
-                                                            <i class="dashicons dashicons-media-document"></i>
-                                                            <span>شهادة الاستلام</span>
+                                                            <span>دخول مساحة العمل والتفاصيل</span>
+                                                            <i class="dashicons dashicons-arrow-left-alt"></i>
                                                         </button>
-                                                    `}
+
+                                                        ${isDone && html`
+                                                            <button 
+                                                                type="button" 
+                                                                class="btn-portal btn-portal-emerald btn-portal-sm"
+                                                                title="استعراض وطباعة وثيقة الاستلام الرسمية"
+                                                                onClick=${(e) => {
+                                                                    e.stopPropagation();
+                                                                    onOpenProjectReport(proj.id);
+                                                                }}
+                                                            >
+                                                                <i class="dashicons dashicons-media-document"></i>
+                                                                <span>شهادة الاستلام</span>
+                                                            </button>
+                                                        `}
+                                                    </div>
                                                 </div>
                                             </div>
                                         `;
@@ -403,8 +413,11 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
                                             return html`
                                                 <div key=${idx} class="portal-dash-request-row">
-                                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                                    <div style="display: flex; align-items: center; gap: 12px;">
                                                         <span class="portal-dash-req-tag">#${req.id || (idx + 1)}</span>
+                                                        <div class="portal-dash-row-thumb">
+                                                            ${renderCover(req, 'request', '40px')}
+                                                        </div>
                                                         <div>
                                                             <strong class="portal-dash-req-title">${req.title || req.name || 'طلب مشروع بدون عنوان'}</strong>
                                                             <div class="portal-dash-req-date">

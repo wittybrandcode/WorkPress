@@ -161,9 +161,10 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    margin-top: 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid #f1f5f9;
+    margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--wp-border);
+    width: 100%;
 }
 
 .portal-page-numbers {

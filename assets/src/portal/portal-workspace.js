@@ -35,16 +35,18 @@ window.WorkPressPortal = window.WorkPressPortal || {};
             onFeedbackTaskChange, onFeedbackActionTypeChange, onFeedbackMsgChange, onFeedbackSubmit
         } = ctx;
 
-        // Dedicated View for "My Requests" tab (4x6 Grid — 24 items per page)
+        const renderCover = window.WorkPressPortal?.renderCardCover || (() => null);
+
+        // Dedicated View for "My Requests" tab (Rich Natural Cards with Image Covers)
         if (activeTab === 'my-requests') {
             const allReqs = (requests && requests.length > 0) ? requests : projects.filter(p => p.is_client_request);
-            const REQS_PER_PAGE = 24;
+            const REQS_PER_PAGE = 12;
             const totalReqPages = Math.ceil(allReqs.length / REQS_PER_PAGE);
             const paginatedReqs = allReqs.slice((reqPage - 1) * REQS_PER_PAGE, reqPage * REQS_PER_PAGE);
 
             return html`
                 <div class="portal-workspace-wrapper">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                         <div>
                             <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.25rem;">
                                 سجل طلبات المشاريع والخدمات المقدمة
@@ -79,7 +81,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
                     ` : html`
                         <div>
-                            <div class="portal-requests-grid-24">
+                            <div class="portal-requests-grid-natural">
                                 ${paginatedReqs.map(r => {
                                     let statusLabel = 'طلب قيد المراجعة والدراسة';
                                     let badgeClass = 'var(--wp-warning-light)';
@@ -99,17 +101,35 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     }
 
                                     return html`
-                                        <div key=${r.id} class="portal-req-card-compact">
-                                            <div class="portal-req-card-top">
-                                                <span class="portal-req-status-tag" style="background: ${badgeClass}; border-color: ${borderClass}; color: ${textClass};">
-                                                    <i class="dashicons dashicons-clock" style="font-size: 12px; width: 12px; height: 12px;"></i>
-                                                    <span>${statusLabel}</span>
-                                                </span>
-                                                <span class="portal-req-card-date">${r.created_at ? r.created_at.substring(0, 10) : ''}</span>
-                                            </div>
-                                            <div>
-                                                <h4 class="portal-req-card-title">${r.title || r.name}</h4>
-                                                <p class="portal-req-card-desc">${r.description || 'لا يوجد بيان إضافي.'}</p>
+                                        <div key=${r.id} class="portal-req-card-full">
+                                            <!-- Top Cover Image or Smart Vector Default -->
+                                            ${renderCover(r, 'request', '140px')}
+
+                                            <div class="portal-req-card-body">
+                                                <div>
+                                                    <div class="portal-req-card-header">
+                                                        <span style="background: ${badgeClass}; border: 1px solid ${borderClass}; color: ${textClass}; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px;">
+                                                            <i class="dashicons dashicons-clock" style="font-size: 13px; width: 13px; height: 13px;"></i>
+                                                            <span>${statusLabel}</span>
+                                                        </span>
+                                                        <span style="font-size: 0.75rem; color: var(--wp-text-muted); font-family: monospace;">${r.created_at ? r.created_at.substring(0, 10) : ''}</span>
+                                                    </div>
+
+                                                    <h4 class="portal-req-card-title">${r.title || r.name}</h4>
+                                                    <p class="portal-req-card-desc">${r.description || 'لا يوجد بيان إضافي مرفق مع الطلب.'}</p>
+                                                </div>
+
+                                                <div class="portal-req-card-footer">
+                                                    <span style="font-size: 0.75rem; color: var(--wp-text-muted);">رقم الطلب: <strong>#${r.id}</strong></span>
+                                                    <button 
+                                                        type="button" 
+                                                        class="btn-portal btn-portal-outline btn-portal-sm"
+                                                        onClick=${() => onNavigateToTab('new-request')}
+                                                    >
+                                                        <span>متابعة الطلب</span>
+                                                        <i class="dashicons dashicons-arrow-left-alt"></i>
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     `;
@@ -283,32 +303,37 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                 ` : html`
                                     <div class="portal-vault-grid">
                                         ${deliverables.map(d => html`
-                                            <div key=${d.id} class="wp-portal-card portal-vault-card">
-                                                <div>
-                                                    <div class="portal-vault-header">
-                                                        <span class="portal-vault-approved-tag">
-                                                            <i class="dashicons dashicons-yes" style="font-size: 14px;"></i>
-                                                            <span>حل معتمد رسمي</span>
-                                                        </span>
-                                                        <span style="font-size: 0.75rem; color: var(--wp-text-muted);">${d.created_at ? d.created_at.substring(0, 10) : ''}</span>
+                                            <div key=${d.id} class="wp-portal-card portal-vault-card" style="padding: 0; overflow: hidden;">
+                                                <!-- Top Deliverable Cover Image or Smart Vector Default -->
+                                                ${renderCover(d, 'deliverable', '130px')}
+
+                                                <div style="padding: 1.25rem; display: flex; flex-direction: column; flex: 1; justify-content: space-between;">
+                                                    <div>
+                                                        <div class="portal-vault-header">
+                                                            <span class="portal-vault-approved-tag">
+                                                                <i class="dashicons dashicons-yes" style="font-size: 14px;"></i>
+                                                                <span>حل معتمد رسمي</span>
+                                                            </span>
+                                                            <span style="font-size: 0.75rem; color: var(--wp-text-muted); font-family: monospace;">${d.created_at ? d.created_at.substring(0, 10) : ''}</span>
+                                                        </div>
+                                                        <h4 class="portal-vault-title">
+                                                            ${d.task_title || 'مخرج فني'}
+                                                        </h4>
+                                                        <div class="portal-vault-body" dangerouslySetInnerHTML=${{ __html: d.content || d.payload || '' }}></div>
                                                     </div>
-                                                    <h4 class="portal-vault-title">
-                                                        ${d.task_title || 'مخرج فني'}
-                                                    </h4>
-                                                    <div class="portal-vault-body" dangerouslySetInnerHTML=${{ __html: d.content || d.payload || '' }}></div>
-                                                </div>
 
-                                                <div class="portal-vault-footer">
-                                                    <span style="font-size: 0.78rem; color: var(--wp-text-muted);">
-                                                        بواسطة: <strong>${d.author_name || 'الفريق الفني'}</strong>
-                                                    </span>
+                                                    <div class="portal-vault-footer">
+                                                        <span style="font-size: 0.78rem; color: var(--wp-text-muted);">
+                                                            بواسطة: <strong>${d.author_name || 'الفريق الفني'}</strong>
+                                                        </span>
 
-                                                    ${d.file_url ? html`
-                                                        <a href="${d.file_url}" target="_blank" download class="btn-portal btn-portal-primary btn-portal-sm">
-                                                            <i class="dashicons dashicons-download"></i>
-                                                            <span>تنزيل الملف</span>
-                                                        </a>
-                                                    ` : null}
+                                                        ${d.file_url ? html`
+                                                            <a href="${d.file_url}" target="_blank" download class="btn-portal btn-portal-primary btn-portal-sm">
+                                                                <i class="dashicons dashicons-download"></i>
+                                                                <span>تنزيل الملف</span>
+                                                            </a>
+                                                        ` : null}
+                                                    </div>
                                                 </div>
                                             </div>
                                         `)}

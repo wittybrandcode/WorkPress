@@ -196,78 +196,156 @@
     margin: 0;
 }
 
-.portal-vault-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-    gap: 1.25rem;
+/* Card Cover Box & Images */
+.portal-card-cover-box {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    background: #0f172a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--wp-border);
 }
 
-/* 4x6 24-Box Density Grid for Requests Archive */
-.portal-requests-grid-24 {
+.portal-card-cover-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+}
+
+.portal-req-card-full:hover .portal-card-cover-img,
+.portal-dash-project-card:hover .portal-card-cover-img,
+.portal-vault-card:hover .portal-card-cover-img {
+    transform: scale(1.04);
+}
+
+/* Smart Generative Default Cover */
+.portal-smart-default-cover {
+    position: relative;
+    overflow: hidden;
+}
+
+.portal-cover-vector-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.portal-cover-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+}
+
+.portal-cover-icon-circle {
+    width: 38px;
+    height: 38px;
+    background: rgba(255, 255, 255, 0.14);
+    backdrop-filter: blur(4px);
+    border: 1.5px solid;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portal-cover-icon-circle .dashicons {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    color: #ffffff;
+}
+
+.portal-cover-prefix {
+    font-size: 0.68rem;
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: 0.5px;
+    background: rgba(0, 0, 0, 0.35);
+    padding: 1px 7px;
+    font-family: monospace;
+}
+
+/* Natural Proportions Grid & Cards for Requests */
+.portal-requests-grid-natural {
     display: grid;
-    grid-template-columns: repeat(6, minmax(0, 1fr));
-    gap: 0.85rem;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
     width: 100%;
     box-sizing: border-box;
 }
 
-.portal-req-card-compact {
+.portal-req-card-full {
     background: #ffffff;
     border: 1px solid var(--wp-border);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
-    padding: 0.85rem 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     min-width: 0;
-    min-height: 125px;
+    overflow: hidden;
     box-sizing: border-box;
     transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
 }
 
-.portal-req-card-compact:hover {
+.portal-req-card-full:hover {
     border-color: #cbd5e1;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
-    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.07);
+    transform: translateY(-2px);
 }
 
-.portal-req-card-top {
+.portal-req-card-body {
+    padding: 1.15rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    justify-content: space-between;
+}
+
+.portal-req-card-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 4px;
-    margin-bottom: 0.4rem;
-    min-width: 0;
-}
-
-.portal-req-card-date {
-    font-size: 0.68rem;
-    color: var(--wp-text-muted);
-    white-space: nowrap;
-    font-family: monospace;
+    gap: 6px;
+    margin-bottom: 0.65rem;
 }
 
 .portal-req-card-title {
-    font-size: 0.88rem;
+    font-size: 1.02rem;
     font-weight: 800;
     color: var(--wp-text-main);
-    margin: 0 0 0.3rem 0;
+    margin: 0 0 0.45rem 0;
     line-height: 1.35;
     word-break: break-word;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 .portal-req-card-desc {
-    font-size: 0.78rem;
+    font-size: 0.84rem;
     color: var(--wp-text-secondary);
-    line-height: 1.4;
+    line-height: 1.5;
     margin: 0;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
     word-break: break-word;
+}
+
+.portal-req-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+    border-top: 1px solid #f1f5f9;
 }
 
 .portal-vault-card {

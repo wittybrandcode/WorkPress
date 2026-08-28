@@ -166,4 +166,77 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         `;
     };
 
+    /**
+     * Smart Generative Default Cover Generator
+     * 
+     * Creates a rich vector cover or renders the real image.
+     * 
+     * @param {Object} item (project, request, deliverable, task)
+     * @param {string} type ('project', 'request', 'deliverable', 'task')
+     * @param {string} height CSS height (e.g. '140px')
+     */
+    exports.renderCardCover = function(item = {}, type = 'project', height = '140px') {
+        if (!window.preact || !window.htm) return null;
+        const { h } = window.preact;
+        const html = window.htm.bind(h);
+
+        const coverUrl = item.cover_url || item.image_url || item.featured_image || item.thumbnail_url || '';
+        const title = item.name || item.title || item.task_title || 'WorkPress';
+
+        if (coverUrl && typeof coverUrl === 'string' && coverUrl.trim() !== '') {
+            return html`
+                <div class="portal-card-cover-box" style=${{ height }}>
+                    <img src="${coverUrl}" alt="${title}" class="portal-card-cover-img" loading="lazy" />
+                </div>
+            `;
+        }
+
+        // Smart Generative Vector Cover with Deterministic Themed Palette
+        const idNum = parseInt(item.id || 0, 10);
+        const palettes = [
+            { bg1: '#064e3b', bg2: '#047857', accent: '#10b981', icon: 'dashicons-portfolio', label: 'مشروع معتمد' },
+            { bg1: '#1e1b4b', bg2: '#4338ca', accent: '#6366f1', icon: 'dashicons-admin-generic', label: 'منظومة تقنية' },
+            { bg1: '#0f172a', bg2: '#334155', accent: '#0ea5e9', icon: 'dashicons-clipboard', label: 'طلب خدمة' },
+            { bg1: '#78350f', bg2: '#d97706', accent: '#f59e0b', icon: 'dashicons-clock', label: 'قيد الدراسة' },
+            { bg1: '#134e4a', bg2: '#0f766e', accent: '#14b8a6', icon: 'dashicons-yes-alt', label: 'مخرج معتمد' }
+        ];
+
+        let selected = palettes[idNum % palettes.length];
+        if (type === 'request') {
+            selected = item.status === 'approved' ? palettes[0] : (item.status === 'rejected' ? palettes[3] : palettes[2]);
+        } else if (type === 'deliverable') {
+            selected = palettes[4];
+        }
+
+        const prefix = item.prefix || (type === 'request' ? `#REQ-${item.id || ''}` : (type === 'project' ? `PRJ-${item.id || ''}` : 'WP'));
+
+        return html`
+            <div class="portal-card-cover-box portal-smart-default-cover" style=${{ 
+                height,
+                background: `linear-gradient(135deg, ${selected.bg1} 0%, ${selected.bg2} 100%)`
+            }}>
+                <!-- Geometric Vector Ambient Shapes -->
+                <svg class="portal-cover-vector-bg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 160" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="g_${idNum}_${type}" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stop-color="${selected.accent}" stop-opacity="0.3"/>
+                            <stop offset="100%" stop-color="${selected.accent}" stop-opacity="0.05"/>
+                        </linearGradient>
+                    </defs>
+                    <circle cx="360" cy="20" r="90" fill="url(#g_${idNum}_${type})"/>
+                    <circle cx="40" cy="140" r="70" fill="url(#g_${idNum}_${type})"/>
+                    <path d="M-20,160 L140,40 L260,180 Z" fill="${selected.accent}" fill-opacity="0.08"/>
+                    <path d="M220,-20 L380,120 L440,-10 Z" fill="${selected.accent}" fill-opacity="0.06"/>
+                </svg>
+
+                <div class="portal-cover-content">
+                    <div class="portal-cover-icon-circle" style=${{ borderColor: selected.accent }}>
+                        <i class="dashicons ${selected.icon}"></i>
+                    </div>
+                    <span class="portal-cover-prefix">${prefix}</span>
+                </div>
+            </div>
+        `;
+    };
+
 })(window.WorkPressPortal);
