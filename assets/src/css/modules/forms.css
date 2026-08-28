@@ -307,3 +307,40 @@
     margin-bottom: 8px;
     border-radius: 0;
 }
+
+.wp-form-palette-box {
+    position: sticky;
+    top: 125px;
+    border: 1px solid #cbd5e1;
+    background-color: #f8fafc;
+    border-radius: 0;
+    padding: 1rem;
+}
+
+.wp-form-canvas-box {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.03);
+    min-height: 650px;
+    width: 100%;
+    border-radius: 0;
+    padding: 1.25rem;
+}
+
+.wp-form-spec-card {
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+    position: relative;
+    border-radius: 0;
+    padding: 1rem;
+}
+
+.wp-form-core-field-card {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 0;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
