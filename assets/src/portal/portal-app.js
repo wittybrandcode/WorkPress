@@ -817,13 +817,14 @@
                         })}
 
                         <!-- VIEW 3: ACTIVE PROJECT WORKSPACE -->
-                        ${!loading && selectedProjectId && activeTab !== 'new-request' && activeTab !== 'dashboard' && window.WorkPressPortal?.renderWorkspace && window.WorkPressPortal.renderWorkspace({
+                        ${!loading && (selectedProjectId || activeTab === 'my-requests') && activeTab !== 'new-request' && activeTab !== 'dashboard' && window.WorkPressPortal?.renderWorkspace && window.WorkPressPortal.renderWorkspace({
                             projects,
                             projectData,
                             selectedProjectId,
                             activeTab,
                             deliverables,
                             milestones,
+                            requests: this.state.requests,
                             feedbackTask,
                             feedbackActionType,
                             feedbackMsg,

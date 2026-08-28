@@ -19,15 +19,60 @@ window.WorkPressPortal = window.WorkPressPortal || {};
     'use strict';
 
     /**
-     * Render the Client Portal Executive Dashboard (Home View)
-     *
-     * @param {Object} ctx
-     * @return {Object|null}
+     * Render reusable pagination bar
      */
-    exports.renderPortalDashboard = function(ctx) {
-        if (!window.preact || !window.htm) return null;
+    function renderPaginationBar(currentPage, totalPages, onPageChange) {
+        if (totalPages <= 1) return null;
         const { h } = window.preact;
         const html = window.htm.bind(h);
+        const pages = [];
+        for (let i = 1; i <= totalPages; i++) pages.push(i);
+
+        return html`
+            <div class="portal-pagination-bar">
+                <button 
+                    type="button" 
+                    class="portal-page-btn is-nav" 
+                    disabled=${currentPage <= 1}
+                    onClick=${() => onPageChange(currentPage - 1)}
+                >
+                    <i class="dashicons dashicons-arrow-right-alt2"></i>
+                    <span>السابق</span>
+                </button>
+
+                <div class="portal-page-numbers">
+                    ${pages.map(p => html`
+                        <button 
+                            key=${p}
+                            type="button" 
+                            class="portal-page-num ${p === currentPage ? 'is-active' : ''}"
+                            onClick=${() => onPageChange(p)}
+                        >
+                            ${p}
+                        </button>
+                    `)}
+                </div>
+
+                <button 
+                    type="button" 
+                    class="portal-page-btn is-nav" 
+                    disabled=${currentPage >= totalPages}
+                    onClick=${() => onPageChange(currentPage + 1)}
+                >
+                    <span>التالي</span>
+                    <i class="dashicons dashicons-arrow-left-alt2"></i>
+                </button>
+            </div>
+        `;
+    }
+
+    /**
+     * Portal Executive Dashboard Preact Functional Component
+     */
+    function PortalDashboard(props) {
+        const { h } = window.preact;
+        const html = window.htm.bind(h);
+        const { useState } = window.preactHooks || {};
 
         const {
             user = {},
@@ -41,7 +86,12 @@ window.WorkPressPortal = window.WorkPressPortal || {};
             onOpenDeliverableReview,
             onOpenProjectReport,
             playPortalSound = () => {}
-        } = ctx;
+        } = props;
+
+        // Pagination states
+        const [prjPage, setPrjPage] = useState ? useState(1) : [1, () => {}];
+        const [reqPage, setReqPage] = useState ? useState(1) : [1, () => {}];
+        const [notifPage, setNotifPage] = useState ? useState(1) : [1, () => {}];
 
         // Calculate Overall Portfolio Metrics
         const totalProjects = projects.length;
@@ -57,9 +107,21 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         const averageProgress = totalProjects > 0 ? Math.round(totalProgressSum / totalProjects) : 0;
 
         // Pending Decisions (Action Required)
-        // Candidate deliverables awaiting client review across all projects
         const pendingCandidates = pulse.candidates || [];
         const pendingRequests = requests.filter(r => r.status === 'pending' || r.status === 'under_review');
+
+        // Pagination slices
+        const PRJ_PER_PAGE = 6;
+        const totalPrjPages = Math.ceil(projects.length / PRJ_PER_PAGE);
+        const paginatedProjects = projects.slice((prjPage - 1) * PRJ_PER_PAGE, prjPage * PRJ_PER_PAGE);
+
+        const REQ_PER_PAGE = 5;
+        const totalReqPages = Math.ceil(requests.length / REQ_PER_PAGE);
+        const paginatedRequests = requests.slice((reqPage - 1) * REQ_PER_PAGE, reqPage * REQ_PER_PAGE);
+
+        const NOTIF_PER_PAGE = 5;
+        const totalNotifPages = Math.ceil(notifications.length / NOTIF_PER_PAGE);
+        const paginatedNotifs = notifications.slice((notifPage - 1) * NOTIF_PER_PAGE, notifPage * NOTIF_PER_PAGE);
 
         return html`
             <div class="portal-dashboard-wrapper">
@@ -224,85 +286,88 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                 </button>
                             </div>
                         ` : html`
-                            <div class="portal-dash-portfolio-grid">
-                                ${projects.map((proj) => {
-                                    const progressVal = parseInt(proj.progress, 10) || 0;
-                                    const isDone = proj.status === 'completed';
+                            <div>
+                                <div class="portal-dash-portfolio-grid">
+                                    ${paginatedProjects.map((proj) => {
+                                        const progressVal = parseInt(proj.progress, 10) || 0;
+                                        const isDone = proj.status === 'completed';
 
-                                    return html`
-                                        <div key=${proj.id} class="portal-dash-project-card ${isDone ? 'is-completed' : ''}">
-                                            <div class="portal-dash-prj-top">
-                                                <div>
-                                                    <span class="portal-dash-prj-badge">${proj.prefix || ('PRJ-' + proj.id)}</span>
-                                                    <h4 class="portal-dash-prj-name">${proj.name}</h4>
+                                        return html`
+                                            <div key=${proj.id} class="portal-dash-project-card ${isDone ? 'is-completed' : ''}">
+                                                <div class="portal-dash-prj-top">
+                                                    <div>
+                                                        <span class="portal-dash-prj-badge">${proj.prefix || ('PRJ-' + proj.id)}</span>
+                                                        <h4 class="portal-dash-prj-name">${proj.name}</h4>
+                                                    </div>
+                                                    <span class="portal-badge ${isDone ? 'portal-badge-emerald' : 'portal-badge-indigo'}">
+                                                        ${isDone ? 'مكتمل' : 'قيد التنفيذ'}
+                                                    </span>
                                                 </div>
-                                                <span class="portal-badge ${isDone ? 'portal-badge-emerald' : 'portal-badge-indigo'}">
-                                                    ${isDone ? 'مكتمل' : 'قيد التنفيذ'}
-                                                </span>
-                                            </div>
 
-                                            ${proj.description ? html`
-                                                <p class="portal-dash-prj-desc">${proj.description}</p>
-                                            ` : null}
+                                                ${proj.description ? html`
+                                                    <p class="portal-dash-prj-desc">${proj.description}</p>
+                                                ` : null}
 
-                                            <!-- Progress Bar & Percentage -->
-                                            <div class="portal-dash-progress-box">
-                                                <div class="portal-dash-progress-labels">
-                                                    <span>نسبة الإنجاز الفني</span>
-                                                    <strong>${progressVal}%</strong>
+                                                <!-- Progress Bar & Percentage -->
+                                                <div class="portal-dash-progress-box">
+                                                    <div class="portal-dash-progress-labels">
+                                                        <span>نسبة الإنجاز الفني</span>
+                                                        <strong>${progressVal}%</strong>
+                                                    </div>
+                                                    <div class="portal-dash-progress-track">
+                                                        <div 
+                                                            class="portal-dash-progress-fill" 
+                                                            style=${{ width: `${progressVal}%`, backgroundColor: isDone ? '#10b981' : '#6366f1' }}
+                                                        ></div>
+                                                    </div>
                                                 </div>
-                                                <div class="portal-dash-progress-track">
-                                                    <div 
-                                                        class="portal-dash-progress-fill" 
-                                                        style=${{ width: `${progressVal}%`, backgroundColor: isDone ? '#10b981' : '#6366f1' }}
-                                                    ></div>
-                                                </div>
-                                            </div>
 
-                                            <!-- Project Metadata Footer -->
-                                            <div class="portal-dash-prj-meta-grid">
-                                                <div>
-                                                    <span class="portal-dash-meta-lbl">المسؤول الفني:</span>
-                                                    <strong class="portal-dash-meta-val">${(proj.lead && proj.lead.name) ? proj.lead.name : 'فريق WorkPress'}</strong>
+                                                <!-- Project Metadata Footer -->
+                                                <div class="portal-dash-prj-meta-grid">
+                                                    <div>
+                                                        <span class="portal-dash-meta-lbl">المسؤول الفني:</span>
+                                                        <strong class="portal-dash-meta-val">${(proj.lead && proj.lead.name) ? proj.lead.name : 'فريق WorkPress'}</strong>
+                                                    </div>
+                                                    <div>
+                                                        <span class="portal-dash-meta-lbl">الموعد المستهدف:</span>
+                                                        <strong class="portal-dash-meta-val">${proj.due_at ? proj.due_at.substring(0, 10) : 'مرن'}</strong>
+                                                    </div>
                                                 </div>
-                                                <div>
-                                                    <span class="portal-dash-meta-lbl">الموعد المستهدف:</span>
-                                                    <strong class="portal-dash-meta-val">${proj.due_at ? proj.due_at.substring(0, 10) : 'مرن'}</strong>
-                                                </div>
-                                            </div>
 
-                                            <!-- Card Action Button -->
-                                            <div class="portal-dash-prj-footer">
-                                                <button 
-                                                    type="button" 
-                                                    class="btn-portal btn-portal-outline btn-portal-sm portal-dash-enter-btn"
-                                                    onClick=${() => {
-                                                        playPortalSound('transition');
-                                                        onSelectProject(proj.id);
-                                                    }}
-                                                >
-                                                    <span>دخول مساحة العمل والتفاصيل</span>
-                                                    <i class="dashicons dashicons-arrow-left-alt"></i>
-                                                </button>
-
-                                                ${isDone && html`
+                                                <!-- Card Action Button -->
+                                                <div class="portal-dash-prj-footer">
                                                     <button 
                                                         type="button" 
-                                                        class="btn-portal btn-portal-emerald btn-portal-sm"
-                                                        title="استعراض وطباعة وثيقة الاستلام الرسمية"
-                                                        onClick=${(e) => {
-                                                            e.stopPropagation();
-                                                            onOpenProjectReport(proj.id);
+                                                        class="btn-portal btn-portal-outline btn-portal-sm portal-dash-enter-btn"
+                                                        onClick=${() => {
+                                                            playPortalSound('transition');
+                                                            onSelectProject(proj.id);
                                                         }}
                                                     >
-                                                        <i class="dashicons dashicons-media-document"></i>
-                                                        <span>شهادة الاستلام</span>
+                                                        <span>دخول مساحة العمل والتفاصيل</span>
+                                                        <i class="dashicons dashicons-arrow-left-alt"></i>
                                                     </button>
-                                                `}
+
+                                                    ${isDone && html`
+                                                        <button 
+                                                            type="button" 
+                                                            class="btn-portal btn-portal-emerald btn-portal-sm"
+                                                            title="استعراض وطباعة وثيقة الاستلام الرسمية"
+                                                            onClick=${(e) => {
+                                                                e.stopPropagation();
+                                                                onOpenProjectReport(proj.id);
+                                                            }}
+                                                        >
+                                                            <i class="dashicons dashicons-media-document"></i>
+                                                            <span>شهادة الاستلام</span>
+                                                        </button>
+                                                    `}
+                                                </div>
                                             </div>
-                                        </div>
-                                    `;
-                                })}
+                                        `;
+                                    })}
+                                </div>
+                                ${renderPaginationBar(prjPage, totalPrjPages, setPrjPage)}
                             </div>
                         `}
 
@@ -323,37 +388,40 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     <p class="is-size-7 has-text-grey">لم تقم بإرسال أي طلبات إضافية مؤخراً.</p>
                                 </div>
                             ` : html`
-                                <div class="portal-dash-requests-list" style="background: #ffffff; border: 1px solid #e2e8f0;">
-                                    ${requests.slice(0, 5).map((req, idx) => {
-                                        let statusLabel = 'قيد الدراسة الفنية';
-                                        let statusClass = 'portal-badge-amber';
-                                        if (req.status === 'approved') {
-                                            statusLabel = 'تمت الموافقة وتجهيز المشروع';
-                                            statusClass = 'portal-badge-emerald';
-                                        } else if (req.status === 'rejected') {
-                                            statusLabel = 'معتذر عنه';
-                                            statusClass = 'portal-badge-danger';
-                                        }
+                                <div>
+                                    <div class="portal-dash-requests-list" style="background: #ffffff; border: 1px solid #e2e8f0;">
+                                        ${paginatedRequests.map((req, idx) => {
+                                            let statusLabel = 'قيد الدراسة الفنية';
+                                            let statusClass = 'portal-badge-amber';
+                                            if (req.status === 'approved') {
+                                                statusLabel = 'تمت الموافقة وتجهيز المشروع';
+                                                statusClass = 'portal-badge-emerald';
+                                            } else if (req.status === 'rejected') {
+                                                statusLabel = 'معتذر عنه';
+                                                statusClass = 'portal-badge-danger';
+                                            }
 
-                                        return html`
-                                            <div key=${idx} class="portal-dash-request-row">
-                                                <div style="display: flex; align-items: center; gap: 10px;">
-                                                    <span class="portal-dash-req-tag">#${req.id || (idx + 1)}</span>
-                                                    <div>
-                                                        <strong class="portal-dash-req-title">${req.title || req.name || 'طلب مشروع بدون عنوان'}</strong>
-                                                        <div class="portal-dash-req-date">
-                                                            <i class="dashicons dashicons-calendar-alt"></i>
-                                                            <span>${req.created_at ? req.created_at.substring(0, 10) : 'مؤخراً'}</span>
+                                            return html`
+                                                <div key=${idx} class="portal-dash-request-row">
+                                                    <div style="display: flex; align-items: center; gap: 10px;">
+                                                        <span class="portal-dash-req-tag">#${req.id || (idx + 1)}</span>
+                                                        <div>
+                                                            <strong class="portal-dash-req-title">${req.title || req.name || 'طلب مشروع بدون عنوان'}</strong>
+                                                            <div class="portal-dash-req-date">
+                                                                <i class="dashicons dashicons-calendar-alt"></i>
+                                                                <span>${req.created_at ? req.created_at.substring(0, 10) : 'مؤخراً'}</span>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
 
-                                                <span class="portal-badge ${statusClass}">
-                                                    ${statusLabel}
-                                                </span>
-                                            </div>
-                                        `;
-                                    })}
+                                                    <span class="portal-badge ${statusClass}">
+                                                        ${statusLabel}
+                                                    </span>
+                                                </div>
+                                            `;
+                                        })}
+                                    </div>
+                                    ${renderPaginationBar(reqPage, totalReqPages, setReqPage)}
                                 </div>
                             `}
                         </div>
@@ -373,17 +441,20 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     <p class="is-size-7 has-text-grey mt-1">أنت مطلع على كافة المستجدات حتى الآن.</p>
                                 </div>
                             ` : html`
-                                <div class="portal-dash-timeline">
-                                    ${notifications.slice(0, 6).map((notif, idx) => html`
-                                        <div key=${idx} class="portal-dash-timeline-item">
-                                            <div class="portal-dash-timeline-dot"></div>
-                                            <div class="portal-dash-timeline-body">
-                                                <strong class="portal-dash-timeline-title">${notif.title || 'إشعار جديد'}</strong>
-                                                <p class="portal-dash-timeline-msg">${notif.message || ''}</p>
-                                                <span class="portal-dash-timeline-time">${notif.time || 'الآن'}</span>
+                                <div>
+                                    <div class="portal-dash-timeline">
+                                        ${paginatedNotifs.map((notif, idx) => html`
+                                            <div key=${idx} class="portal-dash-timeline-item">
+                                                <div class="portal-dash-timeline-dot"></div>
+                                                <div class="portal-dash-timeline-body">
+                                                    <strong class="portal-dash-timeline-title">${notif.title || 'إشعار جديد'}</strong>
+                                                    <p class="portal-dash-timeline-msg">${notif.message || ''}</p>
+                                                    <span class="portal-dash-timeline-time">${notif.time || 'الآن'}</span>
+                                                </div>
                                             </div>
-                                        </div>
-                                    `)}
+                                        `)}
+                                    </div>
+                                    ${renderPaginationBar(notifPage, totalNotifPages, setNotifPage)}
                                 </div>
                             `}
                         </div>
@@ -403,6 +474,14 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
             </div>
         `;
+    }
+
+    /**
+     * Render the Client Portal Executive Dashboard
+     */
+    exports.renderPortalDashboard = function(ctx) {
+        if (!window.preact || !window.htm) return null;
+        return window.preact.h(PortalDashboard, ctx);
     };
 
 })(window.WorkPressPortal);

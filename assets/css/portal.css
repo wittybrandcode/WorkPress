@@ -202,7 +202,82 @@ a:hover {
 .portal-user-controls {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.6rem;
+}
+
+/* Quick + Action Button in Top Tier */
+.portal-top-action-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--wp-primary);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.portal-top-action-btn:hover {
+    background: var(--wp-primary-hover);
+    transform: scale(1.05);
+}
+
+.portal-top-action-btn .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #ffffff !important;
+}
+
+/* Bell Icon Button */
+.portal-top-icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: var(--wp-text-secondary);
+    border: 1px solid var(--wp-border);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+}
+
+.portal-top-icon-btn:hover {
+    background: #e2e8f0;
+    color: var(--wp-text-main);
+}
+
+.portal-top-icon-btn .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--wp-text-secondary);
+}
+
+/* Facebook-style Red Notification Disk */
+.portal-notification-disk {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    font-size: 0.65rem !important;
+    font-weight: 900 !important;
+    min-width: 18px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 4px;
+    text-align: center;
+    box-shadow: 0 0 0 2px #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
 }
 
 /* Tier 2: Global Portal Main Navigation Bar */
@@ -1855,6 +1930,62 @@ a:hover {
     background: #f8fafc;
     border: 1px solid #e2e8f0;
     padding: 1rem;
+}
+
+/* -------------------------------------------------------------
+ * 11.6 REUSABLE PAGINATION SYSTEM
+ * ------------------------------------------------------------- */
+.portal-pagination-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 1.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid #f1f5f9;
+}
+
+.portal-page-numbers {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.portal-page-btn,
+.portal-page-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    height: 32px;
+    min-width: 32px;
+    padding: 0 8px;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.portal-page-btn:hover:not(:disabled),
+.portal-page-num:hover:not(.is-active) {
+    background: #f1f5f9;
+    border-color: #cbd5e1;
+    color: var(--wp-text-main);
+}
+
+.portal-page-num.is-active {
+    background: var(--wp-primary);
+    border-color: var(--wp-primary);
+    color: #ffffff;
+    font-weight: 800;
+}
+
+.portal-page-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
 }
 
 @media (max-width: 900px) {

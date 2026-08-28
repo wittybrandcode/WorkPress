@@ -122,19 +122,31 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
 
                         <div class="portal-user-controls">
-                            <!-- Notification Bell Button & Drawer Popover -->
+                            <!-- Quick + Request Service Button -->
+                            <button 
+                                type="button" 
+                                class="portal-top-action-btn"
+                                onClick=${() => {
+                                    playPortalSound('button');
+                                    onNavigateToTab('new-request');
+                                }}
+                                title="طلب مشروع أو خدمة جديدة"
+                            >
+                                <i class="dashicons dashicons-plus"></i>
+                            </button>
+
+                            <!-- Notification Bell Button with Red Disk & Drawer Popover -->
                             <div style="position: relative;">
                                 <button 
                                     type="button" 
-                                    class="btn-portal btn-portal-outline btn-portal-sm" 
-                                    style="position: relative; padding: 0.4rem 0.65rem;"
+                                    class="portal-top-icon-btn ${unreadNotificationsCount > 0 ? 'has-unread' : ''}" 
                                     onClick=${onToggleNotifications}
                                     title="التنبيهات والإشعارات"
                                 >
-                                    <i class="dashicons dashicons-bell" style="font-size: 18px; color: ${unreadNotificationsCount > 0 ? 'var(--wp-warning)' : 'inherit'};"></i>
+                                    <i class="dashicons dashicons-bell"></i>
                                     ${unreadNotificationsCount > 0 ? html`
-                                        <span class="portal-notification-badge">
-                                            ${unreadNotificationsCount}
+                                        <span class="portal-notification-disk">
+                                            ${unreadNotificationsCount > 99 ? '99+' : unreadNotificationsCount}
                                         </span>
                                     ` : null}
                                 </button>
