@@ -35,16 +35,16 @@ window.WorkPressPortal = window.WorkPressPortal || {};
             onFeedbackTaskChange, onFeedbackActionTypeChange, onFeedbackMsgChange, onFeedbackSubmit
         } = ctx;
 
-        // Dedicated View for "My Requests" tab
+        // Dedicated View for "My Requests" tab (4x6 Grid — 24 items per page)
         if (activeTab === 'my-requests') {
             const allReqs = (requests && requests.length > 0) ? requests : projects.filter(p => p.is_client_request);
-            const REQS_PER_PAGE = 8;
+            const REQS_PER_PAGE = 24;
             const totalReqPages = Math.ceil(allReqs.length / REQS_PER_PAGE);
             const paginatedReqs = allReqs.slice((reqPage - 1) * REQS_PER_PAGE, reqPage * REQS_PER_PAGE);
 
             return html`
                 <div class="portal-workspace-wrapper">
-                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
                         <div>
                             <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.25rem;">
                                 سجل طلبات المشاريع والخدمات المقدمة
@@ -79,7 +79,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
                     ` : html`
                         <div>
-                            <div class="portal-vault-grid">
+                            <div class="portal-requests-grid-24">
                                 ${paginatedReqs.map(r => {
                                     let statusLabel = 'طلب قيد المراجعة والدراسة';
                                     let badgeClass = 'var(--wp-warning-light)';
@@ -99,16 +99,18 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     }
 
                                     return html`
-                                        <div key=${r.id} class="wp-portal-card">
-                                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
-                                                <span style="background: ${badgeClass}; border: 1px solid ${borderClass}; color: ${textClass}; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px;">
-                                                    <i class="dashicons dashicons-clock" style="font-size: 14px;"></i>
+                                        <div key=${r.id} class="portal-req-card-compact">
+                                            <div class="portal-req-card-top">
+                                                <span class="portal-req-status-tag" style="background: ${badgeClass}; border-color: ${borderClass}; color: ${textClass};">
+                                                    <i class="dashicons dashicons-clock" style="font-size: 12px; width: 12px; height: 12px;"></i>
                                                     <span>${statusLabel}</span>
                                                 </span>
-                                                <span style="font-size: 0.75rem; color: var(--wp-text-muted);">${r.created_at ? r.created_at.substring(0, 10) : ''}</span>
+                                                <span class="portal-req-card-date">${r.created_at ? r.created_at.substring(0, 10) : ''}</span>
                                             </div>
-                                            <h4 style="font-size: 1rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.4rem;">${r.title || r.name}</h4>
-                                            <p style="font-size: 0.85rem; color: var(--wp-text-secondary); line-height: 1.5; margin-bottom: 1rem;">${r.description || 'لا يوجد بيان إضافي.'}</p>
+                                            <div>
+                                                <h4 class="portal-req-card-title">${r.title || r.name}</h4>
+                                                <p class="portal-req-card-desc">${r.description || 'لا يوجد بيان إضافي.'}</p>
+                                            </div>
                                         </div>
                                     `;
                                 })}

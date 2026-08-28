@@ -83,6 +83,8 @@ body.workpress-portal-body {
     direction: rtl;
     text-align: right;
     -webkit-font-smoothing: antialiased;
+    overflow-x: clip;
+    max-width: 100%;
 }
 
 /* Base Link & Typography */

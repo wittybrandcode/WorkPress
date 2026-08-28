@@ -7,8 +7,23 @@
  */
 
 /* -------------------------------------------------------------
- * 1. TABLET BREAKPOINTS (<= 900px)
+ * 1. LARGE SCREEN BREAKPOINTS (<= 1400px)
  * ------------------------------------------------------------- */
+@media (max-width: 1400px) {
+    .portal-requests-grid-24 {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+/* -------------------------------------------------------------
+ * 2. TABLET BREAKPOINTS (<= 1024px & <= 900px)
+ * ------------------------------------------------------------- */
+@media (max-width: 1024px) {
+    .portal-requests-grid-24 {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
 @media (max-width: 900px) {
     .portal-dash-grid-layout {
         grid-template-columns: 1fr;
@@ -16,7 +31,7 @@
 }
 
 /* -------------------------------------------------------------
- * 2. MOBILE PHONE BREAKPOINTS (<= 768px)
+ * 3. MOBILE PHONE BREAKPOINTS (<= 768px)
  * ------------------------------------------------------------- */
 @media (max-width: 768px) {
     .portal-top-bar {
@@ -40,6 +55,11 @@
         grid-template-columns: 1fr;
     }
 
+    .portal-requests-grid-24 {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 0.65rem;
+    }
+
     .portal-dash-welcome-top {
         flex-direction: column;
         align-items: flex-start;
@@ -49,5 +69,11 @@
     .portal-dash-cta-btn {
         width: 100%;
         justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .portal-requests-grid-24 {
+        grid-template-columns: 1fr;
     }
 }
