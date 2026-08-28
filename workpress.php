@@ -40,6 +40,7 @@ require_once WORKPRESS_PATH . 'includes/services/class-workpress-assignment-serv
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-task-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-task-state-machine.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-contribution-service.php';
+require_once WORKPRESS_PATH . 'includes/services/class-workpress-solution-transform-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-knowledge-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-template-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-security-service.php';

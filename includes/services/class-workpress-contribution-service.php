@@ -2,14 +2,20 @@
 /**
  * WorkPress Contribution Service.
  *
- * Encapsulates domain logic for Contributions & Timeline Events (wp_comments on CPT 'work_item').
+ * Encapsulates domain logic for Contributions, Evidence, and Timeline Events (wp_comments on CPT 'work_item').
+ * Solution acceptance and knowledge transformation are delegated to `WorkPress_Solution_Transform_Service`.
  *
  * @package WorkPress
+ * @subpackage Services
+ * @since 1.0.0
+ * @version 2.2.3
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
+
+require_once __DIR__ . '/class-workpress-solution-transform-service.php';
 
 class WorkPress_Contribution_Service {
 
@@ -244,6 +250,7 @@ class WorkPress_Contribution_Service {
 	 * @param string $content Text content / evidence.
 	 * @param string $type Contribution type ('implementation', 'proposal', 'revision', 'feedback', 'state_change').
 	 * @param array  $attachments Optional array of WP Media attachment IDs.
+	 * @param array  $payload Optional structured data payload.
 	 * @return array|WP_Error Formatted contribution or WP_Error.
 	 */
 	public static function add_contribution( $task_id, $user_id, $content, $type = 'implementation', $attachments = array(), $payload = array() ) {
@@ -343,7 +350,7 @@ class WorkPress_Contribution_Service {
 		if ( empty( $comments ) ) {
 			return array();
 		}
-		
+
 		update_meta_cache( 'comment', wp_list_pluck( $comments, 'comment_ID' ) );
 		$user_ids = array_unique( array_filter( wp_list_pluck( $comments, 'user_id' ) ) );
 		if ( ! empty( $user_ids ) ) {
@@ -371,17 +378,17 @@ class WorkPress_Contribution_Service {
 			'orderby' => 'comment_date',
 			'order'   => 'DESC',
 		);
-		
+
 		if ( ! empty( $args['number'] ) ) {
 			$query_args['number'] = (int) $args['number'];
 		} else {
 			$query_args['number'] = 50; // Default limit
 		}
-		
+
 		if ( ! empty( $args['user_id'] ) ) {
 			$query_args['user_id'] = (int) $args['user_id'];
 		}
-		
+
 		if ( ! empty( $args['task_id'] ) ) {
 			$query_args['post_id'] = (int) $args['task_id'];
 		} elseif ( ! empty( $args['project_id'] ) ) {
@@ -491,149 +498,6 @@ class WorkPress_Contribution_Service {
 	}
 
 	/**
-	 * Accept a contribution as a validated solution (Principle 11).
-	 * Cascading rule: Accepting a solution automatically closes the task, checks project completion, and publishes to Knowledge.
-	 *
-	 * @param int $contribution_id Comment ID.
-	 * @param int $user_id User accepting the solution.
-	 * @return array|WP_Error Updated contribution or error.
-	 */
-	public static function accept_solution( $contribution_id, $user_id = 0 ) {
-		$comment = get_comment( (int) $contribution_id );
-		if ( ! $comment || 'wp_contribution' !== $comment->comment_type ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
-		}
-
-		$user_id = $user_id > 0 ? (int) $user_id : get_current_user_id();
-		$task_id = (int) $comment->comment_post_ID;
-
-		// Get project ID
-		$terms      = wp_get_object_terms( $task_id, WorkPress_Install::TAX_PROJECT );
-		$project_id = ! empty( $terms ) && ! is_wp_error( $terms ) ? (int) $terms[0]->term_id : 0;
-
-		// Authorization Governance: Lead or Admin only
-		if ( class_exists( 'WorkPress_Project_Service' ) && ! WorkPress_Project_Service::is_user_lead( $project_id, $user_id ) ) {
-			return new WP_Error( 'forbidden', __( 'عذراً، حق اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط.', 'workpress' ) );
-		}
-
-		// 1. Mark contribution as accepted
-		update_comment_meta( $comment->comment_ID, '_workpress_is_accepted', '1' );
-		update_comment_meta( $comment->comment_ID, '_workpress_accepted_by', (int) $user_id );
-		update_comment_meta( $comment->comment_ID, '_workpress_accepted_at', current_time( 'mysql' ) );
-
-		// 2. Cascading: Derive and sync task state automatically
-		if ( class_exists( 'WorkPress_Task_Service' ) ) {
-			WorkPress_Task_Service::derive_and_sync_task_state( $task_id );
-		}
-
-		// 3. Log system audit
-		$author_name = get_the_author_meta( 'display_name', $user_id );
-		self::add_system_log(
-			$task_id,
-			sprintf(
-				/* translators: %s: User display name */
-				__( 'قام %s باعتماد هذه المساهمة كحل رسمي واكتملت المهمة.', 'workpress' ),
-				$author_name
-			),
-			$user_id
-		);
-
-		if ( class_exists( 'WorkPress_Hooks' ) ) {
-			WorkPress_Hooks::fire_contribution_accepted( $comment->comment_ID, $comment->comment_post_ID, $user_id );
-		}
-
-		if ( $project_id > 0 && class_exists( 'WorkPress_Project_Service' ) ) {
-			WorkPress_Project_Service::invalidate_project_cache( $project_id );
-		}
-
-		wp_cache_delete( $comment->comment_ID, 'comment' );
-		return self::format_contribution( get_comment( $comment->comment_ID ) );
-	}
-
-	/**
-	 * Revoke a contribution from being an accepted solution.
-	 * Cascading rule: Revoking a solution reopens the task for review and reopens the project if completed.
-	 *
-	 * @param int $contribution_id Comment ID.
-	 * @param int $user_id User revoking the solution.
-	 * @return array|WP_Error Updated contribution or error.
-	 */
-	public static function revoke_solution( $contribution_id, $user_id = 0 ) {
-		$comment = get_comment( (int) $contribution_id );
-		if ( ! $comment || 'wp_contribution' !== $comment->comment_type ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
-		}
-
-		$user_id = $user_id > 0 ? (int) $user_id : get_current_user_id();
-		$task_id = (int) $comment->comment_post_ID;
-
-		// Get project ID
-		$terms      = wp_get_object_terms( $task_id, WorkPress_Install::TAX_PROJECT );
-		$project_id = ! empty( $terms ) && ! is_wp_error( $terms ) ? (int) $terms[0]->term_id : 0;
-
-		// Authorization Governance: Lead or Admin only
-		if ( class_exists( 'WorkPress_Project_Service' ) && ! WorkPress_Project_Service::is_user_lead( $project_id, $user_id ) ) {
-			return new WP_Error( 'forbidden', __( 'عذراً، حق إلغاء اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط.', 'workpress' ) );
-		}
-
-		// 1. Remove acceptance metadata
-		delete_comment_meta( $comment->comment_ID, '_workpress_is_accepted' );
-		delete_comment_meta( $comment->comment_ID, '_workpress_accepted_by' );
-		delete_comment_meta( $comment->comment_ID, '_workpress_accepted_at' );
-
-		// 2. Cascading: Derive and sync task state automatically
-		if ( class_exists( 'WorkPress_Task_Service' ) ) {
-			WorkPress_Task_Service::derive_and_sync_task_state( $task_id );
-		}
-
-		// 3. Log system audit
-		$author_name = get_the_author_meta( 'display_name', $user_id );
-		self::add_system_log(
-			$task_id,
-			sprintf(
-				/* translators: %s: User display name */
-				__( 'قام %s بإلغاء اعتماد الحل وأُعيد فتح المهمة للمراجعة.', 'workpress' ),
-				$author_name
-			),
-			$user_id
-		);
-
-		if ( class_exists( 'WorkPress_Hooks' ) ) {
-			WorkPress_Hooks::fire_contribution_revoked( $comment->comment_ID, $comment->comment_post_ID, $user_id );
-		}
-
-		if ( $project_id > 0 && class_exists( 'WorkPress_Project_Service' ) ) {
-			WorkPress_Project_Service::invalidate_project_cache( $project_id );
-		}
-
-		wp_cache_delete( $comment->comment_ID, 'comment' );
-		return self::format_contribution( get_comment( $comment->comment_ID ) );
-	}
-
-	/**
-	 * Get the accepted solution contribution ID for a task, if any.
-	 *
-	 * @param int $task_id Task Post ID.
-	 * @return int|false Contribution ID or false.
-	 */
-	public static function get_solution_for_task( $task_id ) {
-		$comments = get_comments(
-			array(
-				'post_id'    => (int) $task_id,
-				'meta_key'   => '_workpress_is_accepted',
-				'meta_value' => '1',
-				'number'     => 1,
-			)
-		);
-
-		if ( ! empty( $comments ) ) {
-			return (int) $comments[0]->comment_ID;
-		}
-
-		return false;
-	}
-
-	/**
 	 * Get a single contribution by ID.
 	 *
 	 * @param int $contribution_id Comment ID.
@@ -732,30 +596,30 @@ class WorkPress_Contribution_Service {
 		return true;
 	}
 
-	/**
-	 * Query accepted solutions across tasks for the Knowledge Base Engine (Principle 11).
-	 *
-	 * @param int    $project_id Optional project ID filter.
-	 * @param string $search Search term.
-	 * @return array Formatted knowledge items.
-	 */
-	/**
-	 * @deprecated Use WorkPress_Knowledge_Service::query() instead.
-	 */
-	public static function get_knowledge_base( $project_id = 0, $search = '' ) {
-		if ( class_exists( 'WorkPress_Knowledge_Service' ) ) {
-			$result = WorkPress_Knowledge_Service::query( get_current_user_id(), $project_id, $search );
-			return $result['items'];
-		}
-		return array();
+	// ------------------------------------------------------------------------
+	// Solution Transform & Knowledge Delegation Proxies (WorkPress_Solution_Transform_Service)
+	// ------------------------------------------------------------------------
+
+	public static function accept_solution( $contribution_id, $user_id = 0 ) {
+		return WorkPress_Solution_Transform_Service::accept_solution( $contribution_id, $user_id );
 	}
 
-	/**
-	 * Format WP_Comment into standardized contribution array.
-	 *
-	 * @param WP_Comment $comment Comment object.
-	 * @return array Formatted contribution.
-	 */
+	public static function revoke_solution( $contribution_id, $user_id = 0 ) {
+		return WorkPress_Solution_Transform_Service::revoke_solution( $contribution_id, $user_id );
+	}
+
+	public static function get_solution_for_task( $task_id ) {
+		return WorkPress_Solution_Transform_Service::get_solution_for_task( $task_id );
+	}
+
+	public static function get_knowledge_base( $project_id = 0, $search = '' ) {
+		return WorkPress_Solution_Transform_Service::get_knowledge_base( $project_id, $search );
+	}
+
+	// ------------------------------------------------------------------------
+	// Formatting & Threaded Comments
+	// ------------------------------------------------------------------------
+
 	/**
 	 * Format contribution — public accessor for KnowledgeService and API.
 	 *
@@ -801,7 +665,7 @@ class WorkPress_Contribution_Service {
 			}
 		}
 
-		$cover_id  = (int) get_comment_meta( $comment->comment_ID, '_workpress_cover_id', true );
+		$cover_id = (int) get_comment_meta( $comment->comment_ID, '_workpress_cover_id', true );
 		if ( ! $cover_id && ! empty( $payload['cover_id'] ) ) {
 			$cover_id = (int) $payload['cover_id'];
 		}
@@ -819,11 +683,11 @@ class WorkPress_Contribution_Service {
 		$cover_url = $cover_id ? wp_get_attachment_image_url( $cover_id, 'large' ) : '';
 
 		// Get Project Information
-		$terms = wp_get_object_terms( $comment->comment_post_ID, WorkPress_Install::TAX_PROJECT );
-		$project_id = 0;
+		$terms        = wp_get_object_terms( $comment->comment_post_ID, WorkPress_Install::TAX_PROJECT );
+		$project_id   = 0;
 		$project_name = '';
 		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
-			$project_id = (int) $terms[0]->term_id;
+			$project_id   = (int) $terms[0]->term_id;
 			$project_name = $terms[0]->name;
 		}
 
@@ -848,34 +712,34 @@ class WorkPress_Contribution_Service {
 		$comments = self::get_comments_for_contribution( $comment->comment_ID );
 
 		return array(
-			'id'           => (int) $comment->comment_ID,
-			'task_id'      => (int) $comment->comment_post_ID,
-			'task_title'   => get_the_title( $comment->comment_post_ID ),
-			'project_id'   => $project_id,
-			'project_name' => $project_name,
-			'user_id'      => (int) $comment->user_id,
-			'author_name'  => $comment->comment_author,
-			'author_avatar'=> get_avatar_url( $comment->user_id, array( 'size' => 48 ) ),
-			'is_client'    => $is_client,
-			'content'      => $comment->comment_content,
-			'type'         => $type,
-			'type_label'   => isset( $type_labels[ $type ] ) ? $type_labels[ $type ] : $type,
-			'is_accepted'  => $is_accepted,
-			'can_accept'   => $can_accept,
-			'accepted_by'  => (int) get_comment_meta( $comment->comment_ID, '_workpress_accepted_by', true ),
-			'accepted_at'  => get_comment_meta( $comment->comment_ID, '_workpress_accepted_at', true ),
-			'payload'      => $payload,
-			'attachments'  => $attachments,
-			'cover_id'     => $cover_id,
-			'cover_url'    => $cover_url,
-			'featured_image' => $cover_url,
+			'id'                => (int) $comment->comment_ID,
+			'task_id'           => (int) $comment->comment_post_ID,
+			'task_title'        => get_the_title( $comment->comment_post_ID ),
+			'project_id'        => $project_id,
+			'project_name'      => $project_name,
+			'user_id'           => (int) $comment->user_id,
+			'author_name'       => $comment->comment_author,
+			'author_avatar'     => get_avatar_url( $comment->user_id, array( 'size' => 48 ) ),
+			'is_client'         => $is_client,
+			'content'           => $comment->comment_content,
+			'type'              => $type,
+			'type_label'        => isset( $type_labels[ $type ] ) ? $type_labels[ $type ] : $type,
+			'is_accepted'       => $is_accepted,
+			'can_accept'        => $can_accept,
+			'accepted_by'       => (int) get_comment_meta( $comment->comment_ID, '_workpress_accepted_by', true ),
+			'accepted_at'       => get_comment_meta( $comment->comment_ID, '_workpress_accepted_at', true ),
+			'payload'           => $payload,
+			'attachments'       => $attachments,
+			'cover_id'          => $cover_id,
+			'cover_url'         => $cover_url,
+			'featured_image'    => $cover_url,
 			'featured_image_id' => $cover_id,
-			'created_at'   => $comment->comment_date,
-			'is_pending_trash' => (bool) get_comment_meta( $comment->comment_ID, '_workpress_is_pending_trash', true ),
-			'trash_reason'     => get_comment_meta( $comment->comment_ID, '_workpress_trash_reason', true ),
-			'visibility_scope' => get_comment_meta( $comment->comment_ID, '_workpress_visibility_scope', true ) ?: ( in_array( $type, array( 'implementation', 'proposal', 'solution', 'deliverable' ), true ) ? 'client_review' : 'internal' ),
-			'comments'         => $comments,
-			'comments_count'   => count( $comments ),
+			'created_at'        => $comment->comment_date,
+			'is_pending_trash'  => (bool) get_comment_meta( $comment->comment_ID, '_workpress_is_pending_trash', true ),
+			'trash_reason'      => get_comment_meta( $comment->comment_ID, '_workpress_trash_reason', true ),
+			'visibility_scope'  => get_comment_meta( $comment->comment_ID, '_workpress_visibility_scope', true ) ?: ( in_array( $type, array( 'implementation', 'proposal', 'solution', 'deliverable' ), true ) ? 'client_review' : 'internal' ),
+			'comments'          => $comments,
+			'comments_count'    => count( $comments ),
 		);
 	}
 
