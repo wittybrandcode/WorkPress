@@ -1,0 +1,327 @@
+/**
+ * WorkPress Client Portal: Workspace, Deliverables Vault & Milestones
+ *
+ * Implements:
+ * - Project Hero & Cover Banner
+ * - KPI Metrics Grid & Progress Bar
+ * - Signoff Banner & Deliverables Vault Grid
+ * - Milestones & Tasks Hierarchy Cards
+ *
+ * @package WorkPress
+ * @subpackage Portal/CSS
+ * @version 2.2.0
+ */
+
+/* -------------------------------------------------------------
+ * 1. PROJECT HERO & SWITCHER BAR
+ * ------------------------------------------------------------- */
+.portal-project-hero {
+    background: var(--wp-bg-card);
+    border: 1px solid var(--wp-border);
+    padding: 1.5rem 1.75rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.25rem;
+    box-shadow: var(--wp-shadow-sm);
+}
+
+.portal-project-info h1 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    color: var(--wp-text-main);
+    margin-bottom: 0.25rem;
+}
+
+.portal-project-info p {
+    font-size: 0.88rem;
+    color: var(--wp-text-secondary);
+}
+
+.portal-switcher-select {
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-main);
+    font-family: inherit;
+    font-size: 0.88rem;
+    font-weight: 700;
+    padding: 0.5rem 1.15rem;
+    outline: none;
+    cursor: pointer;
+    box-shadow: var(--wp-shadow-xs);
+    transition: border-color 0.15s ease;
+}
+
+.portal-switcher-select:focus {
+    border-color: var(--wp-primary);
+}
+
+.portal-project-cover-box {
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+    max-height: 240px;
+    border: 1px solid var(--wp-border);
+}
+
+.portal-project-cover-img {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    display: block;
+}
+
+.portal-project-title-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 0.25rem;
+}
+
+.portal-project-prefix-badge {
+    background: var(--wp-indigo-light);
+    border: 1px solid var(--wp-indigo-border);
+    color: #4338ca;
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 2px 8px;
+}
+
+/* -------------------------------------------------------------
+ * 2. KPI METRICS GRID
+ * ------------------------------------------------------------- */
+.portal-kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1.25rem;
+    margin-bottom: 1.5rem;
+}
+
+.portal-kpi-card {
+    background: var(--wp-bg-card);
+    border: 1px solid var(--wp-border);
+    padding: 1.15rem 1.35rem;
+    box-shadow: var(--wp-shadow-xs);
+}
+
+.portal-kpi-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: var(--wp-text-muted);
+    margin-bottom: 0.35rem;
+    display: block;
+}
+
+.portal-kpi-value {
+    font-size: 1.15rem;
+    font-weight: 800;
+    color: var(--wp-text-main);
+}
+
+.portal-kpi-status-val {
+    color: var(--wp-primary);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.portal-kpi-lead-val {
+    font-size: 1.05rem;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.portal-kpi-due-val {
+    font-size: 1.05rem;
+    color: var(--wp-warning-text);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.portal-kpi-progress-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.portal-kpi-progress-text {
+    font-weight: 800;
+    color: var(--wp-primary);
+}
+
+.portal-progress-track {
+    height: 8px;
+    background: var(--wp-bg-subtle);
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.portal-progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10b981, #059669);
+    transition: width 0.4s ease;
+}
+
+/* -------------------------------------------------------------
+ * 3. DELIVERABLES VAULT & SIGNOFF BANNER
+ * ------------------------------------------------------------- */
+.portal-signoff-banner {
+    background: linear-gradient(135deg, var(--wp-primary-light), #ffffff);
+    border: 1.5px solid var(--wp-primary-border);
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.portal-signoff-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 900;
+    font-size: 1.05rem;
+    color: #065f46;
+    margin-bottom: 0.25rem;
+}
+
+.portal-signoff-desc {
+    font-size: 0.85rem;
+    color: var(--wp-text-secondary);
+    margin: 0;
+}
+
+.portal-vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.25rem;
+}
+
+.portal-vault-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.portal-vault-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 0.6rem;
+}
+
+.portal-vault-approved-tag {
+    background: var(--wp-primary-light);
+    border: 1px solid var(--wp-primary-border);
+    color: #065f46;
+    font-size: 0.75rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.portal-vault-title {
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--wp-text-main);
+    margin-bottom: 0.4rem;
+}
+
+.portal-vault-body {
+    font-size: 0.85rem;
+    color: var(--wp-text-secondary);
+    line-height: 1.5;
+    margin-bottom: 1rem;
+}
+
+.portal-vault-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid var(--wp-border);
+    padding-top: 0.75rem;
+    margin-top: 0.75rem;
+}
+
+/* -------------------------------------------------------------
+ * 4. MILESTONES ROADMAP & TASKS HIERARCHY
+ * ------------------------------------------------------------- */
+.portal-milestones-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.portal-milestone-card {
+    border-right: 4px solid var(--wp-border);
+}
+
+.portal-milestone-card.is-done {
+    border-right-color: var(--wp-primary);
+}
+
+.portal-milestone-card.is-progress {
+    border-right-color: var(--wp-warning);
+}
+
+.portal-milestone-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    background: var(--wp-bg-subtle);
+    color: var(--wp-text-muted);
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.portal-milestone-num.is-done {
+    background: var(--wp-primary-light);
+    color: #065f46;
+}
+
+.portal-milestone-badge {
+    font-size: 0.78rem;
+    font-weight: 800;
+    padding: 2px 8px;
+    border: 1px solid var(--wp-border);
+}
+
+.portal-milestone-badge.is-done {
+    background: var(--wp-primary-light);
+    color: #065f46;
+    border-color: var(--wp-primary-border);
+}
+
+.portal-milestone-badge.is-progress {
+    background: var(--wp-warning-light);
+    color: var(--wp-warning-text);
+    border-color: var(--wp-warning-border);
+}
+
+.portal-milestone-badge.is-pending {
+    background: var(--wp-bg-subtle);
+    color: var(--wp-text-muted);
+    border-color: var(--wp-border);
+}
+
+.portal-milestone-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--wp-text-muted);
+    border-top: 1px dashed var(--wp-border);
+    padding-top: 0.6rem;
+    margin-top: 0.6rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}

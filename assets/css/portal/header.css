@@ -1,0 +1,516 @@
+/**
+ * WorkPress Client Portal: Three-Tier Sticky Institutional Header & User Popovers
+ *
+ * @package WorkPress
+ * @subpackage Portal/CSS
+ * @version 2.2.0
+ */
+
+/* -------------------------------------------------------------
+ * 1. WORKPRESS THREE-TIER INSTITUTIONAL HEADER (STICKY)
+ * ------------------------------------------------------------- */
+.portal-header-wrapper {
+    background: var(--wp-bg-card);
+    border-bottom: 1px solid var(--wp-border);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--wp-shadow-sm);
+    width: 100%;
+}
+
+/* Tier 1: Brand, Site Link & User Profile / Notifications */
+.portal-top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.65rem 2rem;
+    border-bottom: 1px solid var(--wp-border-subtle);
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    background: #ffffff;
+}
+
+.portal-brand-area {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.portal-site-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: var(--wp-primary-light);
+    border: 1px solid var(--wp-primary-border);
+    color: #065f46;
+    font-size: 0.76rem;
+    font-weight: 800;
+    padding: 0.2rem 0.65rem;
+}
+
+.portal-back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    color: var(--wp-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 600;
+    padding: 0.35rem 0.75rem;
+    border: 1px solid var(--wp-border);
+    background: #ffffff;
+    transition: all 0.15s ease;
+}
+
+.portal-back-link:hover {
+    color: var(--wp-text-main);
+    border-color: var(--wp-border-strong);
+    background: var(--wp-bg-subtle);
+}
+
+.portal-user-controls {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+}
+
+/* Quick + Action Button in Top Tier */
+.portal-top-action-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--wp-primary);
+    color: #ffffff;
+    border: none;
+    cursor: pointer;
+    font-size: 18px;
+    transition: background 0.15s ease, transform 0.15s ease;
+}
+
+.portal-top-action-btn:hover {
+    background: var(--wp-primary-hover);
+    transform: scale(1.05);
+}
+
+.portal-top-action-btn .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: #ffffff !important;
+}
+
+/* Bell Icon Button */
+.portal-top-icon-btn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #f1f5f9;
+    color: var(--wp-text-secondary);
+    border: 1px solid var(--wp-border);
+    cursor: pointer;
+    position: relative;
+    transition: all 0.15s ease;
+}
+
+.portal-top-icon-btn:hover {
+    background: #e2e8f0;
+    color: var(--wp-text-main);
+}
+
+.portal-top-icon-btn .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    color: var(--wp-text-secondary);
+}
+
+/* Facebook-style Red Notification Disk */
+.portal-notification-disk {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    background: #ef4444 !important;
+    color: #ffffff !important;
+    font-size: 0.65rem !important;
+    font-weight: 900 !important;
+    min-width: 18px;
+    height: 18px;
+    line-height: 18px;
+    padding: 0 4px;
+    text-align: center;
+    box-shadow: 0 0 0 2px #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+/* Tier 2: Global Portal Main Navigation Bar */
+.portal-main-nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid var(--wp-border);
+    gap: 0.5rem;
+    overflow-x: auto;
+}
+
+.portal-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--wp-text-secondary);
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 0.55rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.portal-nav-link:hover {
+    background: var(--wp-bg-subtle);
+    color: var(--wp-text-main);
+}
+
+.portal-nav-link.is-active {
+    background: var(--wp-primary-light);
+    border-bottom-color: var(--wp-primary);
+    color: #065f46;
+    font-weight: 800;
+}
+
+.portal-nav-link.is-active .dashicons {
+    color: var(--wp-primary);
+}
+
+.portal-nav-count {
+    font-size: 0.75rem;
+    font-weight: 800;
+    opacity: 0.85;
+}
+
+/* Tier 3: Contextual Project Action Bar & Tabs (Appears in Projects view) */
+.portal-contextual-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.45rem 2rem;
+    background: var(--wp-bg-subtle);
+    border-bottom: 1px solid var(--wp-border);
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: portalFadeIn 0.2s ease;
+}
+
+.portal-action-right {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.portal-action-center {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.portal-action-tabs {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    overflow-x: auto;
+}
+
+.portal-tab-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-secondary);
+    font-family: inherit;
+    font-size: 0.84rem;
+    font-weight: 700;
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.portal-tab-pill:hover {
+    border-color: #cbd5e1;
+    color: var(--wp-text-main);
+    background: #ffffff;
+}
+
+.portal-tab-pill.is-active {
+    background: var(--wp-primary-light);
+    border-color: var(--wp-primary-border);
+    color: #065f46;
+    font-weight: 800;
+}
+
+.portal-tab-pill.is-active .dashicons {
+    color: var(--wp-primary);
+}
+
+@keyframes portalFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------------------------------------------------
+ * NOTIFICATIONS & PROFILE POPOVER DRAWERS
+ * ------------------------------------------------------------- */
+.portal-popover-drawer {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    width: 360px;
+    max-width: 90vw;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    box-shadow: var(--wp-shadow-lg);
+    z-index: 1000;
+    overflow: hidden;
+    animation: portalFadeDown 0.15s ease;
+}
+
+.portal-profile-trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    padding: 3px 6px 3px 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    outline: none;
+    user-select: none;
+}
+
+.portal-profile-trigger:hover,
+.portal-profile-trigger.is-active {
+    border-color: var(--wp-border-strong);
+    background: var(--wp-bg-subtle);
+}
+
+.portal-avatar-img {
+    width: 28px;
+    height: 28px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--wp-border);
+    background: var(--wp-bg-subtle);
+}
+
+.portal-profile-dropdown {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 8px);
+    width: 280px;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    box-shadow: var(--wp-shadow-lg);
+    z-index: 1000;
+    overflow: hidden;
+    animation: portalFadeDown 0.15s ease;
+    text-align: right;
+}
+
+.portal-profile-header {
+    padding: 1rem 1.15rem;
+    background: var(--wp-bg-subtle);
+    border-bottom: 1px solid var(--wp-border);
+}
+
+.portal-profile-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.65rem 1.15rem;
+    color: var(--wp-text-main);
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease;
+    border: none;
+    background: transparent;
+    width: 100%;
+    cursor: pointer;
+    text-align: right;
+}
+
+.portal-profile-item:hover {
+    background: var(--wp-bg-subtle);
+    color: var(--wp-primary);
+}
+
+.portal-profile-item.is-logout {
+    color: var(--wp-danger);
+    border-top: 1px solid var(--wp-border);
+}
+
+.portal-profile-item.is-logout:hover {
+    background: var(--wp-danger-light);
+    color: var(--wp-danger-text);
+}
+
+@keyframes portalFadeDown {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.portal-popover-header {
+    padding: 0.85rem 1.15rem;
+    background: var(--wp-bg-subtle);
+    border-bottom: 1px solid var(--wp-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Floating Toast & Notification Banners */
+.portal-toast-alert {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 999999;
+    max-width: 540px;
+    width: 92%;
+    background: #ffffff;
+    border: 2px solid var(--wp-primary);
+    padding: 1rem 1.25rem;
+    box-shadow: var(--wp-shadow-modal);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+.portal-toast-body {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.portal-toast-icon {
+    color: var(--wp-primary);
+    font-size: 24px;
+}
+
+.portal-toast-title {
+    color: var(--wp-text-main);
+    font-weight: 800;
+    font-size: 0.9rem;
+}
+
+.portal-toast-subtitle {
+    color: var(--wp-text-muted);
+    font-size: 0.78rem;
+}
+
+.portal-preview-banner {
+    background: var(--wp-bg-subtle);
+    border-bottom: 2px solid var(--wp-indigo);
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.portal-notification-badge {
+    background: var(--wp-danger);
+    color: #ffffff;
+    font-size: 0.7rem;
+    font-weight: 900;
+    padding: 1px 5px;
+    margin-right: 4px;
+}
+
+.portal-notification-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.portal-notification-item {
+    padding: 0.65rem;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.portal-notification-item.is-unread {
+    background: var(--wp-primary-light);
+    border: 1px solid var(--wp-primary-border);
+}
+
+.portal-notification-item.is-read {
+    background: var(--wp-bg-subtle);
+    border: 1px solid var(--wp-border);
+}
+
+.portal-notification-msg {
+    font-size: 0.82rem;
+    color: var(--wp-text-main);
+    line-height: 1.4;
+}
+
+.portal-notification-meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.72rem;
+    color: var(--wp-text-muted);
+    margin-top: 4px;
+}
+
+.portal-avatar-box {
+    width: 28px;
+    height: 28px;
+    background: var(--wp-bg-subtle);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.portal-avatar-lg {
+    width: 36px;
+    height: 36px;
+    object-fit: cover;
+    border: 1px solid var(--wp-border);
+}
+
+.portal-avatar-placeholder-lg {
+    width: 36px;
+    height: 36px;
+    background: var(--wp-primary-light);
+    border: 1px solid var(--wp-primary-border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wp-primary);
+}
+
+.portal-role-badge {
+    background: var(--wp-warning-light);
+    border: 1px solid var(--wp-warning-border);
+    color: var(--wp-warning-text);
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 1px 6px;
+}

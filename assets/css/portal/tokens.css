@@ -1,0 +1,130 @@
+/**
+ * WorkPress Client Portal: Design Tokens, CSS Variables & Base Canvas Reset
+ *
+ * @package WorkPress
+ * @subpackage Portal/CSS
+ * @version 2.2.0
+ */
+
+:root {
+    /* Brand Accent Colors (Brand Guidelines Section 4) */
+    --wp-primary: #10b981;              /* Emerald Truth */
+    --wp-primary-hover: #059669;        /* Emerald Dark */
+    --wp-primary-light: #ecfdf5;        /* Emerald Tint */
+    --wp-primary-border: #a7f3d0;       /* Emerald Border */
+
+    --wp-indigo: #6366f1;               /* Electric Indigo */
+    --wp-indigo-hover: #4f46e5;
+    --wp-indigo-light: #eef2ff;
+    --wp-indigo-border: #c7d2fe;
+
+    --wp-warning: #f59e0b;              /* Amber / Pending */
+    --wp-warning-light: #fffbeb;
+    --wp-warning-border: #fde68a;
+    --wp-warning-text: #b45309;
+
+    --wp-danger: #ef4444;               /* Red / Destructive */
+    --wp-danger-light: #fef2f2;
+    --wp-danger-border: #fecaca;
+    --wp-danger-text: #dc2626;
+
+    --wp-info: #0284c7;                 /* Sky Info */
+    --wp-info-light: #f0f9ff;
+    --wp-info-border: #bae6fd;
+    --wp-info-text: #0369a1;
+
+    /* Structural & Canvas Colors (Modern SaaS 01-TOKENS.md) */
+    --wp-bg-page: #f8fafc;              /* Slate 50 Canvas */
+    --wp-bg-card: #ffffff;              /* Pure White Card */
+    --wp-bg-subtle: #f1f5f9;            /* Slate 100 Background */
+    --wp-bg-elevated: #ffffff;          /* Elevated Surface */
+
+    --wp-border: #e2e8f0;               /* Slate 200 Border */
+    --wp-border-subtle: #f1f5f9;        /* Slate 100 Border */
+    --wp-border-strong: #cbd5e1;        /* Slate 300 Border */
+    --wp-border-active: #10b981;        /* Active Border */
+
+    /* Typography Colors */
+    --wp-text-main: #0f172a;            /* Slate 900 Primary Text */
+    --wp-text-secondary: #475569;       /* Slate 600 Secondary */
+    --wp-text-muted: #64748b;           /* Slate 500 Muted */
+    --wp-text-dim: #94a3b8;             /* Slate 400 Dim */
+
+    /* Strict Sharp Edges (Zero Rounded Corners) */
+    --wp-radius-xs: 0px;
+    --wp-radius-sm: 0px;
+    --wp-radius-md: 0px;
+    --wp-radius-lg: 0px;
+    --wp-radius-xl: 0px;
+    --wp-radius-full: 0px;
+
+    /* Soft Depth & Shadows (01-TOKENS.md Section 3) */
+    --wp-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+    --wp-shadow-sm: 0 2px 6px rgba(0, 0, 0, 0.04);
+    --wp-shadow-md: 0 6px 18px rgba(0, 0, 0, 0.06);
+    --wp-shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.09);
+    --wp-shadow-modal: 0 25px 50px -12px rgba(0, 0, 0, 0.22);
+}
+
+/* Reset for Isolated Standalone Canvas — Strictly Sharp Corners */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    border-radius: 0 !important;
+}
+
+body.workpress-portal-body {
+    font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    background-color: var(--wp-bg-page);
+    color: var(--wp-text-main);
+    line-height: 1.65;
+    min-height: 100vh;
+    direction: rtl;
+    text-align: right;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Base Link & Typography */
+a {
+    color: var(--wp-primary);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+a:hover {
+    color: var(--wp-primary-hover);
+}
+
+/* Initial Loading State */
+.portal-initial-loader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 80vh;
+    gap: 1.25rem;
+    color: var(--wp-text-muted);
+}
+
+.portal-spinner {
+    width: 36px;
+    height: 36px;
+    border: 3px solid #e2e8f0;
+    border-top-color: var(--wp-primary);
+    animation: portalSpin 0.75s linear infinite;
+}
+
+@keyframes portalSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* Dashicons Helpers */
+.dashicons {
+    font-family: dashicons !important;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    vertical-align: middle;
+    line-height: 1;
+}

@@ -1,0 +1,124 @@
+/**
+ * WorkPress Client Portal: Request Studio, Intake Forms & Dynamic Spec Fields
+ *
+ * @package WorkPress
+ * @subpackage Portal/CSS
+ * @version 2.2.0
+ */
+
+/* -------------------------------------------------------------
+ * 1. FORMS & INPUTS
+ * ------------------------------------------------------------- */
+.portal-form-group {
+    margin-bottom: 1.25rem;
+}
+
+.portal-label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: var(--wp-text-main);
+    margin-bottom: 0.4rem;
+}
+
+.portal-input,
+.portal-textarea,
+.portal-select {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.9rem;
+    padding: 0.65rem 1rem;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-main);
+    box-shadow: var(--wp-shadow-xs);
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.portal-input:focus,
+.portal-textarea:focus,
+.portal-select:focus {
+    border-color: var(--wp-primary);
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.15);
+}
+
+.portal-input::placeholder,
+.portal-textarea::placeholder {
+    color: var(--wp-text-dim);
+}
+
+/* -------------------------------------------------------------
+ * 2. SPECS PILLS SELECTOR (Sharp Button-Style)
+ * ------------------------------------------------------------- */
+.portal-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0.35rem 0.85rem;
+    background: var(--wp-bg-subtle);
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.portal-pill:hover {
+    border-color: var(--wp-border-strong);
+    color: var(--wp-text-main);
+}
+
+.portal-pill.is-selected {
+    background: var(--wp-primary-light);
+    border-color: var(--wp-primary);
+    color: #065f46;
+    font-weight: 800;
+}
+
+/* -------------------------------------------------------------
+ * 3. ONBOARDING GATEKEEPER CARD
+ * ------------------------------------------------------------- */
+.portal-gatekeeper-card {
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    padding: 3rem 2rem;
+    text-align: center;
+    max-width: 640px;
+    margin: 3rem auto;
+    box-shadow: var(--wp-shadow-md);
+}
+
+.portal-gatekeeper-icon {
+    width: 64px;
+    height: 64px;
+    background: var(--wp-primary-light);
+    border: 1.5px solid var(--wp-primary-border);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--wp-primary);
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.portal-gate-title {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: var(--wp-text-main);
+    margin-bottom: 0.5rem;
+}
+
+.portal-gate-desc {
+    color: var(--wp-text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.7;
+    margin-bottom: 2rem;
+}
+
+.portal-gate-btn {
+    padding: 0.75rem 2rem;
+    font-size: 1rem;
+}
