@@ -142,12 +142,22 @@
 
 ---
 
-### 10. محرك إدارة المهام وآلة الحالات (`class-workpress-task-service.php`) 🟢 [P3]
+### 10. محرك إدارة المهام وآلة الحالات (`class-workpress-task-service.php`) ✅ [مُنجز ومثبت في المستودع]
 - **المسار**: [`includes/services/class-workpress-task-service.php`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/includes/services/class-workpress-task-service.php)
-- **الحجم والأسطر**: 35.5 KB | 1,161 سطر
-- **الهدف**: استخراج آلة الحالات وانتقالات دورة الحياة في `class-workpress-task-state-machine.php`.
+- **الحجم الجديد**: 27.6 KB | 850 سطر (بدلاً من 35.5 KB و 1,161 سطر)
+- **الفئة المستخرجة**:
+  - ✅ [`class-workpress-task-state-machine.php`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/includes/services/class-workpress-task-state-machine.php) (آلة الحالات، مطابقة الحالات القياسية، الاشتقاق الحتمي للحالة، الانتقالات المشروطة، وسلة المهملات وسجلات التدقيق)
+- **الحالة**: **100% PASS** (تم الفحص واختبار `test_task_checklists.php`, `test_time_tracking.php`, `test_e2e_lifecycle.php` والتثبيت بالالتزام `97d3d7b`).
+
+---
+
+### 11. خدمة المساهمات والحلول وشجرة المعرفة (`class-workpress-contribution-service.php`) 🟢 [P3]
+- **المسار**: [`includes/services/class-workpress-contribution-service.php`](file:///c:/laragon/www/WORKPRESS/wp-content/plugins/WorkPress/includes/services/class-workpress-contribution-service.php)
+- **الحجم والأسطر**: 34.9 KB | 1,042 سطر
+- **الهدف**: استخراج منطق التحول المعرفي واعتماد الحلول وبناء شجرة المعرفة في `class-workpress-solution-transform-service.php`.
 
 > 📋 **البرومبت التشغيلي (Operational Prompt):**
 > ```text
-> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لاستخراج آلة حالات المهام من includes/services/class-workpress-task-service.php إلى class-workpress-task-state-machine.php واختبار حزمة test_e2e_lifecycle.php والتثبيت في Git.
+> @[c:\laragon\www\WORKPRESS\wp-content\plugins\WorkPress\.agents\skills\workpress-divider\SKILL.md] أطلق عميل التقسيم workpress-divider لتفكيك includes/services/class-workpress-contribution-service.php واستخراج خدمة اعتماد الحلول والتحول المعرفي في class-workpress-solution-transform-service.php مع تشغيل test_e2e_lifecycle.php والتثبيت في Git.
 > ```
+
