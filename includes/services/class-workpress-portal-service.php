@@ -893,8 +893,13 @@ class WorkPress_Portal_Service {
 		$js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $js_path ) ? filemtime( $js_path ) : '1.2.0' );
 		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm', 'workpress-portal-core-js', 'workpress-portal-login-js', 'workpress-portal-header-js', 'workpress-portal-gateway-js', 'workpress-portal-radar-js', 'workpress-portal-modals-js', 'workpress-portal-request-js', 'workpress-portal-workspace-js' ), $js_ver, true );
 
-		$custom_logo_id = get_theme_mod( 'custom_logo' );
-		$logo_url       = $custom_logo_id ? wp_get_attachment_image_url( $custom_logo_id, 'full' ) : '';
+		if ( class_exists( 'WorkPress_REST_Settings_Controller' ) ) {
+			$logo_url    = WorkPress_REST_Settings_Controller::get_custom_logo_url();
+			$favicon_url = WorkPress_REST_Settings_Controller::get_custom_favicon_url();
+		} else {
+			$logo_url    = WORKPRESS_URL . 'assets/brand/workpress.svg';
+			$favicon_url = WORKPRESS_URL . 'assets/brand/favicon.svg';
+		}
 		$current_user   = wp_get_current_user();
 		$is_logged_in   = is_user_logged_in();
 
@@ -947,6 +952,10 @@ class WorkPress_Portal_Service {
 			'siteName'        => get_bloginfo( 'name' ),
 			'siteUrl'         => home_url( '/' ),
 			'logoUrl'         => $logo_url,
+			'faviconUrl'      => $favicon_url,
+			'customLogoUrl'   => get_option( 'workpress_custom_logo_url', '' ),
+			'defaultLogoUrl'  => WORKPRESS_URL . 'assets/brand/workpress.svg',
+			'defaultFaviconUrl' => WORKPRESS_URL . 'assets/brand/favicon.svg',
 			'pluginUrl'       => WORKPRESS_URL,
 		);
 

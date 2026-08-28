@@ -61,6 +61,10 @@ export default function SettingsPage() {
 	const [monthNaming, setMonthNaming] = useState(wpSettings.monthNaming || 'maghrebi');
 	const [dateFormat, setDateFormat] = useState(wpSettings.dateFormat || 'D MMMM YYYY');
 	const [relativeTime, setRelativeTime] = useState(wpSettings.relativeTime !== undefined ? wpSettings.relativeTime : true);
+	const [logoUrl, setLogoUrl] = useState(wpSettings.customLogoUrl || '');
+	const [logoId, setLogoId] = useState(wpSettings.customLogoId || 0);
+	const [faviconUrl, setFaviconUrl] = useState(wpSettings.customFaviconUrl || '');
+	const [faviconId, setFaviconId] = useState(wpSettings.customFaviconId || 0);
 	const [isSettingsSaving, setIsSettingsSaving] = useState(false);
 
 	// Sound Effects Settings State
@@ -130,14 +134,39 @@ export default function SettingsPage() {
 
 	const handleSaveGeneralSettings = () => {
 		setIsSettingsSaving(true);
-		settingsApi.update({ siteName, defaultPriority, emailNotifications: emailNotifs }).then(() => {
+		settingsApi.update({
+			siteName,
+			defaultPriority,
+			emailNotifications: emailNotifs,
+			logo_id: logoId,
+			logo_url: logoUrl,
+			favicon_id: faviconId,
+			favicon_url: faviconUrl,
+		}).then((res) => {
 			setIsSettingsSaving(false);
 			if (window.workpressSettings) {
 				window.workpressSettings.siteName = siteName;
 				window.workpressSettings.defaultPriority = defaultPriority;
 				window.workpressSettings.emailNotifications = emailNotifs;
+				window.workpressSettings.customLogoUrl = logoUrl;
+				window.workpressSettings.customLogoId = logoId;
+				window.workpressSettings.customFaviconUrl = faviconUrl;
+				window.workpressSettings.customFaviconId = faviconId;
+				window.workpressSettings.logoUrl = (res && res.logo_effective_url) ? res.logo_effective_url : (logoUrl || (wpSettings.defaultLogoUrl || (wpSettings.pluginUrl + 'assets/brand/workpress.svg')));
+				window.workpressSettings.faviconUrl = (res && res.favicon_effective_url) ? res.favicon_effective_url : (faviconUrl || (wpSettings.defaultFaviconUrl || (wpSettings.pluginUrl + 'assets/brand/favicon.svg')));
 			}
-			toast('تم حفظ إعدادات النظام بنجاح.', 'success');
+
+			// Dynamically update browser tab favicon in active DOM
+			const effectiveFavicon = (res && res.favicon_effective_url) ? res.favicon_effective_url : (faviconUrl || (wpSettings.defaultFaviconUrl || '/wp-content/plugins/WorkPress/assets/brand/favicon.svg'));
+			let favLink = document.querySelector("link[rel*='icon']");
+			if (favLink) {
+				favLink.href = effectiveFavicon;
+			}
+
+			// Fire global event for live header logo re-render
+			window.dispatchEvent(new CustomEvent('workpress_brand_updated', { detail: { logoUrl, faviconUrl } }));
+
+			toast('تم حفظ إعدادات النظام والشعار بنجاح.', 'success');
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
@@ -601,6 +630,16 @@ export default function SettingsPage() {
 						setSiteName=${setSiteName}
 						defaultPriority=${defaultPriority}
 						setDefaultPriority=${setDefaultPriority}
+						logoUrl=${logoUrl}
+						setLogoUrl=${setLogoUrl}
+						logoId=${logoId}
+						setLogoId=${setLogoId}
+						faviconUrl=${faviconUrl}
+						setFaviconUrl=${setFaviconUrl}
+						faviconId=${faviconId}
+						setFaviconId=${setFaviconId}
+						defaultLogoUrl=${wpSettings.defaultLogoUrl || (wpSettings.pluginUrl + 'assets/brand/workpress.svg')}
+						defaultFaviconUrl=${wpSettings.defaultFaviconUrl || (wpSettings.pluginUrl + 'assets/brand/favicon.svg')}
 						isSettingsSaving=${isSettingsSaving}
 						handleSaveLocalizationSettings=${handleSaveLocalizationSettings}
 						handleSaveGeneralSettings=${handleSaveGeneralSettings}

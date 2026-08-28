@@ -20,6 +20,9 @@ $redirect_to = isset( $_GET['redirect_to'] ) ? esc_url_raw( wp_unslash( $_GET['r
 $initial_view = isset( $_GET['view'] ) && 'lostpassword' === $_GET['view'] ? 'lostpassword' : 'login';
 $logged_out  = isset( $_GET['loggedout'] ) && 'true' === $_GET['loggedout'];
 
+$logo_url    = class_exists( 'WorkPress_REST_Settings_Controller' ) ? WorkPress_REST_Settings_Controller::get_custom_logo_url() : ( WORKPRESS_URL . 'assets/brand/workpress.svg' );
+$favicon_url = class_exists( 'WorkPress_REST_Settings_Controller' ) ? WorkPress_REST_Settings_Controller::get_custom_favicon_url() : ( WORKPRESS_URL . 'assets/brand/favicon.svg' );
+
 $auth_config = array(
 	'apiUrl'           => rest_url( 'workpress/v1/portal' ),
 	'restNonce'        => wp_create_nonce( 'wp_rest' ),
@@ -27,6 +30,8 @@ $auth_config = array(
 	'siteName'         => $site_name ? $site_name : 'WorkPress',
 	'adminUrl'         => admin_url( 'admin.php?page=workpress#/' ),
 	'portalUrl'        => home_url( '/portal/' ),
+	'logoUrl'          => $logo_url,
+	'faviconUrl'       => $favicon_url,
 	'redirectTo'       => $redirect_to,
 	'initialView'      => $initial_view,
 	'loggedOutMessage' => $logged_out,
@@ -37,6 +42,8 @@ $auth_config = array(
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?php echo esc_html( $site_name ); ?> — تسجيل الدخول الموحد | WorkPress</title>
+
+    <link rel="icon" type="image/svg+xml" href="<?php echo esc_url( $favicon_url ); ?>">
 
     <!-- Dashicons -->
     <link rel="stylesheet" href="<?php echo esc_url( includes_url( 'css/dashicons.min.css' ) ); ?>?ver=<?php echo esc_attr( get_bloginfo( 'version' ) ); ?>">

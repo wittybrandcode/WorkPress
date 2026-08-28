@@ -33,9 +33,15 @@ export default function App() {
 	const isAdmin = !!settings.isAdmin;
 	const userCaps = settings.userCaps || {};
 
+	// Live brand and theme reactivity
+	const [brandRevision, setBrandRevision] = useState(0);
+
 	useEffect( () => {
 		const handleHashChange = () => setRoute( window.location.hash || '#/' );
+		const handleBrandUpdate = () => setBrandRevision( ( prev ) => prev + 1 );
+
 		window.addEventListener( 'hashchange', handleHashChange );
+		window.addEventListener( 'workpress_brand_updated', handleBrandUpdate );
 
 		// Universal Session Keep-Alive (Refresh nonce on tab visibility & every 15 mins)
 		const refreshNonce = async () => {
@@ -77,6 +83,7 @@ export default function App() {
 
 		return () => {
 			window.removeEventListener( 'hashchange', handleHashChange );
+			window.removeEventListener( 'workpress_brand_updated', handleBrandUpdate );
 			document.removeEventListener( 'visibilitychange', handleVisibilityChange );
 			clearInterval( keepAliveInterval );
 		};
@@ -160,7 +167,7 @@ export default function App() {
 					<!-- الهوية: الشعار الرسمي SVG بحجم كبير وواضح -->
 					<div className="is-flex is-align-items-center">
 						<a href="#/" className="is-flex is-align-items-center" title="WorkPress — just work" style=${{ textDecoration: 'none', outline: 'none', boxShadow: 'none', padding: '2px 0' }}>
-							<${WorkPressLogo} height=${36} />
+							<${WorkPressLogo} height=${36} key=${brandRevision} />
 						</a>
 					</div>
 					

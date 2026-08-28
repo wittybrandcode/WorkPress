@@ -12,7 +12,29 @@ import { html } from '../../utils/html.js';
  * @param {string} [props.className=''] - Additional CSS classes
  * @param {Object} [props.style={}] - Additional inline styles
  */
-export default function WorkPressLogo({ height = 28, dark = false, className = '', style = {} }) {
+export default function WorkPressLogo({ height = 28, dark = false, className = '', style = {}, src = null }) {
+	const settings = window.workpressSettings || {};
+	const logoUrl = src || settings.customLogoUrl;
+	const isCustomImage = logoUrl && typeof logoUrl === 'string' && logoUrl.trim() !== '' && !logoUrl.endsWith('workpress.svg') && !logoUrl.endsWith('workpress-logo.svg');
+
+	if (isCustomImage) {
+		return html`
+			<img 
+				src=${logoUrl} 
+				alt=${settings.siteName || 'WorkPress'} 
+				className=${`workpress-custom-brand-logo ${className}`}
+				style=${{
+					height: `${height}px`,
+					width: 'auto',
+					maxWidth: '240px',
+					objectFit: 'contain',
+					display: 'block',
+					...style
+				}}
+			/>
+		`;
+	}
+
 	const pressFill = dark ? '#ffffff' : '#00192f';
 	const workFill = '#10b981';
 

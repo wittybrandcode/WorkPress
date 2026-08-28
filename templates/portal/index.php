@@ -131,7 +131,10 @@ $portal_config = array(
     $portal_js_file  = WORKPRESS_PATH . 'assets/src/portal/portal-app.js';
     $portal_js_ver   = file_exists( $portal_js_file ) ? filemtime( $portal_js_file ) : WORKPRESS_VERSION;
     ?>
-    <link rel="icon" type="image/svg+xml" href="<?php echo esc_url( WORKPRESS_URL . 'assets/brand/favicon.svg' ); ?>">
+    <?php
+    $portal_favicon_url = class_exists( 'WorkPress_REST_Settings_Controller' ) ? WorkPress_REST_Settings_Controller::get_custom_favicon_url() : ( WORKPRESS_URL . 'assets/brand/favicon.svg' );
+    ?>
+    <link rel="icon" type="image/svg+xml" href="<?php echo esc_url( $portal_favicon_url ); ?>">
     <link rel="stylesheet" href="<?php echo esc_url( WORKPRESS_URL . 'assets/css/portal.css?v=' . $portal_css_ver ); ?>">
 </head>
 <body class="workpress-portal-body">

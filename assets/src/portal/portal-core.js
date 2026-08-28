@@ -123,12 +123,26 @@ window.WorkPressPortal = window.WorkPressPortal || {};
     };
 
     /**
-     * Official WorkPress Brand Vector Logo (SVG)
+     * Official WorkPress Brand Vector Logo (SVG or Custom Image)
      */
     exports.renderWorkPressLogo = function(height = 32, dark = false) {
         if (!window.preact || !window.htm) return null;
         const { h } = window.preact;
         const html = window.htm.bind(h);
+
+        const customLogo = (config && (config.customLogoUrl || config.logoUrl)) || '';
+        const isCustomImage = customLogo && typeof customLogo === 'string' && customLogo.trim() !== '' && !customLogo.endsWith('workpress.svg') && !customLogo.endsWith('workpress-logo.svg');
+
+        if (isCustomImage) {
+            return html`
+                <img 
+                    src=${customLogo} 
+                    alt=${config.siteName || 'WorkPress'} 
+                    style=${{ height: `${height}px`, width: 'auto', maxWidth: '240px', objectFit: 'contain', display: 'block' }}
+                />
+            `;
+        }
+
         const pressFill = dark ? '#ffffff' : '#00192f';
         const workFill = '#10b981';
 

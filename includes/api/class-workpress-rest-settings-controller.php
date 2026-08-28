@@ -42,26 +42,74 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 		return current_user_can( 'manage_options' );
 	}
 
+	/**
+	 * Get the effective WorkPress custom or default logo URL.
+	 *
+	 * @return string
+	 */
+	public static function get_custom_logo_url() {
+		$logo_id = (int) get_option( 'workpress_custom_logo_id', 0 );
+		if ( $logo_id > 0 ) {
+			$img = wp_get_attachment_image_url( $logo_id, 'full' );
+			if ( $img ) {
+				return $img;
+			}
+		}
+		$logo_url = get_option( 'workpress_custom_logo_url', '' );
+		if ( ! empty( $logo_url ) ) {
+			return esc_url_raw( $logo_url );
+		}
+		return WORKPRESS_URL . 'assets/brand/workpress.svg';
+	}
+
+	/**
+	 * Get the effective WorkPress custom or default favicon URL.
+	 *
+	 * @return string
+	 */
+	public static function get_custom_favicon_url() {
+		$fav_id = (int) get_option( 'workpress_custom_favicon_id', 0 );
+		if ( $fav_id > 0 ) {
+			$img = wp_get_attachment_image_url( $fav_id, 'full' );
+			if ( $img ) {
+				return $img;
+			}
+		}
+		$fav_url = get_option( 'workpress_custom_favicon_url', '' );
+		if ( ! empty( $fav_url ) ) {
+			return esc_url_raw( $fav_url );
+		}
+		return WORKPRESS_URL . 'assets/brand/favicon.svg';
+	}
+
 	public function get_settings( $request ) {
 		return rest_ensure_response( array(
-			'siteName'           => get_bloginfo( 'name' ),
-			'defaultPriority'    => get_option( 'workpress_default_priority', 'medium' ),
-			'emailNotifications' => (bool) get_option( 'workpress_email_notifications', true ),
-			'timezone'           => get_option( 'workpress_timezone', wp_timezone_string() ?: 'Africa/Algiers' ),
-			'monthNaming'        => get_option( 'workpress_month_naming', 'maghrebi' ),
-			'dateFormat'         => get_option( 'workpress_date_format', 'D MMMM YYYY' ),
-			'relativeTime'       => (bool) get_option( 'workpress_relative_time', true ),
-			'gmtOffset'          => (float) get_option( 'gmt_offset', 1 ),
-			'sound_enabled'      => (bool) get_option( 'workpress_sound_enabled', true ),
-			'sound_volume'       => (float) get_option( 'workpress_sound_volume', 0.7 ),
-			'sound_kit'          => get_option( 'workpress_sound_kit', '01' ),
-			'sound_notification' => get_option( 'workpress_sound_notification', 'notification' ),
-			'sound_celebration'  => get_option( 'workpress_sound_celebration', 'celebration' ),
-			'sound_button'       => get_option( 'workpress_sound_button', 'button' ),
-			'sound_transition'   => get_option( 'workpress_sound_transition', 'transition_up' ),
-			'sound_caution'      => get_option( 'workpress_sound_caution', 'caution' ),
-			'sound_events_config' => get_option( 'workpress_sound_events_config', array() ),
-			'intake_forms_schema' => get_option( 'workpress_intake_forms_schema', WorkPress_Project_Service::get_default_intake_forms_schema() ),
+			'siteName'              => get_bloginfo( 'name' ),
+			'defaultPriority'       => get_option( 'workpress_default_priority', 'medium' ),
+			'emailNotifications'    => (bool) get_option( 'workpress_email_notifications', true ),
+			'timezone'              => get_option( 'workpress_timezone', wp_timezone_string() ?: 'Africa/Algiers' ),
+			'monthNaming'           => get_option( 'workpress_month_naming', 'maghrebi' ),
+			'dateFormat'            => get_option( 'workpress_date_format', 'D MMMM YYYY' ),
+			'relativeTime'          => (bool) get_option( 'workpress_relative_time', true ),
+			'gmtOffset'             => (float) get_option( 'gmt_offset', 1 ),
+			'sound_enabled'         => (bool) get_option( 'workpress_sound_enabled', true ),
+			'sound_volume'          => (float) get_option( 'workpress_sound_volume', 0.7 ),
+			'sound_kit'             => get_option( 'workpress_sound_kit', '01' ),
+			'sound_notification'    => get_option( 'workpress_sound_notification', 'notification' ),
+			'sound_celebration'     => get_option( 'workpress_sound_celebration', 'celebration' ),
+			'sound_button'          => get_option( 'workpress_sound_button', 'button' ),
+			'sound_transition'      => get_option( 'workpress_sound_transition', 'transition_up' ),
+			'sound_caution'         => get_option( 'workpress_sound_caution', 'caution' ),
+			'sound_events_config'   => get_option( 'workpress_sound_events_config', array() ),
+			'intake_forms_schema'   => get_option( 'workpress_intake_forms_schema', WorkPress_Project_Service::get_default_intake_forms_schema() ),
+			'logo_id'               => (int) get_option( 'workpress_custom_logo_id', 0 ),
+			'logo_url'              => get_option( 'workpress_custom_logo_url', '' ),
+			'logo_effective_url'    => self::get_custom_logo_url(),
+			'default_logo_url'      => WORKPRESS_URL . 'assets/brand/workpress.svg',
+			'favicon_id'            => (int) get_option( 'workpress_custom_favicon_id', 0 ),
+			'favicon_url'           => get_option( 'workpress_custom_favicon_url', '' ),
+			'favicon_effective_url' => self::get_custom_favicon_url(),
+			'default_favicon_url'   => WORKPRESS_URL . 'assets/brand/favicon.svg',
 		) );
 	}
 
@@ -182,6 +230,22 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 				);
 			}
 			update_option( 'workpress_intake_forms_schema', $sanitized_forms );
+		}
+
+		if ( isset( $params['logo_id'] ) ) {
+			update_option( 'workpress_custom_logo_id', (int) $params['logo_id'] );
+		}
+
+		if ( isset( $params['logo_url'] ) ) {
+			update_option( 'workpress_custom_logo_url', esc_url_raw( $params['logo_url'] ) );
+		}
+
+		if ( isset( $params['favicon_id'] ) ) {
+			update_option( 'workpress_custom_favicon_id', (int) $params['favicon_id'] );
+		}
+
+		if ( isset( $params['favicon_url'] ) ) {
+			update_option( 'workpress_custom_favicon_url', esc_url_raw( $params['favicon_url'] ) );
 		}
 
 		return $this->get_settings( $request );

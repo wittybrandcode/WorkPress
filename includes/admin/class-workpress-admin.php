@@ -20,7 +20,22 @@ class WorkPress_Admin {
 		add_action( 'admin_init', array( $this, 'enforce_portal_isolation' ) );
 		add_action( 'admin_menu', array( $this, 'register_menu' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+		add_action( 'admin_head', array( $this, 'inject_admin_favicon' ) );
 		add_action( 'pre_get_comments', array( $this, 'hide_contribution_comments' ) );
+	}
+
+	/**
+	 * Inject WorkPress custom or default favicon into the admin <head> when on WorkPress page.
+	 */
+	public function inject_admin_favicon() {
+		if ( isset( $_GET['page'] ) && 'workpress' === $_GET['page'] ) {
+			if ( class_exists( 'WorkPress_REST_Settings_Controller' ) ) {
+				$favicon_url = WorkPress_REST_Settings_Controller::get_custom_favicon_url();
+			} else {
+				$favicon_url = WORKPRESS_URL . 'assets/brand/favicon.svg';
+			}
+			echo '<link rel="icon" type="image/svg+xml" href="' . esc_url( $favicon_url ) . '" />' . "\n";
+		}
 	}
 
 	/**
@@ -173,7 +188,14 @@ class WorkPress_Admin {
 			'isAdmin'            => $is_admin,
 			'pluginUrl'          => WORKPRESS_URL,
 			'version'            => WORKPRESS_VERSION,
-			'logoUrl'            => WORKPRESS_URL . 'assets/src/brand/workpress-logo.svg',
+			'logoUrl'            => class_exists( 'WorkPress_REST_Settings_Controller' ) ? WorkPress_REST_Settings_Controller::get_custom_logo_url() : ( WORKPRESS_URL . 'assets/brand/workpress.svg' ),
+			'faviconUrl'         => class_exists( 'WorkPress_REST_Settings_Controller' ) ? WorkPress_REST_Settings_Controller::get_custom_favicon_url() : ( WORKPRESS_URL . 'assets/brand/favicon.svg' ),
+			'customLogoUrl'      => get_option( 'workpress_custom_logo_url', '' ),
+			'customLogoId'       => (int) get_option( 'workpress_custom_logo_id', 0 ),
+			'customFaviconUrl'   => get_option( 'workpress_custom_favicon_url', '' ),
+			'customFaviconId'    => (int) get_option( 'workpress_custom_favicon_id', 0 ),
+			'defaultLogoUrl'     => WORKPRESS_URL . 'assets/brand/workpress.svg',
+			'defaultFaviconUrl'  => WORKPRESS_URL . 'assets/brand/favicon.svg',
 		);
 	}
 

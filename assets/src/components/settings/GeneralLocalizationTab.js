@@ -1,5 +1,6 @@
-import { html } from '../../utils/html.js';
+import { html, useState } from '../../utils/html.js';
 import { formatDate, formatDateTime, formatNumber, formatPercent } from '../../utils/datetime.js';
+import WorkPressLogo from '../ui/WorkPressLogo.js';
 
 /**
  * General Settings & Localization/Time Management Tab
@@ -18,17 +19,83 @@ export default function GeneralLocalizationTab({
 	setSiteName,
 	defaultPriority = 'medium',
 	setDefaultPriority,
+	logoUrl = '',
+	setLogoUrl,
+	logoId = 0,
+	setLogoId,
+	faviconUrl = '',
+	setFaviconUrl,
+	faviconId = 0,
+	setFaviconId,
+	defaultLogoUrl = '',
+	defaultFaviconUrl = '',
 	isSettingsSaving = false,
 	handleSaveLocalizationSettings,
 	handleSaveGeneralSettings
 }) {
+	const [previewBgDark, setPreviewBgDark] = useState(false);
+
+	const openMediaSelector = (title, onSelected) => {
+		if (!window.wp || !window.wp.media) {
+			console.error('WordPress Media Library is not available.');
+			return;
+		}
+
+		const frame = window.wp.media({
+			title: title || 'اختيار صورة',
+			button: {
+				text: 'استخدام هذه الصورة'
+			},
+			multiple: false
+		});
+
+		frame.on('select', () => {
+			const attachment = frame.state().get('selection').first().toJSON();
+			if (attachment && attachment.url) {
+				onSelected(attachment.id, attachment.url);
+			}
+		});
+
+		frame.open();
+	};
+
+	const handleChooseLogo = () => {
+		openMediaSelector('اختيار أو رفع شعار WorkPress المخصص', (id, url) => {
+			if (setLogoId) setLogoId(id);
+			if (setLogoUrl) setLogoUrl(url);
+		});
+	};
+
+	const handleResetLogo = () => {
+		if (setLogoId) setLogoId(0);
+		if (setLogoUrl) setLogoUrl('');
+	};
+
+	const handleChooseFavicon = () => {
+		openMediaSelector('اختيار أو رفع أيقونة Favicon لمنظومة WorkPress', (id, url) => {
+			if (setFaviconId) setFaviconId(id);
+			if (setFaviconUrl) setFaviconUrl(url);
+		});
+	};
+
+	const handleResetFavicon = () => {
+		if (setFaviconId) setFaviconId(0);
+		if (setFaviconUrl) setFaviconUrl('');
+	};
+
+	const effectiveLogoSrc = logoUrl && logoUrl.trim() !== '' ? logoUrl : (defaultLogoUrl || '/wp-content/plugins/WorkPress/assets/brand/workpress.svg');
+	const isCustomLogoActive = !!(logoUrl && logoUrl.trim() !== '');
+
+	const effectiveFaviconSrc = faviconUrl && faviconUrl.trim() !== '' ? faviconUrl : (defaultFaviconUrl || '/wp-content/plugins/WorkPress/assets/brand/favicon.svg');
+	const isCustomFaviconActive = !!(faviconUrl && faviconUrl.trim() !== '');
+
 	if (activeTab === 'general') {
 		return html`
 			<div className="wp-card p-5">
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 pb-3" style=${{ borderBottom: '1px solid #ededed' }}>
 					<div>
-						<h3 className="title is-5 mb-1 has-text-weight-bold">إعدادات النظام العامة</h3>
-						<p className="has-text-grey is-size-7">ضبط وتخصيص بيئة العمل العامة وسلوك النظام.</p>
+						<h3 className="title is-5 mb-1 has-text-weight-bold">إعدادات النظام والهوية البصرية</h3>
+						<p className="has-text-grey is-size-7">ضبط وتخصيص بيئة العمل، الشعار الرسمي، وأيقونة المتصفح (Favicon) الخاصة بمنظومة WorkPress وبوابة المستفيدين.</p>
 					</div>
 					<button 
 						className="button wp-btn is-primary"
@@ -39,32 +106,189 @@ export default function GeneralLocalizationTab({
 					</button>
 				</div>
 
-				<div className="field mb-4">
-					<label className="label is-small">اسم بيئة العمل (Workspace Name)</label>
-					<div className="control">
-						<input 
-							className="input is-small" 
-							type="text" 
-							value=${siteName} 
-							onInput=${(e) => setSiteName(e.target.value)}
-							style=${{ borderRadius: 0, border: '1px solid #cbd5e1' }}
-						/>
-					</div>
-				</div>
+				<div className="columns is-variable is-5">
+					<div className="column is-6">
+						<h4 className="title is-6 has-text-weight-bold mb-3 pb-1" style=${{ borderBottom: '1px solid #f1f5f9' }}>
+							<i className="dashicons dashicons-admin-settings ml-1 has-text-primary"></i>
+							بيئة العمل العامة
+						</h4>
 
-				<div className="field mb-4">
-					<label className="label is-small">الأولوية الافتراضية للمهام الجديدة</label>
-					<div className="control">
-						<div className="select is-small is-fullwidth">
-							<select 
-								value=${defaultPriority} 
-								onChange=${(e) => setDefaultPriority(e.target.value)}
-								style=${{ borderRadius: 0, border: '1px solid #cbd5e1' }}
+						<div className="field mb-4">
+							<label className="label is-small">اسم بيئة العمل (Workspace Name)</label>
+							<div className="control">
+								<input 
+									className="input is-small" 
+									type="text" 
+									value=${siteName} 
+									onInput=${(e) => setSiteName(e.target.value)}
+									style=${{ borderRadius: 0, border: '1px solid #cbd5e1' }}
+								/>
+							</div>
+							<p className="help has-text-grey is-size-7">يظهر هذا الاسم في ترويسة التطبيق، تقارير المشاريع، وعناوين ألسنة المتصفح.</p>
+						</div>
+
+						<div className="field mb-4">
+							<label className="label is-small">الأولوية الافتراضية للمهام الجديدة</label>
+							<div className="control">
+								<div className="select is-small is-fullwidth">
+									<select 
+										value=${defaultPriority} 
+										onChange=${(e) => setDefaultPriority(e.target.value)}
+										style=${{ borderRadius: 0, border: '1px solid #cbd5e1' }}
+									>
+										<option value="low">منخفضة</option>
+										<option value="medium">متوسطة</option>
+										<option value="high">عالية</option>
+									</select>
+								</div>
+							</div>
+						</div>
+
+						<!-- صندوق التنبيه حول نطاق الهوية والعزل -->
+						<div className="message is-info is-small mt-5" style=${{ borderRadius: 0 }}>
+							<div className="message-body p-3 is-size-7" style=${{ lineHeight: '1.5' }}>
+								<p className="has-text-weight-bold mb-1">
+									<i className="dashicons dashicons-shield ml-1"></i>
+									نطاق الهوية البصرية المستقلة:
+								</p>
+								<span>تخص إعدادات الشعار والـ Favicon أدناه تطبيق <strong>WorkPress</strong> الداخلي، <strong>بوابة المستفيدين</strong>، و<strong>شاشة الدخول الموحدة</strong>، ولا تُغير شعار أو أيقونة قالب موقع ووردبريس العام.</span>
+							</div>
+						</div>
+					</div>
+
+					<div className="column is-6">
+						<h4 className="title is-6 has-text-weight-bold mb-3 pb-1" style=${{ borderBottom: '1px solid #f1f5f9' }}>
+							<i className="dashicons dashicons-art ml-1 has-text-primary"></i>
+							الهوية البصرية وشعار المنظومة
+						</h4>
+
+						<!-- 1. الشعار الرسمي Logo -->
+						<div className="box p-4 mb-4" style=${{ border: '1px solid #e2e8f0', borderRadius: 0, background: '#f8fafc' }}>
+							<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
+								<label className="label is-small mb-0">شعار المنظومة (WorkPress Logo)</label>
+								<div className="is-flex is-align-items-center" style=${{ gap: '6px' }}>
+									<span className=${`tag is-small ${isCustomLogoActive ? 'is-success is-light' : 'is-dark is-light'}`} style=${{ borderRadius: 0, fontSize: '0.7rem' }}>
+										${isCustomLogoActive ? 'شعار مخصص نشط' : 'الشعار الافتراضي المدمج'}
+									</span>
+									<button 
+										type="button" 
+										className="button is-small is-white px-1 py-0" 
+										title=${previewBgDark ? 'التبديل إلى خلفية بيضاء للمعاينة' : 'التبديل إلى خلفية داكنة للمعاينة'}
+										onClick=${() => setPreviewBgDark(!previewBgDark)}
+										style=${{ height: '22px' }}
+									>
+										<i className=${`dashicons ${previewBgDark ? 'dashicons-sun' : 'dashicons-moon'}`} style=${{ fontSize: '14px' }}></i>
+									</button>
+								</div>
+							</div>
+
+							<!-- صندوق المعاينة الحية للشعار -->
+							<div 
+								className="is-flex is-justify-content-center is-align-items-center p-3 mb-3" 
+								style=${{ 
+									background: previewBgDark ? '#00192f' : '#ffffff', 
+									border: '1px dashed #cbd5e1', 
+									minHeight: '64px',
+									transition: 'background 0.2s ease'
+								}}
 							>
-								<option value="low">منخفضة</option>
-								<option value="medium">متوسطة</option>
-								<option value="high">عالية</option>
-							</select>
+								${isCustomLogoActive ? html`
+									<img 
+										src=${effectiveLogoSrc} 
+										alt="WorkPress Brand Logo" 
+										style=${{ maxHeight: '42px', maxWidth: '100%', objectFit: 'contain' }}
+									/>
+								` : html`
+									<${WorkPressLogo} height=${32} dark=${previewBgDark} />
+								`}
+							</div>
+
+							<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
+								<button 
+									type="button" 
+									className="button is-small is-primary" 
+									onClick=${handleChooseLogo}
+									style=${{ borderRadius: 0 }}
+								>
+									<i className="dashicons dashicons-upload ml-1"></i>
+									<span>اختيار / رفع شعار</span>
+								</button>
+
+								${isCustomLogoActive && html`
+									<button 
+										type="button" 
+										className="button is-small is-light is-danger" 
+										onClick=${handleResetLogo}
+										style=${{ borderRadius: 0 }}
+										title="العودة لشعار WorkPress الرسمي المدمج"
+									>
+										<i className="dashicons dashicons-undo ml-1"></i>
+										<span>استعادة الافتراضي</span>
+									</button>
+								`}
+							</div>
+							<p className="help has-text-grey is-size-7 mt-1">الامتدادات المفضلة: SVG vector، أو PNG شفاف بأبعاد عرض 180-260px وارتفاع 36-54px.</p>
+						</div>
+
+						<!-- 2. أيقونة المتصفح Favicon -->
+						<div className="box p-4 mb-3" style=${{ border: '1px solid #e2e8f0', borderRadius: 0, background: '#f8fafc' }}>
+							<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
+								<label className="label is-small mb-0">أيقونة لسان المتصفح (WorkPress Favicon)</label>
+								<span className=${`tag is-small ${isCustomFaviconActive ? 'is-success is-light' : 'is-dark is-light'}`} style=${{ borderRadius: 0, fontSize: '0.7rem' }}>
+									${isCustomFaviconActive ? 'Favicon مخصص' : 'الأيقونة الافتراضية'}
+								</span>
+							</div>
+
+							<!-- محاكي لسان المتصفح للمعاينة الحية الفورية -->
+							<div className="p-2 mb-3 has-background-white" style=${{ border: '1px solid #e2e8f0' }}>
+								<p className="is-size-7 has-text-grey mb-1" style=${{ fontSize: '0.7rem' }}>معاينة شكل لسان المتصفح (Browser Tab Simulation):</p>
+								<div 
+									className="is-flex is-align-items-center px-3 py-1" 
+									style=${{ 
+										background: '#f1f5f9', 
+										border: '1px solid #cbd5e1', 
+										width: 'fit-content', 
+										maxWidth: '220px', 
+										borderRadius: '4px 4px 0 0',
+										gap: '8px'
+									}}
+								>
+									<img 
+										src=${effectiveFaviconSrc} 
+										alt="Favicon" 
+										style=${{ width: '16px', height: '16px', objectFit: 'contain' }}
+									/>
+									<span className="is-size-7 has-text-weight-bold has-text-dark is-truncated" style=${{ fontSize: '0.75rem', maxWidth: '160px' }}>
+										${siteName || 'WorkPress Workspace'}
+									</span>
+								</div>
+							</div>
+
+							<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
+								<button 
+									type="button" 
+									className="button is-small is-primary" 
+									onClick=${handleChooseFavicon}
+									style=${{ borderRadius: 0 }}
+								>
+									<i className="dashicons dashicons-upload ml-1"></i>
+									<span>اختيار / رفع Favicon</span>
+								</button>
+
+								${isCustomFaviconActive && html`
+									<button 
+										type="button" 
+										className="button is-small is-light is-danger" 
+										onClick=${handleResetFavicon}
+										style=${{ borderRadius: 0 }}
+										title="العودة لأيقونة WorkPress الافتراضية"
+									>
+										<i className="dashicons dashicons-undo ml-1"></i>
+										<span>استعادة الافتراضي</span>
+									</button>
+								`}
+							</div>
+							<p className="help has-text-grey is-size-7 mt-1">الامتدادات المفضلة: SVG، أو PNG بأبعاد 32x32px أو 64x64px مربعة.</p>
 						</div>
 					</div>
 				</div>
