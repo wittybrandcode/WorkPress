@@ -40,17 +40,25 @@ export default function App() {
 		// Universal Session Keep-Alive (Refresh nonce on tab visibility & every 15 mins)
 		const refreshNonce = async () => {
 			try {
-				const baseUrl = settings.apiUrl || '/wp-json/workpress/v1/';
-				const currentNonce = settings.restNonce || ( window.wpApiSettings && window.wpApiSettings.nonce );
-				const res = await fetch( baseUrl + 'portal/refresh-nonce', {
-					method: 'GET',
-					headers: { 'X-WP-Nonce': currentNonce }
-				} );
-				if ( res.ok ) {
-					const data = await res.json();
+				if ( window.wp && window.wp.apiFetch ) {
+					const data = await window.wp.apiFetch( { path: '/workpress/v1/portal/refresh-nonce' } );
 					if ( data && data.nonce ) {
 						if ( window.workpressSettings ) window.workpressSettings.restNonce = data.nonce;
 						if ( window.wpApiSettings ) window.wpApiSettings.nonce = data.nonce;
+					}
+				} else {
+					const baseUrl = ( settings.restUrl || '/wp-json/workpress/v1/' ).replace( /\/+$/, '' );
+					const currentNonce = settings.restNonce || ( window.wpApiSettings && window.wpApiSettings.nonce );
+					const res = await fetch( baseUrl + '/portal/refresh-nonce', {
+						method: 'GET',
+						headers: { 'X-WP-Nonce': currentNonce }
+					} );
+					if ( res.ok ) {
+						const data = await res.json();
+						if ( data && data.nonce ) {
+							if ( window.workpressSettings ) window.workpressSettings.restNonce = data.nonce;
+							if ( window.wpApiSettings ) window.wpApiSettings.nonce = data.nonce;
+						}
 					}
 				}
 			} catch ( e ) {
