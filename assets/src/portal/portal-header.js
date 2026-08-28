@@ -275,121 +275,143 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
                     </div>
 
-                    <!-- Second Tier: Primary Action CTA & Project Switcher Dropdown -->
-                    <div class="portal-action-bar">
-                        <div class="portal-action-right" style="display: flex; align-items: center; gap: 8px;">
-                            <button 
-                                class="btn-portal btn-portal-primary btn-portal-sm" 
-                                style="font-weight: 800;"
-                                onClick=${() => {
-                                    playPortalSound('button');
-                                    onNavigateToTab('new-request');
-                                }}
-                            >
-                                <i class="dashicons dashicons-plus-alt2"></i>
-                                <span>طلب خدمة / مشروع جديد</span>
-                            </button>
-
-                            ${selectedProjectId ? html`
+                    <!-- Second Tier: Global Portal Main Navigation Bar -->
+                    ${(() => {
+                        const isProjectsContext = (activeTab === 'projects' || activeTab === 'deliverables' || activeTab === 'milestones' || activeTab === 'feedback' || (!!selectedProjectId && activeTab !== 'dashboard' && activeTab !== 'new-request' && activeTab !== 'my-requests'));
+                        
+                        return html`
+                            <div class="portal-main-nav-bar">
                                 <button 
-                                    type="button" 
-                                    class="btn-portal btn-portal-outline btn-portal-sm"
+                                    type="button"
+                                    class="portal-nav-link ${(!isProjectsContext && activeTab !== 'my-requests' && activeTab !== 'new-request') || activeTab === 'dashboard' ? 'is-active' : ''}"
                                     onClick=${() => {
                                         playPortalSound('transition');
                                         onNavigateToTab('dashboard');
                                     }}
-                                    title="العودة للرئيسية ولوحة القيادة"
                                 >
-                                    <i class="dashicons dashicons-arrow-right-alt"></i>
+                                    <i class="dashicons dashicons-admin-home"></i>
                                     <span>الرئيسية</span>
                                 </button>
-                            ` : null}
-                        </div>
 
-                        ${projects.length > 0 ? html`
-                            <div class="portal-action-left" style="display: flex; align-items: center; gap: 8px;">
-                                <span style="font-size: 0.85rem; font-weight: 700; color: var(--wp-text-secondary); display: inline-flex; align-items: center; gap: 4px;">
-                                    <i class="dashicons dashicons-portfolio" style="color: var(--wp-text-muted);"></i>
-                                    <span>المشروع النشط:</span>
-                                </span>
-                                <select 
-                                    class="portal-switcher-select" 
-                                    value=${selectedProjectId || ''} 
-                                    onChange=${onProjectChange}
+                                <button 
+                                    type="button"
+                                    class="portal-nav-link ${isProjectsContext ? 'is-active' : ''}"
+                                    onClick=${() => {
+                                        playPortalSound('transition');
+                                        onNavigateToTab('projects');
+                                    }}
                                 >
-                                    <option value="">🏢 لوحة القيادة المركزية (كافة المشاريع)</option>
-                                    ${projects.map(p => html`
-                                        <option key=${p.id} value=${p.id}>📁 ${p.name} (${p.prefix})</option>
-                                    `)}
-                                </select>
+                                    <i class="dashicons dashicons-portfolio"></i>
+                                    <span>المشاريع</span>
+                                    ${projects.length > 0 ? html`<span class="portal-nav-count">(${projects.length})</span>` : null}
+                                </button>
+
+                                <button 
+                                    type="button"
+                                    class="portal-nav-link ${activeTab === 'my-requests' ? 'is-active' : ''}"
+                                    onClick=${() => {
+                                        playPortalSound('transition');
+                                        onNavigateToTab('my-requests');
+                                    }}
+                                >
+                                    <i class="dashicons dashicons-email-alt"></i>
+                                    <span>سجل طلباتي</span>
+                                    ${myRequestsCount > 0 ? html`<span class="portal-nav-count">(${myRequestsCount})</span>` : null}
+                                </button>
                             </div>
-                        ` : null}
-                    </div>
 
-                    <!-- Third Tier: Navigation Tabs Bar -->
-                    <div class="portal-tabs-bar">
-                        <button 
-                            type="button"
-                            class="portal-tab-pill ${(!selectedProjectId && activeTab !== 'new-request' && activeTab !== 'my-requests') || activeTab === 'dashboard' ? 'is-active' : ''}"
-                            onClick=${() => {
-                                playPortalSound('transition');
-                                onNavigateToTab('dashboard');
-                            }}
-                        >
-                            <i class="dashicons dashicons-admin-home"></i>
-                            <span>الرئيسية / لوحة القيادة</span>
-                        </button>
+                            <!-- Third Tier: Contextual Project Workspace Action Bar (Appears ONLY in Projects context) -->
+                            ${isProjectsContext ? html`
+                                <div class="portal-contextual-bar">
+                                    <div class="portal-action-right" style="display: flex; align-items: center; gap: 8px;">
+                                        <button 
+                                            class="btn-portal btn-portal-primary btn-portal-sm" 
+                                            style="font-weight: 800;"
+                                            onClick=${() => {
+                                                playPortalSound('button');
+                                                onNavigateToTab('new-request');
+                                            }}
+                                        >
+                                            <i class="dashicons dashicons-plus-alt2"></i>
+                                            <span>طلب خدمة / مشروع جديد</span>
+                                        </button>
 
-                        ${selectedProjectId ? html`
-                            <button 
-                                type="button"
-                                class="portal-tab-pill ${activeTab === 'deliverables' ? 'is-active' : ''}"
-                                onClick=${() => {
-                                    playPortalSound('button');
-                                    onNavigateToTab('deliverables');
-                                }}
-                            >
-                                <i class="dashicons dashicons-portfolio"></i>
-                                <span>المخرجات المعتمدة (${deliverablesCount})</span>
-                            </button>
+                                        <button 
+                                            type="button" 
+                                            class="btn-portal btn-portal-outline btn-portal-sm"
+                                            onClick=${() => {
+                                                playPortalSound('transition');
+                                                onNavigateToTab('dashboard');
+                                            }}
+                                            title="العودة للوحة القيادة المركزية"
+                                        >
+                                            <i class="dashicons dashicons-arrow-right-alt"></i>
+                                            <span>الرئيسية</span>
+                                        </button>
+                                    </div>
 
-                            <button 
-                                type="button"
-                                class="portal-tab-pill ${activeTab === 'milestones' ? 'is-active' : ''}"
-                                onClick=${() => {
-                                    playPortalSound('button');
-                                    onNavigateToTab('milestones');
-                                }}
-                            >
-                                <i class="dashicons dashicons-clipboard"></i>
-                                <span>المراحل والمهام (${milestonesCount})</span>
-                            </button>
+                                    ${projects.length > 0 ? html`
+                                        <div class="portal-action-center" style="display: flex; align-items: center; gap: 6px;">
+                                            <span style="font-size: 0.82rem; font-weight: 700; color: var(--wp-text-secondary); display: inline-flex; align-items: center; gap: 4px;">
+                                                <i class="dashicons dashicons-portfolio" style="color: var(--wp-text-muted);"></i>
+                                                <span>المشروع النشط:</span>
+                                            </span>
+                                            <select 
+                                                class="portal-switcher-select" 
+                                                value=${selectedProjectId || ''} 
+                                                onChange=${onProjectChange}
+                                            >
+                                                <option value="">🏢 اختر مشروعاً...</option>
+                                                ${projects.map(p => html`
+                                                    <option key=${p.id} value=${p.id}>📁 ${p.name} (${p.prefix})</option>
+                                                `)}
+                                            </select>
+                                        </div>
+                                    ` : null}
 
-                            <button 
-                                type="button"
-                                class="portal-tab-pill ${activeTab === 'feedback' ? 'is-active' : ''}"
-                                onClick=${() => {
-                                    playPortalSound('button');
-                                    onNavigateToTab('feedback');
-                                }}
-                            >
-                                <i class="dashicons dashicons-format-chat"></i>
-                                <span>الاستفسارات والملاحظات</span>
-                            </button>
-                        ` : null}
+                                    ${selectedProjectId ? html`
+                                        <div class="portal-action-tabs">
+                                            <button 
+                                                type="button"
+                                                class="portal-tab-pill ${activeTab === 'deliverables' || activeTab === 'projects' ? 'is-active' : ''}"
+                                                onClick=${() => {
+                                                    playPortalSound('button');
+                                                    onNavigateToTab('deliverables');
+                                                }}
+                                            >
+                                                <i class="dashicons dashicons-portfolio"></i>
+                                                <span>المخرجات المعتمدة (${deliverablesCount})</span>
+                                            </button>
 
-                        <button 
-                            type="button"
-                            class="portal-tab-pill ${activeTab === 'my-requests' ? 'is-active' : ''}"
-                            onClick=${() => {
-                                playPortalSound('button');
-                                onNavigateToTab('my-requests');
-                            }}
-                        >
-                            <i class="dashicons dashicons-email-alt"></i>
-                            <span>سجل طلباتي (${myRequestsCount})</span>
-                        </button>
-                    </div>
+                                            <button 
+                                                type="button"
+                                                class="portal-tab-pill ${activeTab === 'milestones' ? 'is-active' : ''}"
+                                                onClick=${() => {
+                                                    playPortalSound('button');
+                                                    onNavigateToTab('milestones');
+                                                }}
+                                            >
+                                                <i class="dashicons dashicons-clipboard"></i>
+                                                <span>المراحل والمهام (${milestonesCount})</span>
+                                            </button>
+
+                                            <button 
+                                                type="button"
+                                                class="portal-tab-pill ${activeTab === 'feedback' ? 'is-active' : ''}"
+                                                onClick=${() => {
+                                                    playPortalSound('button');
+                                                    onNavigateToTab('feedback');
+                                                }}
+                                            >
+                                                <i class="dashicons dashicons-format-chat"></i>
+                                                <span>الاستفسارات والملاحظات</span>
+                                            </button>
+                                        </div>
+                                    ` : null}
+                                </div>
+                            ` : null}
+                        `;
+                    })()}
                 </div>
             </div>
         `;

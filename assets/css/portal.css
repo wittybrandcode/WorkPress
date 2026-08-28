@@ -205,22 +205,67 @@ a:hover {
     gap: 0.75rem;
 }
 
-/* Tier 2: Primary Action CTA & Project Switcher */
-.portal-action-bar {
+/* Tier 2: Global Portal Main Navigation Bar */
+.portal-main-nav-bar {
+    display: flex;
+    align-items: center;
+    padding: 0.25rem 2rem;
+    background: #ffffff;
+    border-bottom: 1px solid var(--wp-border);
+    gap: 0.5rem;
+    overflow-x: auto;
+}
+
+.portal-nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    color: var(--wp-text-secondary);
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 700;
+    padding: 0.55rem 1.1rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+}
+
+.portal-nav-link:hover {
+    background: var(--wp-bg-subtle);
+    color: var(--wp-text-main);
+}
+
+.portal-nav-link.is-active {
+    background: var(--wp-primary-light);
+    border-bottom-color: var(--wp-primary);
+    color: #065f46;
+    font-weight: 800;
+}
+
+.portal-nav-link.is-active .dashicons {
+    color: var(--wp-primary);
+}
+
+.portal-nav-count {
+    font-size: 0.75rem;
+    font-weight: 800;
+    opacity: 0.85;
+}
+
+/* Tier 3: Contextual Project Action Bar & Tabs (Appears in Projects view) */
+.portal-contextual-bar {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0.5rem 2rem;
+    padding: 0.45rem 2rem;
     background: var(--wp-bg-subtle);
     border-bottom: 1px solid var(--wp-border);
     gap: 1rem;
     flex-wrap: wrap;
-}
-
-.portal-action-left {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    animation: portalFadeIn 0.2s ease;
 }
 
 .portal-action-right {
@@ -229,41 +274,39 @@ a:hover {
     gap: 0.75rem;
 }
 
-/* Tier 3: Quick Navigation Tabs Bar */
-.portal-tabs-bar {
+.portal-action-center {
     display: flex;
     align-items: center;
-    padding: 0.35rem 2rem;
-    background: #ffffff;
-    gap: 0.35rem;
-    overflow-x: auto;
+    gap: 0.75rem;
 }
 
-.portal-tabs-pills {
+.portal-action-tabs {
     display: flex;
     align-items: center;
     gap: 0.35rem;
+    overflow-x: auto;
 }
 
 .portal-tab-pill {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    background: transparent;
-    border: 1px solid transparent;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
     color: var(--wp-text-secondary);
     font-family: inherit;
-    font-size: 0.88rem;
+    font-size: 0.84rem;
     font-weight: 700;
-    padding: 0.45rem 0.95rem;
+    padding: 0.4rem 0.85rem;
     cursor: pointer;
     transition: all 0.15s ease;
     white-space: nowrap;
 }
 
 .portal-tab-pill:hover {
-    background: var(--wp-bg-subtle);
+    border-color: #cbd5e1;
     color: var(--wp-text-main);
+    background: #ffffff;
 }
 
 .portal-tab-pill.is-active {
@@ -275,6 +318,11 @@ a:hover {
 
 .portal-tab-pill.is-active .dashicons {
     color: var(--wp-primary);
+}
+
+@keyframes portalFadeIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 /* -------------------------------------------------------------

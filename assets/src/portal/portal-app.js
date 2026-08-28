@@ -259,6 +259,14 @@
                 this.setState({ activeTab: 'new-request' });
             } else if (hash.startsWith('#/my-requests')) {
                 this.setState({ activeTab: 'my-requests' });
+            } else if (hash.startsWith('#/projects')) {
+                const targetId = this.state.selectedProjectId || (this.state.projects.length > 0 ? this.state.projects[0].id : null);
+                if (targetId) {
+                    this.setState({ selectedProjectId: targetId, activeTab: 'deliverables' });
+                    this.loadProjectDetails(targetId);
+                } else {
+                    this.setState({ activeTab: 'projects' });
+                }
             } else if (hash.startsWith('#/project/')) {
                 const parts = hash.replace('#/project/', '').split('/');
                 const pid = parseInt(parts[0], 10);
@@ -282,12 +290,22 @@
             playPortalSound('button');
             this.setState({ activeTab: tabName });
             if (tabName === 'dashboard') {
-                this.setState({ selectedProjectId: null });
+                this.setState({ selectedProjectId: null, activeTab: 'dashboard' });
                 window.location.hash = '#/';
             } else if (tabName === 'new-request') {
                 window.location.hash = '#/new-request';
             } else if (tabName === 'my-requests') {
                 window.location.hash = '#/my-requests';
+            } else if (tabName === 'projects') {
+                const targetId = this.state.selectedProjectId || (this.state.projects.length > 0 ? this.state.projects[0].id : null);
+                if (targetId) {
+                    this.setState({ selectedProjectId: targetId, activeTab: 'deliverables' });
+                    this.loadProjectDetails(targetId);
+                    window.location.hash = '#/project/' + targetId + '/deliverables';
+                } else {
+                    this.setState({ activeTab: 'projects' });
+                    window.location.hash = '#/projects';
+                }
             } else if (this.state.selectedProjectId) {
                 window.location.hash = '#/project/' + this.state.selectedProjectId + '/' + tabName;
             } else {
