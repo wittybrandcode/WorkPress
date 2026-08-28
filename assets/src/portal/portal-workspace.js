@@ -38,7 +38,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         // Dedicated View for "My Requests" tab
         if (activeTab === 'my-requests') {
             const allReqs = (requests && requests.length > 0) ? requests : projects.filter(p => p.is_client_request);
-            const REQS_PER_PAGE = 6;
+            const REQS_PER_PAGE = 8;
             const totalReqPages = Math.ceil(allReqs.length / REQS_PER_PAGE);
             const paginatedReqs = allReqs.slice((reqPage - 1) * REQS_PER_PAGE, reqPage * REQS_PER_PAGE);
 

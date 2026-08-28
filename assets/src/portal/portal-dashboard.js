@@ -110,16 +110,16 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         const pendingCandidates = pulse.candidates || [];
         const pendingRequests = requests.filter(r => r.status === 'pending' || r.status === 'under_review');
 
-        // Pagination slices
-        const PRJ_PER_PAGE = 6;
+        // Pagination slices (Maximized for full-width screens)
+        const PRJ_PER_PAGE = 8;
         const totalPrjPages = Math.ceil(projects.length / PRJ_PER_PAGE);
         const paginatedProjects = projects.slice((prjPage - 1) * PRJ_PER_PAGE, prjPage * PRJ_PER_PAGE);
 
-        const REQ_PER_PAGE = 5;
+        const REQ_PER_PAGE = 8;
         const totalReqPages = Math.ceil(requests.length / REQ_PER_PAGE);
         const paginatedRequests = requests.slice((reqPage - 1) * REQ_PER_PAGE, reqPage * REQ_PER_PAGE);
 
-        const NOTIF_PER_PAGE = 5;
+        const NOTIF_PER_PAGE = 8;
         const totalNotifPages = Math.ceil(notifications.length / NOTIF_PER_PAGE);
         const paginatedNotifs = notifications.slice((notifPage - 1) * NOTIF_PER_PAGE, notifPage * NOTIF_PER_PAGE);
 

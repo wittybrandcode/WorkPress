@@ -481,12 +481,21 @@ a:hover {
 }
 
 /* -------------------------------------------------------------
- * 3. LAYOUT & CONTAINERS
+ * 3. LAYOUT & CONTAINERS (Full-Width SaaS Canvas)
  * ------------------------------------------------------------- */
 .portal-container {
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 2rem 1.5rem 5rem;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+    padding: 1.5rem 2rem 5rem;
+    box-sizing: border-box;
+}
+
+.portal-dashboard-wrapper,
+.portal-workspace-wrapper {
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
 }
 
 /* WorkPress Card Base — Crisp Sharp Corners */
@@ -1475,13 +1484,10 @@ a:hover {
     padding: 1px 6px;
 }
 
-/* -------------------------------------------------------------
- * 11.5 CLIENT EXECUTIVE DASHBOARD & HUB (PORTAL-DASHBOARD)
- * ------------------------------------------------------------- */
 .portal-dashboard-wrapper {
-    max-width: 1280px;
-    margin: 0 auto;
     width: 100%;
+    max-width: 100%;
+    margin: 0;
 }
 
 .portal-dash-welcome-card {
@@ -1671,8 +1677,8 @@ a:hover {
 /* 2-COLUMN GRID LAYOUT */
 .portal-dash-grid-layout {
     display: grid;
-    grid-template-columns: 1fr 340px;
-    gap: 1.5rem;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 1.75rem;
     align-items: start;
 }
 
@@ -1697,10 +1703,10 @@ a:hover {
     margin-top: 2px;
 }
 
-/* PORTFOLIO GRID & CARDS */
+/* PORTFOLIO GRID & CARDS (Wide Screen Distribution) */
 .portal-dash-portfolio-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
     gap: 1.25rem;
 }
 
