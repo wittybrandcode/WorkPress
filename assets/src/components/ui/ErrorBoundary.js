@@ -1,4 +1,4 @@
-﻿import { html, Component } from '../../utils/html.js';
+import { html, Component } from '../../utils/html.js';
 
 /**
  * WorkPress UI Error Boundary.
@@ -26,9 +26,9 @@ export default class ErrorBoundary extends Component {
 					<span className="icon is-large has-text-danger mb-3">
 						<i className="dashicons dashicons-warning" style=${{ fontSize: '48px', width: '48px', height: '48px' }}></i>
 					</span>
-					<h2 className="title is-4 has-text-danger mb-2">Ø¹Ø°Ø±Ø§Ù‹ØŒ Ø­Ø¯Ø« Ø®Ø·Ø£ ØºÙŠØ± Ù…ØªÙˆÙ‚Ø¹ ÙÙŠ ÙˆØ§Ø¬Ù‡Ø© Ø§Ù„Ø¹Ø±Ø¶</h2>
+					<h2 className="title is-4 has-text-danger mb-2">عذراً، حدث خطأ غير متوقع في واجهة العرض</h2>
 					<p className="subtitle is-6 has-text-grey mt-2 mb-4">
-						${ this.state.error && this.state.error.message ? this.state.error.message : 'ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ù‡Ø°Ø§ Ø§Ù„Ù…ÙƒÙˆÙ† Ø¨Ø´ÙƒÙ„ Ø³Ù„ÙŠÙ….' }
+						${ this.state.error && this.state.error.message ? this.state.error.message : 'تعذر تحميل هذا المكون بشكل سليم.' }
 					</p>
 					<div className="buttons is-centered">
 						<button 
@@ -39,14 +39,14 @@ export default class ErrorBoundary extends Component {
 							} }
 						>
 							<span className="icon"><i className="dashicons dashicons-dashboard"></i></span>
-							<span>Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„Ø±Ø¦ÙŠØ³ÙŠØ© CoWorkPress</span>
+							<span>العودة للرئيسية CoWorkPress</span>
 						</button>
 						<button 
 							className="button is-white wp-border wp-sharp-button" 
 							onClick=${ () => window.location.reload() }
 						>
 							<span className="icon"><i className="dashicons dashicons-update"></i></span>
-							<span>Ø¥Ø¹Ø§Ø¯Ø© ØªØ­Ù…ÙŠÙ„ Ø§Ù„ØµÙØ­Ø©</span>
+							<span>إعادة تحميل الصفحة</span>
 						</button>
 					</div>
 				</div>

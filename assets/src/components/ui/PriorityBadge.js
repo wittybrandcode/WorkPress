@@ -1,42 +1,42 @@
-﻿import { html } from '../../utils/html.js';
+import { html } from '../../utils/html.js';
 
 export default function PriorityBadge( { priority } ) {
 	let level = 1;
 	let label = priority;
 	let color = '#3b82f6';
-	let tooltipText = 'Ø£ÙˆÙ„ÙˆÙŠØ© Ø§Ù„Ù…Ù‡Ù…Ø©';
+	let tooltipText = 'أولوية المهمة';
 
 	switch ( priority ) {
 		case 'critical':
 			level = 3;
-			label = 'Ø­Ø±Ø¬Ø©';
+			label = 'حرجة';
 			color = '#dc2626';
-			tooltipText = 'Ø£ÙˆÙ„ÙˆÙŠØ© Ø­Ø±Ø¬Ø© â€” ØªØªØ·Ù„Ø¨ ØªØ¯Ø®Ù„Ø§Ù‹ ÙÙˆØ±ÙŠØ§Ù‹';
+			tooltipText = 'أولوية حرجة — تتطلب تدخلاً فورياً';
 			break;
 		case 'high':
 			level = 3;
-			label = 'Ø¹Ø§Ù„ÙŠØ©';
+			label = 'عالية';
 			color = '#ef4444';
-			tooltipText = 'Ø£ÙˆÙ„ÙˆÙŠØ© Ø¹Ø§Ù„ÙŠØ© â€” ÙŠØ¬Ø¨ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² ÙÙŠ Ø£Ù‚Ø±Ø¨ ÙˆÙ‚Øª';
+			tooltipText = 'أولوية عالية — يجب الإنجاز في أقرب وقت';
 			break;
 		case 'medium':
 			level = 2;
-			label = 'Ù…ØªÙˆØ³Ø·Ø©';
+			label = 'متوسطة';
 			color = '#f59e0b';
-			tooltipText = 'Ø£ÙˆÙ„ÙˆÙŠØ© Ù…ØªÙˆØ³Ø·Ø© â€” ÙˆÙÙ‚ Ø§Ù„Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ø²Ù…Ù†ÙŠ';
+			tooltipText = 'أولوية متوسطة — وفق الجدول الزمني';
 			break;
 		case 'low':
 			level = 1;
-			label = 'Ù…Ù†Ø®ÙØ¶Ø©';
+			label = 'منخفضة';
 			color = '#3b82f6';
-			tooltipText = 'Ø£ÙˆÙ„ÙˆÙŠØ© Ù…Ù†Ø®ÙØ¶Ø© â€” Ø¹Ù†Ø¯ ØªÙˆÙØ± Ø§Ù„ÙˆÙ‚Øª';
+			tooltipText = 'أولوية منخفضة — عند توفر الوقت';
 			break;
 	}
 
-	// Â§2.6 Constitution: High-Density Compact UI â€” use wp-dense-chip
-	// Â§2.4 Constitution: Zero Emojis â€” use dashicons-flag
-	// Â§2.1 Constitution: 0px Sharp Geometry â€” borderRadius: 0 enforced by wp-dense-chip
-	// Â§2.5 Constitution: High-Contrast Institutional Palette â€” colored icon
+	// §2.6 Constitution: High-Density Compact UI — use wp-dense-chip
+	// §2.4 Constitution: Zero Emojis — use dashicons-flag
+	// §2.1 Constitution: 0px Sharp Geometry — borderRadius: 0 enforced by wp-dense-chip
+	// §2.5 Constitution: High-Contrast Institutional Palette — colored icon
 
 	// Build network signal bars (3 bars, ascending height)
 	const bars = [1, 2, 3].map( i => {

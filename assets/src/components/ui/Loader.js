@@ -1,4 +1,4 @@
-﻿import { html } from '../../utils/html.js';
+import { html } from '../../utils/html.js';
 
 /**
  * WorkPress Square Snake Loader Component
@@ -48,7 +48,7 @@ export default function Loader({
 				...style
 			}}
 			role="status"
-			aria-label="Ø¬Ø§Ø±ÙŠ Ø§Ù„ØªØ­Ù…ÙŠÙ„..."
+			aria-label="جاري التحميل..."
 		>
 			${gridCoords.map(([x, y], i) => html`
 				<div

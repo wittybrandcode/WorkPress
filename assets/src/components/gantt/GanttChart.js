@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef } from '../../utils/html.js';
 import DatePicker from '../ui/DatePicker.js';
 import GanttScaleBar from './GanttScaleBar.js';
 import GanttTableSidebar from './GanttTableSidebar.js';
@@ -72,7 +72,7 @@ export default function GanttChart({
 	const projectGroups = {};
 	filteredTasks.forEach( task => {
 		const pId = task.project_id || 0;
-		const pName = task.project_name || 'Ù…Ù‡Ø§Ù… Ø¹Ø§Ù…Ø© Ø¨Ø¯ÙˆÙ† Ù…Ø´Ø±ÙˆØ¹';
+		const pName = task.project_name || 'مهام عامة بدون مشروع';
 		if ( ! projectGroups[ pId ] ) {
 			projectGroups[ pId ] = {
 				id: pId,
@@ -243,7 +243,7 @@ export default function GanttChart({
 		wEnd.setDate( wEnd.getDate() + 6 );
 		weekUnits.push( {
 			index: w,
-			title: `Ø£Ø³Ø¨ÙˆØ¹ ${ w + 1 }`,
+			title: `أسبوع ${ w + 1 }`,
 			dateRange: `${ formatDate( wStart, { short: true } ) } - ${ formatDate( wEnd, { short: true } ) }`,
 		} );
 	}
@@ -394,12 +394,12 @@ export default function GanttChart({
 
 		try {
 			await tasksApi.update( taskId, { due_at: fullDateTimeStr } );
-			toast( `ØªÙ… ØªØ¹Ø¯ÙŠÙ„ Ù…ÙˆØ¹Ø¯ Ø§Ù„Ù…Ù‡Ù…Ø© ÙˆØªÙˆÙ‚ÙŠØªÙ‡Ø§ Ø¥Ù„Ù‰: ${ formatDate( parseDate( newDueStr ) ) } ÙÙŠ ØªÙ…Ø§Ù… ${ timePart }`, 'success' );
+			toast( `تم تعديل موعد المهمة وتوقيتها إلى: ${ formatDate( parseDate( newDueStr ) ) } في تمام ${ timePart }`, 'success' );
 			sound.play( 'button' );
 			setRescheduleTaskId( null );
 			if ( onTaskUpdated ) onTaskUpdated();
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ù…ÙˆØ¹Ø¯', 'error' );
+			toast( err.message || 'تعذر تعديل الموعد', 'error' );
 		}
 	};
 
@@ -414,7 +414,7 @@ export default function GanttChart({
 				border: '#059669',
 				text: '#ffffff',
 				progressBg: '#047857',
-				statusLabel: 'Ù…ÙƒØªÙ…Ù„Ø©'
+				statusLabel: 'مكتملة'
 			};
 		}
 		if ( isInProgress ) {
@@ -423,7 +423,7 @@ export default function GanttChart({
 				border: '#d97706',
 				text: '#ffffff',
 				progressBg: '#b45309',
-				statusLabel: 'Ù‚ÙŠØ¯ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø²'
+				statusLabel: 'قيد الإنجاز'
 			};
 		}
 		return {
@@ -431,7 +431,7 @@ export default function GanttChart({
 			border: '#2563eb',
 			text: '#ffffff',
 			progressBg: '#1d4ed8',
-			statusLabel: 'Ù…ÙØªÙˆØ­Ø©'
+			statusLabel: 'مفتوحة'
 		};
 	};
 

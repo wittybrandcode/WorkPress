@@ -1,6 +1,6 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 
-export default function ImagePicker({ value, onChange, placeholder = 'Ø§Ø®ØªØ± ØµÙˆØ±Ø© Ù…ØµØºØ±Ø©', compact = false }) {
+export default function ImagePicker({ value, onChange, placeholder = 'اختر صورة مصغرة', compact = false }) {
     const [preview, setPreview] = useState(value || '');
 
     useEffect(() => {
@@ -14,9 +14,9 @@ export default function ImagePicker({ value, onChange, placeholder = 'Ø§Ø®Ø
         }
 
         const frame = window.wp.media({
-            title: 'Ø§Ø®ØªØ± ØµÙˆØ±Ø©',
+            title: 'اختر صورة',
             button: {
-                text: 'Ø§Ø³ØªØ®Ø¯Ø§Ù… Ù‡Ø°Ù‡ Ø§Ù„ØµÙˆØ±Ø©'
+                text: 'استخدام هذه الصورة'
             },
             multiple: false
         });
@@ -46,14 +46,14 @@ export default function ImagePicker({ value, onChange, placeholder = 'Ø§Ø®Ø
                 type="button"
                 className="button wp-compact-image-btn"
                 onClick=${handleSelect}
-                title=${preview ? 'ØªØºÙŠÙŠØ± Ø§Ù„ØµÙˆØ±Ø© Ø§Ù„Ù…ØµØºØ±Ø©' : 'Ø¥Ø¶Ø§ÙØ© ØµÙˆØ±Ø© Ù…ØµØºØ±Ø©'}
+                title=${preview ? 'تغيير الصورة المصغرة' : 'إضافة صورة مصغرة'}
             >
                 ${preview ? html`
                     <img src=${preview} alt="Thumbnail" style=${{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     <div 
                         className="wp-remove-badge"
                         onClick=${handleRemove}
-                        title="Ø¥Ø²Ø§Ù„Ø© Ø§Ù„ØµÙˆØ±Ø©"
+                        title="إزالة الصورة"
                         style=${{
                             position: 'absolute',
                             top: '2px',
@@ -70,7 +70,7 @@ export default function ImagePicker({ value, onChange, placeholder = 'Ø§Ø®Ø
                             cursor: 'pointer'
                         }}
                     >
-                        Ã—
+                        ×
                     </div>
                 ` : html`
                     <span className="icon" style=${{ margin: 0 }}>
@@ -83,7 +83,7 @@ export default function ImagePicker({ value, onChange, placeholder = 'Ø§Ø®Ø
 
     return html`
         <div className="field">
-            <label className="label">ØµÙˆØ±Ø© Ø§Ù„ØºÙ„Ø§Ù (Ø§Ø®ØªÙŠØ§Ø±ÙŠ)</label>
+            <label className="label">صورة الغلاف (اختياري)</label>
             <div className="control">
                 <div 
                     className="wp-image-picker-modern"
@@ -95,7 +95,7 @@ export default function ImagePicker({ value, onChange, placeholder = 'Ø§Ø®Ø
                             className="button is-danger is-rounded" 
                             style=${{ position: 'absolute', top: '10px', right: '10px', width: '36px', height: '36px', padding: '0' }}
                             onClick=${handleRemove}
-                            title="Ø¥Ø²Ø§Ù„Ø© Ø§Ù„ØµÙˆØ±Ø©"
+                            title="إزالة الصورة"
                         >
                             <span className="icon"><i className="dashicons dashicons-trash"></i></span>
                         </button>
@@ -104,8 +104,8 @@ export default function ImagePicker({ value, onChange, placeholder = 'Ø§Ø®Ø
                             <span className="icon is-large has-text-grey mb-2">
                                 <i className="dashicons dashicons-format-image" style=${{ fontSize: '2.5rem', width: '2.5rem', height: '2.5rem' }}></i>
                             </span>
-                            <p className="has-text-weight-bold has-text-grey-dark mb-1">Ø±ÙØ¹ ØµÙˆØ±Ø© Ù„Ù„ØºÙ„Ø§Ù</p>
-                            <p className="is-size-7 has-text-grey">Ø§Ø³Ø­Ø¨ Ø£Ùˆ Ø§Ù†Ù‚Ø± Ù„Ù„Ø§Ø®ØªÙŠØ§Ø±</p>
+                            <p className="has-text-weight-bold has-text-grey-dark mb-1">رفع صورة للغلاف</p>
+                            <p className="is-size-7 has-text-grey">اسحب أو انقر للاختيار</p>
                         </div>
                     `}
                 </div>

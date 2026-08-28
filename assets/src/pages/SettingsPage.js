@@ -1,8 +1,8 @@
-﻿import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect } from '../utils/html.js';
 import { hooks } from '../utils/hooks.js';
 import { usersApi, rolesApi, contributionsApi, settingsApi, devApi, exportApi } from '../api/client.js';
 import { CANONICAL_ROLE_LABELS, getUserRoleLabel } from '../utils/userScope.js';
-import ConfirmModal from '../components/modals/Modal.js';
+import ConfirmModal from '../components/modals/ConfirmModal.js';
 import AboutWorkPressTab from '../components/about/AboutWorkPressTab.js';
 import IntakeFormsBuilderTab from '../components/forms/IntakeFormsBuilderTab.js';
 import WebhooksSettingsTab from '../components/webhooks/WebhooksSettingsTab.js';
@@ -92,19 +92,19 @@ export default function SettingsPage() {
 	const [newRole, setNewRole] = useState({ id: '', display_name: '', clone_from: 'editor' });
 
 	const defaultTabs = [
-		{ id: 'about', label: 'Ø¹Ù† WorkPress ÙˆØ§Ù„ÙÙ„Ø³ÙØ©', icon: 'dashicons-info' },
-		{ id: 'intake_forms', label: 'Ù†Ù…Ø§Ø°Ø¬ Ø§Ø³ØªÙ‚Ø¨Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨Ø§Øª', icon: 'dashicons-forms', adminOnly: true },
-		{ id: 'webhooks', label: 'Ø®Ø·Ø§ÙØ§Øª Ø§Ù„ÙˆÙŠØ¨ ÙˆØ§Ù„ØªÙƒØ§Ù…Ù„ Ø§Ù„Ø®Ø§Ø±Ø¬ÙŠ', icon: 'dashicons-rest-api', adminOnly: true },
-		{ id: 'roles_permissions', label: 'Ù…ØµÙÙˆÙØ© Ø§Ù„ØµÙ„Ø§Ø­ÙŠØ§Øª', icon: 'dashicons-shield', adminOnly: true },
-		{ id: 'role_management', label: 'Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø£Ø¯ÙˆØ§Ø± ÙˆØ§Ù„Ù…Ø³Ù…ÙŠØ§Øª', icon: 'dashicons-id', adminOnly: true },
-		{ id: 'contribution_types', label: 'Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª', icon: 'dashicons-share-alt2', adminOnly: true },
-		{ id: 'members', label: 'Ø¯Ù„ÙŠÙ„ Ø§Ù„Ø£Ø¹Ø¶Ø§Ø¡ ÙˆØ§Ù„Ù…Ù†ÙØ°ÙŠÙ†', icon: 'dashicons-groups' },
-		{ id: 'clients', label: 'Ø§Ù„Ù…Ø³ØªÙÙŠØ¯ÙˆÙ† ÙˆØ£ØµØ­Ø§Ø¨ Ø§Ù„Ø·Ù„Ø¨Ø§Øª', icon: 'dashicons-id-alt' },
-		{ id: 'localization_time', label: 'Ø§Ù„ÙˆÙ‚Øª ÙˆØ§Ù„Ù…Ù†Ø·Ù‚Ø© Ø§Ù„Ø²Ù…Ù†ÙŠØ©', icon: 'dashicons-clock', adminOnly: true },
-		{ id: 'general', label: 'Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ù†Ø¸Ø§Ù…', icon: 'dashicons-admin-generic', adminOnly: true },
-		{ id: 'notifications', label: 'Ø§Ù„Ø¥Ø´Ø¹Ø§Ø±Ø§Øª ÙˆØ§Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª', icon: 'dashicons-bell' },
-		{ id: 'sound_effects', label: 'Ø§Ù„Ø£ØµÙˆØ§Øª ÙˆØ§Ù„ØªØ£Ø«ÙŠØ±Ø§Øª Ø§Ù„ØªÙØ§Ø¹Ù„ÙŠØ©', icon: 'dashicons-format-audio' },
-		{ id: 'export', label: 'Ø§Ù„ØªØµØ¯ÙŠØ± ÙˆØ§Ù„Ø£Ø±Ø´ÙØ©', icon: 'dashicons-database-export', adminOnly: true },
+		{ id: 'about', label: 'عن WorkPress والفلسفة', icon: 'dashicons-info' },
+		{ id: 'intake_forms', label: 'نماذج استقبال الطلبات', icon: 'dashicons-forms', adminOnly: true },
+		{ id: 'webhooks', label: 'خطافات الويب والتكامل الخارجي', icon: 'dashicons-rest-api', adminOnly: true },
+		{ id: 'roles_permissions', label: 'مصفوفة الصلاحيات', icon: 'dashicons-shield', adminOnly: true },
+		{ id: 'role_management', label: 'إدارة الأدوار والمسميات', icon: 'dashicons-id', adminOnly: true },
+		{ id: 'contribution_types', label: 'أنواع المساهمات', icon: 'dashicons-share-alt2', adminOnly: true },
+		{ id: 'members', label: 'دليل الأعضاء والمنفذين', icon: 'dashicons-groups' },
+		{ id: 'clients', label: 'المستفيدون وأصحاب الطلبات', icon: 'dashicons-id-alt' },
+		{ id: 'localization_time', label: 'الوقت والمنطقة الزمنية', icon: 'dashicons-clock', adminOnly: true },
+		{ id: 'general', label: 'إعدادات النظام', icon: 'dashicons-admin-generic', adminOnly: true },
+		{ id: 'notifications', label: 'الإشعارات والتنبيهات', icon: 'dashicons-bell' },
+		{ id: 'sound_effects', label: 'الأصوات والتأثيرات التفاعلية', icon: 'dashicons-format-audio' },
+		{ id: 'export', label: 'التصدير والأرشفة', icon: 'dashicons-database-export', adminOnly: true },
 	];
 
 	const allTabs = hooks.applyFilters('workpress_settings_tabs', defaultTabs);
@@ -120,11 +120,11 @@ export default function SettingsPage() {
 				window.workpressSettings.dateFormat = dateFormat;
 				window.workpressSettings.relativeTime = relativeTime;
 			}
-			toast('ØªÙ… Ø­ÙØ¸ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„ÙˆÙ‚Øª ÙˆØ§Ù„Ù…Ù†Ø·Ù‚Ø© Ø§Ù„Ø²Ù…Ù†ÙŠØ© Ø¨Ù†Ø¬Ø§Ø­.', 'success');
+			toast('تم حفظ إعدادات الوقت والمنطقة الزمنية بنجاح.', 'success');
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª.', 'danger');
+			toast('حدث خطأ أثناء حفظ الإعدادات.', 'danger');
 		});
 	};
 
@@ -137,11 +137,11 @@ export default function SettingsPage() {
 				window.workpressSettings.defaultPriority = defaultPriority;
 				window.workpressSettings.emailNotifications = emailNotifs;
 			}
-			toast('ØªÙ… Ø­ÙØ¸ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ù†Ø¸Ø§Ù… Ø¨Ù†Ø¬Ø§Ø­.', 'success');
+			toast('تم حفظ إعدادات النظام بنجاح.', 'success');
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª.', 'danger');
+			toast('حدث خطأ أثناء حفظ الإعدادات.', 'danger');
 		});
 	};
 
@@ -180,12 +180,12 @@ export default function SettingsPage() {
 			sound.setVolume(soundVolume);
 			sound.setKit(soundKit);
 			sound.saveEventsConfig(eventsConfig);
-			toast('ØªÙ… Ø­ÙØ¸ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø£ØµÙˆØ§Øª ÙˆØªØ®ØµÙŠØµ Ø§Ù„Ø£Ø­Ø¯Ø§Ø« Ø¨Ù†Ø¬Ø§Ø­ ', 'success');
+			toast('تم حفظ إعدادات الأصوات وتخصيص الأحداث بنجاح ', 'success');
 			sound.play('celebration');
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø§Ù„Ø£ØµÙˆØ§Øª.', 'danger');
+			toast('حدث خطأ أثناء حفظ إعدادات الأصوات.', 'danger');
 		});
 	};
 
@@ -193,27 +193,27 @@ export default function SettingsPage() {
 		setIsSeeding(true);
 		devApi.seed().then((res) => {
 			setIsSeeding(false);
-			toast(res.message || 'ØªÙ… ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ø¨Ù†Ø¬Ø§Ø­!', 'success');
+			toast(res.message || 'تم توليد البيانات التجريبية بنجاح!', 'success');
 		}).catch((err) => {
 			setIsSeeding(false);
-			toast(err.message || 'ÙØ´Ù„ ØªÙˆÙ„ÙŠØ¯ Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ©', 'danger');
+			toast(err.message || 'فشل توليد البيانات التجريبية', 'danger');
 		});
 	};
 
 	const handlePurgeData = () => {
 		setConfirmConfig({
-			title: 'ØªØ·Ù‡ÙŠØ± ÙˆØ­Ø°Ù Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ©',
-			message: 'Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø±ØºØ¨ØªÙƒ ÙÙŠ Ø­Ø°Ù ÙˆØªØ·Ù‡ÙŠØ± ÙƒØ§ÙØ© Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ ÙˆØ§Ù„Ù…Ù‡Ø§Ù… ÙˆØ§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ø§Ù„Ù…ÙˆÙ„Ø¯Ø©ØŸ',
-			confirmText: 'ØªØ·Ù‡ÙŠØ± Ø´Ø§Ù…Ù„',
+			title: 'تطهير وحذف البيانات التجريبية',
+			message: 'هل أنت متأكد من رغبتك في حذف وتطهير كافة المشاريع والمهام والمساهمات التجريبية المولدة؟',
+			confirmText: 'تطهير شامل',
 			isDanger: true,
 			onConfirm: () => {
 				setIsPurging(true);
 				devApi.purge().then((res) => {
 					setIsPurging(false);
-					toast(res.message || 'ØªÙ… ØªØ·Ù‡ÙŠØ± Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠØ© Ø¨Ù†Ø¬Ø§Ø­!', 'info');
+					toast(res.message || 'تم تطهير البيانات التجريبية بنجاح!', 'info');
 				}).catch((err) => {
 					setIsPurging(false);
-					toast(err.message || 'ÙØ´Ù„ ØªØ·Ù‡ÙŠØ± Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª', 'danger');
+					toast(err.message || 'فشل تطهير البيانات', 'danger');
 				});
 			}
 		});
@@ -234,11 +234,11 @@ export default function SettingsPage() {
 			link.click();
 			document.body.removeChild(link);
 			URL.revokeObjectURL(url);
-			toast('ØªÙ… ØªØµØ¯ÙŠØ± ÙˆØªØ­Ù…ÙŠÙ„ Ù†Ø³Ø®Ø© Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ÙƒØ§Ù…Ù„Ø© Ø¨Ù†Ø¬Ø§Ø­!', 'success');
+			toast('تم تصدير وتحميل نسخة البيانات الكاملة بنجاح!', 'success');
 		}).catch((err) => {
 			setIsExporting(false);
 			console.error(err);
-			toast(err.message || 'ÙØ´Ù„ ØªØµØ¯ÙŠØ± Ø§Ù„Ø¨ÙŠØ§Ù†Ø§Øª', 'danger');
+			toast(err.message || 'فشل تصدير البيانات', 'danger');
 		});
 	};
 
@@ -262,12 +262,12 @@ export default function SettingsPage() {
 	const handleSaveContributionTypes = () => {
 		setIsTypesLoading(true);
 		contributionsApi.types.update(contributionTypes).then(res => {
-			toast('ØªÙ… Ø­ÙØ¸ ØªØ¹Ø¯ÙŠÙ„Ø§Øª Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª Ø¨Ù†Ø¬Ø§Ø­!', 'success');
+			toast('تم حفظ تعديلات أنواع المساهمات بنجاح!', 'success');
 			setContributionTypes(Array.isArray(res) ? res : []);
 			setIsTypesLoading(false);
 		}).catch(err => {
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø£Ù†ÙˆØ§Ø¹ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª.', 'danger');
+			toast('حدث خطأ أثناء حفظ أنواع المساهمات.', 'danger');
 			setIsTypesLoading(false);
 		});
 	};
@@ -275,37 +275,37 @@ export default function SettingsPage() {
 	const handleAddCustomType = (e) => {
 		e.preventDefault();
 		if (!newType.key.trim() || !newType.label.trim()) {
-			toast('ÙŠØ±Ø¬Ù‰ Ù…Ù„Ø¡ Ø§Ù„Ù…Ø¹Ø±Ù‘Ù ÙˆØ§Ù„ØªØ³Ù…ÙŠØ© Ù„Ù„Ù†ÙˆØ¹ Ø§Ù„Ø¬Ø¯ÙŠØ¯.', 'warning');
+			toast('يرجى ملء المعرّف والتسمية للنوع الجديد.', 'warning');
 			return;
 		}
 		setIsTypesLoading(true);
 		contributionsApi.types.createCustom(newType).then(res => {
-			toast('ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ù†ÙˆØ¹ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø§Ù„Ø¬Ø¯ÙŠØ¯ Ø¨Ù†Ø¬Ø§Ø­!', 'success');
+			toast('تمت إضافة نوع المساهمة الجديد بنجاح!', 'success');
 			setNewType({ key: '', label: '', icon: 'dashicons-admin-comments' });
 			setContributionTypes(Array.isArray(res) ? res : []);
 			setIsTypesLoading(false);
 		}).catch(err => {
 			console.error(err);
-			toast(err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ù†ÙˆØ¹ Ø§Ù„Ø¬Ø¯ÙŠØ¯.', 'danger');
+			toast(err.message || 'حدث خطأ أثناء إضافة النوع الجديد.', 'danger');
 			setIsTypesLoading(false);
 		});
 	};
 
 	const handleDeleteCustomType = (typeKey) => {
 		setConfirmConfig({
-			title: 'Ø­Ø°Ù Ù†ÙˆØ¹ Ù…Ø³Ø§Ù‡Ù…Ø©',
-			message: 'Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø±ØºØ¨ØªÙƒ ÙÙŠ Ø­Ø°Ù Ù‡Ø°Ø§ Ø§Ù„Ù†ÙˆØ¹ Ø§Ù„Ù…Ø®ØµØµØŸ',
-			confirmText: 'Ø­Ø°Ù',
+			title: 'حذف نوع مساهمة',
+			message: 'هل أنت متأكد من رغبتك في حذف هذا النوع المخصص؟',
+			confirmText: 'حذف',
 			isDanger: true,
 			onConfirm: () => {
 				setIsTypesLoading(true);
 				contributionsApi.types.deleteCustom(typeKey).then(res => {
-					toast('ØªÙ… Ø­Ø°Ù Ù†ÙˆØ¹ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­.', 'success');
+					toast('تم حذف نوع المساهمة بنجاح.', 'success');
 					setContributionTypes(res.types || []);
 					setIsTypesLoading(false);
 				}).catch(err => {
 					console.error(err);
-					toast(err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­Ø°Ù Ø§Ù„Ù†ÙˆØ¹.', 'danger');
+					toast(err.message || 'حدث خطأ أثناء حذف النوع.', 'danger');
 					setIsTypesLoading(false);
 				});
 			}
@@ -316,7 +316,7 @@ export default function SettingsPage() {
 		try {
 			setIsLoading(true);
 			await usersApi.updateRole(userId, [newRole]);
-			toast(`ØªÙ… ØªØºÙŠÙŠØ± Ø¯ÙˆØ± Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø¨Ù†Ø¬Ø§Ø­ Ø¥Ù„Ù‰: ${getUserRoleLabel(newRole)}`, 'success');
+			toast(`تم تغيير دور المستخدم بنجاح إلى: ${getUserRoleLabel(newRole)}`, 'success');
 			setUsers(prev => prev.map(u => {
 				if (u.id === userId) {
 					return { ...u, roles: [newRole], role: newRole };
@@ -326,7 +326,7 @@ export default function SettingsPage() {
 			setIsLoading(false);
 		} catch (err) {
 			console.error('Role update error:', err);
-			toast(err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ ØªØºÙŠÙŠØ± Ø¯ÙˆØ± Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù….', 'danger');
+			toast(err.message || 'حدث خطأ أثناء تغيير دور المستخدم.', 'danger');
 			setIsLoading(false);
 		}
 	};
@@ -416,12 +416,12 @@ export default function SettingsPage() {
 		if (Object.keys(rolesUpdates).length === 0) return;
 		setIsRolesLoading(true);
 		rolesApi.update(rolesUpdates).then(() => {
-			toast('ØªÙ… Ø­ÙØ¸ Ù…ØµÙÙˆÙØ© Ø§Ù„ØµÙ„Ø§Ø­ÙŠØ§Øª Ø¨Ù†Ø¬Ø§Ø­!', 'success');
+			toast('تم حفظ مصفوفة الصلاحيات بنجاح!', 'success');
 			setRolesUpdates({});
 			fetchRoles();
 		}).catch(err => {
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ù„Ø­ÙØ¸. ØªØ£ÙƒØ¯ Ù…Ù† Ø£Ù†Ùƒ ØªÙ…Ù„Ùƒ Ø§Ù„ØµÙ„Ø§Ø­ÙŠØ§Øª Ø§Ù„ÙƒØ§ÙÙŠØ©.', 'danger');
+			toast('حدث خطأ أثناء الحفظ. تأكد من أنك تملك الصلاحيات الكافية.', 'danger');
 			setIsRolesLoading(false);
 		});
 	};
@@ -429,11 +429,11 @@ export default function SettingsPage() {
 	const saveAliases = () => {
 		setIsRolesLoading(true);
 		rolesApi.updateAliases(aliasesUpdates).then(() => {
-			toast('ØªÙ… Ø­ÙØ¸ Ø§Ù„Ø£Ø³Ù…Ø§Ø¡ Ø§Ù„Ù…Ø®ØµØµØ© Ø¨Ù†Ø¬Ø§Ø­!', 'success');
+			toast('تم حفظ الأسماء المخصصة بنجاح!', 'success');
 			fetchRoles();
 		}).catch(err => {
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø§Ù„Ù…Ø³Ù…ÙŠØ§Øª.', 'danger');
+			toast('حدث خطأ أثناء حفظ المسميات.', 'danger');
 			setIsRolesLoading(false);
 		});
 	};
@@ -441,7 +441,7 @@ export default function SettingsPage() {
 	const handleCreateCustomRole = (e) => {
 		e.preventDefault();
 		if (!newRole.id || !newRole.display_name) {
-			toast('ÙŠØ±Ø¬Ù‰ Ù…Ù„Ø¡ Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ù‚ÙˆÙ„ Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø©.', 'warning');
+			toast('يرجى ملء جميع الحقول المطلوبة.', 'warning');
 			return;
 		}
 		setIsRolesLoading(true);
@@ -450,30 +450,30 @@ export default function SettingsPage() {
 			display_name: newRole.display_name,
 			clone_from: newRole.clone_from
 		}).then(() => {
-			toast('ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ø¯ÙˆØ± Ø§Ù„Ù…Ø®ØµØµ Ø¨Ù†Ø¬Ø§Ø­!', 'success');
+			toast('تم إنشاء الدور المخصص بنجاح!', 'success');
 			setNewRole({ id: '', display_name: '', clone_from: 'editor' });
 			fetchRoles();
 		}).catch(err => {
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ø¯ÙˆØ±. ØªØ£ÙƒØ¯ Ù…Ù† Ø£Ù† Ø§Ù„Ù…Ø¹Ø±Ù‘Ù ØºÙŠØ± Ù…Ø³ØªØ®Ø¯Ù… Ù…Ø³Ø¨Ù‚Ø§Ù‹ (Ø­Ø±ÙˆÙ Ø¥Ù†Ø¬Ù„ÙŠØ²ÙŠØ© ÙÙ‚Ø·).', 'danger');
+			toast('حدث خطأ أثناء إنشاء الدور. تأكد من أن المعرّف غير مستخدم مسبقاً (حروف إنجليزية فقط).', 'danger');
 			setIsRolesLoading(false);
 		});
 	};
 
 	const handleDeleteCustomRole = (roleId) => {
 		setConfirmConfig({
-			title: 'Ø­Ø°Ù Ø¯ÙˆØ± Ù…Ø®ØµØµ',
-			message: 'Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø±ØºØ¨ØªÙƒ ÙÙŠ Ø­Ø°Ù Ù‡Ø°Ø§ Ø§Ù„Ø¯ÙˆØ± Ø§Ù„Ù…Ø®ØµØµØŸ Ù‡Ø°Ø§ Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ù„Ø§ ÙŠÙ…ÙƒÙ† Ø§Ù„ØªØ±Ø§Ø¬Ø¹ Ø¹Ù†Ù‡.',
-			confirmText: 'Ø­Ø°Ù',
+			title: 'حذف دور مخصص',
+			message: 'هل أنت متأكد من رغبتك في حذف هذا الدور المخصص؟ هذا الإجراء لا يمكن التراجع عنه.',
+			confirmText: 'حذف',
 			isDanger: true,
 			onConfirm: () => {
 				setIsRolesLoading(true);
 				rolesApi.deleteCustom(roleId).then(() => {
-					toast('ØªÙ… Ø­Ø°Ù Ø§Ù„Ø¯ÙˆØ± Ø§Ù„Ù…Ø®ØµØµ Ø¨Ù†Ø¬Ø§Ø­.', 'success');
+					toast('تم حذف الدور المخصص بنجاح.', 'success');
 					fetchRoles();
 				}).catch(err => {
 					console.error(err);
-					toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­Ø°Ù Ø§Ù„Ø¯ÙˆØ±.', 'danger');
+					toast('حدث خطأ أثناء حذف الدور.', 'danger');
 					setIsRolesLoading(false);
 				});
 			}
@@ -493,10 +493,10 @@ export default function SettingsPage() {
 
 	return html`
 		<div className="columns is-variable is-5 mt-4">
-			<!-- Ø§Ù„Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø¬Ø§Ù†Ø¨ÙŠØ© Ù„Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª (Settings Sidebar) -->
+			<!-- القائمة الجانبية للإعدادات (Settings Sidebar) -->
 			<div className="column is-2">
 				<div className="wp-card p-3">
-					<h2 className="title is-6 mb-3 has-text-weight-bold" style=${{ borderBottom: '1px solid #ededed', paddingBottom: '0.5rem', color: '#64748b' }}>Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª</h2>
+					<h2 className="title is-6 mb-3 has-text-weight-bold" style=${{ borderBottom: '1px solid #ededed', paddingBottom: '0.5rem', color: '#64748b' }}>الإعدادات</h2>
 					<div className="is-flex is-flex-direction-column" style=${{ gap: '4px' }}>
 						${tabs.map(tab => {
 							const isActive = activeTab === tab.id;
@@ -520,7 +520,7 @@ export default function SettingsPage() {
 				</div>
 			</div>
 
-			<!-- Ù…Ø­ØªÙˆÙ‰ Ø§Ù„Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª (Settings Content Delegation) -->
+			<!-- محتوى الإعدادات (Settings Content Delegation) -->
 			<div className="column is-10">
 				${activeTab === 'about' && html`
 					<${AboutWorkPressTab} />
@@ -652,7 +652,7 @@ export default function SettingsPage() {
 					title=${ confirmConfig.title }
 					message=${ confirmConfig.message }
 					confirmText=${ confirmConfig.confirmText }
-					cancelText="Ø¥Ù„ØºØ§Ø¡"
+					cancelText="إلغاء"
 					isDanger=${ confirmConfig.isDanger }
 					onConfirm=${ () => {
 						confirmConfig.onConfirm();

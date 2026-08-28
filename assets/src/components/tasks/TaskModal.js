@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import Modal from '../modals/Modal.js';
 import { tasksApi, projectsApi } from '../../api/client.js';
 import WpEditor from '../ui/WpEditor.js';
@@ -20,9 +20,9 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 	const [ error, setError ] = useState( '' );
 
 	const priorityOptions = [
-		{ value: 'low', label: 'Ù…Ù†Ø®ÙØ¶Ø©' },
-		{ value: 'medium', label: 'Ù…ØªÙˆØ³Ø·Ø©' },
-		{ value: 'high', label: 'Ø¹Ø§Ù„ÙŠØ© (Ø­Ø±Ø¬Ø©)' }
+		{ value: 'low', label: 'منخفضة' },
+		{ value: 'medium', label: 'متوسطة' },
+		{ value: 'high', label: 'عالية (حرجة)' }
 	];
 
 	useEffect( () => {
@@ -53,11 +53,11 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 	const handleSubmit = () => {
 		setError( '' );
 		if ( !title || title.trim() === '' ) {
-			setError( 'Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ù…Ù‡Ù…Ø© Ù…Ø·Ù„ÙˆØ¨' );
+			setError( 'عنوان المهمة مطلوب' );
 			return;
 		}
 		if ( !projectId ) {
-			setError( 'Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ù…Ø·Ù„ÙˆØ¨' );
+			setError( 'المشروع مطلوب' );
 			return;
 		}
 
@@ -77,17 +77,17 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 			: tasksApi.create( data );
 			
 		request.then( () => {
-			toast( task && task.id ? 'ØªÙ… ØªØ­Ø¯ÙŠØ« Ø§Ù„Ù…Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­' : 'ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ù…Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+			toast( task && task.id ? 'تم تحديث المهمة بنجاح' : 'تم إنشاء المهمة بنجاح', 'success' );
 			onSave();
 			onClose();
 		} ).catch( err => {
 			console.error( 'Error saving task:', err );
-			toast( 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø§Ù„Ù…Ù‡Ù…Ø©', 'danger' );
+			toast( 'حدث خطأ أثناء حفظ المهمة', 'danger' );
 		} ).finally( () => setIsSaving( false ) );
 	};
 
 	const projectOptions = [
-		{ value: '', label: '-- Ø§Ø®ØªØ± Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ --' },
+		{ value: '', label: '-- اختر المشروع --' },
 		...projects.map( p => ( { value: p.id, label: p.name } ) )
 	];
 
@@ -95,14 +95,14 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
 			<div className="has-text-danger is-size-7">${ error }</div>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
-				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>Ø¥Ù„ØºØ§Ø¡</button>
+				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>إلغاء</button>
 				<button 
 					className=${ `button is-primary wp-sharp-button ${ isSaving ? 'is-loading' : '' }` }
 					onClick=${ handleSubmit }
 					disabled=${ isSaving }
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>${ task ? 'Ø­ÙØ¸ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„Ø§Øª' : 'Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ù…Ù‡Ù…Ø©' }</span>
+					<span>${ task ? 'حفظ التعديلات' : 'إنشاء المهمة' }</span>
 				</button>
 			</div>
 		</div>
@@ -112,7 +112,7 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title=${ task ? 'ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ù…Ù‡Ù…Ø©' : 'Ù…Ø³ØªÙ†Ø¯ Ù…Ù‡Ù…Ø© Ø¬Ø¯ÙŠØ¯Ø©' }
+			title=${ task ? 'تعديل المهمة' : 'مستند مهمة جديدة' }
 			footer=${ footer }
 			size="wp-mega-modal"
 		>
@@ -124,7 +124,7 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 						<input 
 							className="input wp-title-input" 
 							type="text" 
-							placeholder="Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ù…Ù‡Ù…Ø©..." 
+							placeholder="عنوان المهمة..." 
 							value=${ title }
 							onChange=${ (e) => setTitle( e.target.value ) }
 							style=${{ 
@@ -156,18 +156,18 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 					<div className="wp-metadata-toolbar">
 						<!-- Project CustomSelect -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">Ø§Ù„Ù…Ø´Ø±ÙˆØ¹:</span>
+							<span className="wp-metadata-label">المشروع:</span>
 							<${CustomSelect}
 								value=${ projectId }
 								onChange=${ setProjectId }
 								options=${ projectOptions }
-								placeholder="-- Ø§Ø®ØªØ± Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ --"
+								placeholder="-- اختر المشروع --"
 							/>
 						</div>
 
 						<!-- Priority CustomSelect -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ©:</span>
+							<span className="wp-metadata-label">الأولوية:</span>
 							<${CustomSelect}
 								value=${ priority }
 								onChange=${ setPriority }
@@ -177,7 +177,7 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 
 						<!-- Estimated Hours Input -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">Ø§Ù„Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ù…Ù‚Ø¯Ø±Ø©:</span>
+							<span className="wp-metadata-label">الساعات المقدرة:</span>
 							<input 
 								type="number"
 								step="0.5"
@@ -198,7 +198,7 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 						id="task-content-editor"
 						value=${ content }
 						onChange=${ setContent }
-						placeholder="Ø§ÙƒØªØ¨ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ù‡Ù…Ø© Ù‡Ù†Ø§..."
+						placeholder="اكتب تفاصيل المهمة هنا..."
 					/>
 				</div>
 			</div>

@@ -1,4 +1,4 @@
-﻿import { html, useState } from '../../utils/html.js';
+import { html, useState } from '../../utils/html.js';
 import { tasksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -28,9 +28,9 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 					if ( res && res.task && onUpdate ) {
 						onUpdate( res.task );
 					}
-					toast( 'ØªÙ… Ø¥Ø±ÙØ§Ù‚ Ø§Ù„Ù…Ø³ØªÙ†Ø¯ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+					toast( 'تم إرفاق المستند بنجاح', 'success' );
 				} catch ( err ) {
-					toast( err.message || 'ØªØ¹Ø°Ø± Ø¥Ø±ÙØ§Ù‚ Ø§Ù„Ù…Ù„Ù', 'error' );
+					toast( err.message || 'تعذر إرفاق الملف', 'error' );
 				} finally {
 					setIsUploading( false );
 				}
@@ -46,9 +46,9 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 					if ( res && res.task && onUpdate ) {
 						onUpdate( res.task );
 					}
-					toast( 'ØªÙ… Ø­Ø°Ù Ø§Ù„Ù…Ø±ÙÙ‚ Ù…Ù† Ø§Ù„Ù…Ù‡Ù…Ø©', 'info' );
+					toast( 'تم حذف المرفق من المهمة', 'info' );
 				} catch ( err ) {
-					toast( err.message || 'ØªØ¹Ø°Ø± Ø­Ø°Ù Ø§Ù„Ù…Ø±ÙÙ‚', 'error' );
+					toast( err.message || 'تعذر حذف المرفق', 'error' );
 				}
 			}
 		}
@@ -59,7 +59,7 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 			<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
 				<h4 className="title is-6" style=${{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#0f172a', fontWeight: '700' }}>
 					<i className="dashicons dashicons-media-document" style=${{ color: '#3b82f6' }}></i>
-					<span>Ø§Ù„Ù…Ø³ØªÙ†Ø¯Ø§Øª ÙˆØ§Ù„Ù…Ø±ÙÙ‚Ø§Øª Ø§Ù„Ø±Ø³Ù…ÙŠØ© Ù„Ù„Ù…Ù‡Ù…Ø©</span>
+					<span>المستندات والمرفقات الرسمية للمهمة</span>
 					${ attachments.length > 0 ? html`
 						<span style=${{ fontSize: '0.8rem', fontWeight: '600', color: '#64748b', marginRight: '0.25rem' }}>
 							(${ attachments.length })
@@ -71,7 +71,7 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 			<${MultiFilePicker} 
 				attachments=${ attachments } 
 				onChange=${ handleAttachmentsChange } 
-				buttonText="Ø¥Ø±ÙØ§Ù‚ ÙˆØ«Ø§Ø¦Ù‚ / Ù…Ù„ÙØ§Øª Ù„Ù„Ù…Ù‡Ù…Ø© (PDF, ZIP, DOCX, ØµÙˆØ±)"
+				buttonText="إرفاق وثائق / ملفات للمهمة (PDF, ZIP, DOCX, صور)"
 			/>
 		</div>
 	`;

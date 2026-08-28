@@ -1,4 +1,4 @@
-﻿import { html, useState } from '../../utils/html.js';
+import { html, useState } from '../../utils/html.js';
 import { tasksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -33,7 +33,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'click' );
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± Ø¥Ø¶Ø§ÙØ© Ø¹Ù†ØµØ± Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„ÙØ­Øµ', 'error' );
+			toast( err.message || 'تعذر إضافة عنصر قائمة الفحص', 'error' );
 		} finally {
 			setIsAdding( false );
 		}
@@ -56,7 +56,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'toggle' );
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± ØªØºÙŠÙŠØ± Ø­Ø§Ù„Ø© Ø§Ù„Ø¹Ù†ØµØ±', 'error' );
+			toast( err.message || 'تعذر تغيير حالة العنصر', 'error' );
 		}
 	};
 
@@ -71,7 +71,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'trash' );
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± Ø­Ø°Ù Ø§Ù„Ø¹Ù†ØµØ±', 'error' );
+			toast( err.message || 'تعذر حذف العنصر', 'error' );
 		}
 	};
 
@@ -90,7 +90,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'click' );
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¹Ù†ØµØ±', 'error' );
+			toast( err.message || 'تعذر تحديث العنصر', 'error' );
 		}
 	};
 
@@ -100,7 +100,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
 				<h4 className="title is-6" style=${{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#0f172a', fontWeight: '700' }}>
 					<i className="dashicons dashicons-editor-ul" style=${{ color: '#3b82f6' }}></i>
-					<span>Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„ÙØ­Øµ ÙˆØ§Ù„Ø®Ø·ÙˆØ§Øª Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¦ÙŠØ©</span>
+					<span>قائمة الفحص والخطوات الإجرائية</span>
 					${ totalItems > 0 ? html`
 						<span style=${{ fontSize: '0.8rem', fontWeight: '600', color: '#64748b', marginRight: '0.25rem' }}>
 							(${ completedItems }/${ totalItems })
@@ -161,7 +161,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 											setEditingItemId( item.id );
 											setEditingTitle( item.title );
 										} }
-										title="Ø§Ù†Ù‚Ø± Ù„ØªØ¹Ø¯ÙŠÙ„ Ù†Øµ Ø§Ù„Ø¹Ù†ØµØ±"
+										title="انقر لتعديل نص العنصر"
 									>
 										${ item.title }
 									</span>
@@ -175,7 +175,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 										className="button is-small is-primary is-light"
 										style=${{ borderRadius: 0, padding: '0 0.5rem', height: '24px' }}
 										onClick=${ () => handleSaveEdit( item.id ) }
-										title="Ø­ÙØ¸ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„"
+										title="حفظ التعديل"
 									>
 										<i className="dashicons dashicons-yes"></i>
 									</button>
@@ -184,7 +184,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 										className="button is-small is-light"
 										style=${{ borderRadius: 0, padding: '0 0.5rem', height: '24px' }}
 										onClick=${ () => setEditingItemId( null ) }
-										title="Ø¥Ù„ØºØ§Ø¡"
+										title="إلغاء"
 									>
 										<i className="dashicons dashicons-no-alt"></i>
 									</button>
@@ -194,7 +194,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 										className="button is-small is-ghost"
 										style=${{ padding: '0 0.25rem', height: '24px', color: '#94a3b8', border: 'none' }}
 										onClick=${ () => handleDelete( item.id ) }
-										title="Ø­Ø°Ù Ù‡Ø°Ø§ Ø§Ù„Ø¹Ù†ØµØ±"
+										title="حذف هذا العنصر"
 									>
 										<i className="dashicons dashicons-trash" style=${{ fontSize: '16px' }}></i>
 									</button>
@@ -210,7 +210,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 				<input 
 					type="text"
 					className="input is-small"
-					placeholder="Ø£Ø¶Ù Ø®Ø·ÙˆØ© ÙØ­Øµ Ø¥Ø¬Ø±Ø§Ø¦ÙŠØ© Ø¬Ø¯ÙŠØ¯Ø©... (Ø§Ø¶ØºØ· Enter Ù„Ù„Ø¥Ø¶Ø§ÙØ©)"
+					placeholder="أضف خطوة فحص إجرائية جديدة... (اضغط Enter للإضافة)"
 					value=${ newTitle }
 					onInput=${ ( e ) => setNewTitle( e.target.value ) }
 					disabled=${ isAdding }
@@ -223,7 +223,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 					style=${{ borderRadius: 0, fontWeight: '600', whiteSpace: 'nowrap' }}
 				>
 					<i className="dashicons dashicons-plus" style=${{ marginLeft: '0.25rem' }}></i>
-					<span>Ø¥Ø¶Ø§ÙØ©</span>
+					<span>إضافة</span>
 				</button>
 			</form>
 		</div>

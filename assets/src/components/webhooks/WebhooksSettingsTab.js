@@ -1,11 +1,11 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import { webhooksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
 import WebhooksHeroBanner from './WebhooksHeroBanner.js';
 import WebhookEndpointsList from './WebhookEndpointsList.js';
 import WebhookDeliveryLogs from './WebhookDeliveryLogs.js';
-import WebhookModal from '../modals/Modal.js';
+import WebhookModal from './WebhookModal.js';
 
 /**
  * Webhooks Settings Tab (Lean Coordinator)
@@ -49,7 +49,7 @@ export default function WebhooksSettingsTab() {
 			setIsLoading(false);
 		}).catch(err => {
 			console.error(err);
-			toast('ØªØ¹Ø°Ø± Ø¬Ù„Ø¨ Ø¥Ø¹Ø¯Ø§Ø¯Ø§Øª Ø®Ø·Ø§ÙØ§Øª Ø§Ù„ÙˆÙŠØ¨.', 'danger');
+			toast('تعذر جلب إعدادات خطافات الويب.', 'danger');
 			setIsLoading(false);
 		});
 	};
@@ -62,7 +62,7 @@ export default function WebhooksSettingsTab() {
 		const newItem = {
 			...defaultItem,
 			preset,
-			name: preset === 'discord' ? 'Ù‚Ù†Ø§Ø© Ø¯ÙŠØ³ÙƒÙˆØ±Ø¯ Ù„ØªÙ†Ø¨ÙŠÙ‡Ø§Øª Ø§Ù„Ø¹Ù…Ù„' : (preset === 'slack' ? 'Ù‚Ù†Ø§Ø© Ø³Ù„Ø§Ùƒ Ù„Ù„Ù…Ø´Ø§Ø±ÙŠØ¹' : 'Ø®Ø·Ø§Ù ÙˆÙŠØ¨ Ù…Ø¤Ø³Ø³ÙŠ'),
+			name: preset === 'discord' ? 'قناة ديسكورد لتنبيهات العمل' : (preset === 'slack' ? 'قناة سلاك للمشاريع' : 'خطاف ويب مؤسسي'),
 			secret: 'whsec_' + Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12)
 		};
 		setEditingItem(newItem);
@@ -91,12 +91,12 @@ export default function WebhooksSettingsTab() {
 	const handleGenerateSecret = () => {
 		const newSecret = 'whsec_' + Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12);
 		setEditingItem({ ...editingItem, secret: newSecret });
-		toast('ØªÙ… ØªÙˆÙ„ÙŠØ¯ Ù…ÙØªØ§Ø­ Ø³Ø±ÙŠ Ø¹Ø´ÙˆØ§Ø¦ÙŠ Ø¬Ø¯ÙŠØ¯.', 'info');
+		toast('تم توليد مفتاح سري عشوائي جديد.', 'info');
 	};
 
 	const handleSave = () => {
 		if (!editingItem.name || !editingItem.url) {
-			toast('ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ø³Ù… Ø§Ù„Ø®Ø·Ø§Ù ÙˆØ±Ø§Ø¨Ø· Ø§Ù„Ù†Ù‡Ø§ÙŠØ© (URL).', 'warning');
+			toast('يرجى إدخال اسم الخطاف ورابط النهاية (URL).', 'warning');
 			return;
 		}
 
@@ -104,27 +104,27 @@ export default function WebhooksSettingsTab() {
 		webhooksApi.save(editingItem).then(res => {
 			setIsSaving(false);
 			setIsModalOpen(false);
-			toast(res.message || 'ØªÙ… Ø­ÙØ¸ Ø§Ù„Ø®Ø·Ø§Ù Ø¨Ù†Ø¬Ø§Ø­.', 'success');
+			toast(res.message || 'تم حفظ الخطاف بنجاح.', 'success');
 			try { sound.play('solution'); } catch (e) {}
 			loadWebhooks();
 		}).catch(err => {
 			setIsSaving(false);
 			console.error(err);
-			toast(err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø§Ù„Ø®Ø·Ø§Ù.', 'danger');
+			toast(err.message || 'حدث خطأ أثناء حفظ الخطاف.', 'danger');
 		});
 	};
 
 	const handleDelete = (id, name) => {
-		if (!window.confirm(`Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø­Ø°Ù Ø§Ù„Ø®Ø·Ø§Ù "${name}" Ù†Ù‡Ø§Ø¦ÙŠØ§Ù‹ØŸ`)) {
+		if (!window.confirm(`هل أنت متأكد من حذف الخطاف "${name}" نهائياً؟`)) {
 			return;
 		}
 
 		webhooksApi.delete(id).then(() => {
-			toast('ØªÙ… Ø­Ø°Ù Ø§Ù„Ø®Ø·Ø§Ù Ø¨Ù†Ø¬Ø§Ø­.', 'success');
+			toast('تم حذف الخطاف بنجاح.', 'success');
 			loadWebhooks();
 		}).catch(err => {
 			console.error(err);
-			toast('ØªØ¹Ø°Ø± Ø­Ø°Ù Ø§Ù„Ø®Ø·Ø§Ù.', 'danger');
+			toast('تعذر حذف الخطاف.', 'danger');
 		});
 	};
 
@@ -137,22 +137,22 @@ export default function WebhooksSettingsTab() {
 		}).then(res => {
 			setTestingId(null);
 			if (res.success) {
-				toast(`Ù†Ø¬Ø­ Ø§Ù„Ø§ØªØµØ§Ù„! ÙƒÙˆØ¯ Ø§Ù„Ø§Ø³ØªØ¬Ø§Ø¨Ø©: HTTP ${res.status_code} (${res.latency_ms}ms)`, 'success');
+				toast(`نجح الاتصال! كود الاستجابة: HTTP ${res.status_code} (${res.latency_ms}ms)`, 'success');
 				try { sound.play('task_done'); } catch (e) {}
 			} else {
-				toast(`ÙØ´Ù„ Ø§Ù„Ø§ØªØµØ§Ù„: ${res.error_message || 'Ø±Ù…Ø² Ø§Ù„Ø§Ø³ØªØ¬Ø§Ø¨Ø©: ' + res.status_code}`, 'danger');
+				toast(`فشل الاتصال: ${res.error_message || 'رمز الاستجابة: ' + res.status_code}`, 'danger');
 			}
 			loadWebhooks();
 		}).catch(err => {
 			setTestingId(null);
 			console.error(err);
-			toast('ØªØ¹Ø°Ø± Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„ÙØ­Øµ Ø§Ù„ØªØ¬Ø±ÙŠØ¨ÙŠ.', 'danger');
+			toast('تعذر إرسال الفحص التجريبي.', 'danger');
 		});
 	};
 
 	const handleModalTest = () => {
 		if (!editingItem.url) {
-			toast('ÙŠØ±Ø¬Ù‰ Ø¥Ø¯Ø®Ø§Ù„ Ø§Ù„Ø±Ø§Ø¨Ø· Ø£ÙˆÙ„Ø§Ù‹ Ù„Ø§Ø®ØªØ¨Ø§Ø± Ø§Ù„Ø§ØªØµØ§Ù„.', 'warning');
+			toast('يرجى إدخال الرابط أولاً لاختبار الاتصال.', 'warning');
 			return;
 		}
 
@@ -175,7 +175,7 @@ export default function WebhooksSettingsTab() {
 				success: false,
 				status_code: 0,
 				latency_ms: 0,
-				error_message: err.message || 'Ø®Ø·Ø£ ÙÙŠ Ø§Ù„Ø´Ø¨ÙƒØ© Ø£Ùˆ ØªØ¹Ø°Ø± Ø§Ù„Ø§ØªØµØ§Ù„.'
+				error_message: err.message || 'خطأ في الشبكة أو تعذر الاتصال.'
 			});
 		});
 	};
@@ -183,11 +183,11 @@ export default function WebhooksSettingsTab() {
 	const handleToggleActive = (item) => {
 		const updated = { ...item, active: !item.active };
 		webhooksApi.save(updated).then(() => {
-			toast(`ØªÙ… ${updated.active ? 'ØªÙØ¹ÙŠÙ„' : 'ØªØ¹Ø·ÙŠÙ„'} Ø§Ù„Ø®Ø·Ø§Ù Ø¨Ù†Ø¬Ø§Ø­.`, 'info');
+			toast(`تم ${updated.active ? 'تفعيل' : 'تعطيل'} الخطاف بنجاح.`, 'info');
 			loadWebhooks();
 		}).catch(err => {
 			console.error(err);
-			toast('ØªØ¹Ø°Ø± ØªØ­Ø¯ÙŠØ« Ø­Ø§Ù„Ø© Ø§Ù„Ø®Ø·Ø§Ù.', 'danger');
+			toast('تعذر تحديث حالة الخطاف.', 'danger');
 		});
 	};
 

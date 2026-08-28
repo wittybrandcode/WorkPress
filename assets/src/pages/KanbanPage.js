@@ -1,11 +1,11 @@
-﻿import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { html, useState, useEffect, useRef } from '../utils/html.js';
 import { tasksApi, projectsApi } from '../api/client.js';
 import TaskCard from '../components/tasks/TaskCard.js';
-import TaskModal from '../components/modals/Modal.js';
-import TaskAssignmentModal from '../components/modals/Modal.js';
-import ContributionModal from '../components/modals/Modal.js';
-import TaskQuickPreviewModal from '../components/modals/Modal.js';
-import ConfirmModal from '../components/modals/Modal.js';
+import TaskModal from '../components/tasks/TaskModal.js';
+import TaskAssignmentModal from '../components/tasks/TaskAssignmentModal.js';
+import ContributionModal from '../components/contributions/ContributionModal.js';
+import TaskQuickPreviewModal from '../components/tasks/TaskQuickPreviewModal.js';
+import ConfirmModal from '../components/modals/ConfirmModal.js';
 import FilterBar from '../components/ui/FilterBar.js';
 import Loader from '../components/ui/Loader.js';
 import { isStaffUser } from '../utils/userScope.js';
@@ -102,29 +102,29 @@ export default function KanbanPage({ refreshKey }) {
 	}, [page] );
 
 	const columns = [ 
-		{ id: 'new', label: 'Ø¬Ø¯ÙŠØ¯Ø© / ØºÙŠØ± Ù…Ø³Ù†Ø¯Ø©', subtitle: 'Ø¨Ø§Ù†ØªØ¸Ø§Ø± Ø§Ù„ØªÙƒÙ„ÙŠÙ ÙˆØ¨Ø¯Ø¡ Ø§Ù„Ø¹Ù…Ù„', icon: 'dashicons-tag', color: '#3b82f6', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
-		{ id: 'assigned', label: 'Ù…Ø³Ù†Ø¯Ø© ÙˆÙ…Ø®ØµØµØ©', subtitle: 'Ù…ÙƒÙ„ÙÙˆÙ† Ø¨Ø§Ù†ØªØ¸Ø§Ø± Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø§Ù„Ø£ÙˆÙ„Ù‰', icon: 'dashicons-admin-users', color: '#0284c7', bg: '#f0f9ff', headerBg: '#e0f2fe', border: '#bae6fd' }, 
-		{ id: 'in_progress', label: 'Ù‚ÙŠØ¯ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² ÙˆØ§Ù„ØªØ¹Ø§ÙˆÙ†', subtitle: 'Ù…Ø³Ø§Ù‡Ù…Ø§Øª Ø¬Ø§Ø±ÙŠØ© Ù‚ÙŠØ¯ Ø§Ù„ØªÙ†ÙÙŠØ°', icon: 'dashicons-hammer', color: '#d97706', bg: '#fffbeb', headerBg: '#fef3c7', border: '#fde68a' }, 
-		{ id: 'completed', label: 'Ù…ÙƒØªÙ…Ù„Ø© ÙˆÙ…Ø¹ØªÙ…Ø¯Ø©', subtitle: 'Ø­Ù„ÙˆÙ„ Ù…Ø¹ØªÙ…Ø¯Ø© ÙˆÙ…ÙˆØ«Ù‚Ø© Ø¨Ø§Ù„Ù…Ø¹Ø±ÙØ©', icon: 'dashicons-awards', color: '#059669', bg: '#ecfdf5', headerBg: '#d1fae5', border: '#a7f3d0' } 
+		{ id: 'new', label: 'جديدة / غير مسندة', subtitle: 'بانتظار التكليف وبدء العمل', icon: 'dashicons-tag', color: '#3b82f6', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
+		{ id: 'assigned', label: 'مسندة ومخصصة', subtitle: 'مكلفون بانتظار المساهمة الأولى', icon: 'dashicons-admin-users', color: '#0284c7', bg: '#f0f9ff', headerBg: '#e0f2fe', border: '#bae6fd' }, 
+		{ id: 'in_progress', label: 'قيد الإنجاز والتعاون', subtitle: 'مساهمات جارية قيد التنفيذ', icon: 'dashicons-hammer', color: '#d97706', bg: '#fffbeb', headerBg: '#fef3c7', border: '#fde68a' }, 
+		{ id: 'completed', label: 'مكتملة ومعتمدة', subtitle: 'حلول معتمدة وموثقة بالمعرفة', icon: 'dashicons-awards', color: '#059669', bg: '#ecfdf5', headerBg: '#d1fae5', border: '#a7f3d0' } 
 	];
 
 	const handleCloneTask = ( task ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø§Ø³ØªÙ†Ø³Ø§Ø®',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø§Ø³ØªÙ†Ø³Ø§Ø® Ø§Ù„Ù…Ù‡Ù…Ø© "${task.title}"ØŸ`,
-			confirmText: 'Ø§Ø³ØªÙ†Ø³Ø§Ø®',
+			title: 'تأكيد الاستنساخ',
+			message: `هل أنت متأكد من استنساخ المهمة "${task.title}"؟`,
+			confirmText: 'استنساخ',
 			confirmColor: 'is-info',
 			onConfirm: () => {
 				tasksApi.create({
-					title: task.title + ' (Ù†Ø³Ø®Ø©)',
+					title: task.title + ' (نسخة)',
 					content: task.content,
 					project_id: task.project_id,
 					priority: task.priority
 				}).then( () => {
-					toast('ØªÙ… Ø§Ø³ØªÙ†Ø³Ø§Ø® Ø§Ù„Ù…Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success');
+					toast('تم استنساخ المهمة بنجاح', 'success');
 					fetchTasks();
-				} ).catch( err => toast(err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ù„Ø§Ø³ØªÙ†Ø³Ø§Ø®', 'danger') );
+				} ).catch( err => toast(err.message || 'حدث خطأ أثناء الاستنساخ', 'danger') );
 				setConfirmModalConfig({ isActive: false });
 			}
 		});
@@ -133,25 +133,25 @@ export default function KanbanPage({ refreshKey }) {
 	const handleTrashRequest = ( task ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'Ø·Ù„Ø¨ Ø­Ø°Ù Ù…Ù‡Ù…Ø©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø±ØºØ¨ØªÙƒ ÙÙŠ Ø·Ù„Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ù‡Ù…Ø© "${task.title}"ØŸ`,
-			confirmText: 'Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨',
+			title: 'طلب حذف مهمة',
+			message: `هل أنت متأكد من رغبتك في طلب حذف المهمة "${task.title}"؟`,
+			confirmText: 'إرسال الطلب',
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'Ø³Ø¨Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ù‡Ù…Ø©',
+			reasonLabel: 'سبب حذف المهمة',
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
 				tasksApi.trashRequest( task.id, reason )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'info' );
+						toast( 'تم إرسال طلب حذف المهمة بنجاح', 'info' );
 						fetchTasks();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø·Ù„Ø¨ Ø§Ù„Ø­Ø°Ù', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء طلب الحذف', 'danger' );
 					} );
 			}
 		});
@@ -161,11 +161,11 @@ export default function KanbanPage({ refreshKey }) {
 		setTasks( prev => prev.map( t => t.id === task.id ? { ...t, is_pending_trash: false } : t ) );
 		tasksApi.update( task.id, { is_pending_trash: false } )
 			.then( () => {
-				toast( 'ØªÙ…Øª Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+				toast( 'تمت استعادة المهمة بنجاح', 'success' );
 				fetchTasks();
 			} )
 			.catch( err => {
-				toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ù‡Ù…Ø©', 'danger' );
+				toast( err.message || 'حدث خطأ أثناء استعادة المهمة', 'danger' );
 				fetchTasks();
 			} );
 	};
@@ -173,9 +173,9 @@ export default function KanbanPage({ refreshKey }) {
 	const handleDeleteTask = ( task ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø­Ø°Ù Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ Ù„Ù„Ù…Ù‡Ù…Ø©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø­Ø°Ù Ù‡Ø°Ù‡ Ø§Ù„Ù…Ù‡Ù…Ø© Ù†Ù‡Ø§Ø¦ÙŠØ§Ù‹ ÙˆÙ†Ù‚Ù„Ù‡Ø§ Ù„Ø³Ù„Ø© Ø§Ù„Ù…Ù‡Ù…Ù„Ø§ØªØŸ`,
-			confirmText: 'Ø­Ø°Ù',
+			title: 'تأكيد الحذف النهائي للمهمة',
+			message: `هل أنت متأكد من حذف هذه المهمة نهائياً ونقلها لسلة المهملات؟`,
+			confirmText: 'حذف',
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			requiresReason: false,
@@ -186,12 +186,12 @@ export default function KanbanPage({ refreshKey }) {
 				tasksApi.delete( task.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø­Ø°Ù Ø§Ù„Ù…Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+						toast( 'تم حذف المهمة بنجاح', 'success' );
 						fetchTasks();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ù„Ø­Ø°Ù', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء الحذف', 'danger' );
 						fetchTasks();
 					} );
 			}
@@ -199,22 +199,22 @@ export default function KanbanPage({ refreshKey }) {
 	};
 
 	const projectOptions = [
-		{ value: '', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ --' },
+		{ value: '', label: '-- جميع المشاريع --' },
 		...projects.map( p => ({ value: p.id, label: p.name }) )
 	];
 
 	const assigneeOptions = [
-		{ value: '', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…ÙƒÙ„ÙÙŠÙ† --' },
-		{ value: 'unassigned', label: 'ØºÙŠØ± Ù…Ø³Ù†Ø¯Ø©' },
+		{ value: '', label: '-- جميع المكلفين --' },
+		{ value: 'unassigned', label: 'غير مسندة' },
 		...users.map( u => ({ value: u.id, label: u.name }) )
 	];
 
 	const priorityOptions = [
-		{ value: '', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ§Øª --' },
-		{ value: 'urgent', label: 'Ø·Ø§Ø±Ø¦Ø©' },
-		{ value: 'high', label: 'Ø¹Ø§Ù„ÙŠØ©' },
-		{ value: 'medium', label: 'Ù…ØªÙˆØ³Ø·Ø©' },
-		{ value: 'low', label: 'Ù…Ù†Ø®ÙØ¶Ø©' }
+		{ value: '', label: '-- جميع الأولويات --' },
+		{ value: 'urgent', label: 'طارئة' },
+		{ value: 'high', label: 'عالية' },
+		{ value: 'medium', label: 'متوسطة' },
+		{ value: 'low', label: 'منخفضة' }
 	];
 
 	const isFilterActive = Boolean( searchQuery || selectedProject || selectedAssignee || selectedPriority );
@@ -265,7 +265,7 @@ export default function KanbanPage({ refreshKey }) {
 	if ( ! tasks ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ù„ÙˆØ­Ø© Ø§Ù„ÙƒØ§Ù†Ø¨Ø§Ù†..." size="large" />
+				<${Loader} center=${true} label="جاري تحميل لوحة الكانبان..." size="large" />
 			</div>
 		`;
 	}
@@ -276,12 +276,12 @@ export default function KanbanPage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'Ø¨Ø­Ø« Ø³Ø±ÙŠØ¹ ÙÙŠ Ø§Ù„Ù…Ù‡Ø§Ù…...',
+					placeholder: 'بحث سريع في المهام...',
 				}}
 				filters=${[
 					{
 						key: 'project',
-						label: 'Ø§Ù„Ù…Ø´Ø±ÙˆØ¹',
+						label: 'المشروع',
 						icon: 'dashicons-category',
 						value: selectedProject,
 						onChange: setSelectedProject,
@@ -291,7 +291,7 @@ export default function KanbanPage({ refreshKey }) {
 					},
 					{
 						key: 'assignee',
-						label: 'Ø§Ù„Ù…ÙƒÙ„Ù',
+						label: 'المكلف',
 						icon: 'dashicons-admin-users',
 						value: selectedAssignee,
 						onChange: setSelectedAssignee,
@@ -301,7 +301,7 @@ export default function KanbanPage({ refreshKey }) {
 					},
 					{
 						key: 'priority',
-						label: 'Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ©',
+						label: 'الأولوية',
 						icon: 'dashicons-flag',
 						value: selectedPriority,
 						onChange: setSelectedPriority,
@@ -311,7 +311,7 @@ export default function KanbanPage({ refreshKey }) {
 				]}
 				totalCount=${ filteredTasks.length }
 				totalUnfiltered=${ tasks ? tasks.length : 0 }
-				counterLabel="Ù…Ù‡Ù…Ø©"
+				counterLabel="مهمة"
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
@@ -369,8 +369,8 @@ export default function KanbanPage({ refreshKey }) {
 									<div className="mb-2" style=${{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 										<i className=${'dashicons ' + col.icon + ' has-text-grey'} style=${{ fontSize: '20px' }}></i>
 									</div>
-									<p className="is-size-7 has-text-grey-dark has-text-weight-bold mb-1">Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù‡Ø§Ù… ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø³Ø§Ø±</p>
-									<p className="is-size-7 has-text-grey mb-0">${ col.id === 'open' ? 'Ø§Ù„Ù…Ù‡Ø§Ù… Ø§Ù„Ø¬Ø¯ÙŠØ¯Ø© ØªØ¸Ù‡Ø± Ù‡Ù†Ø§' : col.id === 'completed' ? 'ØªØ¸Ù‡Ø± Ù‡Ù†Ø§ Ø§Ù„Ù…Ù‡Ø§Ù… Ø§Ù„Ù…ÙƒØªÙ…Ù„Ø©' : 'Ø§Ø³Ø­Ø¨ Ø§Ù„Ù…Ù‡Ø§Ù… Ø¥Ù„Ù‰ Ù‡Ù†Ø§' }</p>
+									<p className="is-size-7 has-text-grey-dark has-text-weight-bold mb-1">لا توجد مهام في هذا المسار</p>
+									<p className="is-size-7 has-text-grey mb-0">${ col.id === 'open' ? 'المهام الجديدة تظهر هنا' : col.id === 'completed' ? 'تظهر هنا المهام المكتملة' : 'اسحب المهام إلى هنا' }</p>
 								</div>
 							` }
 						</div>
@@ -384,7 +384,7 @@ export default function KanbanPage({ refreshKey }) {
 						className=${ `button wp-btn is-white wp-border ${ isLoadingMore ? 'is-loading' : '' }` } 
 						onClick=${ () => fetchTasks( page + 1, true ) }
 					>
-						ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ø²ÙŠØ¯
+						تحميل المزيد
 					</button>
 				</div>
 			` : null }

@@ -1,7 +1,7 @@
-﻿import { html, useState } from '../../utils/html.js';
+import { html, useState } from '../../utils/html.js';
 import Modal from './Modal.js';
 
-export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, title, message, confirmText = 'ØªØ£ÙƒÙŠØ¯', confirmColor = 'is-primary', isDangerous = false, requiresReason = false, reasonLabel = 'Ø§Ù„Ø³Ø¨Ø¨', isSubmitting = false }) {
+export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, title, message, confirmText = 'تأكيد', confirmColor = 'is-primary', isDangerous = false, requiresReason = false, reasonLabel = 'السبب', isSubmitting = false }) {
 	const [reason, setReason] = useState('');
 	const handleClose = () => {
 		if (onClose) onClose();
@@ -18,7 +18,7 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 		<div className="is-flex is-justify-content-flex-end" style=${{ width: '100%' }}>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
 				<button className="button is-light wp-sharp-button" onClick=${ handleClose } disabled=${ isSubmitting }>
-					Ø¥Ù„ØºØ§Ø¡
+					إلغاء
 				</button>
 				<button 
 					className=${ `button wp-sharp-button ${ confirmColor } ${ isSubmitting ? 'is-loading' : '' }` }
@@ -38,7 +38,7 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 				${ isDangerous ? html`
 					<div className="has-text-danger mb-4 is-flex is-align-items-center">
 						<span className="icon is-large mr-2"><i className="dashicons dashicons-warning" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i></span>
-						<span className="has-text-weight-bold">ØªØ­Ø°ÙŠØ±: Ù‡Ø°Ø§ Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ù„Ø§ ÙŠÙ…ÙƒÙ† Ø§Ù„ØªØ±Ø§Ø¬Ø¹ Ø¹Ù†Ù‡.</span>
+						<span className="has-text-weight-bold">تحذير: هذا الإجراء لا يمكن التراجع عنه.</span>
 					</div>
 				` : null }
 				<p className="is-size-5 mb-4">${ message }</p>
@@ -48,7 +48,7 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 						<div className="control">
 							<textarea 
 								className="textarea wp-input" 
-								placeholder="Ø§Ù„Ø±Ø¬Ø§Ø¡ ØªÙˆØ¶ÙŠØ­ Ø§Ù„Ø³Ø¨Ø¨ Ù‡Ù†Ø§..."
+								placeholder="الرجاء توضيح السبب هنا..."
 								value=${ reason }
 								onInput=${ e => setReason(e.target.value) }
 								disabled=${ isSubmitting }

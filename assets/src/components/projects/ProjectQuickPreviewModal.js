@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import { projectsApi } from '../../api/client.js';
 import { formatDate } from '../../utils/datetime.js';
 import Modal from '../modals/Modal.js';
@@ -23,10 +23,10 @@ export default function ProjectQuickPreviewModal({ isActive, onClose, projectId 
 	const footer = html`
 		<div className="is-flex is-justify-content-flex-end" style=${{ width: '100%' }}>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
-				<button className="button is-light wp-sharp-button" onClick=${ onClose }>Ø¥ØºÙ„Ø§Ù‚</button>
+				<button className="button is-light wp-sharp-button" onClick=${ onClose }>إغلاق</button>
 				<button className="button is-primary wp-sharp-button" onClick=${ () => { onClose(); window.location.hash = '#/projects/' + project?.id; } }>
 					<span className="icon"><i className="dashicons dashicons-external"></i></span>
-					<span>Ù…Ø¹Ø§ÙŠÙ†Ø© Ø¯Ù‚ÙŠÙ‚Ø© Ù„Ù„Ù…Ø´Ø±ÙˆØ¹</span>
+					<span>معاينة دقيقة للمشروع</span>
 				</button>
 			</div>
 		</div>
@@ -34,16 +34,16 @@ export default function ProjectQuickPreviewModal({ isActive, onClose, projectId 
 
 	if ( isLoading || !project ) {
 		return html`
-			<${Modal} isActive=${ isActive } onClose=${ onClose } title="Ù…Ø¹Ø§ÙŠÙ†Ø© Ø³Ø±ÙŠØ¹Ø© Ù„Ù„Ù…Ø´Ø±ÙˆØ¹" size="wp-mega-modal">
+			<${Modal} isActive=${ isActive } onClose=${ onClose } title="معاينة سريعة للمشروع" size="wp-mega-modal">
 				<div className="py-6">
-					<${Loader} center=${true} size="medium" label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ø´Ø±ÙˆØ¹..." />
+					<${Loader} center=${true} size="medium" label="جاري تحميل بيانات المشروع..." />
 				</div>
 			</${Modal}>
 		`;
 	}
 
 	return html`
-		<${Modal} isActive=${ isActive } onClose=${ onClose } title="Ù…Ø¹Ø§ÙŠÙ†Ø© Ø³Ø±ÙŠØ¹Ø© Ù„Ù„Ù…Ø´Ø±ÙˆØ¹" footer=${ footer } size="wp-mega-modal">
+		<${Modal} isActive=${ isActive } onClose=${ onClose } title="معاينة سريعة للمشروع" footer=${ footer } size="wp-mega-modal">
 			<div className="p-2">
 				<div className="mb-4">
 					<h2 className="title is-4 mb-2">${ project.name }</h2>
@@ -54,7 +54,7 @@ export default function ProjectQuickPreviewModal({ isActive, onClose, projectId 
 						</span>
 						<span>
 							<span className="icon is-small"><i className="dashicons dashicons-list-view"></i></span>
-							${ project.total_tasks || 0 } Ù…Ù‡Ø§Ù…
+							${ project.total_tasks || 0 } مهام
 						</span>
 					</div>
 				</div>
@@ -66,7 +66,7 @@ export default function ProjectQuickPreviewModal({ isActive, onClose, projectId 
 				` }
 
 				<div className="wp-card p-4 mb-4 has-background-light">
-					<div className="content is-size-6" dangerouslySetInnerHTML=${{ __html: project.description || 'Ù„Ø§ ÙŠÙˆØ¬Ø¯ ÙˆØµÙ Ù„Ù„Ù…Ø´Ø±ÙˆØ¹.' }}></div>
+					<div className="content is-size-6" dangerouslySetInnerHTML=${{ __html: project.description || 'لا يوجد وصف للمشروع.' }}></div>
 				</div>
 			</div>
 		</${Modal}>

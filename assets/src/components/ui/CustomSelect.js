@@ -1,6 +1,6 @@
-﻿import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef } from '../../utils/html.js';
 
-export default function CustomSelect({ value, onChange, options, placeholder = 'Ø§Ø®ØªØ±...' }) {
+export default function CustomSelect({ value, onChange, options, placeholder = 'اختر...' }) {
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef(null);
 
@@ -82,7 +82,7 @@ export default function CustomSelect({ value, onChange, options, placeholder = '
             ${isOpen && html`
                 <div 
                     role="listbox"
-                    aria-label="Ø§Ù„Ø®ÙŠØ§Ø±Ø§Øª"
+                    aria-label="الخيارات"
                     style=${{
                         position: 'absolute',
                         top: '100%',

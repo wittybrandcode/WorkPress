@@ -1,4 +1,4 @@
-﻿import { html, useEffect } from '../../utils/html.js';
+import { html, useEffect } from '../../utils/html.js';
 
 /**
  * Universal Modal Shell Component

@@ -1,12 +1,12 @@
-﻿import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { html, useState, useEffect, useRef } from '../utils/html.js';
 import { contributionsApi, projectsApi, tasksApi } from '../api/client.js';
 import { hooks } from '../utils/hooks.js';
 import { toast } from '../utils/toast.js';
 import { formatDate, formatDateTime, formatRelativeTime } from '../utils/datetime.js';
 import CustomSelect from '../components/ui/CustomSelect.js';
 import FilterBar from '../components/ui/FilterBar.js';
-import ContributionDetailModal from '../components/modals/Modal.js';
-import ConfirmModal from '../components/modals/Modal.js';
+import ContributionDetailModal from '../components/contributions/ContributionDetailModal.js';
+import ConfirmModal from '../components/modals/ConfirmModal.js';
 import Loader from '../components/ui/Loader.js';
 
 function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRevoke, onTrashRequest, onRestore, onHardDelete } ) {
@@ -23,7 +23,7 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, []);
 
-	const cleanContent = contribution.content ? contribution.content.replace( /<[^>]*>?/gm, '' ) : 'Ù„Ø§ ÙŠÙˆØ¬Ø¯ ØªÙØ§ØµÙŠÙ„ Ù„Ù„Ù…Ø³Ø§Ù‡Ù…Ø©.';
+	const cleanContent = contribution.content ? contribution.content.replace( /<[^>]*>?/gm, '' ) : 'لا يوجد تفاصيل للمساهمة.';
 	
 	const descriptionStyle = {
 		display: '-webkit-box',
@@ -47,18 +47,18 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 				<div style=${{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255, 56, 96, 0.15)', zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '1.5rem', backdropFilter: 'blur(3px)' }} onClick=${(e) => e.stopPropagation()}>
 					<div className="box has-text-centered p-4" style=${{ width: '100%', backgroundColor: '#ff3860', color: 'white', border: '1px solid #ff1f4b', boxShadow: '0 8px 24px rgba(255,56,96,0.3)', borderRadius: 0 }}>
 						<span className="icon is-large mb-1"><i className="dashicons dashicons-warning" style=${{ fontSize: '36px', width: '36px', height: '36px' }}></i></span>
-						<h4 className="title is-6 has-text-white mb-2">Ø·Ù„Ø¨ Ø­Ø°Ù Ù…Ø³Ø§Ù‡Ù…Ø©</h4>
+						<h4 className="title is-6 has-text-white mb-2">طلب حذف مساهمة</h4>
 						<p className="is-size-7 mb-4" style=${{ opacity: 0.9 }}>
-							<strong>Ø§Ù„Ø³Ø¨Ø¨:</strong> ${ contribution.trash_reason || 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯' }
+							<strong>السبب:</strong> ${ contribution.trash_reason || 'غير محدد' }
 						</p>
 						<div className="buttons is-centered">
 							<button className="button is-small is-white is-outlined wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onRestore && onRestore(contribution); } }>
 								<span className="icon"><i className="dashicons dashicons-undo"></i></span>
-								<span>Ø±ÙØ¶ ÙˆØ§Ø³ØªØ¹Ø§Ø¯Ø©</span>
+								<span>رفض واستعادة</span>
 							</button>
 							<button className="button is-small is-white has-text-danger has-text-weight-bold wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onHardDelete && onHardDelete(contribution); } }>
 								<span className="icon"><i className="dashicons dashicons-trash"></i></span>
-								<span>Ø­Ø°Ù Ù†Ù‡Ø§Ø¦ÙŠ</span>
+								<span>حذف نهائي</span>
 							</button>
 						</div>
 					</div>
@@ -83,7 +83,7 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 				<!-- Badges Row -->
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 					<span className=${`tag ${contribution.is_accepted ? 'is-success' : 'is-light'}`} style=${{ borderRadius: '0', fontWeight: 'bold' }}>
-						${ contribution.is_accepted ? html`<i className="dashicons dashicons-yes-alt ml-1"></i> Ù…Ø¹ØªÙ…Ø¯ ÙƒØ­Ù„` : ( contribution.type_label || 'Ù…Ø³Ø§Ù‡Ù…Ø©' ) }
+						${ contribution.is_accepted ? html`<i className="dashicons dashicons-yes-alt ml-1"></i> معتمد كحل` : ( contribution.type_label || 'مساهمة' ) }
 					</span>
 					<span className="is-size-7 has-text-grey" title=${ formatDateTime( contribution.created_at ) } style=${{ cursor: 'help' }}>
 						${ formatDate( contribution.created_at, { hideYear: true } ) }
@@ -103,7 +103,7 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 					<div className="tags mb-3">
 						<span className="tag is-info is-light is-small" style=${{ borderRadius: '0' }}>
 							<span className="icon is-small ml-1"><i className="dashicons dashicons-paperclip"></i></span>
-							<span>${ contribution.attachments.length } Ù…Ø±ÙÙ‚Ø§Øª</span>
+							<span>${ contribution.attachments.length } مرفقات</span>
 						</span>
 					</div>
 				` : '' }
@@ -116,10 +116,10 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 				<div className="is-flex is-align-items-center">
 					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" style=${{ gap: '4px' }}>
 						<span className="icon is-small ml-1"><i className=${`dashicons ${contribution.is_client ? 'dashicons-star-filled has-text-warning' : 'dashicons-admin-users'}`}></i></span> 
-						<span>${ contribution.author_name || 'Ø§Ù„Ù†Ø¸Ø§Ù…' }</span>
+						<span>${ contribution.author_name || 'النظام' }</span>
 						${ contribution.is_client ? html`
 							<span className="tag is-warning is-light" style=${{ borderRadius: 0, fontWeight: '800', border: '1px solid #f59e0b', color: '#b45309', background: '#fffbeb', fontSize: '0.65rem', padding: '1px 5px', height: 'auto', marginRight: '4px' }}>
-								Ù…Ø³ØªÙÙŠØ¯
+								مستفيد
 							</span>
 						` : null }
 					</span>
@@ -127,36 +127,36 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 
 				<!-- Left side: Actions Dropdown -->
 				<div className="is-flex is-align-items-center">
-					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(contribution); } } title="Ù…Ø¹Ø§ÙŠÙ†Ø© Ø³Ø±ÙŠØ¹Ø©">
+					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(contribution); } } title="معاينة سريعة">
 						<span className="icon"><i className="dashicons dashicons-visibility"></i></span>
 					</button>
 					<div ref=${dropdownRef} className=${`dropdown is-up ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
 						<div className="dropdown-trigger">
-							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title="Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©">
+							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title="خيارات المساهمة">
 								<span className="icon"><i className="dashicons dashicons-admin-generic"></i></span>
 							</button>
 						</div>
 						<div className="dropdown-menu" id="dropdown-menu" role="menu">
 							<div className="dropdown-content p-0" style=${{borderRadius: '0', border: '1px solid #ededed', boxShadow: '0 4px 12px rgba(0,0,0,0.15)'}}>
 								<a href=${`#/tasks/${contribution.task_id}`} className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>Ø§Ù„Ø§Ù†ØªÙ‚Ø§Ù„ Ù„Ù„Ù…Ù‡Ù…Ø©</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>الانتقال للمهمة</span>
 								</a>
 							${ contribution.can_accept ? html`
 								<hr className="dropdown-divider m-0" />
 								${ contribution.is_accepted ? html`
 									<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-warning" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onRevoke && onRevoke(contribution); } }>
-										<span className="icon ml-2"><i className="dashicons dashicons-dismiss"></i></span> <span>Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯</span>
+										<span className="icon ml-2"><i className="dashicons dashicons-dismiss"></i></span> <span>إلغاء الاعتماد</span>
 									</a>
 								` : html`
 									<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-success" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onAccept && onAccept(contribution); } }>
-										<span className="icon ml-2"><i className="dashicons dashicons-yes-alt"></i></span> <span>Ø§Ø¹ØªÙ…Ø§Ø¯ ÙƒØ­Ù„ ÙˆØ§ÙƒØªÙ…Ø§Ù„ Ø§Ù„Ù…Ù‡Ù…Ø©</span>
+										<span className="icon ml-2"><i className="dashicons dashicons-yes-alt"></i></span> <span>اعتماد كحل واكتمال المهمة</span>
 									</a>
 								` }
 							` : null }
 							${ ! contribution.is_accepted ? html`
 								<hr className="dropdown-divider m-0" />
 								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-danger" onClick=${ (e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(false); onTrashRequest && onTrashRequest(contribution); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>Ø­Ø°Ù Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>حذف المساهمة</span>
 								</a>
 							` : null }
 						</div>
@@ -257,9 +257,9 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleAccept = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© ÙƒØ­Ù„ Ø±Ø³Ù…ÙŠ Ù„Ù„Ù…Ù‡Ù…Ø©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø§Ø¹ØªÙ…Ø§Ø¯ Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© ÙƒØ­Ù„ Ø±Ø³Ù…ÙŠ Ù„Ù„Ù…Ù‡Ù…Ø© "${contribution.task_title}"ØŸ Ø³ÙŠØ¤Ø¯ÙŠ Ø°Ù„Ùƒ ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ Ø¥Ù„Ù‰ Ø§ÙƒØªÙ…Ø§Ù„ ÙˆØ¥ØºÙ„Ø§Ù‚ Ø§Ù„Ù…Ù‡Ù…Ø© ÙˆØ¥Ø¶Ø§ÙØªÙ‡Ø§ Ù„Ù…ÙƒØªØ¨Ø© Ø§Ù„Ù…Ø¹Ø±ÙØ©.`,
-			confirmText: 'Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØ§ÙƒØªÙ…Ø§Ù„ Ø§Ù„Ù…Ù‡Ù…Ø©',
+			title: 'اعتماد المساهمة كحل رسمي للمهمة',
+			message: `هل أنت متأكد من اعتماد هذه المساهمة كحل رسمي للمهمة "${contribution.task_title}"؟ سيؤدي ذلك تلقائياً إلى اكتمال وإغلاق المهمة وإضافتها لمكتبة المعرفة.`,
+			confirmText: 'اعتماد واكتمال المهمة',
 			confirmColor: 'is-success',
 			isDangerous: false,
 			requiresReason: false,
@@ -269,13 +269,13 @@ export default function ContributionsPage({ refreshKey }) {
 				contributionsApi.accept( contribution.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ø­Ù„ ÙˆØ§ÙƒØªÙ…Ø§Ù„ Ø§Ù„Ù…Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+						toast( 'تم اعتماد الحل واكتمال المهمة بنجاح', 'success' );
 						fetchContributions();
 						hooks.doAction('workpress_refresh_notifications');
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء اعتماد المساهمة', 'danger' );
 					} );
 			}
 		});
@@ -284,9 +284,9 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleRevoke = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'Ø¥Ù„ØºØ§Ø¡ Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ø­Ù„',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø¥Ù„ØºØ§Ø¡ Ø§Ø¹ØªÙ…Ø§Ø¯ Ù‡Ø°Ø§ Ø§Ù„Ø­Ù„ØŸ Ø³ØªØªÙ… Ø¥Ø¹Ø§Ø¯Ø© ÙØªØ­ Ø§Ù„Ù…Ù‡Ù…Ø© "${contribution.task_title}" Ù„Ù„Ù…Ø±Ø§Ø¬Ø¹Ø© ÙˆØ³Ø­Ø¨ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ù…Ù† Ù…ÙƒØªØ¨Ø© Ø§Ù„Ù…Ø¹Ø±ÙØ©.`,
-			confirmText: 'Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØ¥Ø¹Ø§Ø¯Ø© Ø§Ù„ÙØªØ­',
+			title: 'إلغاء اعتماد الحل',
+			message: `هل أنت متأكد من إلغاء اعتماد هذا الحل؟ ستتم إعادة فتح المهمة "${contribution.task_title}" للمراجعة وسحب المساهمة من مكتبة المعرفة.`,
+			confirmText: 'إلغاء الاعتماد وإعادة الفتح',
 			confirmColor: 'is-warning',
 			isDangerous: true,
 			requiresReason: false,
@@ -296,13 +296,13 @@ export default function ContributionsPage({ refreshKey }) {
 				contributionsApi.revoke( contribution.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø¥Ù„ØºØ§Ø¡ Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ø­Ù„ ÙˆØ¥Ø¹Ø§Ø¯Ø© ÙØªØ­ Ø§Ù„Ù…Ù‡Ù…Ø© Ù„Ù„Ù…Ø±Ø§Ø¬Ø¹Ø©', 'info' );
+						toast( 'تم إلغاء اعتماد الحل وإعادة فتح المهمة للمراجعة', 'info' );
 						fetchContributions();
 						hooks.doAction('workpress_refresh_notifications');
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء إلغاء الاعتماد', 'danger' );
 					} );
 			}
 		});
@@ -311,25 +311,25 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleTrashRequest = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'Ø·Ù„Ø¨ Ø­Ø°Ù Ù…Ø³Ø§Ù‡Ù…Ø©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø±ØºØ¨ØªÙƒ ÙÙŠ Ø·Ù„Ø¨ Ø­Ø°Ù Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø§Ù„ØªØ§Ø¨Ø¹Ø© Ù„Ù…Ù‡Ù…Ø© "${contribution.task_title}"ØŸ`,
-			confirmText: 'Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨',
+			title: 'طلب حذف مساهمة',
+			message: `هل أنت متأكد من رغبتك في طلب حذف هذه المساهمة التابعة لمهمة "${contribution.task_title}"؟`,
+			confirmText: 'إرسال الطلب',
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'Ø³Ø¨Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©',
+			reasonLabel: 'سبب حذف المساهمة',
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
 				contributionsApi.trashRequest( contribution.id, reason )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'info' );
+						toast( 'تم إرسال طلب حذف المساهمة بنجاح', 'info' );
 						fetchContributions();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø·Ù„Ø¨ Ø§Ù„Ø­Ø°Ù', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء طلب الحذف', 'danger' );
 					} );
 			}
 		});
@@ -340,11 +340,11 @@ export default function ContributionsPage({ refreshKey }) {
 		setContributions( prev => prev.map( c => c.id === contribution.id ? { ...c, is_pending_trash: false } : c ) );
 		contributionsApi.update( contribution.id, { is_pending_trash: false } )
 			.then( () => {
-				toast( 'ØªÙ…Øª Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+				toast( 'تمت استعادة المساهمة بنجاح', 'success' );
 				fetchContributions();
 			} )
 			.catch( err => {
-				toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©', 'danger' );
+				toast( err.message || 'حدث خطأ أثناء استعادة المساهمة', 'danger' );
 				fetchContributions();
 			} );
 	};
@@ -352,9 +352,9 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleHardDelete = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø­Ø°Ù Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ Ù„Ù„Ù…Ø³Ø§Ù‡Ù…Ø©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø­Ø°Ù Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© ÙˆÙ†Ù‚Ù„Ù‡Ø§ Ù„Ø³Ù„Ø© Ø§Ù„Ù…Ù‡Ù…Ù„Ø§ØªØŸ`,
-			confirmText: 'Ø­Ø°Ù',
+			title: 'تأكيد الحذف النهائي للمساهمة',
+			message: `هل أنت متأكد من حذف هذه المساهمة ونقلها لسلة المهملات؟`,
+			confirmText: 'حذف',
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			requiresReason: false,
@@ -366,12 +366,12 @@ export default function ContributionsPage({ refreshKey }) {
 				contributionsApi.delete( contribution.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø­Ø°Ù Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+						toast( 'تم حذف المساهمة بنجاح', 'success' );
 						fetchContributions();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ù„Ø­Ø°Ù', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء الحذف', 'danger' );
 						fetchContributions();
 					} );
 			}
@@ -380,7 +380,7 @@ export default function ContributionsPage({ refreshKey }) {
 
 	// Options for Dropdowns
 	const projectOptions = [
-		{ value: '', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ --' },
+		{ value: '', label: '-- جميع المشاريع --' },
 		...projects.map( p => ({ value: p.id, label: p.name }) )
 	];
 
@@ -389,27 +389,27 @@ export default function ContributionsPage({ refreshKey }) {
 		: tasks;
 
 	const taskOptions = [
-		{ value: '', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…Ù‡Ø§Ù… --' },
+		{ value: '', label: '-- جميع المهام --' },
 		...filteredTasks.map( t => ({ value: t.id, label: t.title }) )
 	];
 
 	const authorOptions = [
-		{ value: '', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø£Ø¹Ø¶Ø§Ø¡ --' },
+		{ value: '', label: '-- جميع الأعضاء --' },
 		...users.map( u => ({ value: u.id, label: u.name }) )
 	];
 
 	const statusOptions = [
-		{ value: 'all', label: 'Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ø§Ù„Ø§Øª' },
-		{ value: 'accepted', label: 'Ù…Ø¹ØªÙ…Ø¯ ÙƒØ­Ù„ ÙˆÙ…Ø¹Ø±ÙØ©' },
-		{ value: 'pending', label: 'Ù‚ÙŠØ¯ Ø§Ù„Ù…Ø±Ø§Ø¬Ø¹Ø© ÙˆØ§Ù„Ù†Ù‚Ø§Ø´' }
+		{ value: 'all', label: 'جميع الحالات' },
+		{ value: 'accepted', label: 'معتمد كحل ومعرفة' },
+		{ value: 'pending', label: 'قيد المراجعة والنقاش' }
 	];
 
 	const typeOptions = [
-		{ value: 'all', label: 'Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª ÙˆØ§Ù„Ø£Ù†Ø´Ø·Ø©' },
-		{ value: 'work', label: 'Ø£Ø¹Ù…Ø§Ù„ Ø§Ù„ÙØ±ÙŠÙ‚ (Ø§Ø³ØªØ¨Ø¹Ø§Ø¯ Ø§Ù„Ù†Ø¸Ø§Ù…)' },
+		{ value: 'all', label: 'جميع المساهمات والأنشطة' },
+		{ value: 'work', label: 'أعمال الفريق (استبعاد النظام)' },
 		...availableTypes.map( t => ({
 			value: t.key,
-			label: `${t.label}${t.is_system ? ' (Ù†Ø¸Ø§Ù…)' : ''}`
+			label: `${t.label}${t.is_system ? ' (نظام)' : ''}`
 		}) )
 	];
 
@@ -430,12 +430,12 @@ export default function ContributionsPage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'Ø¨Ø­Ø« ÙÙŠ ØªÙØ§ØµÙŠÙ„ ÙˆÙ†ØµÙˆØµ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª...',
+					placeholder: 'بحث في تفاصيل ونصوص المساهمات...',
 				}}
 				filters=${[
 					{
 						key: 'project',
-						label: 'Ø§Ù„Ù…Ø´Ø±ÙˆØ¹',
+						label: 'المشروع',
 						icon: 'dashicons-category',
 						value: selectedProject,
 						onChange: (val) => { setSelectedProject(val); setSelectedTask(''); },
@@ -445,7 +445,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'task',
-						label: 'Ø§Ù„Ù…Ù‡Ù…Ø©',
+						label: 'المهمة',
 						icon: 'dashicons-clipboard',
 						value: selectedTask,
 						onChange: setSelectedTask,
@@ -455,7 +455,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'type',
-						label: 'Ø§Ù„Ù†ÙˆØ¹',
+						label: 'النوع',
 						icon: 'dashicons-filter',
 						value: selectedType,
 						onChange: setSelectedType,
@@ -465,7 +465,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'status',
-						label: 'Ø§Ù„Ø­Ø§Ù„Ø©',
+						label: 'الحالة',
 						icon: 'dashicons-yes-alt',
 						value: selectedStatus,
 						onChange: setSelectedStatus,
@@ -475,7 +475,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'author',
-						label: 'Ø§Ù„ÙƒØ§ØªØ¨',
+						label: 'الكاتب',
 						icon: 'dashicons-admin-users',
 						value: selectedAuthor,
 						onChange: setSelectedAuthor,
@@ -485,7 +485,7 @@ export default function ContributionsPage({ refreshKey }) {
 					}
 				]}
 				totalCount=${ contributions.length }
-				counterLabel="Ù…Ø³Ø§Ù‡Ù…Ø©"
+				counterLabel="مساهمة"
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
@@ -493,7 +493,7 @@ export default function ContributionsPage({ refreshKey }) {
 			<!-- Contributions Cards Grid -->
 			${ isLoading ? html`
 				<div className="py-6 mt-4">
-					<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ø³Ø¬Ù„ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª..." size="large" />
+					<${Loader} center=${true} label="جاري تحميل سجل المساهمات..." size="large" />
 				</div>
 			` : html`
 				<div className="columns is-multiline">
@@ -519,17 +519,17 @@ export default function ContributionsPage({ refreshKey }) {
 									<i className="dashicons dashicons-share-alt2 has-text-info" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i>
 								</div>
 								<h3 className="title is-5 mb-2 has-text-weight-bold has-text-dark">
-									${ isFilterActive ? 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ø³Ø§Ù‡Ù…Ø§Øª Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ù„ÙÙ„Ø§ØªØ± Ø§Ù„Ù…Ø­Ø¯Ø¯Ø©' : 'Ø³Ø¬Ù„ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª ÙØ§Ø±Øº Ø­Ø§Ù„ÙŠØ§Ù‹' }
+									${ isFilterActive ? 'لا توجد مساهمات مطابقة للفلاتر المحددة' : 'سجل المساهمات فارغ حالياً' }
 								</h3>
 								<p className="has-text-grey is-size-6 mb-5" style=${{ maxWidth: '480px', margin: '0 auto' }}>
 									${ isFilterActive 
-										? 'Ø¬Ø±Ù‘Ø¨ ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„ÙÙ„Ø§ØªØ± Ø£Ùˆ Ø§Ù„Ø¨Ø­Ø« Ù„Ù„ÙˆØµÙˆÙ„ Ø¥Ù„Ù‰ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª Ø§Ù„Ù…Ø³ØªÙ‡Ø¯ÙØ©.' 
-										: 'Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª Ù‡ÙŠ Ø§Ù„Ø£Ø¯Ù„Ø© Ø§Ù„ÙÙ†ÙŠØ© ÙˆØ­Ù„ÙˆÙ„ Ø§Ù„Ù…Ø´ÙƒÙ„Ø§Øª Ø§Ù„ØªÙŠ ÙŠÙ‚Ø¯Ù…Ù‡Ø§ Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„ÙØ±ÙŠÙ‚ Ù„Ù„Ù…Ù‡Ø§Ù… Ø§Ù„Ù…Ø´ØªØ±ÙƒØ©.' }
+										? 'جرّب تعديل الفلاتر أو البحث للوصول إلى المساهمات المستهدفة.' 
+										: 'المساهمات هي الأدلة الفنية وحلول المشكلات التي يقدمها أعضاء الفريق للمهام المشتركة.' }
 								</p>
 								${ isFilterActive && html`
 									<button className="button is-light wp-sharp-button" onClick=${ handleResetFilters }>
 										<span className="icon"><i className="dashicons dashicons-image-rotate"></i></span>
-										<span>Ø¥Ø¹Ø§Ø¯Ø© Ø¶Ø¨Ø· Ø§Ù„ÙÙ„Ø§ØªØ±</span>
+										<span>إعادة ضبط الفلاتر</span>
 									</button>
 								` }
 							</div>

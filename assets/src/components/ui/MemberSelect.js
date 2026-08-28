@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef } from '../../utils/html.js';
 import { getUserRoleBadgeInfo, getUserRoleLabel } from '../../utils/userScope.js';
 
 /**
@@ -19,7 +19,7 @@ export default function MemberSelect({
 	users = [],
 	value = '',
 	onChange = () => {},
-	placeholder = 'Ø§Ø®ØªØ± Ø¹Ø¶ÙˆØ§Ù‹ Ù…Ù† Ø§Ù„ÙØ±ÙŠÙ‚...',
+	placeholder = 'اختر عضواً من الفريق...',
 	disabled = false,
 	allowClear = true,
 	size = 'normal'
@@ -62,7 +62,7 @@ export default function MemberSelect({
 
 	// Format role label & color theme
 	const getRoleInfo = (user) => {
-		if (!user) return { label: 'Ø¹Ø¶Ùˆ', bg: '#f1f5f9', color: '#475569', border: '#e2e8f0' };
+		if (!user) return { label: 'عضو', bg: '#f1f5f9', color: '#475569', border: '#e2e8f0' };
 
 		// Explicit role label if provided
 		if (user.role_label) {
@@ -80,14 +80,14 @@ export default function MemberSelect({
 	// Safe name extractor
 	const getUserName = (user) => {
 		if (!user) return '';
-		return user.display_name || user.name || user.user_login || 'Ù…Ø³ØªØ®Ø¯Ù…';
+		return user.display_name || user.name || user.user_login || 'مستخدم';
 	};
 
 	// Fallback initials avatar
 	const renderAvatar = (user, avatarSize = 26) => {
 		const url = getAvatarUrl(user);
 		const name = getUserName(user);
-		const initial = name.charAt(0).toUpperCase() || 'ØŸ';
+		const initial = name.charAt(0).toUpperCase() || '؟';
 
 		if (url) {
 			return html`
@@ -233,7 +233,7 @@ export default function MemberSelect({
 						<button 
 							type="button"
 							onClick=${handleClear}
-							title="Ø¥Ù„ØºØ§Ø¡ Ø§Ù„ØªØ­Ø¯ÙŠØ¯"
+							title="إلغاء التحديد"
 							style=${{
 								background: 'none',
 								border: 'none',
@@ -285,7 +285,7 @@ export default function MemberSelect({
 								type="text"
 								value=${searchQuery}
 								onInput=${e => setSearchQuery(e.target.value)}
-								placeholder="Ø¨Ø­Ø« Ø¨Ø§Ù„Ø§Ø³Ù… Ø£Ùˆ Ø§Ù„Ø¯ÙˆØ± Ø£Ùˆ Ø§Ù„Ø¨Ø±ÙŠØ¯..."
+								placeholder="بحث بالاسم أو الدور أو البريد..."
 								style=${{
 									width: '100%',
 									height: '30px',
@@ -305,7 +305,7 @@ export default function MemberSelect({
 						${filteredUsers.length === 0 ? html`
 							<div style=${{ padding: '16px', textAlign: 'center', color: '#94a3b8', fontSize: '0.8rem' }}>
 								<span className="icon"><i className="dashicons dashicons-warning"></i></span>
-								<p className="mt-1">Ù„Ù… ÙŠØªÙ… Ø§Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø£Ø¹Ø¶Ø§Ø¡ Ù…Ø·Ø§Ø¨Ù‚ÙŠÙ†</p>
+								<p className="mt-1">لم يتم العثور على أعضاء مطابقين</p>
 							</div>
 						` : filteredUsers.map(u => {
 							const isSelected = String(u.id) === String(value);

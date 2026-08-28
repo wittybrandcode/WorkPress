@@ -1,4 +1,4 @@
-﻿import { html } from '../../utils/html.js';
+import { html } from '../../utils/html.js';
 
 /**
  * WorkPress Official Brand Logo Component (SVG)

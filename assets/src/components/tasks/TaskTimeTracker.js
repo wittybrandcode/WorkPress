@@ -1,4 +1,4 @@
-﻿import { html, useState } from '../../utils/html.js';
+import { html, useState } from '../../utils/html.js';
 import { tasksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -46,9 +46,9 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				onUpdate( res.task );
 			}
 			sound.play( 'click' );
-			toast( 'ØªÙ… ØªØ³Ø¬ÙŠÙ„ ÙˆÙ‚Øª Ø§Ù„Ø¹Ù…Ù„ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+			toast( 'تم تسجيل وقت العمل بنجاح', 'success' );
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± ØªØ³Ø¬ÙŠÙ„ ÙˆÙ‚Øª Ø§Ù„Ø¹Ù…Ù„', 'error' );
+			toast( err.message || 'تعذر تسجيل وقت العمل', 'error' );
 		} finally {
 			setIsLogging( false );
 		}
@@ -61,9 +61,9 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				onUpdate( res.task );
 			}
 			sound.play( 'trash' );
-			toast( 'ØªÙ… Ø­Ø°Ù Ø³Ø¬Ù„ Ø§Ù„Ø¹Ù…Ù„', 'info' );
+			toast( 'تم حذف سجل العمل', 'info' );
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± Ø­Ø°Ù Ø³Ø¬Ù„ Ø§Ù„Ø¹Ù…Ù„', 'error' );
+			toast( err.message || 'تعذر حذف سجل العمل', 'error' );
 		}
 	};
 
@@ -79,9 +79,9 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				onUpdate( updatedTask );
 			}
 			sound.play( 'button' );
-			toast( 'ØªÙ… ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ù…Ù‚Ø¯Ø±Ø© Ù„Ù„Ù…Ù‡Ù…Ø©', 'success' );
+			toast( 'تم تحديث الساعات المقدرة للمهمة', 'success' );
 		} catch ( err ) {
-			toast( err.message || 'ØªØ¹Ø°Ø± ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ù…Ù‚Ø¯Ø±Ø©', 'error' );
+			toast( err.message || 'تعذر تحديث الساعات المقدرة', 'error' );
 		} finally {
 			setIsSavingEstimate( false );
 		}
@@ -93,12 +93,12 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
 				<h4 className="title is-6" style=${{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#0f172a', fontWeight: '700' }}>
 					<i className="dashicons dashicons-clock" style=${{ color: '#3b82f6' }}></i>
-					<span>ØªØªØ¨Ø¹ ÙˆØªÙ‚Ø¯ÙŠØ± Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ø¹Ù…Ù„</span>
+					<span>تتبع وتقدير ساعات العمل</span>
 				</h4>
 				
 				${ isOverBudget ? html`
 					<span style=${{ fontSize: '0.78rem', fontWeight: '700', backgroundColor: '#fef2f2', color: '#dc2626', padding: '2px 8px', border: '1px solid #fecaca' }}>
-						ØªØ¬Ø§ÙˆØ² Ø§Ù„ØªÙ‚Ø¯ÙŠØ± Ø¨Ù€ ${ overBudgetHours } Ø³Ø§Ø¹Ø©
+						تجاوز التقدير بـ ${ overBudgetHours } ساعة
 					</span>
 				` : null }
 			</div>
@@ -108,13 +108,13 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				<!-- Estimated Card -->
 				<div style=${{ padding: '0.75rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 					<div style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', marginBottom: '0.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-						<span>Ø§Ù„Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ù…Ù‚Ø¯Ø±Ø©</span>
+						<span>الساعات المقدرة</span>
 						<button 
 							type="button" 
 							className="button is-small is-ghost" 
 							style=${{ height: '18px', padding: 0, color: '#3b82f6' }}
 							onClick=${ () => { setIsEditingEstimate( ! isEditingEstimate ); setEditEstimateValue( estimatedHours ); } }
-							title="ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ù…Ù‚Ø¯Ø±Ø©"
+							title="تعديل الساعات المقدرة"
 						>
 							<i className="dashicons dashicons-edit" style=${{ fontSize: '14px' }}></i>
 						</button>
@@ -144,7 +144,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 						</div>
 					` : html`
 						<div style=${{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a' }}>
-							${ estimatedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>Ø³Ø§Ø¹Ø©</span>
+							${ estimatedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>ساعة</span>
 						</div>
 					` }
 				</div>
@@ -152,20 +152,20 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				<!-- Logged Card -->
 				<div style=${{ padding: '0.75rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 					<div style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', marginBottom: '0.25rem' }}>
-						Ø§Ù„Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ù…Ø³Ø¬Ù„Ø©
+						الساعات المسجلة
 					</div>
 					<div style=${{ fontSize: '1.25rem', fontWeight: '800', color: isOverBudget ? '#dc2626' : '#10b981' }}>
-						${ loggedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>Ø³Ø§Ø¹Ø©</span>
+						${ loggedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>ساعة</span>
 					</div>
 				</div>
 
 				<!-- Remaining / Budget Card -->
 				<div style=${{ padding: '0.75rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 					<div style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', marginBottom: '0.25rem' }}>
-						${ isOverBudget ? 'Ø§Ù„Ø²ÙŠØ§Ø¯Ø© Ø¹Ù† Ø§Ù„Ø®Ø·Ø©' : 'Ø§Ù„Ø³Ø§Ø¹Ø§Øª Ø§Ù„Ù…ØªØ¨Ù‚ÙŠØ©' }
+						${ isOverBudget ? 'الزيادة عن الخطة' : 'الساعات المتبقية' }
 					</div>
 					<div style=${{ fontSize: '1.25rem', fontWeight: '800', color: isOverBudget ? '#dc2626' : '#3b82f6' }}>
-						${ isOverBudget ? `+${ overBudgetHours }` : remainingHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>Ø³Ø§Ø¹Ø©</span>
+						${ isOverBudget ? `+${ overBudgetHours }` : remainingHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>ساعة</span>
 					</div>
 				</div>
 			</div>
@@ -174,7 +174,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			${ estimatedHours > 0 ? html`
 				<div style=${{ marginBottom: '1.25rem' }}>
 					<div style=${{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontWeight: '600', color: '#64748b', marginBottom: '0.3rem' }}>
-						<span>Ù†Ø³Ø¨Ø© Ø§Ø³ØªÙ‡Ù„Ø§Ùƒ Ø§Ù„ÙˆÙ‚Øª Ø§Ù„Ù…Ù‚Ø¯Ø±</span>
+						<span>نسبة استهلاك الوقت المقدر</span>
 						<span style=${{ color: isOverBudget ? '#dc2626' : ( progressPct === 100 ? '#10b981' : '#3b82f6' ) }}>
 							${ progressPct }%
 						</span>
@@ -196,18 +196,18 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			<form onSubmit=${ handleAddWorklog } style=${{ borderTop: '1px dashed #cbd5e1', paddingTop: '1rem', marginBottom: '1rem' }}>
 				<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem', flexWrap: 'wrap', gap: '6px' }}>
 					<div style=${{ fontSize: '0.85rem', fontWeight: '700', color: '#0f172a' }}>
-						ØªØ³Ø¬ÙŠÙ„ Ø¬Ù„Ø³Ø© / ÙˆÙ‚Øª Ø¹Ù…Ù„ Ø¬Ø¯ÙŠØ¯
+						تسجيل جلسة / وقت عمل جديد
 					</div>
 
 					<!-- Quick Preset Increment Chips -->
 					<div style=${{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-						<span style=${{ fontSize: '0.72rem', color: '#64748b', fontWeight: '600' }}>Ø¥Ø¶Ø§ÙØ© Ø³Ø±ÙŠØ¹Ø©:</span>
+						<span style=${{ fontSize: '0.72rem', color: '#64748b', fontWeight: '600' }}>إضافة سريعة:</span>
 						${ [
-							{ label: '+15Ø¯', val: 0.25 },
-							{ label: '+30Ø¯', val: 0.5 },
-							{ label: '+1Ø³', val: 1.0 },
-							{ label: '+2Ø³', val: 2.0 },
-							{ label: '+4Ø³', val: 4.0 },
+							{ label: '+15د', val: 0.25 },
+							{ label: '+30د', val: 0.5 },
+							{ label: '+1س', val: 1.0 },
+							{ label: '+2س', val: 2.0 },
+							{ label: '+4س', val: 4.0 },
 						].map( preset => html`
 							<button
 								key=${ preset.label }
@@ -219,7 +219,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 									sound.play( 'click' );
 								}}
 								style=${{ cursor: 'pointer', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontWeight: '800' }}
-								title=${ `Ø¥Ø¶Ø§ÙØ© ${ preset.val } Ø³Ø§Ø¹Ø© Ø¥Ù„Ù‰ Ø­Ù‚Ù„ Ø§Ù„Ø³Ø§Ø¹Ø§Øª` }
+								title=${ `إضافة ${ preset.val } ساعة إلى حقل الساعات` }
 							>
 								${ preset.label }
 							</button>
@@ -233,7 +233,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 							step="0.25"
 							min="0.25"
 							className="input is-small"
-							placeholder="Ø§Ù„Ø³Ø§Ø¹Ø§Øª (Ù…Ø«Ø§Ù„: 1.5)"
+							placeholder="الساعات (مثال: 1.5)"
 							value=${ hours }
 							onInput=${ ( e ) => setHours( e.target.value ) }
 							disabled=${ isLogging }
@@ -255,7 +255,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 						<input 
 							type="text"
 							className="input is-small"
-							placeholder="Ø¨ÙŠØ§Ù† ÙˆÙ…Ù„Ø§Ø­Ø¸Ø© Ø§Ù„Ø¹Ù…Ù„ Ø§Ù„Ù…Ù†Ø¬Ø²..."
+							placeholder="بيان وملاحظة العمل المنجز..."
 							value=${ note }
 							onInput=${ ( e ) => setNote( e.target.value ) }
 							disabled=${ isLogging }
@@ -270,7 +270,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 							style=${{ borderRadius: 0, fontWeight: '700', whiteSpace: 'nowrap' }}
 						>
 							<i className="dashicons dashicons-plus" style=${{ marginLeft: '0.25rem' }}></i>
-							<span>ØªØ³Ø¬ÙŠÙ„</span>
+							<span>تسجيل</span>
 						</button>
 					</div>
 				</div>
@@ -280,7 +280,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			${ worklogs.length > 0 ? html`
 				<div style=${{ borderTop: '1px solid #e2e8f0', paddingTop: '0.75rem' }}>
 					<div style=${{ fontSize: '0.8rem', fontWeight: '700', color: '#64748b', marginBottom: '0.5rem' }}>
-						Ø³Ø¬Ù„Ø§Øª Ø§Ù„Ø¹Ù…Ù„ Ø§Ù„Ø³Ø§Ø¨Ù‚Ø© (${ worklogs.length })
+						سجلات العمل السابقة (${ worklogs.length })
 					</div>
 					<div style=${{ display: 'flex', flexDirection: 'column', gap: '0.35rem', maxHeight: '220px', overflowY: 'auto' }}>
 						${ worklogs.map( ( log ) => html`
@@ -301,20 +301,20 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 										${ log.date }
 									</span>
 									<span style=${{ color: '#334155', wordBreak: 'break-word', flex: 1, marginRight: '0.5rem' }}>
-										${ log.note || 'Ø¹Ù…Ù„ Ø¨Ø¯ÙˆÙ† Ù…Ù„Ø§Ø­Ø¸Ø©' }
+										${ log.note || 'عمل بدون ملاحظة' }
 									</span>
 								</div>
 
 								<div style=${{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '0.5rem' }}>
 									<span style=${{ fontWeight: '800', color: '#10b981', backgroundColor: '#ecfdf5', padding: '1px 6px', border: '1px solid #a7f3d0', fontSize: '0.8rem' }}>
-										${ log.hours } Ø³
+										${ log.hours } س
 									</span>
 									<button 
 										type="button"
 										className="button is-small is-ghost"
 										style=${{ height: '20px', padding: '0 2px', color: '#94a3b8', border: 'none' }}
 										onClick=${ () => handleDeleteWorklog( log.id ) }
-										title="Ø­Ø°Ù Ø³Ø¬Ù„ Ø§Ù„Ø¹Ù…Ù„"
+										title="حذف سجل العمل"
 									>
 										<i className="dashicons dashicons-trash" style=${{ fontSize: '15px' }}></i>
 									</button>

@@ -1,7 +1,7 @@
-﻿import { html, useState, useEffect, Fragment } from '../../utils/html.js';
+import { html, useState, useEffect, Fragment } from '../../utils/html.js';
 import { projectsApi, usersApi } from '../../api/client.js';
 import Modal from '../modals/Modal.js';
-import ConfirmModal from '../modals/Modal.js';
+import ConfirmModal from '../modals/ConfirmModal.js';
 import Loader from '../ui/Loader.js';
 import MemberSelect from '../ui/MemberSelect.js';
 import { isStaffUser } from '../../utils/userScope.js';
@@ -48,11 +48,11 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 			.then( ( updatedMembers ) => {
 				setMembers( updatedMembers );
 				setSelectedUserId( '' );
-				toast( 'ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø¹Ø¶Ùˆ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+				toast( 'تمت إضافة العضو بنجاح', 'success' );
 			} )
 			.catch( ( err ) => {
 				console.error( err );
-				toast( 'ÙØ´Ù„ Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ø¹Ø¶Ùˆ', 'danger' );
+				toast( 'فشل إضافة العضو', 'danger' );
 			} )
 			.finally( () => setIsLoading( false ) );
 	};
@@ -62,31 +62,31 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 		projectsApi.members.updateRole( project.id, userId, newRole )
 			.then( ( updatedMembers ) => {
 				setMembers( updatedMembers );
-				toast( 'ØªÙ… ØªØ­Ø¯ÙŠØ« Ø¯ÙˆØ± Ø§Ù„Ø¹Ø¶Ùˆ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+				toast( 'تم تحديث دور العضو بنجاح', 'success' );
 			} )
 			.catch( ( err ) => {
 				console.error( err );
-				toast( 'ÙØ´Ù„ ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø¯ÙˆØ±', 'danger' );
+				toast( 'فشل تحديث الدور', 'danger' );
 			} )
 			.finally( () => setIsLoading( false ) );
 	};
 
 	const handleRemoveMember = ( userId ) => {
 		setConfirmConfig( {
-			title: 'Ø¥Ø²Ø§Ù„Ø© Ø¹Ø¶Ùˆ',
-			message: 'Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø¥Ø²Ø§Ù„Ø© Ù‡Ø°Ø§ Ø§Ù„Ø¹Ø¶Ùˆ Ù…Ù† Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ØŸ',
-			confirmText: 'Ù†Ø¹Ù…ØŒ Ø¥Ø²Ø§Ù„Ø©',
+			title: 'إزالة عضو',
+			message: 'هل أنت متأكد من إزالة هذا العضو من المشروع؟',
+			confirmText: 'نعم، إزالة',
 			isDanger: true,
 			onConfirm: () => {
 				setIsLoading( true );
 				projectsApi.members.remove( project.id, userId )
 					.then( () => {
 						setMembers( members.filter( ( m ) => parseInt( m.id ) !== parseInt( userId ) ) );
-						toast( 'ØªÙ…Øª Ø¥Ø²Ø§Ù„Ø© Ø§Ù„Ø¹Ø¶Ùˆ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+						toast( 'تمت إزالة العضو بنجاح', 'success' );
 					} )
 					.catch( ( err ) => {
 						console.error( err );
-						toast( 'ÙØ´Ù„ Ø¥Ø²Ø§Ù„Ø© Ø§Ù„Ø¹Ø¶Ùˆ', 'danger' );
+						toast( 'فشل إزالة العضو', 'danger' );
 					} )
 					.finally( () => {
 						setIsLoading( false );
@@ -101,26 +101,26 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 			<${Modal} 
 				isActive=${ isActive } 
 				onClose=${ onClose } 
-				title=${ project ? `Ø¥Ø¯Ø§Ø±Ø© Ø£Ø¹Ø¶Ø§Ø¡ Ù…Ø´Ø±ÙˆØ¹: ${ project.name }` : 'Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø£Ø¹Ø¶Ø§Ø¡' }
+				title=${ project ? `إدارة أعضاء مشروع: ${ project.name }` : 'إدارة الأعضاء' }
 				size="wp-mega-modal"
 				footer=${html`
-					<button className="button is-text is-small" onClick=${onClose}>Ø¥ØºÙ„Ø§Ù‚</button>
+					<button className="button is-text is-small" onClick=${onClose}>إغلاق</button>
 				`}
 			>
 				<div className="p-4" style=${{ minHeight: '400px' }}>
 					
 					<!-- Add New Member Form -->
 					<div className="box mb-5 has-background-light wp-border" style=${{ boxShadow: 'none', borderRadius: 0, border: '1px solid #e2e8f0', padding: '16px' }}>
-						<h4 className="title is-6 mb-3 has-text-weight-bold">Ø¥Ø¶Ø§ÙØ© Ø¹Ø¶Ùˆ Ø¬Ø¯ÙŠØ¯ Ù„Ù„Ù…Ø´Ø±ÙˆØ¹</h4>
+						<h4 className="title is-6 mb-3 has-text-weight-bold">إضافة عضو جديد للمشروع</h4>
 						<div className="is-flex is-align-items-flex-end wp-gap-sm" style=${{ gap: '10px' }}>
 							<div className="field flex-grow-1 mb-0" style=${{ flex: 2 }}>
-								<label className="label is-small">Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù… Ø§Ù„Ù…Ù†ÙØ°</label>
+								<label className="label is-small">المستخدم المنفذ</label>
 								<div className="control">
 									<${MemberSelect}
 										users=${availableUsers.filter( u => !members.find( m => parseInt(m.id) === parseInt(u.id) ) )}
 										value=${selectedUserId}
 										onChange=${(uid) => setSelectedUserId(uid)}
-										placeholder="-- Ø§Ø®ØªØ± Ø¹Ø¶ÙˆØ§Ù‹ Ù…Ù† Ø§Ù„ÙØ±ÙŠÙ‚ Ø§Ù„ÙÙ†ÙŠ --"
+										placeholder="-- اختر عضواً من الفريق الفني --"
 										disabled=${isLoading}
 										size="small"
 									/>
@@ -128,7 +128,7 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 							</div>
 							
 							<div className="field flex-grow-1 mb-0" style=${{ flex: 1 }}>
-								<label className="label is-small">Ø§Ù„Ø¯ÙˆØ± ÙÙŠ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</label>
+								<label className="label is-small">الدور في المشروع</label>
 								<div className="control">
 									<div className="select is-fullwidth is-small" style=${{ borderRadius: 0 }}>
 										<select 
@@ -137,8 +137,8 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 											disabled=${ isLoading }
 											style=${{ borderRadius: 0 }}
 										>
-											<option value="member">Ø¹Ø¶Ùˆ ÙØ±ÙŠÙ‚</option>
-											<option value="manager">Ù…Ø¯ÙŠØ± Ù…Ø´Ø±ÙˆØ¹</option>
+											<option value="member">عضو فريق</option>
+											<option value="manager">مدير مشروع</option>
 										</select>
 									</div>
 								</div>
@@ -152,7 +152,7 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 										disabled=${ !selectedUserId || isLoading }
 									>
 										<span className="icon is-small"><i className="dashicons dashicons-plus"></i></span>
-										<span>Ø¥Ø¶Ø§ÙØ© Ø¹Ø¶Ùˆ</span>
+										<span>إضافة عضو</span>
 									</button>
 								</div>
 							</div>
@@ -161,26 +161,26 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 
 					<!-- Members List -->
 					<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
-						<h4 className="title is-6 mb-0 has-text-weight-bold">Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ø­Ø§Ù„ÙŠÙŠÙ† (${ members.length })</h4>
+						<h4 className="title is-6 mb-0 has-text-weight-bold">أعضاء المشروع الحاليين (${ members.length })</h4>
 					</div>
 
 					${ isLoading && members.length === 0 ? html`
 						<div className="py-5">
-							<${Loader} center=${true} size="medium" label="Ø¬Ø§Ø±ÙŠ Ø¬Ù„Ø¨ Ù‚Ø§Ø¦Ù…Ø© Ø§Ù„Ø£Ø¹Ø¶Ø§Ø¡..." />
+							<${Loader} center=${true} size="medium" label="جاري جلب قائمة الأعضاء..." />
 						</div>
 					` : html`
 						<table className="table is-fullwidth is-hoverable wp-table" style=${{ borderRadius: 0, border: '1px solid #e2e8f0' }}>
 							<thead>
 								<tr style=${{ backgroundColor: '#f8fafc' }}>
-									<th>Ø§Ù„Ù…Ø³ØªØ®Ø¯Ù…</th>
-									<th>Ø§Ù„Ø¨Ø±ÙŠØ¯ Ø§Ù„Ø¥Ù„ÙƒØªØ±ÙˆÙ†ÙŠ</th>
-									<th>Ø§Ù„Ø¯ÙˆØ± ÙÙŠ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</th>
-									<th style=${{ width: '80px', textAlign: 'center' }}>Ø¥Ø¬Ø±Ø§Ø¡</th>
+									<th>المستخدم</th>
+									<th>البريد الإلكتروني</th>
+									<th>الدور في المشروع</th>
+									<th style=${{ width: '80px', textAlign: 'center' }}>إجراء</th>
 								</tr>
 							</thead>
 							<tbody>
 								${ members.length === 0 ? html`
-									<tr><td colSpan="4" className="has-text-centered has-text-grey p-5">Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø£Ø¹Ø¶Ø§Ø¡ ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø¨Ø¹Ø¯.</td></tr>
+									<tr><td colSpan="4" className="has-text-centered has-text-grey p-5">لا يوجد أعضاء في هذا المشروع بعد.</td></tr>
 								` : members.map( m => html`
 									<tr key=${ m.id }>
 										<td className="is-vcentered has-text-weight-bold">
@@ -205,8 +205,8 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 														color: m.project_role === 'manager' ? '#10b981' : '#0f172a'
 													}}
 												>
-													<option value="manager">Ù…Ø¯ÙŠØ± Ù…Ø´Ø±ÙˆØ¹</option>
-													<option value="member">Ø¹Ø¶Ùˆ ÙØ±ÙŠÙ‚</option>
+													<option value="manager">مدير مشروع</option>
+													<option value="member">عضو فريق</option>
 												</select>
 											</div>
 										</td>
@@ -215,7 +215,7 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 												className="button is-small is-danger is-light wp-sharp-button" 
 												onClick=${ () => handleRemoveMember( m.id ) }
 												disabled=${ isLoading }
-												title="Ø¥Ø²Ø§Ù„Ø© Ù…Ù† Ø§Ù„Ù…Ø´Ø±ÙˆØ¹"
+												title="إزالة من المشروع"
 											>
 												<span className="icon is-small"><i className="dashicons dashicons-trash"></i></span>
 											</button>
@@ -234,7 +234,7 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 				title=${ confirmConfig.title }
 				message=${ confirmConfig.message }
 				confirmText=${ confirmConfig.confirmText }
-				cancelText="Ø¥Ù„ØºØ§Ø¡"
+				cancelText="إلغاء"
 				isDanger=${ confirmConfig.isDanger }
 				onConfirm=${ () => {
 					confirmConfig.onConfirm();

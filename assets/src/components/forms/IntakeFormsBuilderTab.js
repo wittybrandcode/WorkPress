@@ -1,4 +1,4 @@
-﻿import { html, useState } from '../../utils/html.js';
+import { html, useState } from '../../utils/html.js';
 import { settingsApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -26,13 +26,13 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		const newForm = {
 			...DEFAULT_UNIVERSAL_FORM,
 			id: 'form_' + Date.now(),
-			name: `Ù†Ù…ÙˆØ°Ø¬ Ø·Ù„Ø¨ Ø¬Ø¯ÙŠØ¯ (${forms.length + 1})`,
+			name: `نموذج طلب جديد (${forms.length + 1})`,
 			specs: [
 				{
 					id: 'spec_' + Date.now(),
 					type: 'select_custom',
-					label: 'Ù†ÙˆØ¹ Ø§Ù„Ø®Ø¯Ù…Ø©:',
-					options: ['Ø§Ù„Ø®ÙŠØ§Ø± Ø§Ù„Ø£ÙˆÙ„', 'Ø§Ù„Ø®ÙŠØ§Ø± Ø§Ù„Ø«Ø§Ù†ÙŠ'],
+					label: 'نوع الخدمة:',
+					options: ['الخيار الأول', 'الخيار الثاني'],
 					required: true
 				}
 			]
@@ -41,12 +41,12 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		setForms(updated);
 		setActiveIdx(updated.length - 1);
 		sound.play('button');
-		toast('ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ Ù‚Ø§Ù„Ø¨ Ù†Ù…ÙˆØ°Ø¬ Ø¬Ø¯ÙŠØ¯.', 'info');
+		toast('تم إنشاء قالب نموذج جديد.', 'info');
 	};
 
 	const handleDeleteForm = (idxToDelete) => {
 		if (forms.length <= 1) {
-			toast('ÙŠØ¬Ø¨ Ø§Ù„Ø¥Ø¨Ù‚Ø§Ø¡ Ø¹Ù„Ù‰ Ù†Ù…ÙˆØ°Ø¬ Ø·Ù„Ø¨ ÙˆØ§Ø­Ø¯ Ø¹Ù„Ù‰ Ø§Ù„Ø£Ù‚Ù„.', 'warning');
+			toast('يجب الإبقاء على نموذج طلب واحد على الأقل.', 'warning');
 			sound.play('caution');
 			return;
 		}
@@ -54,7 +54,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		setForms(updated);
 		setActiveIdx(Math.max(0, activeIdx - 1));
 		sound.play('button');
-		toast('ØªÙ… Ø­Ø°Ù Ù‚Ø§Ù„Ø¨ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬.', 'info');
+		toast('تم حذف قالب النموذج.', 'info');
 	};
 
 	const updateCurrentForm = (key, val) => {
@@ -72,7 +72,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		const newSpec = {
 			id: 'spec_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
 			type: type || 'short_text',
-			label: prim.defaultLabel || 'Ù…ÙˆØ§ØµÙØ© Ø¬Ø¯ÙŠØ¯Ø©:',
+			label: prim.defaultLabel || 'مواصفة جديدة:',
 			placeholder: prim.defaultPlaceholder || '',
 			options: prim.defaultOptions ? [...prim.defaultOptions] : [],
 			required: false
@@ -80,7 +80,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		specs.push(newSpec);
 		updateCurrentForm('specs', specs);
 		sound.play('button');
-		toast('ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ù…ÙˆØ§ØµÙØ© Ø¬Ø¯ÙŠØ¯Ø© Ø¥Ù„Ù‰ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬.', 'success');
+		toast('تمت إضافة مواصفة جديدة إلى النموذج.', 'success');
 	};
 
 	const handleMoveSpec = (sIdx, direction) => {
@@ -100,7 +100,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		const specs = currentForm.specs.filter((_, i) => i !== sIdx);
 		updateCurrentForm('specs', specs);
 		sound.play('button');
-		toast('ØªÙ… Ø­Ø°Ù Ø§Ù„Ù…ÙˆØ§ØµÙØ©.', 'info');
+		toast('تم حذف المواصفة.', 'info');
 	};
 
 	const handleUpdateSpec = (sIdx, key, val) => {
@@ -156,13 +156,13 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			if (window.workpressSettings) {
 				window.workpressSettings.intake_forms_schema = forms;
 			}
-			toast('ØªÙ… Ø­ÙØ¸ Ù†Ù…Ø§Ø°Ø¬ Ø§Ø³ØªÙ‚Ø¨Ø§Ù„ Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡ Ø¨Ù†Ø¬Ø§Ø­', 'success');
+			toast('تم حفظ نماذج استقبال طلبات العملاء بنجاح', 'success');
 			sound.play('celebration');
 			if (typeof onSaved === 'function') onSaved(forms);
 		}).catch((err) => {
 			setIsSaving(false);
 			console.error(err);
-			toast('Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬', 'danger');
+			toast('حدث خطأ أثناء حفظ النماذج', 'danger');
 			sound.play('caution');
 		});
 	};
@@ -173,17 +173,17 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			<div className="notification is-light p-4 mb-4" style=${{ border: '1px solid #e2e8f0', borderRadius: 0 }}>
 				<h4 className="title is-6 mb-1 has-text-weight-bold">
 					<i className="dashicons dashicons-forms ml-1"></i>
-					Ø§Ø³ØªÙˆØ¯ÙŠÙˆ ØªØµÙ…ÙŠÙ… Ù†Ù…Ø§Ø°Ø¬ ÙˆØ§Ø³ØªÙ…Ø§Ø±Ø§Øª Ø§Ø³ØªÙ‚Ø¨Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨Ø§Øª (Intake Forms Studio)
+					استوديو تصميم نماذج واستمارات استقبال الطلبات (Intake Forms Studio)
 				</h4>
 				<p className="is-size-7 has-text-grey">
-					ÙŠÙ…ÙƒÙ†Ùƒ Ù‡Ù†Ø§ Ø¥Ù†Ø´Ø§Ø¡ ÙˆØªØ®ØµÙŠØµ Ù†Ù…Ø§Ø°Ø¬ Ù…ØªØ¹Ø¯Ø¯Ø© Ù„Ù„Ø®Ø¯Ù…Ø§ØªØŒ ÙˆØªØ­Ø¯ÙŠØ¯ Ø§Ù„Ø®Ø§Ù†Ø§Øª ÙˆØ§Ù„Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„ØªÙŠ ØªØ¸Ù‡Ø± Ù„Ù„Ø¹Ù…Ù„Ø§Ø¡ ÙÙŠ Ø¨ÙˆØ§Ø¨ØªÙ‡Ù… Ø¹Ù†Ø¯ ØªÙ‚Ø¯ÙŠÙ… Ø·Ù„Ø¨ Ù…Ø´Ø±ÙˆØ¹ Ø¬Ø¯ÙŠØ¯.
+					يمكنك هنا إنشاء وتخصيص نماذج متعددة للخدمات، وتحديد الخانات والخيارات التي تظهر للعملاء في بوابتهم عند تقديم طلب مشروع جديد.
 				</p>
 			</div>
 
 			<!-- Template Selector Bar -->
 			<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 p-3 has-background-white" style=${{ border: '1px solid #e2e8f0' }}>
 				<div className="is-flex is-align-items-center" style=${{ gap: '6px', flexWrap: 'wrap' }}>
-					<span className="is-size-7 has-text-weight-bold has-text-dark ml-2">Ø§Ù„Ù‚ÙˆØ§Ù„Ø¨ Ø§Ù„Ù…ØªØ§Ø­Ø©:</span>
+					<span className="is-size-7 has-text-weight-bold has-text-dark ml-2">القوالب المتاحة:</span>
 					${forms.map((f, i) => html`
 						<button
 							key=${f.id || i}
@@ -192,17 +192,17 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							onClick=${() => { setActiveIdx(i); sound.play('button'); }}
 							style=${{ fontWeight: '700' }}
 						>
-							${f.name || `Ù†Ù…ÙˆØ°Ø¬ ${i + 1}`}
+							${f.name || `نموذج ${i + 1}`}
 						</button>
 					`)}
 					<button
 						type="button"
 						className="button is-small is-success is-outlined wp-sharp-button"
 						onClick=${handleAddForm}
-						title="Ø¥Ø¶Ø§ÙØ© Ù‚Ø§Ù„Ø¨ Ù†Ù…ÙˆØ°Ø¬ Ø·Ù„Ø¨ Ø¬Ø¯ÙŠØ¯"
+						title="إضافة قالب نموذج طلب جديد"
 					>
 						<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-						<span>+ Ù†Ù…ÙˆØ°Ø¬ Ø¬Ø¯ÙŠØ¯</span>
+						<span>+ نموذج جديد</span>
 					</button>
 				</div>
 
@@ -211,10 +211,10 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 						href="/portal/#/new-request" 
 						target="_blank" 
 						className="button is-info is-outlined wp-sharp-button"
-						title="Ù…Ø¹Ø§ÙŠÙ†Ø© Ø§Ù„Ø¨ÙˆØ§Ø¨Ø©"
+						title="معاينة البوابة"
 					>
 						<span className="icon"><i className="dashicons dashicons-external"></i></span>
-						<span>Ù…Ø¹Ø§ÙŠÙ†Ø© ÙÙŠ Ø§Ù„Ø¨ÙˆØ§Ø¨Ø©</span>
+						<span>معاينة في البوابة</span>
 					</a>
 				</div>
 			</div>
@@ -223,7 +223,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			<div className="box wp-card p-5 mb-4" style=${{ border: '1px solid #cbd5e1', borderRadius: 0 }}>
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 pb-3" style=${{ borderBottom: '1px solid #f1f5f9' }}>
 					<div className="is-flex is-align-items-center" style=${{ gap: '10px', flex: 1, maxWidth: '600px' }}>
-						<label className="label is-size-7 mb-0 has-text-weight-bold" style=${{ whiteSpace: 'nowrap' }}>Ø§Ø³Ù… Ø§Ù„Ù‚Ø§Ù„Ø¨:</label>
+						<label className="label is-size-7 mb-0 has-text-weight-bold" style=${{ whiteSpace: 'nowrap' }}>اسم القالب:</label>
 						<input
 							type="text"
 							className="input is-small wp-sharp-input"
@@ -239,7 +239,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							onClick=${() => handleDeleteForm(activeIdx)}
 						>
 							<span className="icon"><i className="dashicons dashicons-trash"></i></span>
-							<span>Ø­Ø°Ù Ù‡Ø°Ø§ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬</span>
+							<span>حذف هذا النموذج</span>
 						</button>
 					` : null}
 				</div>
@@ -248,11 +248,11 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 				<div className="wp-form-core-field-card p-4 mb-4">
 					<h5 className="title is-7 mb-3 has-text-primary has-text-weight-bold">
 						<i className="dashicons dashicons-tag ml-1"></i>
-						1. Ø­Ù‚Ù„ Ø§Ù„Ø¹Ù†ÙˆØ§Ù† ÙˆØ§Ù„Ù…Ø¹Ø±Ù Ø§Ù„Ø°ÙƒÙŠ Ù„Ù„Ø·Ù„Ø¨ (Smart Title)
+						1. حقل العنوان والمعرف الذكي للطلب (Smart Title)
 					</h5>
 					<div className="columns is-variable is-2 mb-2">
 						<div className="column is-6">
-							<label className="label is-size-7">Ù…Ø³Ù…Ù‰ Ø§Ù„Ø­Ù‚Ù„:</label>
+							<label className="label is-size-7">مسمى الحقل:</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -261,7 +261,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							/>
 						</div>
 						<div className="column is-6">
-							<label className="label is-size-7">Ù†Øµ Ø§Ù„ØªÙ„Ù…ÙŠØ­ (Placeholder):</label>
+							<label className="label is-size-7">نص التلميح (Placeholder):</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -273,7 +273,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 
 					<!-- Suggestions Manager -->
 					<div className="p-3" style=${{ backgroundColor: '#ffffff', border: '1px dashed #cbd5e1', borderRadius: 0 }}>
-						<label className="label is-size-7 mb-1">Ø§Ù‚ØªØ±Ø§Ø­Ø§Øª Ø§Ù„Ø¹Ù†Ø§ÙˆÙŠÙ† Ø§Ù„Ø³Ø±ÙŠØ¹Ø© Ø§Ù„Ø¬Ø§Ù‡Ø²Ø©:</label>
+						<label className="label is-size-7 mb-1">اقتراحات العناوين السريعة الجاهزة:</label>
 						<div className="tags mb-2">
 							${(currentForm.title_suggestions || []).map((sug, sIdx) => html`
 								<span key=${sIdx} className="tag is-info is-light" style=${{ borderRadius: 0 }}>
@@ -289,10 +289,10 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 								value=${newSuggestionText}
 								onInput=${(e) => setNewSuggestionText(e.target.value)}
 								onKeyDown=${(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddSuggestion(); } }}
-								placeholder="Ø§ÙƒØªØ¨ Ø¹Ù†ÙˆØ§Ù†Ø§Ù‹ Ù…Ù‚ØªØ±Ø­Ø§Ù‹ ÙˆØ§Ø¶ØºØ· Ø¥Ø¶Ø§ÙØ©..."
+								placeholder="اكتب عنواناً مقترحاً واضغط إضافة..."
 							/>
 							<button type="button" className="button is-small is-info is-light wp-sharp-button" onClick=${handleAddSuggestion}>
-								+ Ø¥Ø¶Ø§ÙØ©
+								+ إضافة
 							</button>
 						</div>
 					</div>
@@ -302,11 +302,11 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 				<div className="wp-form-core-field-card p-4 mb-4">
 					<h5 className="title is-7 mb-3 has-text-primary has-text-weight-bold">
 						<i className="dashicons dashicons-editor-paragraph ml-1"></i>
-						2. Ø­Ù‚Ù„ Ø´Ø±Ø­ ÙˆØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø·Ù„Ø¨ (Scope Description)
+						2. حقل شرح وتفاصيل الطلب (Scope Description)
 					</h5>
 					<div className="columns is-variable is-2">
 						<div className="column is-6">
-							<label className="label is-size-7">Ù…Ø³Ù…Ù‰ Ø§Ù„Ø­Ù‚Ù„:</label>
+							<label className="label is-size-7">مسمى الحقل:</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -315,7 +315,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							/>
 						</div>
 						<div className="column is-6">
-							<label className="label is-size-7">Ù†Øµ Ø§Ù„ØªÙ„Ù…ÙŠØ­ ÙˆØ§Ù„ØªÙˆØ¬ÙŠÙ‡:</label>
+							<label className="label is-size-7">نص التلميح والتوجيه:</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -331,33 +331,33 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 					<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
 						<h5 className="title is-7 mb-0 has-text-primary has-text-weight-bold">
 							<i className="dashicons dashicons-list-view ml-1"></i>
-							3. Ø®Ø§Ù†Ø§Øª ÙˆÙ…ÙˆØ§ØµÙØ§Øª Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„ØªØ®ØµØµÙŠØ© (Specs Matrix)
+							3. خانات ومواصفات الطلب التخصصية (Specs Matrix)
 						</h5>
 						<div className="buttons are-small mb-0">
 							<button type="button" className="button is-small is-primary is-light wp-sharp-button" onClick=${() => handleAddSpec('select_custom')}>
-								+ Ù‚Ø§Ø¦Ù…Ø© Ù…Ù†Ø³Ø¯Ù„Ø©
+								+ قائمة منسدلة
 							</button>
 							<button type="button" className="button is-small is-info is-light wp-sharp-button" onClick=${() => handleAddSpec('pills')}>
-								+ ÙˆØ³ÙˆÙ… Ù…ØªØ¹Ø¯Ø¯Ø©
+								+ وسوم متعددة
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('short_text')}>
-								+ Ù†Øµ Ù‚ØµÙŠØ±
+								+ نص قصير
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('numeric')}>
-								+ Ø±Ù‚Ù…/Ù…ÙŠØ²Ø§Ù†ÙŠØ©
+								+ رقم/ميزانية
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('date')}>
-								+ ØªØ§Ø±ÙŠØ®
+								+ تاريخ
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('upload')}>
-								+ Ù…Ù„ÙØ§Øª
+								+ ملفات
 							</button>
 						</div>
 					</div>
 
 					${(!currentForm.specs || currentForm.specs.length === 0) ? html`
 						<div className="has-text-centered py-4 has-text-grey is-size-7" style=${{ border: '1px dashed #cbd5e1' }}>
-							Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…ÙˆØ§ØµÙØ§Øª Ø¥Ø¶Ø§ÙÙŠØ© ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù†Ù…ÙˆØ°Ø¬. Ø§Ø³ØªØ®Ø¯Ù… Ø§Ù„Ø£Ø²Ø±Ø§Ø± Ø£Ø¹Ù„Ø§Ù‡ Ù„Ø¥Ø¶Ø§ÙØ© Ø®Ø§Ù†Ø§Øª.
+							لا توجد مواصفات إضافية في هذا النموذج. استخدم الأزرار أعلاه لإضافة خانات.
 						</div>
 					` : html`
 						<div style=${{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -386,7 +386,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			<div className="is-flex is-justify-content-space-between is-align-items-center pt-3" style=${{ borderTop: '1px solid #ededed' }}>
 				<p className="is-size-7 has-text-grey">
 					<i className="dashicons dashicons-yes-alt ml-1 has-text-success"></i>
-					ÙŠØªÙ… ØªØ®Ø²ÙŠÙ† ÙƒØ§ÙØ© Ø§Ù„Ù…ÙˆØ§ØµÙØ§Øª Ø§Ù„ØªÙŠ ÙŠÙ…Ù„Ø¤Ù‡Ø§ Ø§Ù„Ø²Ø¨ÙˆÙ† ÙƒÙ€ JSON Ù…Ù‡ÙŠÙƒÙ„ Ø¯Ø§Ø®Ù„ ÙƒÙŠØ§Ù† Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ CPT_PROJECT Ø¨Ù…Ø³Ù…ÙŠØ§ØªÙ‡Ø§ Ø§Ù„ØªÙŠ ÙˆØ¶Ø¹ØªÙ‡Ø§ Ø£Ø¹Ù„Ø§Ù‡.
+					يتم تخزين كافة المواصفات التي يملؤها الزبون كـ JSON مهيكل داخل كيان المشروع CPT_PROJECT بمسمياتها التي وضعتها أعلاه.
 				</p>
 				<button 
 					type="button"
@@ -396,7 +396,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 					style=${{ fontWeight: '800' }}
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>Ø­ÙØ¸ ÙˆØ§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù†Ù…Ø§Ø°Ø¬</span>
+					<span>حفظ واعتماد النماذج</span>
 				</button>
 			</div>
 		</div>

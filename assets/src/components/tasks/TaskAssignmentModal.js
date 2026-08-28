@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import { projectsApi, tasksApi } from '../../api/client.js';
 import Modal from '../modals/Modal.js';
 import Loader from '../ui/Loader.js';
@@ -65,22 +65,22 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 		setIsSaving( true );
 		tasksApi.assignment.update( task.id, currentAssignees )
 			.then( () => {
-				toast( 'ØªÙ… ØªØ­Ø¯ÙŠØ« Ø§Ù„ØªÙƒÙ„ÙŠÙØ§Øª Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+				toast( 'تم تحديث التكليفات بنجاح', 'success' );
 				onClose(); // Parent should refresh tasks
 			} )
 			.catch( err => {
 				console.error( err );
-				toast( 'Ø­Ø¯Ø« Ø®Ø·Ø£. ØªØ£ÙƒØ¯ Ù…Ù† Ø£Ù†Ùƒ ØªÙ…Ù„Ùƒ ØµÙ„Ø§Ø­ÙŠØ© ØªØ¹Ø¯ÙŠÙ„ Ù‡Ø°Ù‡ Ø§Ù„Ù…Ù‡Ù…Ø©.', 'danger' );
+				toast( 'حدث خطأ. تأكد من أنك تملك صلاحية تعديل هذه المهمة.', 'danger' );
 			} )
 			.finally( () => setIsSaving( false ) );
 	};
 
 	const footer = html`
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
-			<span className="has-text-grey is-size-7">ØªÙ… ØªØ­Ø¯ÙŠØ¯ ${ currentAssignees.length } Ù…ÙƒÙ„Ù</span>
+			<span className="has-text-grey is-size-7">تم تحديد ${ currentAssignees.length } مكلف</span>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
 				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>
-					Ø¥Ù„ØºØ§Ø¡
+					إلغاء
 				</button>
 				<button 
 					className=${ `button wp-btn is-primary wp-sharp-button ${ isSaving ? 'is-loading' : '' }` } 
@@ -88,7 +88,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 					disabled=${ isSaving }
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>Ø­ÙØ¸ Ø§Ù„Ø¥Ø³Ù†Ø§Ø¯</span>
+					<span>حفظ الإسناد</span>
 				</button>
 			</div>
 		</div>
@@ -98,26 +98,26 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title=${ task ? `Ø¥Ø³Ù†Ø§Ø¯ Ø§Ù„Ù…Ù‡Ù…Ø©: ${ task.title }` : 'Ø¥Ø³Ù†Ø§Ø¯ Ø§Ù„Ù…Ù‡Ù…Ø©' }
+			title=${ task ? `إسناد المهمة: ${ task.title }` : 'إسناد المهمة' }
 			size="wp-mega-modal"
 			footer=${ footer }
 		>
 			<div className="p-2" style=${{ minHeight: '300px' }}>
-				<p className="has-text-grey is-size-7 mb-4">Ø§Ø®ØªØ± Ø§Ù„Ø£Ø¹Ø¶Ø§Ø¡ Ù„Ø¥Ø³Ù†Ø§Ø¯ Ù‡Ø°Ù‡ Ø§Ù„Ù…Ù‡Ù…Ø© Ø¥Ù„ÙŠÙ‡Ù… (ÙŠØ¸Ù‡Ø± Ù‡Ù†Ø§ ÙÙ‚Ø· Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ù…Ø¹ØªÙ…Ø¯ÙŠÙ†):</p>
+				<p className="has-text-grey is-size-7 mb-4">اختر الأعضاء لإسناد هذه المهمة إليهم (يظهر هنا فقط أعضاء المشروع المعتمدين):</p>
 				
 				${ isLoading ? html`
 					<div className="py-5">
-						<${Loader} center=${true} size="medium" label="Ø¬Ø§Ø±ÙŠ Ø¬Ù„Ø¨ Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹..." />
+						<${Loader} center=${true} size="medium" label="جاري جلب أعضاء المشروع..." />
 					</div>
 				` : projectMembers.length === 0 ? html`
 					<div className="has-text-centered py-5 has-text-grey">
-						Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø£Ø¹Ø¶Ø§Ø¡ ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹.
+						لا يوجد أعضاء في هذا المشروع.
 					</div>
 				` : html`
 					<div className="columns is-multiline">
 						${ projectMembers.map( member => {
 							const isAssigned = currentAssignees.includes( member.id );
-							const initial = (member.name || 'ØŸ').charAt(0).toUpperCase();
+							const initial = (member.name || '؟').charAt(0).toUpperCase();
 							const avatarUrl = member.avatar_url || (member.avatar_urls && member.avatar_urls['48']) || member.avatar || '';
 
 							return html`
@@ -152,7 +152,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 												<div className="has-text-weight-bold has-text-dark is-size-6">${ member.name }</div>
 												<div className="is-flex is-align-items-center" style=${{ gap: '6px', marginTop: '2px' }}>
 													<span className="tag is-small" style=${{ fontSize: '0.68rem', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: '4px' }}>
-														${ member.project_role === 'manager' ? 'Ù…Ø¯ÙŠØ± Ù…Ø´Ø±ÙˆØ¹' : 'Ø¹Ø¶Ùˆ ÙØ±ÙŠÙ‚' }
+														${ member.project_role === 'manager' ? 'مدير مشروع' : 'عضو فريق' }
 													</span>
 													${member.email && html`
 														<span className="has-text-grey is-size-7">${member.email}</span>

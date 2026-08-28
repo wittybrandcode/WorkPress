@@ -1,4 +1,4 @@
-﻿import { html, useEffect, useRef, useState } from '../../utils/html.js';
+import { html, useEffect, useRef, useState } from '../../utils/html.js';
 
 export default function WpEditor({ id, value, onChange, placeholder = '' }) {
     const [editorId] = useState(() => id || `wp-editor-${Math.random().toString(36).substr(2, 9)}`);

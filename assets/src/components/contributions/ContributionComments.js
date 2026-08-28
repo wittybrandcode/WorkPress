@@ -1,8 +1,8 @@
-﻿import { html, useState, useEffect, Fragment } from '../../utils/html.js';
+import { html, useState, useEffect, Fragment } from '../../utils/html.js';
 import { contributionsApi } from '../../api/client.js';
 import { formatDate, formatDateTime, formatRelativeTime } from '../../utils/datetime.js';
 import { toast } from '../../utils/toast.js';
-import ConfirmModal from '../modals/Modal.js';
+import ConfirmModal from '../modals/ConfirmModal.js';
 import Loader from '../ui/Loader.js';
 
 export default function ContributionComments({ contributionId, initialComments = [], commentsCount = 0, onCommentAdded, onCommentDeleted }) {
@@ -38,13 +38,13 @@ export default function ContributionComments({ contributionId, initialComments =
 				const updated = [ ...comments, createdComment ];
 				setComments( updated );
 				setNewComment( '' );
-				toast( 'ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ø§Ù„ØªØ¹Ù„ÙŠÙ‚ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+				toast( 'تمت إضافة التعليق بنجاح', 'success' );
 				if ( onCommentAdded ) {
 					onCommentAdded( contributionId, createdComment );
 				}
 			} )
 			.catch( ( err ) => {
-				toast( err.message || 'ÙØ´Ù„ Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„ØªØ¹Ù„ÙŠÙ‚', 'danger' );
+				toast( err.message || 'فشل إرسال التعليق', 'danger' );
 			} )
 			.finally( () => setIsSubmitting( false ) );
 	};
@@ -54,13 +54,13 @@ export default function ContributionComments({ contributionId, initialComments =
 			.then( () => {
 				const updated = comments.filter( c => c.id !== commentId );
 				setComments( updated );
-				toast( 'ØªÙ… Ø­Ø°Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ‚', 'info' );
+				toast( 'تم حذف التعليق', 'info' );
 				if ( onCommentDeleted ) {
 					onCommentDeleted( contributionId, commentId );
 				}
 			} )
 			.catch( ( err ) => {
-				toast( err.message || 'ÙØ´Ù„ Ø­Ø°Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ‚', 'danger' );
+				toast( err.message || 'فشل حذف التعليق', 'danger' );
 			} );
 	};
 
@@ -69,7 +69,7 @@ export default function ContributionComments({ contributionId, initialComments =
 			<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
 				<h5 className="is-size-7 has-text-weight-bold has-text-grey-dark m-0 is-flex is-align-items-center" style=${{ gap: '4px' }}>
 					<i className="dashicons dashicons-admin-comments has-text-info"></i>
-					<span>Ø§Ù„Ù…Ù†Ø§Ù‚Ø´Ø© ÙˆØ§Ù„Ù…Ø±Ø§Ø¬Ø¹Ø© Ø§Ù„ÙÙ†ÙŠØ©</span>
+					<span>المناقشة والمراجعة الفنية</span>
 					<span className="tag is-rounded is-small is-light is-info ml-1" style=${{ height: '1.5em', padding: '0 0.5em' }}>
 						${ comments.length }
 					</span>
@@ -77,12 +77,12 @@ export default function ContributionComments({ contributionId, initialComments =
 			</div>
 
 			${ isLoading ? html`
-				<${Loader} center=${true} size="small" label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ø§Ù„ØªØ¹Ù„ÙŠÙ‚Ø§Øª..." />
+				<${Loader} center=${true} size="small" label="جاري تحميل التعليقات..." />
 			` : null }
 
 			${ ! isLoading && comments.length === 0 ? html`
 				<div className="p-2 mb-3 has-text-centered is-size-7 has-text-grey" style=${{ backgroundColor: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '4px' }}>
-					<span>Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù„Ø§Ø­Ø¸Ø§Øª Ø£Ùˆ ØªØ¹Ù„ÙŠÙ‚Ø§Øª Ø­ØªÙ‰ Ø§Ù„Ø¢Ù†. ÙƒÙ† Ø£ÙˆÙ„ Ù…Ù† ÙŠØ¶ÙŠÙ Ù…Ø±Ø§Ø¬Ø¹Ø© ØªÙˆØ¬ÙŠÙ‡ÙŠØ©.</span>
+					<span>لا توجد ملاحظات أو تعليقات حتى الآن. كن أول من يضيف مراجعة توجيهية.</span>
 				</div>
 			` : null }
 
@@ -95,22 +95,22 @@ export default function ContributionComments({ contributionId, initialComments =
 									<figure className="image is-24x24 m-0" style=${{ position: 'relative' }}>
 										<img src=${ c.author_avatar || '' } alt=${ c.author_name } style=${{ borderRadius: 0, border: c.is_client ? '1.5px solid #f59e0b' : '1px solid #cbd5e1', backgroundColor: '#cbd5e1' }} />
 										${ c.is_client ? html`
-											<span style=${{ position: 'absolute', bottom: '-4px', left: '-4px', background: '#f59e0b', color: '#fff', fontSize: '8px', padding: '0 2px', fontWeight: '900', lineHeight: 1 }}>â­</span>
+											<span style=${{ position: 'absolute', bottom: '-4px', left: '-4px', background: '#f59e0b', color: '#fff', fontSize: '8px', padding: '0 2px', fontWeight: '900', lineHeight: 1 }}>⭐</span>
 										` : null }
 									</figure>
 									<span className="has-text-weight-bold is-size-7 has-text-dark">${ c.author_name }</span>
 									${ c.is_client ? html`
 										<span className="tag is-warning is-light" style=${{ borderRadius: 0, fontWeight: '800', border: '1px solid #f59e0b', color: '#b45309', background: '#fffbeb', fontSize: '0.65rem', padding: '1px 4px', height: 'auto' }}>
-											 Ø¹Ù…ÙŠÙ„
+											 عميل
 										</span>
 									` : null }
-									<span className="is-size-7 has-text-grey" style=${{ fontSize: '0.75rem', cursor: 'help' }} title=${ formatDateTime( c.created_at ) }>â€¢ ${ formatRelativeTime( c.created_at ) }</span>
+									<span className="is-size-7 has-text-grey" style=${{ fontSize: '0.75rem', cursor: 'help' }} title=${ formatDateTime( c.created_at ) }>• ${ formatRelativeTime( c.created_at ) }</span>
 								</div>
 								${ c.can_delete ? html`
 									<button 
 										className="button is-small is-ghost has-text-danger p-0" 
 										style=${{ height: 'auto', border: 'none' }}
-										title="Ø­Ø°Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ‚"
+										title="حذف التعليق"
 										onClick=${ ( e ) => {
 											e.stopPropagation();
 											setConfirmDelete( c.id );
@@ -135,7 +135,7 @@ export default function ContributionComments({ contributionId, initialComments =
 						<textarea
 							className="textarea is-small"
 							rows="2"
-							placeholder="Ø§ÙƒØªØ¨ Ù…Ù„Ø§Ø­Ø¸Ø© Ø£Ùˆ ØªÙˆØ¬ÙŠÙ‡Ø§Ù‹ Ø£Ùˆ Ù…Ø±Ø§Ø¬Ø¹Ø© Ø¹Ù„Ù‰ Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©..."
+							placeholder="اكتب ملاحظة أو توجيهاً أو مراجعة على هذه المساهمة..."
 							value=${ newComment }
 							onInput=${ ( e ) => setNewComment( e.target.value ) }
 							style=${{ borderRadius: '4px', resize: 'vertical' }}
@@ -150,7 +150,7 @@ export default function ContributionComments({ contributionId, initialComments =
 						disabled=${ ! newComment.trim() || isSubmitting }
 					>
 						<span className="icon is-small"><i className="dashicons dashicons-arrow-left-alt2"></i></span>
-						<span>Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„ØªØ¹Ù„ÙŠÙ‚</span>
+						<span>إرسال التعليق</span>
 					</button>
 				</div>
 			</form>
@@ -158,11 +158,11 @@ export default function ContributionComments({ contributionId, initialComments =
 			${ confirmDelete && html`
 				<${ConfirmModal}
 					isActive=${ true }
-					title="Ø­Ø°Ù Ø§Ù„ØªØ¹Ù„ÙŠÙ‚"
-					message="Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø­Ø°Ù Ù‡Ø°Ø§ Ø§Ù„ØªØ¹Ù„ÙŠÙ‚ Ù†Ù‡Ø§Ø¦ÙŠØ§Ù‹ØŸ"
-					confirmText="Ø­Ø°Ù"
+					title="حذف التعليق"
+					message="هل أنت متأكد من حذف هذا التعليق نهائياً؟"
+					confirmText="حذف"
 					confirmColor="is-danger"
-					cancelText="Ø¥Ù„ØºØ§Ø¡"
+					cancelText="إلغاء"
 					isDangerous=${ true }
 					onConfirm=${ () => {
 						handleDelete( confirmDelete );

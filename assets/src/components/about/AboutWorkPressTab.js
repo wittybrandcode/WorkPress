@@ -1,4 +1,4 @@
-﻿import { html, useState } from '../../utils/html.js';
+import { html, useState } from '../../utils/html.js';
 import WorkPressLogo from '../ui/WorkPressLogo.js';
 import { SECTIONS } from './aboutData.js';
 import PhilosophySection from './PhilosophySection.js';
@@ -33,12 +33,12 @@ export default function AboutWorkPressTab() {
 				</div>
 
 				<p className="is-size-6 has-text-grey mb-3 has-text-weight-semibold">
-					Ø§Ù„Ù…ÙˆØ³ÙˆØ¹Ø© Ø§Ù„Ù‡Ù†Ø¯Ø³ÙŠØ© ÙˆØ§Ù„Ù…Ø¹Ù…Ø§Ø±ÙŠØ© Ø§Ù„Ø´Ø§Ù…Ù„Ø© Ù„Ù…Ù†Ø¸ÙˆÙ…Ø© Ø¥Ø¯Ø§Ø±Ø© ÙˆØªÙˆØ«ÙŠÙ‚ Ø§Ù„Ø¹Ù…Ù„ Ø§Ù„Ø£ØµÙ„ÙŠØ© ÙÙŠ ÙˆÙˆØ±Ø¯Ø¨Ø±ÙŠØ³
+					الموسوعة الهندسية والمعمارية الشاملة لمنظومة إدارة وتوثيق العمل الأصلية في ووردبريس
 				</p>
 
 				<div className="is-flex is-justify-content-center is-align-items-center" style=${{ gap: '10px', flexWrap: 'wrap' }}>
 					<span className="tag wp-about-tag-version">
-						WorkPress v${version} â€” Stable Release
+						WorkPress v${version} — Stable Release
 					</span>
 					<span className="tag wp-about-tag-engine">
 						Zero-Table Native Engine
@@ -75,10 +75,10 @@ export default function AboutWorkPressTab() {
 			<div className="wp-about-footer mt-5">
 				<div className="is-flex is-align-items-center">
 					<span className="icon is-small ml-1" style=${{ marginLeft: '6px' }}><i className="dashicons dashicons-yes-alt has-text-success"></i></span>
-					<span>Ù…Ù†Ø¸ÙˆÙ…Ø© Ø¥Ø¯Ø§Ø±Ø© ÙˆØªÙˆØ«ÙŠÙ‚ Ø§Ù„Ø¹Ù…Ù„ ÙˆØ§Ù„Ø°Ø§ÙƒØ±Ø© Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠØ© Ø§Ù„Ø£ØµÙ„ÙŠØ© ÙÙŠ ÙˆÙˆØ±Ø¯Ø¨Ø±ÙŠØ³</span>
+					<span>منظومة إدارة وتوثيق العمل والذاكرة المؤسسية الأصلية في ووردبريس</span>
 				</div>
 				<div>
-					<strong className="has-text-dark">WorkPress Engine v${version} Stable â€” Production Certified</strong>
+					<strong className="has-text-dark">WorkPress Engine v${version} Stable — Production Certified</strong>
 				</div>
 			</div>
 

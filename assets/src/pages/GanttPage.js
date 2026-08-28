@@ -1,8 +1,8 @@
-﻿import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect } from '../utils/html.js';
 import { tasksApi, projectsApi } from '../api/client.js';
 import GanttChart from '../components/gantt/GanttChart.js';
 import Loader from '../components/ui/Loader.js';
-import TaskQuickPreviewModal from '../components/modals/Modal.js';
+import TaskQuickPreviewModal from '../components/tasks/TaskQuickPreviewModal.js';
 import sound from '../utils/sound.js';
 
 /**
@@ -58,10 +58,10 @@ export default function GanttPage( { refreshKey } ) {
 				<div>
 					<h1 className="title is-4 mb-1" style=${{ color: '#0f172a', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
 						<i className="dashicons dashicons-calendar-alt" style=${{ color: '#3b82f6', fontSize: '26px' }}></i>
-						<span>Ù…Ø®Ø·Ø· Ø¬Ø§Ù†Øª ÙˆØ§Ù„Ø¬Ø¯ÙˆÙ„ Ø§Ù„Ø²Ù…Ù†ÙŠ Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠ</span>
+						<span>مخطط جانت والجدول الزمني المؤسسي</span>
 					</h1>
 					<p className="subtitle is-7 has-text-grey mb-0">
-						Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø§Ù„Ù…Ø³Ø§Ø±Ø§Øª Ø§Ù„Ø²Ù…Ù†ÙŠØ© Ù„Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ ÙˆØ§Ù„Ù…Ù‡Ø§Ù…ØŒ Ø±ØµØ¯ Ø§Ù„ØªØ¯Ø§Ø®Ù„Ø§Øª ÙˆØ§Ù„ØªÙˆØ§Ø±ÙŠØ® Ø§Ù„Ù…Ø³ØªÙ‡Ø¯ÙØ© ÙˆÙ…ØªØ§Ø¨Ø¹Ø© Ù†Ø³Ø¨ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø².
+						استعراض المسارات الزمنية للمشاريع والمهام، رصد التداخلات والتواريخ المستهدفة ومتابعة نسب الإنجاز.
 					</p>
 				</div>
 
@@ -72,7 +72,7 @@ export default function GanttPage( { refreshKey } ) {
 						style=${{ borderRadius: 0, fontWeight: '700', border: '1px solid #cbd5e1' }}
 					>
 						<i className="dashicons dashicons-columns" style=${{ marginLeft: '0.25rem' }}></i>
-						<span>Ø¹Ø±Ø¶ Ù„ÙˆØ­Ø© Ø§Ù„ÙƒØ§Ù†Ø¨Ø§Ù†</span>
+						<span>عرض لوحة الكانبان</span>
 					</a>
 				</div>
 			</div>
@@ -80,7 +80,7 @@ export default function GanttPage( { refreshKey } ) {
 			<!-- Main Gantt Chart View -->
 			${ loading ? html`
 				<div style=${{ padding: '4rem 0', textAlign: 'center', backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}>
-					<${Loader} text="Ø¬Ø§Ø±ÙŠ Ø¨Ù†Ø§Ø¡ ÙˆØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ø®Ø·Ø· Ø§Ù„Ø²Ù…Ù†ÙŠ..." />
+					<${Loader} text="جاري بناء وتحميل المخطط الزمني..." />
 				</div>
 			` : html`
 				<${GanttChart} 

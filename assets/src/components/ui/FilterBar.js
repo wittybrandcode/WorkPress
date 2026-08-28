@@ -1,4 +1,4 @@
-﻿import { html, createPortal } from '../../utils/html.js';
+import { html, createPortal } from '../../utils/html.js';
 import CustomSelect from './CustomSelect.js';
 import MemberSelect from './MemberSelect.js';
 import { formatNumber } from '../../utils/datetime.js';
@@ -11,7 +11,7 @@ import { formatNumber } from '../../utils/datetime.js';
  * @param {Array} [props.filters] - Array of { key, label, icon, value, onChange, options, placeholder, isCustomSelect, width }
  * @param {number} [props.totalCount] - Current filtered items count
  * @param {number} [props.totalUnfiltered] - Total unfiltered items count
- * @param {string} [props.counterLabel] - Label for counter (e.g. "Ù…Ù‡Ù…Ø©", "Ù…Ø´Ø±ÙˆØ¹", "Ø­Ù„")
+ * @param {string} [props.counterLabel] - Label for counter (e.g. "مهمة", "مشروع", "حل")
  * @param {boolean} [props.isFilterActive] - Whether any filter is active
  * @param {Function} [props.onReset] - Callback to reset all filters
  * @param {any} [props.extraActions] - Optional extra components on the left
@@ -21,7 +21,7 @@ export default function FilterBar({
 	filters = [],
 	totalCount = null,
 	totalUnfiltered = null,
-	counterLabel = 'Ø¹Ù†ØµØ±',
+	counterLabel = 'عنصر',
 	isFilterActive = false,
 	onReset = null,
 	extraActions = null,
@@ -41,7 +41,7 @@ export default function FilterBar({
 						<input 
 							type="text"
 							className="input wp-filter-input"
-							placeholder=${ search.placeholder || 'Ø¨Ø­Ø« Ø³Ø±ÙŠØ¹...' }
+							placeholder=${ search.placeholder || 'بحث سريع...' }
 							value=${ search.value || '' }
 							onInput=${ (e) => search.onChange( e.target.value ) }
 						/>
@@ -49,7 +49,7 @@ export default function FilterBar({
 							<button 
 								type="button" 
 								className="wp-filter-search-clear" 
-								title="Ù…Ø³Ø­ Ø§Ù„Ø¨Ø­Ø«"
+								title="مسح البحث"
 								onClick=${ () => search.onChange('') }
 							>
 								<i className="dashicons dashicons-no-alt"></i>
@@ -76,7 +76,7 @@ export default function FilterBar({
 										value=${ f.value }
 										onChange=${ f.onChange }
 										users=${ f.users || [] }
-										placeholder=${ f.placeholder || '-- ÙƒÙ„ Ø§Ù„Ù…ÙƒÙ„ÙÙŠÙ† --' }
+										placeholder=${ f.placeholder || '-- كل المكلفين --' }
 										size="small"
 									/>
 								` : f.isCustomSelect ? html`
@@ -84,7 +84,7 @@ export default function FilterBar({
 										value=${ f.value }
 										onChange=${ f.onChange }
 										options=${ f.options || [] }
-										placeholder=${ f.placeholder || '-- Ø§Ù„ÙƒÙ„ --' }
+										placeholder=${ f.placeholder || '-- الكل --' }
 									/>
 								` : html`
 									<div className="select is-small" style=${{ width: '100%' }}>
@@ -114,7 +114,7 @@ export default function FilterBar({
 					<span className="wp-filter-counter">
 						<i className="dashicons dashicons-filter" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
 						${ ( totalUnfiltered !== null && totalCount !== null && totalCount !== totalUnfiltered )
-							? `Ø¹Ø±Ø¶ ${ formatNumber( totalCount ) } Ù…Ù† ${ formatNumber( totalUnfiltered ) } ${ counterLabel }`
+							? `عرض ${ formatNumber( totalCount ) } من ${ formatNumber( totalUnfiltered ) } ${ counterLabel }`
 							: `${ formatNumber( totalCount !== null ? totalCount : totalUnfiltered ) } ${ counterLabel }`
 						}
 					</span>
@@ -125,7 +125,7 @@ export default function FilterBar({
 						type="button" 
 						className="wp-icon-btn is-dense is-danger ml-2" 
 						onClick=${ onReset }
-						title="Ø¥Ø¹Ø§Ø¯Ø© ØªØ¹ÙŠÙŠÙ† ÙƒØ§ÙØ© Ø§Ù„ÙÙ„Ø§ØªØ± ÙˆØ§Ù„Ø¨Ø­Ø«"
+						title="إعادة تعيين كافة الفلاتر والبحث"
 					>
 						<i className="dashicons dashicons-undo"></i>
 					</button>

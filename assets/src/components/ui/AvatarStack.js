@@ -1,4 +1,4 @@
-﻿import { html } from '../../utils/html.js';
+import { html } from '../../utils/html.js';
 
 export default function AvatarStack( { users, max = 3 } ) {
 	if ( ! users || users.length === 0 ) return null;

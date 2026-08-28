@@ -1,4 +1,4 @@
-﻿import { html } from '../../utils/html.js';
+import { html } from '../../utils/html.js';
 import sound from '../../utils/sound.js';
 
 /**
@@ -10,7 +10,7 @@ import sound from '../../utils/sound.js';
 export default function MultiFilePicker( { 
 	attachments = [], 
 	onChange, 
-	buttonText = 'Ø¥Ø±ÙØ§Ù‚ Ù…Ù„ÙØ§Øª / ÙˆØ«Ø§Ø¦Ù‚',
+	buttonText = 'إرفاق ملفات / وثائق',
 	readOnly = false 
 } ) {
 	const handleOpenMedia = () => {
@@ -18,9 +18,9 @@ export default function MultiFilePicker( {
 
 		if ( typeof window.wp !== 'undefined' && window.wp.media ) {
 			const frame = window.wp.media( {
-				title: 'Ø§Ø®ØªØ± Ø£Ùˆ Ø§Ø±ÙØ¹ Ù…Ù„ÙØ§Øª Ø§Ù„Ù…Ø±ÙÙ‚Ø§Øª',
+				title: 'اختر أو ارفع ملفات المرفقات',
 				button: {
-					text: 'Ø¥Ø±ÙØ§Ù‚ Ø§Ù„Ù…Ù„ÙØ§Øª Ø§Ù„Ù…Ø­Ø¯Ø¯Ø©',
+					text: 'إرفاق الملفات المحددة',
 				},
 				multiple: true,
 			} );
@@ -33,7 +33,7 @@ export default function MultiFilePicker( {
 					const att = attachment.toJSON();
 					newItems.push( {
 						id: att.id,
-						name: att.filename || att.title || 'Ù…Ù„Ù Ù…Ø±ÙÙ‚',
+						name: att.filename || att.title || 'ملف مرفق',
 						url: att.url,
 						mime_type: att.mime || '',
 						size: att.filesizeHumanReadable || '',
@@ -58,7 +58,7 @@ export default function MultiFilePicker( {
 
 			frame.open();
 		} else {
-			alert( 'Ù…ÙƒØªØ¨Ø© ÙˆØ³Ø§Ø¦Ø· ÙˆÙˆØ±Ø¯Ø¨Ø±ÙŠØ³ ØºÙŠØ± Ù…ØªÙˆÙØ±Ø© Ø­Ø§Ù„ÙŠØ§Ù‹.' );
+			alert( 'مكتبة وسائط ووردبريس غير متوفرة حالياً.' );
 		}
 	};
 
@@ -108,7 +108,7 @@ export default function MultiFilePicker( {
 					</button>
 					${ attachments.length > 0 ? html`
 						<span style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b' }}>
-							(${ attachments.length } Ù…Ù„ÙØ§Øª Ù…Ø±ÙÙ‚Ø©)
+							(${ attachments.length } ملفات مرفقة)
 						</span>
 					` : null }
 				</div>
@@ -118,7 +118,7 @@ export default function MultiFilePicker( {
 				<div style=${{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.5rem' }}>
 					${ attachments.map( ( file ) => {
 						const fileId = typeof file === 'object' ? file.id : file;
-						const fileName = typeof file === 'object' ? ( file.name || 'Ù…Ù„Ù Ù…Ø±ÙÙ‚' ) : `Ù…Ù„Ù #${ fileId }`;
+						const fileName = typeof file === 'object' ? ( file.name || 'ملف مرفق' ) : `ملف #${ fileId }`;
 						const fileUrl = typeof file === 'object' ? file.url : '';
 						const fileSize = typeof file === 'object' ? file.size : '';
 
@@ -152,7 +152,7 @@ export default function MultiFilePicker( {
 												textOverflow: 'ellipsis', 
 												display: 'block' 
 											}}
-											title="ÙØªØ­ Ø£Ùˆ ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ù„Ù"
+											title="فتح أو تحميل الملف"
 										>
 											${ fileName }
 										</a>
@@ -168,7 +168,7 @@ export default function MultiFilePicker( {
 										className="button is-small is-ghost" 
 										onClick=${ () => handleRemove( fileId ) }
 										style=${{ height: '22px', padding: '0 2px', color: '#94a3b8', border: 'none' }}
-										title="Ø¥Ø²Ø§Ù„Ø© Ù‡Ø°Ø§ Ø§Ù„Ù…Ø±ÙÙ‚"
+										title="إزالة هذا المرفق"
 									>
 										<i className="dashicons dashicons-no-alt" style=${{ fontSize: '15px' }}></i>
 									</button>

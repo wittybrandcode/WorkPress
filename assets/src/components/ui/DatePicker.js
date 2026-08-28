@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import { getMonthName, DAY_NAMES, formatDate, parseDate, formatNumber } from '../../utils/datetime.js';
 import sound from '../../utils/sound.js';
 
@@ -8,7 +8,7 @@ import sound from '../../utils/sound.js';
  * Fully custom zero-build interactive calendar & time engine.
  * Includes:
  * 1. Quick Days Row: +1, +3, +7, +14, +30
- * 2. Quick Hours Row: +1Ø³, +3Ø³, +6Ø³
+ * 2. Quick Hours Row: +1س, +3س, +6س
  * 3. Interactive Full Month Calendar Grid (1 to 31)
  * 4. Time Picker Section with Presets
  * 5. High-Contrast Institutional Confirmation
@@ -18,7 +18,7 @@ export default function DatePicker( {
 	onSelect,
 	onClose,
 	showTime = true,
-	title = 'Ø¥Ø¹Ø§Ø¯Ø© Ø¬Ø¯ÙˆÙ„Ø© Ø§Ù„Ù…ÙˆØ¹Ø¯ Ø§Ù„Ù…Ø³ØªÙ‡Ø¯Ù'
+	title = 'إعادة جدولة الموعد المستهدف'
 } ) {
 	const currentInitial = initialDate ? parseDate( initialDate ) : new Date();
 	const [ viewMonth, setViewMonth ] = useState( currentInitial ? currentInitial.getMonth() : new Date().getMonth() );
@@ -162,7 +162,7 @@ export default function DatePicker( {
 					<button 
 						type="button" 
 						onClick=${ onClose }
-						title="Ø¥ØºÙ„Ø§Ù‚"
+						title="إغلاق"
 						style=${{ background: 'transparent', border: 'none', color: '#ffffff', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '18px', padding: 0 }}
 					>
 						<i className="dashicons dashicons-no-alt" style=${{ fontSize: '16px' }}></i>
@@ -170,13 +170,13 @@ export default function DatePicker( {
 				` : null }
 			</div>
 
-			<!-- Quick Extensions Toolbar (Ø§Ù„Ø³Ø·Ø±ÙŠÙ† Ø§Ù„Ø³Ø±ÙŠØ¹ÙŠÙ†) -->
+			<!-- Quick Extensions Toolbar (السطرين السريعين) -->
 			<div style=${{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '0.6rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '6px' }}>
 				
 				<!-- Row 1: Days Extension (+1, +3, +7, +14, +30) -->
 				<div style=${{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
 					<span style=${{ fontSize: '0.72rem', fontWeight: '800', color: '#475569', minWidth: '46px' }}>
-						Ø§Ù„Ø£ÙŠØ§Ù…:
+						الأيام:
 					</span>
 					<div style=${{ display: 'flex', gap: '4px', flex: 1 }}>
 						${ [ 1, 3, 7, 14, 30 ].map( d => html`
@@ -198,7 +198,7 @@ export default function DatePicker( {
 									color: '#0f172a'
 								}}
 								onClick=${ () => handleQuickExtendDays( d ) }
-								title=${ `ØªÙ…Ø¯ÙŠØ¯ +${ d } ÙŠÙˆÙ…` }
+								title=${ `تمديد +${ d } يوم` }
 							>
 								+${ d }
 							</button>
@@ -209,7 +209,7 @@ export default function DatePicker( {
 				<!-- Row 2: Hours Extension (+1, +3, +6) -->
 				<div style=${{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
 					<span style=${{ fontSize: '0.72rem', fontWeight: '800', color: '#475569', minWidth: '46px' }}>
-						Ø§Ù„Ø³Ø§Ø¹Ø§Øª:
+						الساعات:
 					</span>
 					<div style=${{ display: 'flex', gap: '4px', flex: 1 }}>
 						${ [ 1, 3, 6 ].map( h => html`
@@ -231,9 +231,9 @@ export default function DatePicker( {
 									color: '#2563eb'
 								}}
 								onClick=${ () => handleQuickExtendHours( h ) }
-								title=${ `ØªÙ…Ø¯ÙŠØ¯ +${ h } Ø³Ø§Ø¹Ø§Øª` }
+								title=${ `تمديد +${ h } ساعات` }
 							>
-								+${ h }Ø³
+								+${ h }س
 							</button>
 						` ) }
 					</div>
@@ -246,7 +246,7 @@ export default function DatePicker( {
 					type="button" 
 					className="wp-icon-btn is-small"
 					onClick=${ handleNextMonth }
-					title="Ø§Ù„Ø´Ù‡Ø± Ø§Ù„Ø³Ø§Ø¨Ù‚"
+					title="الشهر السابق"
 				>
 					<i className="dashicons dashicons-arrow-right-alt2"></i>
 				</button>
@@ -265,10 +265,10 @@ export default function DatePicker( {
 							setViewYear( now.getFullYear() );
 							sound.play( 'button' );
 						} }
-						title="Ø§Ù„Ø±Ø¬ÙˆØ¹ Ø§Ù„ÙÙˆØ±ÙŠ Ù„ØªØ§Ø±ÙŠØ® Ø§Ù„ÙŠÙˆÙ…"
+						title="الرجوع الفوري لتاريخ اليوم"
 						style=${{ cursor: 'pointer' }}
 					>
-						Ø§Ù„ÙŠÙˆÙ…
+						اليوم
 					</button>
 				</div>
 
@@ -276,7 +276,7 @@ export default function DatePicker( {
 					type="button" 
 					className="wp-icon-btn is-small"
 					onClick=${ handlePrevMonth }
-					title="Ø§Ù„Ø´Ù‡Ø± Ø§Ù„ØªØ§Ù„ÙŠ"
+					title="الشهر التالي"
 				>
 					<i className="dashicons dashicons-arrow-left-alt2"></i>
 				</button>
@@ -284,7 +284,7 @@ export default function DatePicker( {
 
 			<!-- Weekday Names Header -->
 			<div style=${{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '6px 4px', textAlign: 'center' }}>
-				${ [ 'Ø­', 'Ù†', 'Ø«', 'Ø±', 'Ø®', 'Ø¬', 'Ø³' ].map( ( dName, idx ) => html`
+				${ [ 'ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س' ].map( ( dName, idx ) => html`
 					<div key=${ idx } style=${{ fontSize: '0.72rem', fontWeight: '800', color: ( idx === 5 || idx === 6 ) ? '#94a3b8' : '#334155' }}>
 						${ dName }
 					</div>
@@ -347,7 +347,7 @@ export default function DatePicker( {
 					<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
 						<span style=${{ fontSize: '0.74rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '4px' }}>
 							<i className="dashicons dashicons-clock" style=${{ color: '#64748b', fontSize: '14px' }}></i>
-							<span>ØªÙˆÙ‚ÙŠØª Ø§Ù„ØªØ³Ù„ÙŠÙ…:</span>
+							<span>توقيت التسليم:</span>
 						</span>
 						
 						<input 
@@ -389,7 +389,7 @@ export default function DatePicker( {
 			<!-- Action Footer -->
 			<div style=${{ padding: '0.65rem 0.85rem', borderTop: '1px solid #e2e8f0', backgroundColor: '#ffffff' }}>
 				<div style=${{ fontSize: '0.72rem', color: '#475569', marginBottom: '6px', display: 'flex', justifyContent: 'space-between' }}>
-					<span>Ø§Ù„Ù…ÙˆØ¹Ø¯ Ø§Ù„Ù…Ø®ØªØ§Ø±:</span>
+					<span>الموعد المختار:</span>
 					<strong style=${{ color: '#0f172a' }}>
 						${ formatDate( selectedDate ) } ${ showTime ? `(${ selectedTime })` : '' }
 					</strong>
@@ -401,7 +401,7 @@ export default function DatePicker( {
 					style=${{ height: '34px', backgroundColor: '#0f172a', color: '#ffffff', fontWeight: '900', fontSize: '0.82rem', border: '1px solid #0f172a' }}
 					onClick=${ handleConfirm }
 				>
-					<span>Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØ­ÙØ¸ Ø§Ù„Ù…ÙˆØ¹Ø¯ Ø§Ù„Ù…Ø³ØªÙ‡Ø¯Ù</span>
+					<span>اعتماد وحفظ الموعد المستهدف</span>
 				</button>
 			</div>
 		</div>

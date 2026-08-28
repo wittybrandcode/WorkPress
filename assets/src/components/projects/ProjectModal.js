@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import { projectsApi } from '../../api/client.js';
 import Modal from '../modals/Modal.js';
 import WpEditor from '../ui/WpEditor.js';
@@ -19,10 +19,10 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 	const [ isSaving, setIsSaving ] = useState( false );
 
 	const statusOptions = [
-		{ value: 'active', label: 'Ù†Ø´Ø· (Active)' },
-		{ value: 'on-hold', label: 'Ù‚ÙŠØ¯ Ø§Ù„Ø§Ù†ØªØ¸Ø§Ø± (On Hold)' },
-		{ value: 'completed', label: 'Ù…ÙƒØªÙ…Ù„ (Completed)' },
-		{ value: 'cancelled', label: 'Ù…Ù„ØºÙ‰ (Cancelled)' }
+		{ value: 'active', label: 'نشط (Active)' },
+		{ value: 'on-hold', label: 'قيد الانتظار (On Hold)' },
+		{ value: 'completed', label: 'مكتمل (Completed)' },
+		{ value: 'cancelled', label: 'ملغى (Cancelled)' }
 	];
 
 	useEffect( () => {
@@ -65,23 +65,23 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 			: projectsApi.create( data );
 			
 		request.then( () => {
-			toast( project && project.id ? 'ØªÙ… ØªØ­Ø¯ÙŠØ« Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø¨Ù†Ø¬Ø§Ø­' : 'ØªÙ… Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+			toast( project && project.id ? 'تم تحديث المشروع بنجاح' : 'تم إنشاء المشروع بنجاح', 'success' );
 			onSave();
 			onClose();
 		} ).catch( err => {
 			console.error( 'Error saving project:', err );
-			toast( 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø­ÙØ¸ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹', 'danger' );
+			toast( 'حدث خطأ أثناء حفظ المشروع', 'danger' );
 		} ).finally( () => setIsSaving( false ) );
 	};
 
 	const footer = html`
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
 			<div>
-				${ !name.trim() && html`<span className="has-text-grey is-size-7">Ø§Ø³Ù… Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ù…Ø·Ù„ÙˆØ¨ Ù„Ù„Ù…ØªØ§Ø¨Ø¹Ø©</span>` }
+				${ !name.trim() && html`<span className="has-text-grey is-size-7">اسم المشروع مطلوب للمتابعة</span>` }
 			</div>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
 				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>
-					Ø¥Ù„ØºØ§Ø¡
+					إلغاء
 				</button>
 				<button 
 					className=${ `button is-primary wp-sharp-button ${isSaving ? 'is-loading' : ''}` } 
@@ -89,7 +89,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 					disabled=${ !name.trim() || isSaving }
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>${ project ? 'Ø­ÙØ¸ Ø§Ù„ØªØ¹Ø¯ÙŠÙ„Ø§Øª' : 'Ø¥Ù†Ø´Ø§Ø¡ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹' }</span>
+					<span>${ project ? 'حفظ التعديلات' : 'إنشاء المشروع' }</span>
 				</button>
 			</div>
 		</div>
@@ -99,7 +99,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title=${ project ? 'ØªØ¹Ø¯ÙŠÙ„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹' : 'Ù…Ø³ØªÙ†Ø¯ Ù…Ø´Ø±ÙˆØ¹ Ø¬Ø¯ÙŠØ¯' }
+			title=${ project ? 'تعديل المشروع' : 'مستند مشروع جديد' }
 			footer=${ footer }
 			size="wp-mega-modal"
 		>
@@ -111,7 +111,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 						<input 
 							className="input wp-title-input" 
 							type="text" 
-							placeholder="Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ù…Ø´Ø±ÙˆØ¹..."
+							placeholder="عنوان المشروع..."
 							value=${ name }
 							onChange=${ (e) => setName( e.target.value ) }
 							style=${{ 
@@ -142,7 +142,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 					<div className="wp-metadata-toolbar">
 						<!-- Prefix Field -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">Ø§Ù„Ø¨Ø§Ø¯Ø¦Ø©:</span>
+							<span className="wp-metadata-label">البادئة:</span>
 							<input 
 								className="input" 
 								type="text" 
@@ -161,7 +161,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 
 						<!-- Custom Status Dropdown -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">Ø§Ù„Ø­Ø§Ù„Ø©:</span>
+							<span className="wp-metadata-label">الحالة:</span>
 							<${CustomSelect}
 								value=${ status }
 								onChange=${ setStatus }
@@ -171,7 +171,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 
 						<!-- Start Date -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">ØªØ§Ø±ÙŠØ® Ø§Ù„Ø¨Ø¯Ø¡:</span>
+							<span className="wp-metadata-label">تاريخ البدء:</span>
 							<input 
 								className="input" 
 								type="date" 
@@ -183,7 +183,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 
 						<!-- Due Date -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">Ù…ÙˆØ¹Ø¯ Ø§Ù„ØªØ³Ù„ÙŠÙ…:</span>
+							<span className="wp-metadata-label">موعد التسليم:</span>
 							<input 
 								className="input" 
 								type="date" 
@@ -201,7 +201,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 						id="project-description-editor"
 						value=${ description }
 						onChange=${ setDescription }
-						placeholder="Ø§Ø¨Ø¯Ø£ Ø¨ÙƒØªØ§Ø¨Ø© ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹..."
+						placeholder="ابدأ بكتابة تفاصيل المشروع..."
 					/>
 				</div>
 			</div>

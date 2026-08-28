@@ -1,7 +1,7 @@
-﻿import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { html, useState, useEffect, useRef } from '../utils/html.js';
 import { knowledgeApi, contributionsApi, projectsApi } from '../api/client.js';
-import ContributionDetailModal from '../components/modals/Modal.js';
-import ConfirmModal from '../components/modals/Modal.js';
+import ContributionDetailModal from '../components/contributions/ContributionDetailModal.js';
+import ConfirmModal from '../components/modals/ConfirmModal.js';
 import FilterBar from '../components/ui/FilterBar.js';
 import Loader from '../components/ui/Loader.js';
 import { toast } from '../utils/toast.js';
@@ -21,7 +21,7 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, []);
 
-	const cleanContent = item.content ? item.content.replace( /<[^>]*>?/gm, '' ) : 'Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ù…Ø­ØªÙˆÙ‰ Ù…Ø¹Ø±ÙØ©.';
+	const cleanContent = item.content ? item.content.replace( /<[^>]*>?/gm, '' ) : 'لا يوجد محتوى معرفة.';
 	
 	const descriptionStyle = {
 		display: '-webkit-box',
@@ -44,9 +44,9 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 		setIsMenuOpen( false );
 		const url = `${window.location.origin}${window.location.pathname}#/tasks/${item.task_id}`;
 		navigator.clipboard.writeText( url ).then( () => {
-			toast( 'ØªÙ… Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„Ø­Ù„ Ø§Ù„Ù…Ø¹Ø±ÙÙŠ Ø¨Ù†Ø¬Ø§Ø­!', 'success' );
+			toast( 'تم نسخ رابط الحل المعرفي بنجاح!', 'success' );
 		} ).catch( () => {
-			toast( 'ØªØ¹Ø°Ø± Ù†Ø³Ø® Ø§Ù„Ø±Ø§Ø¨Ø· Ø¥Ù„Ù‰ Ø§Ù„Ø­Ø§ÙØ¸Ø©', 'danger' );
+			toast( 'تعذر نسخ الرابط إلى الحافظة', 'danger' );
 		} );
 	};
 
@@ -56,18 +56,18 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 				<div style=${{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255, 56, 96, 0.15)', zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '1.5rem', backdropFilter: 'blur(3px)' }} onClick=${(e) => e.stopPropagation()}>
 					<div className="box has-text-centered p-4" style=${{ width: '100%', backgroundColor: '#ff3860', color: 'white', border: '1px solid #ff1f4b', boxShadow: '0 8px 24px rgba(255,56,96,0.3)', borderRadius: 0 }}>
 						<span className="icon is-large mb-1"><i className="dashicons dashicons-warning" style=${{ fontSize: '36px', width: '36px', height: '36px' }}></i></span>
-						<h4 className="title is-6 has-text-white mb-2">Ø·Ù„Ø¨ Ø­Ø°Ù Ù…Ø¹Ø±ÙØ©</h4>
+						<h4 className="title is-6 has-text-white mb-2">طلب حذف معرفة</h4>
 						<p className="is-size-7 mb-4" style=${{ opacity: 0.9 }}>
-							<strong>Ø§Ù„Ø³Ø¨Ø¨:</strong> ${ item.trash_reason || 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯' }
+							<strong>السبب:</strong> ${ item.trash_reason || 'غير محدد' }
 						</p>
 						<div className="buttons is-centered">
 							<button className="button is-small is-white is-outlined wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onRestore && onRestore(item); } }>
 								<span className="icon"><i className="dashicons dashicons-undo"></i></span>
-								<span>Ø±ÙØ¶ ÙˆØ§Ø³ØªØ¹Ø§Ø¯Ø©</span>
+								<span>رفض واستعادة</span>
 							</button>
 							<button className="button is-small is-white has-text-danger has-text-weight-bold wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onHardDelete && onHardDelete(item); } }>
 								<span className="icon"><i className="dashicons dashicons-trash"></i></span>
-								<span>Ø­Ø°Ù Ù†Ù‡Ø§Ø¦ÙŠ</span>
+								<span>حذف نهائي</span>
 							</button>
 						</div>
 					</div>
@@ -91,10 +91,10 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 				<!-- Badges Row -->
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 					<span className="tag is-success" style=${{ borderRadius: '0', fontWeight: 'bold' }}>
-						<i className="dashicons dashicons-yes-alt ml-1"></i> Ù…Ø¹Ø±ÙØ© Ù…Ø¹ØªÙ…Ø¯Ø©
+						<i className="dashicons dashicons-yes-alt ml-1"></i> معرفة معتمدة
 					</span>
 					<span className="tag is-light" style=${{ borderRadius: '0', border: '1px solid #e2e8f0', fontSize: '0.75rem', fontWeight: 'bold' }}>
-						${ item.type_label || 'Ø­Ù„ Ù…Ø¹ØªÙ…Ø¯' }
+						${ item.type_label || 'حل معتمد' }
 					</span>
 				</div>
 
@@ -113,45 +113,45 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 				
 				<!-- Right side: Stats & Author -->
 				<div className="is-flex is-align-items-center" style=${{ gap: '16px' }}>
-					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title="ØµØ§Ø­Ø¨ Ø§Ù„Ø­Ù„">
+					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title="صاحب الحل">
 						<span className="icon is-small ml-1"><i className="dashicons dashicons-admin-users"></i></span> 
-						<span>${ item.author_name || 'Ø§Ù„Ù†Ø¸Ø§Ù…' }</span>
+						<span>${ item.author_name || 'النظام' }</span>
 					</span>
-					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title="Ø§Ù„Ø­Ø§Ù„Ø©">
+					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title="الحالة">
 						<span className="icon is-small ml-1"><i className="dashicons dashicons-awards"></i></span> 
-						<span>Ù…Ø¹ØªÙ…Ø¯</span>
+						<span>معتمد</span>
 					</span>
 				</div>
 
 				<!-- Left side: Actions Dropdown -->
 				<div className="is-flex is-align-items-center">
-					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(item); } } title="Ù…Ø¹Ø§ÙŠÙ†Ø© Ø³Ø±ÙŠØ¹Ø©">
+					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(item); } } title="معاينة سريعة">
 						<span className="icon"><i className="dashicons dashicons-visibility"></i></span>
 					</button>
 					<div ref=${dropdownRef} className=${`dropdown is-up ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
 						<div className="dropdown-trigger">
-							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title="Ø®ÙŠØ§Ø±Ø§Øª Ø§Ù„Ù…Ø¹Ø±ÙØ©">
+							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title="خيارات المعرفة">
 								<span className="icon"><i className="dashicons dashicons-admin-generic"></i></span>
 							</button>
 						</div>
 						<div className="dropdown-menu" id="dropdown-menu" role="menu">
 							<div className="dropdown-content p-0" style=${{borderRadius: '0', border: '1px solid #ededed', boxShadow: '0 4px 12px rgba(0,0,0,0.15)'}}>
 								<a href=${`#/tasks/${item.task_id}`} className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>Ø¹Ø±Ø¶ Ø§Ù„Ø­Ù„ Ø¨Ø§Ù„Ù…Ù‡Ù…Ø©</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>عرض الحل بالمهمة</span>
 								</a>
 							<hr className="dropdown-divider m-0" />
 								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); copyLink(e); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-admin-links"></i></span> <span>Ù†Ø³Ø® Ø±Ø§Ø¨Ø· Ø§Ù„Ø­Ù„</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-admin-links"></i></span> <span>نسخ رابط الحل</span>
 								</a>
 							${ item.can_accept ? html`
 								<hr className="dropdown-divider m-0" />
 								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-warning" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onRevoke && onRevoke(item); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-undo"></i></span> <span>Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù…Ø¹Ø±ÙÙŠ</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-undo"></i></span> <span>إلغاء الاعتماد المعرفي</span>
 								</a>
 							` : null }
 							<hr className="dropdown-divider m-0" />
 							<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-danger" onClick=${ (e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(false); onTrashRequest && onTrashRequest(item); } }>
-								<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>Ø­Ø°Ù Ø§Ù„Ù…Ø¹Ø±ÙØ© (Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©)</span>
+								<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>حذف المعرفة (المساهمة)</span>
 							</a>
 						</div>
 					</div>
@@ -204,9 +204,9 @@ export default function KnowledgePage({ refreshKey }) {
 	const handleRevoke = ( item ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'Ø¥Ù„ØºØ§Ø¡ Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ø­Ù„ ÙˆØ³Ø­Ø¨Ù‡ Ù…Ù† Ø§Ù„Ù…Ø¹Ø±ÙØ©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø¥Ù„ØºØ§Ø¡ Ø§Ø¹ØªÙ…Ø§Ø¯ Ù‡Ø°Ø§ Ø§Ù„Ø­Ù„ Ø§Ù„ØªØ§Ø¨Ø¹ Ù„Ù„Ù…Ù‡Ù…Ø© "${item.task_title}"ØŸ Ø³ØªØªÙ… Ø¥Ø¹Ø§Ø¯Ø© ÙØªØ­ Ø§Ù„Ù…Ù‡Ù…Ø© Ù„Ù„Ù…Ø±Ø§Ø¬Ø¹Ø© ÙˆØ³Ø­Ø¨ Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ù…Ù† Ù…ÙƒØªØ¨Ø© Ø§Ù„Ù…Ø¹Ø±ÙØ©.`,
-			confirmText: 'Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØ¥Ø¹Ø§Ø¯Ø© Ø§Ù„ÙØªØ­',
+			title: 'إلغاء اعتماد الحل وسحبه من المعرفة',
+			message: `هل أنت متأكد من إلغاء اعتماد هذا الحل التابع للمهمة "${item.task_title}"؟ ستتم إعادة فتح المهمة للمراجعة وسحب المساهمة من مكتبة المعرفة.`,
+			confirmText: 'إلغاء الاعتماد وإعادة الفتح',
 			confirmColor: 'is-warning',
 			isDangerous: true,
 			requiresReason: false,
@@ -216,13 +216,13 @@ export default function KnowledgePage({ refreshKey }) {
 				contributionsApi.revoke( item.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØ³Ø­Ø¨ Ø§Ù„Ø­Ù„ Ù…Ù† Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø¨Ù†Ø¬Ø§Ø­', 'info' );
+						toast( 'تم إلغاء الاعتماد وسحب الحل من المعرفة بنجاح', 'info' );
 						fetchKnowledge();
 						hooks.doAction('workpress_refresh_notifications');
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø¥Ù„ØºØ§Ø¡ Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء إلغاء الاعتماد', 'danger' );
 					} );
 			}
 		});
@@ -231,25 +231,25 @@ export default function KnowledgePage({ refreshKey }) {
 	const handleTrashRequest = ( item ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'Ø·Ù„Ø¨ Ø­Ø°Ù Ù…Ø¹Ø±ÙØ© Ù…Ø¹ØªÙ…Ø¯Ø©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø±ØºØ¨ØªÙƒ ÙÙŠ Ø·Ù„Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø§Ù„Ø®Ø§ØµØ© Ø¨Ù…Ù‡Ù…Ø© "${item.task_title}"ØŸ`,
-			confirmText: 'Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨',
+			title: 'طلب حذف معرفة معتمدة',
+			message: `هل أنت متأكد من رغبتك في طلب حذف المعرفة الخاصة بمهمة "${item.task_title}"؟`,
+			confirmText: 'إرسال الطلب',
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'Ø³Ø¨Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ø¹Ø±ÙØ©',
+			reasonLabel: 'سبب حذف المعرفة',
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
 				contributionsApi.trashRequest( item.id, reason )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ Ø­Ø°Ù Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø¨Ù†Ø¬Ø§Ø­', 'info' );
+						toast( 'تم إرسال طلب حذف المعرفة بنجاح', 'info' );
 						fetchKnowledge();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø·Ù„Ø¨ Ø§Ù„Ø­Ø°Ù', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء طلب الحذف', 'danger' );
 					} );
 			}
 		});
@@ -260,11 +260,11 @@ export default function KnowledgePage({ refreshKey }) {
 		setKnowledgeItems( prev => prev.map( k => k.id === item.id ? { ...k, is_pending_trash: false } : k ) );
 		contributionsApi.update( item.id, { is_pending_trash: false } )
 			.then( () => {
-				toast( 'ØªÙ…Øª Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+				toast( 'تمت استعادة المعرفة بنجاح', 'success' );
 				fetchKnowledge();
 			} )
 			.catch( err => {
-				toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ø¹Ø±ÙØ©', 'danger' );
+				toast( err.message || 'حدث خطأ أثناء استعادة المعرفة', 'danger' );
 				fetchKnowledge();
 			} );
 	};
@@ -272,9 +272,9 @@ export default function KnowledgePage({ refreshKey }) {
 	const handleHardDelete = ( item ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø­Ø°Ù Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ Ù„Ù„Ù…Ø¹Ø±ÙØ©',
-			message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø­Ø°Ù Ù‡Ø°Ù‡ Ø§Ù„Ù…Ø¹Ø±ÙØ© ÙˆÙ†Ù‚Ù„Ù‡Ø§ Ù„Ø³Ù„Ø© Ø§Ù„Ù…Ù‡Ù…Ù„Ø§ØªØŸ`,
-			confirmText: 'Ø­Ø°Ù',
+			title: 'تأكيد الحذف النهائي للمعرفة',
+			message: `هل أنت متأكد من حذف هذه المعرفة ونقلها لسلة المهملات؟`,
+			confirmText: 'حذف',
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			requiresReason: false,
@@ -286,12 +286,12 @@ export default function KnowledgePage({ refreshKey }) {
 				contributionsApi.delete( item.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'ØªÙ… Ø­Ø°Ù Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+						toast( 'تم حذف المعرفة بنجاح', 'success' );
 						fetchKnowledge();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ù„Ø­Ø°Ù', 'danger' );
+						toast( err.message || 'حدث خطأ أثناء الحذف', 'danger' );
 						fetchKnowledge();
 					} );
 			}
@@ -299,12 +299,12 @@ export default function KnowledgePage({ refreshKey }) {
 	};
 
 	const projectOptions = [
-		{ value: '', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ --' },
+		{ value: '', label: '-- جميع المشاريع --' },
 		...projects.map( p => ({ value: p.id, label: p.name }) )
 	];
 
 	const typeOptions = [
-		{ value: 'all', label: '-- Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø£Ù†ÙˆØ§Ø¹ --' },
+		{ value: 'all', label: '-- جميع الأنواع --' },
 		...availableTypes.map( t => ({ value: t.key, label: t.label }) )
 	];
 
@@ -340,12 +340,12 @@ export default function KnowledgePage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'Ø¨Ø­Ø« ÙÙŠ Ù‚ÙˆØ§Ø¹Ø¯ Ø§Ù„Ù…Ø¹Ø±ÙØ© ÙˆØ§Ù„Ø­Ù„ÙˆÙ„ Ø§Ù„Ù…Ø¹ØªÙ…Ø¯Ø©...',
+					placeholder: 'بحث في قواعد المعرفة والحلول المعتمدة...',
 				}}
 				filters=${[
 					{
 						key: 'project',
-						label: 'Ø§Ù„Ù…Ø´Ø±ÙˆØ¹',
+						label: 'المشروع',
 						icon: 'dashicons-category',
 						value: selectedProject,
 						onChange: setSelectedProject,
@@ -355,7 +355,7 @@ export default function KnowledgePage({ refreshKey }) {
 					},
 					{
 						key: 'type',
-						label: 'Ù†ÙˆØ¹ Ø§Ù„Ø­Ù„',
+						label: 'نوع الحل',
 						icon: 'dashicons-star-filled',
 						value: selectedType,
 						onChange: setSelectedType,
@@ -365,14 +365,14 @@ export default function KnowledgePage({ refreshKey }) {
 				]}
 				totalCount=${ filteredKnowledgeItems.length }
 				totalUnfiltered=${ knowledgeItems.length }
-				counterLabel="Ø­Ù„ Ù…Ø¹ØªÙ…Ø¯"
+				counterLabel="حل معتمد"
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
 
 			${ isLoading ? html`
 				<div className="py-6 mt-4">
-					<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ù…ÙƒØªØ¨Ø© Ø§Ù„Ù…Ø¹Ø±ÙØ©..." size="large" />
+					<${Loader} center=${true} label="جاري تحميل مكتبة المعرفة..." size="large" />
 				</div>
 			` : html`
 				<div className="columns is-multiline">
@@ -396,22 +396,22 @@ export default function KnowledgePage({ refreshKey }) {
 									<i className="dashicons dashicons-book has-text-success" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i>
 								</div>
 								<h3 className="title is-5 mb-2 has-text-weight-bold has-text-dark">
-									${ isFilterActive ? 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ø­Ù„ÙˆÙ„ Ù…Ø¹Ø±ÙÙŠØ© Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ù…Ø¹Ø§ÙŠÙŠØ± Ø§Ù„Ø¨Ø­Ø«' : 'Ù…ÙƒØªØ¨Ø© Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø§Ù„Ù…Ø¤Ø³Ø³ÙŠØ© Ø®Ø§Ù„ÙŠØ© Ø­Ø§Ù„ÙŠØ§Ù‹' }
+									${ isFilterActive ? 'لا توجد حلول معرفية مطابقة لمعايير البحث' : 'مكتبة المعرفة المؤسسية خالية حالياً' }
 								</h3>
 								<p className="has-text-grey is-size-6 mb-5" style=${{ maxWidth: '480px', margin: '0 auto' }}>
 									${ isFilterActive 
-										? 'Ø¬Ø±Ù‘Ø¨ ØªØºÙŠÙŠØ± ÙƒÙ„Ù…Ø§Øª Ø§Ù„Ø¨Ø­Ø« Ø£Ùˆ Ø¥Ø¹Ø§Ø¯Ø© Ø¶Ø¨Ø· Ø§Ù„ÙÙ„Ø§ØªØ± Ù„Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø§Ù„Ø­Ù„ÙˆÙ„ Ø§Ù„Ù…Ø¹Ø±ÙÙŠØ©.' 
-										: 'ÙŠØªÙ… Ø¨Ù†Ø§Ø¡ Ø§Ù„Ø°Ø§ÙƒØ±Ø© Ø§Ù„Ù…Ø¹Ø±ÙÙŠØ© ØªÙ„Ù‚Ø§Ø¦ÙŠØ§Ù‹ Ø¹Ù†Ø¯Ù…Ø§ ÙŠØ¹ØªÙ…Ø¯ Ù‚Ø§Ø¦Ø¯ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø­Ù„Ø§Ù‹ Ù…Ù‚Ø¯Ù…Ø§Ù‹ Ù„Ø£ÙŠ Ù…Ù‡Ù…Ø©ØŒ Ù„ÙŠØµØ¨Ø­ Ù…Ø±Ø¬Ø¹Ø§Ù‹ Ø¯Ø§Ø¦Ù…Ø§Ù‹ Ù„ÙƒØ§ÙØ© Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„ÙØ±ÙŠÙ‚.' }
+										? 'جرّب تغيير كلمات البحث أو إعادة ضبط الفلاتر للعثور على الحلول المعرفية.' 
+										: 'يتم بناء الذاكرة المعرفية تلقائياً عندما يعتمد قائد المشروع حلاً مقدماً لأي مهمة، ليصبح مرجعاً دائماً لكافة أعضاء الفريق.' }
 								</p>
 								${ isFilterActive ? html`
 									<button className="button is-light wp-sharp-button" onClick=${ handleResetFilters }>
 										<span className="icon"><i className="dashicons dashicons-image-rotate"></i></span>
-										<span>Ø¥Ø¹Ø§Ø¯Ø© Ø¶Ø¨Ø· Ø§Ù„ÙÙ„Ø§ØªØ±</span>
+										<span>إعادة ضبط الفلاتر</span>
 									</button>
 								` : html`
 									<a href="#/tasks" className="button is-primary wp-sharp-button">
 										<span className="icon"><i className="dashicons dashicons-clipboard"></i></span>
-										<span>Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø§Ù„Ù…Ù‡Ø§Ù… Ø§Ù„Ù…ÙØªÙˆØ­Ø© Ù„Ù„Ù…Ø³Ø§Ù‡Ù…Ø©</span>
+										<span>استعراض المهام المفتوحة للمساهمة</span>
 									</a>
 								` }
 							</div>

@@ -1,9 +1,9 @@
-﻿import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect } from '../utils/html.js';
 import { projectsApi, tasksApi } from '../api/client.js';
 import { formatDate } from '../utils/datetime.js';
 import FilterBar from '../components/ui/FilterBar.js';
 import Loader from '../components/ui/Loader.js';
-import ReportModal from '../components/modals/Modal.js';
+import ReportModal from '../components/modals/ReportModal.js';
 import { toast } from '../utils/toast.js';
 import sound from '../utils/sound.js';
 
@@ -37,7 +37,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 			setTasks( tasksData );
 		}).catch( err => {
 			console.error( err );
-			toast( 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø¬Ù„Ø¨ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ø´Ø±ÙˆØ¹', 'danger' );
+			toast( 'حدث خطأ أثناء جلب بيانات المشروع', 'danger' );
 		}).finally( () => setIsLoading( false ) );
 	};
 
@@ -48,13 +48,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 	if ( isLoading ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ Ø§Ø³ØªØ¹Ø±Ø§Ø¶ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹..." size="large" />
+				<${Loader} center=${true} label="جاري استعراض تفاصيل المشروع..." size="large" />
 			</div>
 		`;
 	}
 
 	if ( ! project ) {
-		return html`<div className="has-text-centered py-6"><p className="has-text-danger">Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯ Ø£Ùˆ Ù„ÙŠØ³ Ù„Ø¯ÙŠÙƒ ØµÙ„Ø§Ø­ÙŠØ© Ù„Ù„ÙˆØµÙˆÙ„ Ø¥Ù„ÙŠÙ‡.</p></div>`;
+		return html`<div className="has-text-centered py-6"><p className="has-text-danger">المشروع غير موجود أو ليس لديك صلاحية للوصول إليه.</p></div>`;
 	}
 
 	// Calculate stats
@@ -67,11 +67,11 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 	const inProgressTasks = tasks.filter( t => t.status === 'in_progress' || t.status === 'in_review' ).length;
 
 	const taskStatusOptions = [
-		{ value: 'all', label: 'Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ø§Ù„Ø§Øª' },
-		{ value: 'open', label: 'Ù…ÙØªÙˆØ­Ø© / Ø¬Ø¯ÙŠØ¯Ø©' },
-		{ value: 'assigned', label: 'Ù…Ø³Ù†Ø¯Ø©' },
-		{ value: 'in_progress', label: 'Ù‚ÙŠØ¯ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø²' },
-		{ value: 'completed', label: 'Ù…ÙƒØªÙ…Ù„Ø©' }
+		{ value: 'all', label: 'جميع الحالات' },
+		{ value: 'open', label: 'مفتوحة / جديدة' },
+		{ value: 'assigned', label: 'مسندة' },
+		{ value: 'in_progress', label: 'قيد الإنجاز' },
+		{ value: 'completed', label: 'مكتملة' }
 	];
 
 	const isTaskFilterActive = Boolean( taskSearch || taskStatus !== 'all' );
@@ -99,13 +99,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 		setIsApproving(true);
 		projectsApi.update(project.id, { status: 'active' }).then(() => {
 			setIsApproving(false);
-			toast('ØªÙ… Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØªØ£Ø³ÙŠØ³ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø¨Ù†Ø¬Ø§Ø­! Ø£ØµØ¨Ø­ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ù†Ø´Ø·Ø§Ù‹ Ø§Ù„Ø¢Ù†', 'success');
+			toast('تم اعتماد وتأسيس المشروع بنجاح! أصبح المشروع نشطاً الآن', 'success');
 			sound.play('celebration');
 			fetchProjectData();
 		}).catch(err => {
 			setIsApproving(false);
 			console.error(err);
-			toast(err.message || 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹', 'danger');
+			toast(err.message || 'حدث خطأ أثناء اعتماد المشروع', 'danger');
 			sound.play('caution');
 		});
 	};
@@ -114,7 +114,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 		<div className="mt-4">
 			<div className="mb-4 is-flex is-justify-content-space-between is-align-items-center">
 				<div style=${{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-					<a href="#/projects" className="button is-small is-light wp-icon-button" style=${{ borderRadius: 0, border: '2px solid #0f172a' }} title="Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„Ù…Ø´Ø§Ø±ÙŠØ¹">
+					<a href="#/projects" className="button is-small is-light wp-icon-button" style=${{ borderRadius: 0, border: '2px solid #0f172a' }} title="العودة للمشاريع">
 						<span className="icon"><i className="dashicons dashicons-arrow-right-alt2"></i></span>
 					</a>
 
@@ -122,10 +122,10 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						className="button is-small is-dark wp-sharp-button"
 						onClick=${ () => { setIsReportModalOpen( true ); sound.play( 'pop' ); } }
 						style=${{ fontWeight: '700', backgroundColor: '#0f172a', borderColor: '#0f172a' }}
-						title="Ø§Ø³ØªØ®Ø±Ø§Ø¬ Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠ Ø§Ù„Ø±Ø³Ù…ÙŠ ÙˆÙƒØªØ§Ø¨ Ø§Ù„Ù…Ø¹Ø±ÙØ©"
+						title="استخراج التقرير التنفيذي الرسمي وكتاب المعرفة"
 					>
 						<span className="icon"><i className="dashicons dashicons-media-document"></i></span>
-						<span>Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠ ÙˆÙƒØªØ§Ø¨ Ø§Ù„Ù…Ø¹Ø±ÙØ©</span>
+						<span>التقرير التنفيذي وكتاب المعرفة</span>
 					</button>
 				</div>
 
@@ -137,13 +137,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						style=${{ fontWeight: '800' }}
 					>
 						<span className="icon"><i className="dashicons dashicons-yes-alt"></i></span>
-						<span>Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØªØ£Ø³ÙŠØ³ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø±Ø³Ù…ÙŠØ§Ù‹</span>
+						<span>اعتماد وتأسيس المشروع رسمياً</span>
 					</button>
 				` : null }
 			</div>
 			
 			<div className="columns is-variable is-6">
-				<!-- Ø¹Ù…ÙˆØ¯ Ø§Ù„ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ø±Ø¦ÙŠØ³ÙŠØ© -->
+				<!-- عمود التفاصيل الرئيسية -->
 				<div className="column is-8">
 					<div className="box wp-card p-0 mb-5">
 						${ project.cover_url ? html`
@@ -165,54 +165,54 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								
 								${ project.is_client_request ? html`
 									<span className="tag is-warning has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#fef3c7', color: '#b45309', border: '1px solid #fde68a' }}>
-										Ø·Ù„Ø¨ Ø¬Ø¯ÙŠØ¯ Ù…Ù† Ø¹Ù…ÙŠÙ„
+										طلب جديد من عميل
 									</span>
 								` : null }
 
 								${ isProjectCompleted ? html`
 									<span className="tag is-success has-text-weight-bold" style=${{ borderRadius: 0 }}>
-										<i className="dashicons dashicons-awards ml-1"></i> Ù…ÙƒØªÙ…Ù„ (${ project.progress || 100 }%)
+										<i className="dashicons dashicons-awards ml-1"></i> مكتمل (${ project.progress || 100 }%)
 									</span>
 								` : null }
 							</div>
 							
-							<div className="content has-text-grey-dark" dangerouslySetInnerHTML=${{ __html: project.description || 'Ù„Ø§ ÙŠÙˆØ¬Ø¯ ÙˆØµÙ Ù…ØªØ§Ø­.' }}></div>
+							<div className="content has-text-grey-dark" dangerouslySetInnerHTML=${{ __html: project.description || 'لا يوجد وصف متاح.' }}></div>
 							
 							<div className="is-flex is-flex-wrap-wrap mt-5 pt-4" style=${{ borderTop: '1px solid #ededed', gap: '2rem' }}>
 								<div>
-									<span className="heading has-text-grey mb-1">ØªØ§Ø±ÙŠØ® Ø§Ù„Ø¨Ø¯Ø¡</span>
-									<span className="has-text-weight-bold">${ project.start_at ? formatDate(project.start_at) : 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯' }</span>
+									<span className="heading has-text-grey mb-1">تاريخ البدء</span>
+									<span className="has-text-weight-bold">${ project.start_at ? formatDate(project.start_at) : 'غير محدد' }</span>
 								</div>
 								<div>
-									<span className="heading has-text-grey mb-1">ØªØ§Ø±ÙŠØ® Ø§Ù„ØªØ³Ù„ÙŠÙ…</span>
-									<span className="has-text-weight-bold">${ project.due_at ? formatDate(project.due_at) : (project.requested_due_date ? formatDate(project.requested_due_date) : 'ØºÙŠØ± Ù…Ø­Ø¯Ø¯') }</span>
+									<span className="heading has-text-grey mb-1">تاريخ التسليم</span>
+									<span className="has-text-weight-bold">${ project.due_at ? formatDate(project.due_at) : (project.requested_due_date ? formatDate(project.requested_due_date) : 'غير محدد') }</span>
 								</div>
 								${ project.requested_budget ? html`
 									<div>
-										<span className="heading has-text-grey mb-1">Ø§Ù„Ù…ÙŠØ²Ø§Ù†ÙŠØ© Ø§Ù„Ù…Ù‚ØªØ±Ø­Ø©</span>
+										<span className="heading has-text-grey mb-1">الميزانية المقترحة</span>
 										<span className="has-text-weight-bold has-text-success">${ project.requested_budget }</span>
 									</div>
 								` : null }
 								<div>
-									<span className="heading has-text-grey mb-1">Ø§Ù„Ø­Ø§Ù„Ø©</span>
+									<span className="heading has-text-grey mb-1">الحالة</span>
 									<span className=${`tag ${ isProjectCompleted ? 'is-success' : (project.status === 'active' ? 'is-info' : (project.status === 'pending' ? 'is-warning' : (project.status === 'archived' ? 'is-dark' : project.status))) }`} style=${{ borderRadius: 0 }}>
-										${ isProjectCompleted ? 'Ù…ÙƒØªÙ…Ù„' : (project.status === 'active' ? 'Ù†Ø´Ø·' : (project.status === 'pending' ? 'Ø·Ù„Ø¨ Ù‚ÙŠØ¯ Ø§Ù„Ù…Ø±Ø§Ø¬Ø¹Ø©' : (project.status === 'archived' ? 'Ù…Ø¤Ø±Ø´Ù' : project.status))) }
+										${ isProjectCompleted ? 'مكتمل' : (project.status === 'active' ? 'نشط' : (project.status === 'pending' ? 'طلب قيد المراجعة' : (project.status === 'archived' ? 'مؤرشف' : project.status))) }
 									</span>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!-- Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ù…ÙˆØ§ØµÙØ§Øª ÙˆØ§Ù„Ù…ØªØ·Ù„Ø¨Ø§Øª Ø§Ù„ÙÙ†ÙŠØ© Ù„Ù„Ø·Ù„Ø¨ (Client Specifications Vault) -->
+					<!-- بطاقة المواصفات والمتطلبات الفنية للطلب (Client Specifications Vault) -->
 					${ (project.is_client_request && ((project.request_specs && Object.keys(project.request_specs).length > 0) || (project.request_attachments && project.request_attachments.length > 0))) ? html`
 						<div className="box wp-card p-5 mb-5" style=${{ border: '1.5px solid #6366f1', backgroundColor: '#f8fafc', boxShadow: '0 4px 12px rgba(99,102,241,0.06)' }}>
 							<div className="is-flex is-justify-content-space-between is-align-items-center mb-3 pb-2" style=${{ borderBottom: '1px solid #e2e8f0' }}>
 								<h3 className="title is-5 mb-0 has-text-primary is-flex is-align-items-center" style=${{ gap: '8px' }}>
 									<span className="icon is-small"><i className="dashicons dashicons-portfolio"></i></span>
-									<span>Ø®Ø²ÙŠÙ†Ø© Ø§Ù„Ù…ÙˆØ§ØµÙØ§Øª ÙˆØ§Ù„Ù…Ø±ÙÙ‚Ø§Øª Ø§Ù„Ù…Ø³ØªÙ„Ù…Ø© Ù…Ù† Ø§Ù„Ø¹Ù…ÙŠÙ„ (Client Specs Vault)</span>
+									<span>خزينة المواصفات والمرفقات المستلمة من العميل (Client Specs Vault)</span>
 								</h3>
 								<span className="tag is-primary is-light" style=${{ fontWeight: '800' }}>
-									${ project.request_form_id ? `Ù‚Ø§Ù„Ø¨: ${project.request_form_id}` : 'Ø·Ù„Ø¨ Ù…Ù‡ÙŠÙƒÙ„' }
+									${ project.request_form_id ? `قالب: ${project.request_form_id}` : 'طلب مهيكل' }
 								</span>
 							</div>
 
@@ -221,7 +221,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 									${ Object.entries(project.request_specs).map(([specKey, specVal]) => {
 										let displayVal = specVal;
 										if (Array.isArray(specVal)) {
-											displayVal = specVal.join(' ØŒ ');
+											displayVal = specVal.join(' ، ');
 										}
 										return html`
 											<div key=${specKey} className="column is-6">
@@ -230,7 +230,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 														${specKey}
 													</span>
 													<span className="is-size-6 has-text-weight-bold has-text-dark" style=${{ wordBreak: 'break-word' }}>
-														${displayVal || 'â€”'}
+														${displayVal || '—'}
 													</span>
 												</div>
 											</div>
@@ -243,7 +243,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								<div className="mt-3 pt-3" style=${{ borderTop: '1px dashed #cbd5e1' }}>
 									<h4 className="is-size-7 has-text-weight-bold has-text-grey mb-2 is-flex is-align-items-center" style=${{ gap: '6px' }}>
 										<span className="icon is-small"><i className="dashicons dashicons-paperclip"></i></span>
-										<span>Ø§Ù„Ù…Ù„ÙØ§Øª ÙˆØ§Ù„Ù…Ø±ÙÙ‚Ø§Øª Ø§Ù„ÙÙ†ÙŠØ© Ø§Ù„Ù…Ø±ÙÙˆØ¹Ø© Ù…Ù† Ø§Ù„Ø¹Ù…ÙŠÙ„:</span>
+										<span>الملفات والمرفقات الفنية المرفوعة من العميل:</span>
 									</h4>
 									<div className="is-flex is-flex-wrap-wrap" style=${{ gap: '8px' }}>
 										${ project.request_attachments.map((att, idx) => html`
@@ -257,7 +257,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 												download
 											>
 												<span className="icon is-small has-text-info"><i className="dashicons dashicons-media-default"></i></span>
-												<span>${att.name || `Ù…Ø±ÙÙ‚ #${idx + 1}`}</span>
+												<span>${att.name || `مرفق #${idx + 1}`}</span>
 												${ att.size ? html`<span className="is-size-7 has-text-grey">(${att.size})</span>` : null }
 											</a>
 										`) }
@@ -267,13 +267,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						</div>
 					` : null }
 
-					<!-- Ø§Ù„Ù…Ù‡Ø§Ù… Ø§Ù„ØªØ§Ø¨Ø¹Ø© Ù„Ù„Ù…Ø´Ø±ÙˆØ¹ -->
+					<!-- المهام التابعة للمشروع -->
 					<div className="box wp-card p-5">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-4">
-							<h3 className="title is-4 mb-0">Ù…Ù‡Ø§Ù… Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</h3>
+							<h3 className="title is-4 mb-0">مهام المشروع</h3>
 							<a href="#/kanban" className="button is-small is-primary wp-card">
 								<span className="icon"><i className="dashicons dashicons-columns"></i></span>
-								<span>Ø§Ù„ÙƒØ§Ù†Ø¨Ø§Ù†</span>
+								<span>الكانبان</span>
 							</a>
 						</div>
 
@@ -281,12 +281,12 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 							search=${{
 								value: taskSearch,
 								onChange: setTaskSearch,
-								placeholder: 'Ø¨Ø­Ø« ÙÙŠ Ù…Ù‡Ø§Ù… Ø§Ù„Ù…Ø´Ø±ÙˆØ¹...',
+								placeholder: 'بحث في مهام المشروع...',
 							}}
 							filters=${[
 								{
 									key: 'status',
-									label: 'Ø§Ù„Ø­Ø§Ù„Ø©',
+									label: 'الحالة',
 									icon: 'dashicons-tag',
 									value: taskStatus,
 									onChange: setTaskStatus,
@@ -296,7 +296,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 							]}
 							totalCount=${ filteredProjectTasks.length }
 							totalUnfiltered=${ tasks.length }
-							counterLabel="Ù…Ù‡Ù…Ø©"
+							counterLabel="مهمة"
 							isFilterActive=${ isTaskFilterActive }
 							onReset=${ () => { setTaskSearch(''); setTaskStatus('all'); } }
 						/>
@@ -306,21 +306,21 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								<div className="mb-2" style=${{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 									<i className="dashicons dashicons-clipboard has-text-grey" style=${{ fontSize: '24px' }}></i>
 								</div>
-								<p className="has-text-grey-dark has-text-weight-bold mb-1">${ isTaskFilterActive ? 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù‡Ø§Ù… Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ù„ÙÙ„ØªØ± Ø§Ù„Ù…Ø­Ø¯Ø¯' : 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ù‡Ø§Ù… Ù…Ø³Ø¬Ù„Ø© ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø¨Ø¹Ø¯' }</p>
-								<p className="is-size-7 has-text-grey mb-3">${ isTaskFilterActive ? 'Ø¬Ø±Ø¨ ØªØ¹Ø¯ÙŠÙ„ Ø´Ø±ÙˆØ· Ø§Ù„Ø¨Ø­Ø« Ø£Ùˆ Ø§Ù„ÙÙ„Ø§ØªØ±' : 'ÙŠÙ…ÙƒÙ†Ùƒ Ø§Ù„Ø¨Ø¯Ø¡ Ø¨Ø¥Ø¶Ø§ÙØ© Ù…Ù‡Ø§Ù… Ù„ØªÙˆØ²ÙŠØ¹ Ø§Ù„Ø¹Ù…Ù„ Ø¹Ù„Ù‰ Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„ÙØ±ÙŠÙ‚' }</p>
+								<p className="has-text-grey-dark has-text-weight-bold mb-1">${ isTaskFilterActive ? 'لا توجد مهام مطابقة للفلتر المحدد' : 'لا توجد مهام مسجلة في هذا المشروع بعد' }</p>
+								<p className="is-size-7 has-text-grey mb-3">${ isTaskFilterActive ? 'جرب تعديل شروط البحث أو الفلاتر' : 'يمكنك البدء بإضافة مهام لتوزيع العمل على أعضاء الفريق' }</p>
 								<a href="#/kanban" className="button is-small is-primary wp-sharp-button">
 									<span className="icon is-small"><i className="dashicons dashicons-plus"></i></span>
-									<span>Ø¥Ø¯Ø§Ø±Ø© Ù…Ù‡Ø§Ù… Ø§Ù„ÙƒØ§Ù†Ø¨Ø§Ù†</span>
+									<span>إدارة مهام الكانبان</span>
 								</a>
 							</div>
 						` : html`
 							<table className="table is-fullwidth is-hoverable wp-table" style=${{ borderRadius: 0, border: '1px solid #e2e8f0' }}>
 								<thead>
 									<tr style=${{ backgroundColor: '#f8fafc' }}>
-										<th>Ø§Ù„Ù…Ø±Ø¬Ø¹</th>
-										<th>Ø§Ù„Ù…Ù‡Ù…Ø©</th>
-										<th>Ø§Ù„Ø­Ø§Ù„Ø©</th>
-										<th>Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ©</th>
+										<th>المرجع</th>
+										<th>المهمة</th>
+										<th>الحالة</th>
+										<th>الأولوية</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -330,7 +330,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 											<td className="has-text-weight-bold">${ task.title }</td>
 											<td>
 												<span className=${`tag is-light ${ task.status === 'completed' || task.status === 'closed' ? 'is-success' : (task.status === 'open' ? 'is-info' : 'is-warning') }`} style=${{ borderRadius: 0 }}>
-													${ task.status === 'completed' || task.status === 'closed' ? 'Ù…ÙƒØªÙ…Ù„Ø©' : task.status === 'open' ? 'Ù…ÙØªÙˆØ­Ø©' : 'Ù‚ÙŠØ¯ Ø§Ù„ØªÙ†ÙÙŠØ°' }
+													${ task.status === 'completed' || task.status === 'closed' ? 'مكتملة' : task.status === 'open' ? 'مفتوحة' : 'قيد التنفيذ' }
 												</span>
 											</td>
 											<td>
@@ -346,15 +346,15 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 					</div>
 				</div>
 				
-				<!-- Ø§Ù„Ø¹Ù…ÙˆØ¯ Ø§Ù„Ø¬Ø§Ù†Ø¨ÙŠ -->
+				<!-- العمود الجانبي -->
 				<div className="column is-4">
-					<!-- Ø¥Ø­ØµØ§Ø¦ÙŠØ§Øª Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² -->
+					<!-- إحصائيات الإنجاز -->
 					<div className="box wp-card p-5 mb-5">
-						<h3 className="title is-5 mb-4 has-text-weight-bold">ØªÙ‚Ø¯Ù… Ø§Ù„Ø¹Ù…Ù„</h3>
+						<h3 className="title is-5 mb-4 has-text-weight-bold">تقدم العمل</h3>
 						
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 							<span className="has-text-weight-bold is-size-3 has-text-primary">${ completionRate }%</span>
-							<span className="has-text-grey">Ù…ÙƒØªÙ…Ù„</span>
+							<span className="has-text-grey">مكتمل</span>
 						</div>
 						
 						<progress className="progress is-primary mb-5" value=${ completionRate } max="100" style=${{ borderRadius: 0, height: '8px' }}>${ completionRate }%</progress>
@@ -362,35 +362,35 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						<div className="columns is-mobile is-multiline">
 							<div className="column is-6">
 								<div className="has-background-light p-3" style=${{ border: '1px solid #e2e8f0' }}>
-									<p className="heading has-text-grey mb-1">Ø§Ù„Ù…Ù‡Ø§Ù… Ø§Ù„ÙƒÙ„ÙŠØ©</p>
+									<p className="heading has-text-grey mb-1">المهام الكلية</p>
 									<p className="title is-4 mb-0">${ totalTasks }</p>
 								</div>
 							</div>
 							<div className="column is-6">
 								<div className="has-background-light p-3" style=${{ border: '1px solid #e2e8f0' }}>
-									<p className="heading has-text-grey mb-1">Ù…ÙØªÙˆØ­Ø©</p>
+									<p className="heading has-text-grey mb-1">مفتوحة</p>
 									<p className="title is-4 mb-0">${ openTasks }</p>
 								</div>
 							</div>
 							<div className="column is-12">
 								<div className="has-background-light p-3" style=${{ border: '1px solid #e2e8f0' }}>
-									<p className="heading has-text-grey mb-1">Ù‚ÙŠØ¯ Ø§Ù„ØªÙ†ÙÙŠØ° ÙˆØ§Ù„Ù…Ø±Ø§Ø¬Ø¹Ø©</p>
+									<p className="heading has-text-grey mb-1">قيد التنفيذ والمراجعة</p>
 									<p className="title is-4 mb-0">${ inProgressTasks }</p>
 								</div>
 							</div>
 						</div>
 					</div>
 
-					<!-- Ø¨Ø·Ø§Ù‚Ø© Ø§Ù„Ø¹Ù…ÙŠÙ„ ØµØ§Ø­Ø¨ Ø§Ù„Ø·Ù„Ø¨ (Client Profile Card) -->
+					<!-- بطاقة العميل صاحب الطلب (Client Profile Card) -->
 					${ (project.is_client_request || project.client) ? html`
 						<div className="box wp-card p-5 mb-5" style=${{ border: '1.5px solid #f59e0b', backgroundColor: '#fffbeb', boxShadow: '0 4px 12px rgba(245,158,11,0.08)' }}>
 							<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
 								<h3 className="title is-6 mb-0 has-text-warning-dark has-text-weight-bold is-flex is-align-items-center" style=${{ gap: '6px' }}>
 									<i class="dashicons dashicons-businessman"></i>
-									<span>ØµØ§Ø­Ø¨ Ø§Ù„Ø·Ù„Ø¨ / Ø§Ù„Ø¹Ù…ÙŠÙ„ Ø§Ù„Ù…Ø¹ØªÙ…Ø¯</span>
+									<span>صاحب الطلب / العميل المعتمد</span>
 								</h3>
 								<span className="tag is-warning has-text-weight-bold" style=${{ borderRadius: 0, fontSize: '0.72rem' }}>
-									â­ Ø¹Ù…ÙŠÙ„
+									⭐ عميل
 								</span>
 							</div>
 
@@ -398,13 +398,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								<figure className="image is-40x40 m-0">
 									<img
 										src=${ (project.client && project.client.avatar) || '' }
-										alt=${ (project.client && project.client.display_name) || 'Ø§Ù„Ø¹Ù…ÙŠÙ„' }
+										alt=${ (project.client && project.client.display_name) || 'العميل' }
 										style=${{ borderRadius: 0, border: '2px solid #f59e0b', backgroundColor: '#fef3c7' }}
 									/>
 								</figure>
 								<div style=${{ overflow: 'hidden' }}>
 									<p className="has-text-weight-bold is-size-6 mb-0" style=${{ lineHeight: '1.3' }}>
-										${ (project.client && project.client.display_name) || 'Ø¹Ù…ÙŠÙ„ Ù…Ø³Ø¬Ù„' }
+										${ (project.client && project.client.display_name) || 'عميل مسجل' }
 									</p>
 									<p className="has-text-grey is-size-7 mb-0" style=${{ wordBreak: 'break-all' }}>
 										${ (project.client && project.client.email) || '' }
@@ -414,15 +414,15 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						</div>
 					` : null }
 
-					<!-- ÙØ±ÙŠÙ‚ Ø§Ù„Ø¹Ù…Ù„ -->
+					<!-- فريق العمل -->
 					<div className="box wp-card p-5">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-4">
-							<h3 className="title is-5 mb-0 has-text-weight-bold">Ø£Ø¹Ø¶Ø§Ø¡ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</h3>
+							<h3 className="title is-5 mb-0 has-text-weight-bold">أعضاء المشروع</h3>
 							<span className="tag is-dark" style=${{ borderRadius: 0 }}>${ members.length }</span>
 						</div>
 						
 						${ members.length === 0 ? html`
-							<p className="has-text-grey is-size-7">Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø£Ø¹Ø¶Ø§Ø¡ Ù…Ø¶Ø§ÙÙŠÙ† Ù„Ù‡Ø°Ø§ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹.</p>
+							<p className="has-text-grey is-size-7">لا يوجد أعضاء مضافين لهذا المشروع.</p>
 						` : html`
 							<div className="is-flex is-flex-direction-column" style=${{ gap: '12px' }}>
 								${ members.map( member => html`
@@ -432,7 +432,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 										</figure>
 										<div>
 											<p className="has-text-weight-bold is-size-6 mb-0" style=${{ lineHeight: '1.2' }}>${ member.display_name || member.name }</p>
-											<p className="has-text-grey is-size-7 mb-0">${ (member.role === 'manager' || member.project_role === 'manager') ? 'Ù…Ø¯ÙŠØ±' : ((member.role === 'lead' || member.project_role === 'lead') ? 'Ù‚Ø§Ø¦Ø¯' : ((member.role === 'viewer' || member.project_role === 'viewer' || member.project_role === 'client') ? 'Ù…ØªØ§Ø¨Ø¹/Ø¹Ù…ÙŠÙ„' : 'Ø¹Ø¶Ùˆ Ù…Ù†ÙØ°')) }</p>
+											<p className="has-text-grey is-size-7 mb-0">${ (member.role === 'manager' || member.project_role === 'manager') ? 'مدير' : ((member.role === 'lead' || member.project_role === 'lead') ? 'قائد' : ((member.role === 'viewer' || member.project_role === 'viewer' || member.project_role === 'client') ? 'متابع/عميل' : 'عضو منفذ')) }</p>
 										</div>
 									</div>
 								`)}

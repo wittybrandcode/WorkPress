@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import { reportsApi } from '../../api/client.js';
 import { formatDate } from '../../utils/datetime.js';
 import Loader from '../ui/Loader.js';
@@ -30,7 +30,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 			} )
 			.catch( ( err ) => {
 				console.error( err );
-				toast( 'ØªØ¹Ø°Ø± Ø¬Ù„Ø¨ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠ', 'danger' );
+				toast( 'تعذر جلب بيانات التقرير التنفيذي', 'danger' );
 			} )
 			.finally( () => setIsLoading( false ) );
 	}, [ isActive, projectId ] );
@@ -53,14 +53,14 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 		a.click();
 		document.body.removeChild( a );
 		URL.revokeObjectURL( url );
-		toast( 'ØªÙ… ØªÙ†Ø²ÙŠÙ„ ÙƒØªÙŠØ¨ Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+		toast( 'تم تنزيل كتيب المعرفة بنجاح', 'success' );
 	};
 
 	const handleCopyMarkdown = () => {
 		if ( ! navigator.clipboard ) return;
 		navigator.clipboard.writeText( markdownData ).then( () => {
 			setIsCopied( true );
-			toast( 'ØªÙ… Ù†Ø³Ø® ÙƒØªÙŠØ¨ Ø§Ù„Ù…Ø¹Ø±ÙØ© Ø¥Ù„Ù‰ Ø§Ù„Ø­Ø§ÙØ¸Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
+			toast( 'تم نسخ كتيب المعرفة إلى الحافظة بنجاح', 'success' );
 			setTimeout( () => setIsCopied( false ), 2500 );
 		} );
 	};
@@ -94,9 +94,9 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 							<i className="dashicons dashicons-chart-bar" style=${{ fontSize: '1.4rem' }}></i>
 							<div>
 								<h3 className="has-text-weight-bold is-size-6 mb-0" style=${{ color: '#0f172a' }}>
-									Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠ ÙˆÙƒØªØ§Ø¨ Ø§Ù„Ù…Ø¹Ø±ÙØ©
+									التقرير التنفيذي وكتاب المعرفة
 								</h3>
-								<p className="is-size-7 has-text-grey mb-0">${ projectName || 'Ø§Ù„Ù…Ø´Ø±ÙˆØ¹' }</p>
+								<p className="is-size-7 has-text-grey mb-0">${ projectName || 'المشروع' }</p>
 							</div>
 						</div>
 
@@ -107,14 +107,14 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 								onClick=${ () => { setActiveTab( 'report' ); sound.play( 'click' ); } }
 								style=${{ borderRadius: 0 }}
 							>
-								Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠ (PDF/Print)
+								التقرير التنفيذي (PDF/Print)
 							</button>
 							<button 
 								className=${ `button is-small ${ activeTab === 'knowledge_book' ? 'is-dark has-text-weight-bold' : 'is-light' }` }
 								onClick=${ () => { setActiveTab( 'knowledge_book' ); sound.play( 'click' ); } }
 								style=${{ borderRadius: 0 }}
 							>
-								ÙƒØªØ§Ø¨ Ø§Ù„Ù…Ø¹Ø±ÙØ© (.md)
+								كتاب المعرفة (.md)
 							</button>
 						</div>
 					</div>
@@ -126,10 +126,10 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 								className="button is-small is-primary has-text-weight-bold" 
 								onClick=${ handlePrint }
 								style=${{ borderRadius: 0, backgroundColor: '#0f172a', borderColor: '#0f172a' }}
-								title="Ø·Ø¨Ø§Ø¹Ø© Ø£Ùˆ ØªØµØ¯ÙŠØ± ÙƒÙ…Ù„Ù PDF"
+								title="طباعة أو تصدير كملف PDF"
 							>
 								<span className="dashicons dashicons-printer is-size-6 ml-1"></span>
-								Ø·Ø¨Ø§Ø¹Ø© / Ø­ÙØ¸ PDF
+								طباعة / حفظ PDF
 							</button>
 						` }
 
@@ -138,19 +138,19 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 								className="button is-small is-primary has-text-weight-bold" 
 								onClick=${ handleDownloadMarkdown }
 								style=${{ borderRadius: 0, backgroundColor: '#10b981', borderColor: '#10b981' }}
-								title="ØªÙ†Ø²ÙŠÙ„ ÙƒÙ…Ù„Ù Markdown"
+								title="تنزيل كملف Markdown"
 							>
 								<span className="dashicons dashicons-download is-size-6 ml-1"></span>
-								ØªÙ†Ø²ÙŠÙ„ (.md)
+								تنزيل (.md)
 							</button>
 							<button 
 								className="button is-small is-light" 
 								onClick=${ handleCopyMarkdown }
 								style=${{ borderRadius: 0 }}
-								title="Ù†Ø³Ø® Ø¥Ù„Ù‰ Ø§Ù„Ø­Ø§ÙØ¸Ø©"
+								title="نسخ إلى الحافظة"
 							>
 								<span className=${ `dashicons ${ isCopied ? 'dashicons-yes' : 'dashicons-admin-page' } is-size-6 ml-1` }></span>
-								${ isCopied ? 'ØªÙ… Ø§Ù„Ù†Ø³Ø®!' : 'Ù†Ø³Ø® Ø§Ù„Ù†Øµ' }
+								${ isCopied ? 'تم النسخ!' : 'نسخ النص' }
 							</button>
 						` }
 
@@ -167,13 +167,13 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 				<section className="modal-card-body p-4" style=${{ overflowY: 'auto', backgroundColor: '#f1f5f9' }}>
 					${ isLoading && html`
 						<div className="py-6 has-text-centered">
-							<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ Ø§Ø³ØªØ®Ø±Ø§Ø¬ ÙˆØªØ¬Ù…ÙŠØ¹ Ø§Ù„ØªÙ‚Ø±ÙŠØ± Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠ ÙˆÙƒØªØ§Ø¨ Ø§Ù„Ù…Ø¹Ø±ÙØ©..." size="large" />
+							<${Loader} center=${true} label="جاري استخراج وتجميع التقرير التنفيذي وكتاب المعرفة..." size="large" />
 						</div>
 					` }
 
 					${ ! isLoading && ! reportData && html`
 						<div className="notification is-danger is-light p-5 has-text-centered" style=${{ borderRadius: 0 }}>
-							ØªØ¹Ø°Ø± Ø§Ø³ØªØ¹Ø±Ø§Ø¶ Ø§Ù„ØªÙ‚Ø±ÙŠØ±. ÙŠØ±Ø¬Ù‰ Ø§Ù„ØªØ£ÙƒØ¯ Ù…Ù† ØµÙ„Ø§Ø­ÙŠØ§ØªÙƒ ÙˆØ­Ø§Ù„Ø© Ø§Ù„Ù…Ø´Ø±ÙˆØ¹.
+							تعذر استعراض التقرير. يرجى التأكد من صلاحياتك وحالة المشروع.
 						</div>
 					` }
 
@@ -183,23 +183,23 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 							<div className="wp-report-header">
 								<div>
 									<div className="wp-report-brand-title">
-										${ reportData.organization?.name || 'Ù…Ù†Ø¸ÙˆÙ…Ø© WorkPress' }
+										${ reportData.organization?.name || 'منظومة WorkPress' }
 									</div>
 									<div style=${{ fontSize: '0.85rem', color: '#64748b' }}>
-										${ reportData.organization?.description || 'ØªÙ‚Ø±ÙŠØ± Ø§Ø³ØªÙ„Ø§Ù… ÙˆØ§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø§Ù„Ù…ÙƒØªÙ…Ù„' }
+										${ reportData.organization?.description || 'تقرير استلام واعتماد المشروع المكتمل' }
 									</div>
 									<div className="mt-2" style=${{ fontSize: '0.78rem', color: '#94a3b8' }}>
-										ØªØ§Ø±ÙŠØ® Ø¥ØµØ¯Ø§Ø± Ø§Ù„ÙˆØ«ÙŠÙ‚Ø©: <strong>${ formatDate( reportData.organization?.generated_at ) }</strong>
+										تاريخ إصدار الوثيقة: <strong>${ formatDate( reportData.organization?.generated_at ) }</strong>
 									</div>
 								</div>
 
 								<div style=${{ textAlign: 'left' }}>
 									<span className="wp-report-badge">
-										<span>Ø§Ù„Ù…Ø´Ø±ÙˆØ¹:</span>
+										<span>المشروع:</span>
 										<strong>${ reportData.project?.prefix || '#' + reportData.project?.id }</strong>
 									</span>
 									<div className="mt-2" style=${{ fontSize: '0.8rem', fontWeight: 800, color: reportData.metrics?.completion_rate === 100 ? '#10b981' : '#3b82f6' }}>
-										${ reportData.metrics?.completion_rate === 100 ? 'Ù…Ø´Ø±ÙˆØ¹ Ù…ÙƒØªÙ…Ù„ ÙˆÙ…Ø¹ØªÙ…Ø¯ 100%' : `Ù‚ÙŠØ¯ Ø§Ù„ØªÙ†ÙÙŠØ° (${reportData.metrics?.completion_rate}%)` }
+										${ reportData.metrics?.completion_rate === 100 ? 'مشروع مكتمل ومعتمد 100%' : `قيد التنفيذ (${reportData.metrics?.completion_rate}%)` }
 									</div>
 								</div>
 							</div>
@@ -210,7 +210,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 									${ reportData.project?.name }
 								</h2>
 								<p style=${{ fontSize: '0.9rem', color: '#334155' }}>
-									${ reportData.project?.description || 'Ù„Ø§ ÙŠÙˆØ¬Ø¯ ÙˆØµÙ ØªÙØµÙŠÙ„ÙŠ Ø¥Ø¶Ø§ÙÙŠ Ù…Ø¯ÙˆÙ†.' }
+									${ reportData.project?.description || 'لا يوجد وصف تفصيلي إضافي مدون.' }
 								</p>
 							</div>
 
@@ -220,47 +220,47 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 									<div className="wp-report-metric-val has-text-primary">
 										${ reportData.metrics?.completion_rate }%
 									</div>
-									<div className="wp-report-metric-lbl">Ù†Ø³Ø¨Ø© Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² Ø§Ù„ÙƒÙ„ÙŠØ©</div>
+									<div className="wp-report-metric-lbl">نسبة الإنجاز الكلية</div>
 								</div>
 
 								<div className="wp-report-metric-card">
 									<div className="wp-report-metric-val">
 										${ reportData.metrics?.completed_tasks } / ${ reportData.metrics?.total_tasks }
 									</div>
-									<div className="wp-report-metric-lbl">Ø§Ù„Ù…Ù‡Ø§Ù… Ø§Ù„Ù…Ù†Ø¬Ø²Ø©</div>
+									<div className="wp-report-metric-lbl">المهام المنجزة</div>
 								</div>
 
 								<div className="wp-report-metric-card">
 									<div className="wp-report-metric-val has-text-success">
 										${ reportData.metrics?.deliverables_count }
 									</div>
-									<div className="wp-report-metric-lbl">Ø§Ù„Ø­Ù„ÙˆÙ„ Ø§Ù„Ù…Ø¹ØªÙ…Ø¯Ø©</div>
+									<div className="wp-report-metric-lbl">الحلول المعتمدة</div>
 								</div>
 
 								<div className="wp-report-metric-card">
 									<div className="wp-report-metric-val has-text-info">
-										${ reportData.kpis?.avg_cycle_time_days || 0 } ÙŠÙˆÙ…
+										${ reportData.kpis?.avg_cycle_time_days || 0 } يوم
 									</div>
-									<div className="wp-report-metric-lbl">Ù…ØªÙˆØ³Ø· Ø³Ø±Ø¹Ø© Ø§Ù„Ø­Ù„</div>
+									<div className="wp-report-metric-lbl">متوسط سرعة الحل</div>
 								</div>
 							</div>
 
 							<!-- 3. Client Specifications Vault (if available) -->
 							${ reportData.project?.specs && Object.keys( reportData.project.specs ).length > 0 && html`
 								<div>
-									<h4 className="wp-report-section-title">Ù…ÙˆØ§ØµÙØ§Øª ÙˆÙ…ØªØ·Ù„Ø¨Ø§Øª Ø§Ù„Ø·Ù„Ø¨ Ø§Ù„Ù…Ø¹ØªÙ…Ø¯Ø©</h4>
+									<h4 className="wp-report-section-title">مواصفات ومتطلبات الطلب المعتمدة</h4>
 									<table className="wp-report-table">
 										<thead>
 											<tr>
-												<th style=${{ width: '35%' }}>Ø§Ù„Ø¨Ù†Ø¯ / Ø§Ù„Ø®Ø§ØµÙŠØ©</th>
-												<th>Ø§Ù„Ù…ÙˆØ§ØµÙØ© Ø§Ù„Ù…Ø­Ø¯Ø¯Ø©</th>
+												<th style=${{ width: '35%' }}>البند / الخاصية</th>
+												<th>المواصفة المحددة</th>
 											</tr>
 										</thead>
 										<tbody>
 											${ Object.entries( reportData.project.specs ).map( ( [ label, val ] ) => html`
 												<tr key=${ label }>
 													<td><strong>${ label }</strong></td>
-													<td>${ Array.isArray( val ) ? val.join( 'ØŒ ' ) : String( val ) }</td>
+													<td>${ Array.isArray( val ) ? val.join( '، ' ) : String( val ) }</td>
 												</tr>
 											` ) }
 										</tbody>
@@ -270,11 +270,11 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 
 							<!-- 4. Verified Solutions & Deliverables Catalog -->
 							<div>
-								<h4 className="wp-report-section-title">â­ Ø®Ø²ÙŠÙ†Ø© Ø§Ù„Ø­Ù„ÙˆÙ„ ÙˆØ§Ù„Ù…Ø®Ø±Ø¬Ø§Øª Ø§Ù„ÙÙ†ÙŠØ© Ø§Ù„Ù…Ø¹ØªÙ…Ø¯Ø©</h4>
+								<h4 className="wp-report-section-title">⭐ خزينة الحلول والمخرجات الفنية المعتمدة</h4>
 								
 								${ ( ! reportData.deliverables || reportData.deliverables.length === 0 ) && html`
 									<div className="p-4 has-text-centered has-text-grey" style=${{ background: '#f8fafc', border: '1px dashed #cbd5e1' }}>
-										Ù„Ø§ ØªÙˆØ¬Ø¯ Ø­Ù„ÙˆÙ„ Ù…Ø¹ØªÙ…Ø¯Ø© Ù…Ø¯ÙˆÙ†Ø© Ø±Ø³Ù…ÙŠØ§Ù‹ ÙÙŠ Ù‡Ø°Ø§ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø­ØªÙ‰ ØªØ§Ø±ÙŠØ® Ø¥ØµØ¯Ø§Ø± Ø§Ù„ØªÙ‚Ø±ÙŠØ±.
+										لا توجد حلول معتمدة مدونة رسمياً في هذا المشروع حتى تاريخ إصدار التقرير.
 									</div>
 								` }
 
@@ -286,7 +286,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 												<span>${ deliv.task_title }</span>
 											</div>
 											<span style=${{ fontSize: '0.78rem', color: '#64748b' }}>
-												ØªØ§Ø±ÙŠØ® Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯: ${ formatDate( deliv.accepted_at ) }
+												تاريخ الاعتماد: ${ formatDate( deliv.accepted_at ) }
 											</span>
 										</div>
 
@@ -296,12 +296,12 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 
 										<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: '#475569' }}>
 											<div>
-												<span>Ø§Ù„Ù…Ù†ÙØ°: <strong>${ deliv.author_name }</strong></span>
-												<span className="mr-3">Ø§Ù„Ù…Ø¹ØªÙ…Ø¯: <strong>${ deliv.accepted_by_name }</strong></span>
+												<span>المنفذ: <strong>${ deliv.author_name }</strong></span>
+												<span className="mr-3">المعتمد: <strong>${ deliv.accepted_by_name }</strong></span>
 											</div>
 											${ deliv.attachments && deliv.attachments.length > 0 && html`
 												<span className="has-text-weight-bold">
-													${ deliv.attachments.length } Ù…Ø±ÙÙ‚ ÙÙ†ÙŠ
+													${ deliv.attachments.length } مرفق فني
 												</span>
 											` }
 										</div>
@@ -311,15 +311,15 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 
 							<!-- 5. Executive Tasks Audit Table -->
 							<div className="mt-5">
-								<h4 className="wp-report-section-title">Ø³Ø¬Ù„ ÙˆØ¬Ø¯ÙˆÙ„ Ù…Ù‡Ø§Ù… Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</h4>
+								<h4 className="wp-report-section-title">سجل وجدول مهام المشروع</h4>
 								<table className="wp-report-table">
 									<thead>
 										<tr>
-											<th style=${{ width: '12%' }}>Ø§Ù„Ø±Ù…Ø²</th>
-											<th>Ø¹Ù†ÙˆØ§Ù† Ø§Ù„Ù…Ù‡Ù…Ø©</th>
-											<th style=${{ width: '18%' }}>Ø§Ù„Ù…Ø³Ù†Ø¯ Ø¥Ù„ÙŠÙ‡</th>
-											<th style=${{ width: '15%' }}>Ø§Ù„Ø­Ø§Ù„Ø©</th>
-											<th style=${{ width: '18%' }}>ØªØ§Ø±ÙŠØ® Ø§Ù„Ø¥Ù†Ø´Ø§Ø¡</th>
+											<th style=${{ width: '12%' }}>الرمز</th>
+											<th>عنوان المهمة</th>
+											<th style=${{ width: '18%' }}>المسند إليه</th>
+											<th style=${{ width: '15%' }}>الحالة</th>
+											<th style=${{ width: '18%' }}>تاريخ الإنشاء</th>
 										</tr>
 									</thead>
 									<tbody>
@@ -333,7 +333,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 														fontWeight: 700,
 														color: t.status === 'completed' || t.status === 'closed' ? '#10b981' : ( t.status === 'in_progress' ? '#3b82f6' : '#64748b' )
 													}}>
-														${ t.status === 'completed' || t.status === 'closed' ? 'Ù…ÙƒØªÙ…Ù„Ø©' : ( t.status === 'in_progress' ? 'Ù‚ÙŠØ¯ Ø§Ù„ØªÙ†ÙÙŠØ°' : 'Ù…ÙØªÙˆØ­Ø©' ) }
+														${ t.status === 'completed' || t.status === 'closed' ? 'مكتملة' : ( t.status === 'in_progress' ? 'قيد التنفيذ' : 'مفتوحة' ) }
 													</span>
 												</td>
 												<td>${ formatDate( t.created_at ) }</td>
@@ -346,27 +346,27 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 							<!-- 6. Official Sign-off Box -->
 							<div className="wp-signoff-grid">
 								<div className="wp-signoff-box">
-									<div className="wp-signoff-role">Ù‚Ø§Ø¦Ø¯ ÙˆÙ…ÙˆØ¬Ù‡ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹</div>
+									<div className="wp-signoff-role">قائد وموجه المشروع</div>
 									<div style=${{ fontSize: '0.8rem', color: '#475569' }}>
-										${ reportData.project?.leader?.display_name || 'Ù‚Ø§Ø¦Ø¯ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹' }
+										${ reportData.project?.leader?.display_name || 'قائد المشروع' }
 									</div>
-									<div className="wp-signoff-line">Ø§Ù„ØªÙˆÙ‚ÙŠØ¹ ÙˆØ§Ù„Ø®ØªÙ… Ø§Ù„Ø±Ø³Ù…ÙŠ</div>
+									<div className="wp-signoff-line">التوقيع والختم الرسمي</div>
 								</div>
 
 								<div className="wp-signoff-box">
-									<div className="wp-signoff-role">Ù…Ù…Ø«Ù„ Ø§Ù„Ø¹Ù…ÙŠÙ„ / Ø§Ù„Ù…Ø³ØªÙÙŠØ¯</div>
+									<div className="wp-signoff-role">ممثل العميل / المستفيد</div>
 									<div style=${{ fontSize: '0.8rem', color: '#475569' }}>
-										${ reportData.project?.client_author?.display_name || 'Ø§Ù„Ø¹Ù…ÙŠÙ„ Ø§Ù„Ù…Ø¹ØªÙ…Ø¯' }
+										${ reportData.project?.client_author?.display_name || 'العميل المعتمد' }
 									</div>
-									<div className="wp-signoff-line">Ø§Ù„ØªÙˆÙ‚ÙŠØ¹ ÙˆØ§Ø³ØªÙ„Ø§Ù… Ø§Ù„Ù…Ø®Ø±Ø¬Ø§Øª</div>
+									<div className="wp-signoff-line">التوقيع واستلام المخرجات</div>
 								</div>
 
 								<div className="wp-signoff-box">
-									<div className="wp-signoff-role">Ø§Ù„Ù…Ø¯ÙŠØ± Ø§Ù„Ø¹Ø§Ù… / Ø§Ù„Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„ØªÙ†ÙÙŠØ°ÙŠØ©</div>
+									<div className="wp-signoff-role">المدير العام / الإدارة التنفيذية</div>
 									<div style=${{ fontSize: '0.8rem', color: '#475569' }}>
-										${ reportData.organization?.name || 'Ø§Ù„Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ø¹Ù„ÙŠØ§' }
+										${ reportData.organization?.name || 'الإدارة العليا' }
 									</div>
-									<div className="wp-signoff-line">Ø§Ù„Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ ÙˆØ§Ù„Ø£Ø±Ø´ÙØ©</div>
+									<div className="wp-signoff-line">الاعتماد النهائي والأرشفة</div>
 								</div>
 							</div>
 						</div>
@@ -379,7 +379,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 									${ filename }
 								</span>
 								<span style=${{ fontSize: '0.8rem', color: '#64748b' }}>
-									ØµÙŠØºØ© Markdown Ø§Ù„Ù‚ÙŠØ§Ø³ÙŠØ© Ø§Ù„Ù…Ø¬Ù‡Ø²Ø© Ù„Ù„ØªÙˆØ«ÙŠÙ‚ Ø§Ù„Ø¯Ø§Ø®Ù„ÙŠ Ùˆ GitHub Wiki
+									صيغة Markdown القياسية المجهزة للتوثيق الداخلي و GitHub Wiki
 								</span>
 							</div>
 							<textarea 

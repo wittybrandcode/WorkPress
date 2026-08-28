@@ -1,4 +1,4 @@
-﻿import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect } from '../../utils/html.js';
 import { tasksApi } from '../../api/client.js';
 import Modal from '../modals/Modal.js';
 import PriorityBadge from '../ui/PriorityBadge.js';
@@ -24,10 +24,10 @@ export default function TaskQuickPreviewModal({ isActive, onClose, taskId }) {
 	const footer = html`
 		<div className="is-flex is-justify-content-flex-end" style=${{ width: '100%' }}>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
-				<button className="button is-light wp-sharp-button" onClick=${ onClose }>Ø¥ØºÙ„Ø§Ù‚</button>
+				<button className="button is-light wp-sharp-button" onClick=${ onClose }>إغلاق</button>
 				<button className="button is-primary wp-sharp-button" onClick=${ () => { onClose(); window.location.hash = '#/tasks/' + task.id; } }>
 					<span className="icon"><i className="dashicons dashicons-external"></i></span>
-					<span>Ù…Ø¹Ø§ÙŠÙ†Ø© Ø¯Ù‚ÙŠÙ‚Ø© Ù„Ù„Ù…Ù‡Ù…Ø©</span>
+					<span>معاينة دقيقة للمهمة</span>
 				</button>
 			</div>
 		</div>
@@ -35,16 +35,16 @@ export default function TaskQuickPreviewModal({ isActive, onClose, taskId }) {
 
 	if ( isLoading || !task ) {
 		return html`
-			<${Modal} isActive=${ isActive } onClose=${ onClose } title="Ù…Ø¹Ø§ÙŠÙ†Ø© Ø³Ø±ÙŠØ¹Ø© Ù„Ù„Ù…Ù‡Ù…Ø©" size="wp-mega-modal">
+			<${Modal} isActive=${ isActive } onClose=${ onClose } title="معاينة سريعة للمهمة" size="wp-mega-modal">
 				<div className="py-6">
-					<${Loader} center=${true} size="medium" label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ø¨ÙŠØ§Ù†Ø§Øª Ø§Ù„Ù…Ù‡Ù…Ø©..." />
+					<${Loader} center=${true} size="medium" label="جاري تحميل بيانات المهمة..." />
 				</div>
 			</${Modal}>
 		`;
 	}
 
 	return html`
-		<${Modal} isActive=${ isActive } onClose=${ onClose } title="Ù…Ø¹Ø§ÙŠÙ†Ø© Ø³Ø±ÙŠØ¹Ø© Ù„Ù„Ù…Ù‡Ù…Ø©" footer=${ footer } size="wp-mega-modal">
+		<${Modal} isActive=${ isActive } onClose=${ onClose } title="معاينة سريعة للمهمة" footer=${ footer } size="wp-mega-modal">
 			<div className="p-2">
 				<div className="is-flex is-justify-content-space-between is-align-items-flex-start mb-4">
 					<div>
@@ -53,7 +53,7 @@ export default function TaskQuickPreviewModal({ isActive, onClose, taskId }) {
 							<span className="tag is-dark mr-2" style=${{ borderRadius: 0 }}>${ task.ref_key }</span>
 							<h2 className="title is-4 mb-0">${ task.title }</h2>
 						</div>
-						<p className="has-text-grey is-size-7">Ø¨ÙˆØ§Ø³Ø·Ø©: <strong>${ task.author_name || 'Ù…Ø¬Ù‡ÙˆÙ„' }</strong></p>
+						<p className="has-text-grey is-size-7">بواسطة: <strong>${ task.author_name || 'مجهول' }</strong></p>
 					</div>
 					<${PriorityBadge} priority=${ task.priority } />
 				</div>
@@ -62,8 +62,8 @@ export default function TaskQuickPreviewModal({ isActive, onClose, taskId }) {
 					<div className="notification is-success is-light p-3 mb-4 is-flex is-align-items-center" style=${{ borderRadius: 0, border: '1px solid #10b981' }}>
 						<span className="icon is-medium has-text-success mr-2"><i className="dashicons dashicons-yes-alt" style=${{ fontSize: '24px' }}></i></span>
 						<div>
-							<strong className="has-text-success-dark">Ù‡Ø°Ù‡ Ø§Ù„Ù…Ù‡Ù…Ø© Ù…ÙƒØªÙ…Ù„Ø© ÙˆÙ…ØºÙ„Ù‚Ø©</strong>
-							<p className="is-size-7 has-text-grey-dark">ØªÙ… Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ø­Ù„ Ø§Ù„Ø±Ø³Ù…ÙŠ ÙˆØ¥Ø¯Ø±Ø§Ø¬ Ø§Ù„Ù…Ù‡Ù…Ø© ÙÙŠ Ø£Ø±Ø´ÙŠÙ Ø§Ù„Ù…Ø¹Ø±ÙØ©.</p>
+							<strong className="has-text-success-dark">هذه المهمة مكتملة ومغلقة</strong>
+							<p className="is-size-7 has-text-grey-dark">تم اعتماد الحل الرسمي وإدراج المهمة في أرشيف المعرفة.</p>
 						</div>
 					</div>
 				` : null }
@@ -80,16 +80,16 @@ export default function TaskQuickPreviewModal({ isActive, onClose, taskId }) {
 
 				<div className="is-flex is-align-items-center is-justify-content-space-between">
 					<div className="is-flex is-align-items-center">
-						<span className="has-text-weight-bold ml-2">Ø§Ù„Ù…ÙƒÙ„ÙÙˆÙ†:</span>
+						<span className="has-text-weight-bold ml-2">المكلفون:</span>
 						${ task.assignees && task.assignees.length > 0 
 							? html`<${AvatarStack} users=${ task.assignees } max=${5} />` 
-							: html`<span className="has-text-grey is-size-7">ØºÙŠØ± Ù…Ø³Ù†Ø¯Ø© Ù„Ø£Ø­Ø¯</span>` 
+							: html`<span className="has-text-grey is-size-7">غير مسندة لأحد</span>` 
 						}
 					</div>
 					<div>
 						<span className="tag is-info is-light" style=${{ borderRadius: 0 }}>
 							<span className="icon is-small ml-1"><i className="dashicons dashicons-admin-comments"></i></span>
-							${ task.comment_count || 0 } Ù…Ø³Ø§Ù‡Ù…Ø©
+							${ task.comment_count || 0 } مساهمة
 						</span>
 					</div>
 				</div>
