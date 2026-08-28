@@ -1,0 +1,76 @@
+/**
+ * WorkPress CSS Module: Task Detail & Contributions Stream
+ * 
+ * Implements clean BEM classes for task header toolbar, timeline stream,
+ * contribution cards, trash overlay, and meta sidebar.
+ *
+ * @package WorkPress
+ * @subpackage CSS/Modules
+ */
+
+.wp-task-sticky-header {
+    position: sticky;
+    top: 76px;
+    z-index: 35;
+    background-color: rgba(248, 250, 252, 0.95);
+    backdrop-filter: blur(4px);
+    padding: 0.6rem 0;
+    border-bottom: 1px solid #e2e8f0;
+    margin-bottom: 1.25rem;
+}
+
+.wp-task-cover-frame {
+    border: 2px solid #0f172a;
+    border-radius: 0;
+    overflow: hidden;
+}
+
+.wp-task-timeline-empty {
+    border-radius: 0;
+    border: 1px dashed #cbd5e1;
+    background-color: #f8fafc;
+    text-align: center;
+    padding: 2rem;
+}
+
+.wp-task-contribution-card {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+    position: relative;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.wp-task-contribution-card:hover {
+    border-color: #cbd5e1;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.wp-task-trash-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 56, 96, 0.15);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    backdrop-filter: blur(3px);
+}
+
+.wp-task-sidebar-card {
+    position: sticky;
+    top: 50px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 0;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}

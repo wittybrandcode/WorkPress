@@ -38,5 +38,9 @@
 /* 10. Executive Dashboard, KPI Grids & Operational Perspectives */
 @import url('modules/dashboard.css');
 
+/* 11. Task Detail View, Timelines & Contributions Stream */
+@import url('modules/task-detail.css');
+
+
 
 
