@@ -767,7 +767,7 @@
                         `}
 
                         <!-- VIEW 1: EXECUTIVE CLIENT DASHBOARD (HOME HUB) -->
-                        ${!loading && (!selectedProjectId || activeTab === 'dashboard') && activeTab !== 'new-request' && window.WorkPressPortal?.renderPortalDashboard && window.WorkPressPortal.renderPortalDashboard({
+                        ${!loading && activeTab === 'dashboard' && window.WorkPressPortal?.renderPortalDashboard && window.WorkPressPortal.renderPortalDashboard({
                             user,
                             roleLabel,
                             projects,
@@ -777,7 +777,7 @@
                             onSelectProject: (pid) => {
                                 this.setState({ selectedProjectId: pid, activeTab: 'deliverables' });
                                 this.loadProjectDetails(pid);
-                                window.location.hash = '#/project/' + pid;
+                                window.location.hash = '#/project/' + pid + '/deliverables';
                             },
                             onOpenRequestModal: () => this.navigateToTab('new-request'),
                             onOpenDeliverableReview: (candidate) => {

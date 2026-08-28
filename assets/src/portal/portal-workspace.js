@@ -35,6 +35,127 @@ window.WorkPressPortal = window.WorkPressPortal || {};
             onFeedbackTaskChange, onFeedbackActionTypeChange, onFeedbackMsgChange, onFeedbackSubmit
         } = ctx;
 
+        // Dedicated View for "My Requests" tab
+        if (activeTab === 'my-requests') {
+            const allReqs = (requests && requests.length > 0) ? requests : projects.filter(p => p.is_client_request);
+            const REQS_PER_PAGE = 6;
+            const totalReqPages = Math.ceil(allReqs.length / REQS_PER_PAGE);
+            const paginatedReqs = allReqs.slice((reqPage - 1) * REQS_PER_PAGE, reqPage * REQS_PER_PAGE);
+
+            return html`
+                <div class="portal-workspace-wrapper">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                        <div>
+                            <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.25rem;">
+                                سجل طلبات المشاريع والخدمات المقدمة
+                            </h2>
+                            <p style="font-size: 0.85rem; color: var(--wp-text-muted);">
+                                متابعة فورية لحالة دراسة واعتماد وتحويل طلباتك الفنية إلى مشاريع قيد التنفيذ
+                            </p>
+                        </div>
+
+                        <button 
+                            class="btn-portal btn-portal-primary btn-portal-sm"
+                            onClick=${() => onNavigateToTab('new-request')}
+                        >
+                            <i class="dashicons dashicons-plus-alt2"></i>
+                            <span>تقديم طلب جديد</span>
+                        </button>
+                    </div>
+
+                    ${allReqs.length === 0 ? html`
+                        <div class="wp-portal-card portal-empty-state">
+                            <i class="dashicons dashicons-inbox portal-empty-icon"></i>
+                            <h3 class="portal-empty-title">لا توجد طلبات سابقة مسجلة</h3>
+                            <p class="portal-empty-desc">
+                                يمكنك تقديم طلب مشروع أو خدمة جديدة في أي وقت وسيقوم الفريق الفني بمراجعته واعتماده فوراً.
+                            </p>
+                            <button 
+                                class="btn-portal btn-portal-primary"
+                                onClick=${() => onNavigateToTab('new-request')}
+                            >
+                                <span>تقديم أول طلب الآن</span>
+                            </button>
+                        </div>
+                    ` : html`
+                        <div>
+                            <div class="portal-vault-grid">
+                                ${paginatedReqs.map(r => {
+                                    let statusLabel = 'طلب قيد المراجعة والدراسة';
+                                    let badgeClass = 'var(--wp-warning-light)';
+                                    let borderClass = 'var(--wp-warning-border)';
+                                    let textClass = 'var(--wp-warning-text)';
+
+                                    if (r.status === 'approved') {
+                                        statusLabel = 'معتمد ومحول لمشروع';
+                                        badgeClass = 'var(--wp-primary-light)';
+                                        borderClass = 'var(--wp-primary-border)';
+                                        textClass = '#065f46';
+                                    } else if (r.status === 'rejected') {
+                                        statusLabel = 'معتذر عنه';
+                                        badgeClass = '#fef2f2';
+                                        borderClass = '#fecaca';
+                                        textClass = '#dc2626';
+                                    }
+
+                                    return html`
+                                        <div key=${r.id} class="wp-portal-card">
+                                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
+                                                <span style="background: ${badgeClass}; border: 1px solid ${borderClass}; color: ${textClass}; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px;">
+                                                    <i class="dashicons dashicons-clock" style="font-size: 14px;"></i>
+                                                    <span>${statusLabel}</span>
+                                                </span>
+                                                <span style="font-size: 0.75rem; color: var(--wp-text-muted);">${r.created_at ? r.created_at.substring(0, 10) : ''}</span>
+                                            </div>
+                                            <h4 style="font-size: 1rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.4rem;">${r.title || r.name}</h4>
+                                            <p style="font-size: 0.85rem; color: var(--wp-text-secondary); line-height: 1.5; margin-bottom: 1rem;">${r.description || 'لا يوجد بيان إضافي.'}</p>
+                                        </div>
+                                    `;
+                                })}
+                            </div>
+
+                            ${totalReqPages > 1 ? html`
+                                <div class="portal-pagination-bar">
+                                    <button 
+                                        type="button" 
+                                        class="portal-page-btn is-nav" 
+                                        disabled=${reqPage <= 1}
+                                        onClick=${() => setReqPage(reqPage - 1)}
+                                    >
+                                        <i class="dashicons dashicons-arrow-right-alt2"></i>
+                                        <span>السابق</span>
+                                    </button>
+
+                                    <div class="portal-page-numbers">
+                                        ${Array.from({ length: totalReqPages }, (_, i) => i + 1).map(p => html`
+                                            <button 
+                                                key=${p}
+                                                type="button" 
+                                                class="portal-page-num ${p === reqPage ? 'is-active' : ''}"
+                                                onClick=${() => setReqPage(p)}
+                                            >
+                                                ${p}
+                                            </button>
+                                        `)}
+                                    </div>
+
+                                    <button 
+                                        type="button" 
+                                        class="portal-page-btn is-nav" 
+                                        disabled=${reqPage >= totalReqPages}
+                                        onClick=${() => setReqPage(reqPage + 1)}
+                                    >
+                                        <span>التالي</span>
+                                        <i class="dashicons dashicons-arrow-left-alt2"></i>
+                                    </button>
+                                </div>
+                            ` : null}
+                        </div>
+                    `}
+                </div>
+            `;
+        }
+
         return html`
             <div>
                 <!-- 1. ONBOARDING GATE (When user has 0 projects) -->
@@ -338,131 +459,6 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                         </button>
                                     </form>
                                 </div>
-                            </div>
-                        `}
-
-                        <!-- Tab 4: My Submitted Requests -->
-                        ${activeTab === 'my-requests' && html`
-                            <div>
-                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
-                                    <div>
-                                        <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.2rem;">
-                                            سجل طلبات المشاريع والخدمات المقدمة:
-                                        </h3>
-                                        <p style="font-size: 0.82rem; color: var(--wp-text-muted);">
-                                            متابعة حالة مراجعة واعتماد طلباتك من قبل الإدارة الفنية للمنظومة
-                                        </p>
-                                    </div>
-
-                                    <button 
-                                        class="btn-portal btn-portal-primary btn-portal-sm"
-                                        onClick=${() => onNavigateToTab('new-request')}
-                                    >
-                                        <i class="dashicons dashicons-plus-alt2"></i>
-                                        <span>تقديم طلب جديد</span>
-                                    </button>
-                                </div>
-
-                                ${(() => {
-                                    const allReqs = (requests && requests.length > 0) ? requests : projects.filter(p => p.is_client_request);
-                                    if (allReqs.length === 0) {
-                                        return html`
-                                            <div class="wp-portal-card portal-empty-state">
-                                                <i class="dashicons dashicons-inbox portal-empty-icon"></i>
-                                                <h3 class="portal-empty-title">لا توجد طلبات سابقة مسجلة</h3>
-                                                <p class="portal-empty-desc">
-                                                    يمكنك تقديم طلب مشروع أو خدمة جديدة في أي وقت وسيقوم الفريق الفني بمراجعته واعتماده فوراً.
-                                                </p>
-                                                <button 
-                                                    class="btn-portal btn-portal-primary"
-                                                    onClick=${() => onNavigateToTab('new-request')}
-                                                >
-                                                    <span>تقديم أول طلب الآن</span>
-                                                </button>
-                                            </div>
-                                        `;
-                                    }
-
-                                    const REQS_PER_PAGE = 6;
-                                    const totalReqPages = Math.ceil(allReqs.length / REQS_PER_PAGE);
-                                    const paginatedReqs = allReqs.slice((reqPage - 1) * REQS_PER_PAGE, reqPage * REQS_PER_PAGE);
-
-                                    return html`
-                                        <div>
-                                            <div class="portal-vault-grid">
-                                                ${paginatedReqs.map(r => {
-                                                    let statusLabel = 'طلب قيد المراجعة';
-                                                    let badgeClass = 'var(--wp-warning-light)';
-                                                    let borderClass = 'var(--wp-warning-border)';
-                                                    let textClass = 'var(--wp-warning-text)';
-
-                                                    if (r.status === 'approved') {
-                                                        statusLabel = 'معتمد ومحول لمشروع';
-                                                        badgeClass = 'var(--wp-primary-light)';
-                                                        borderClass = 'var(--wp-primary-border)';
-                                                        textClass = '#065f46';
-                                                    } else if (r.status === 'rejected') {
-                                                        statusLabel = 'معتذر عنه';
-                                                        badgeClass = '#fef2f2';
-                                                        borderClass = '#fecaca';
-                                                        textClass = '#dc2626';
-                                                    }
-
-                                                    return html`
-                                                        <div key=${r.id} class="wp-portal-card">
-                                                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.6rem;">
-                                                                <span style="background: ${badgeClass}; border: 1px solid ${borderClass}; color: ${textClass}; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; display: inline-flex; align-items: center; gap: 4px;">
-                                                                    <i class="dashicons dashicons-clock" style="font-size: 14px;"></i>
-                                                                    <span>${statusLabel}</span>
-                                                                </span>
-                                                                <span style="font-size: 0.75rem; color: var(--wp-text-muted);">${r.created_at ? r.created_at.substring(0, 10) : ''}</span>
-                                                            </div>
-                                                            <h4 style="font-size: 1rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.4rem;">${r.title || r.name}</h4>
-                                                            <p style="font-size: 0.85rem; color: var(--wp-text-secondary); line-height: 1.5; margin-bottom: 1rem;">${r.description || 'لا يوجد بيان إضافي.'}</p>
-                                                        </div>
-                                                    `;
-                                                })}
-                                            </div>
-
-                                            ${totalReqPages > 1 ? html`
-                                                <div class="portal-pagination-bar">
-                                                    <button 
-                                                        type="button" 
-                                                        class="portal-page-btn is-nav" 
-                                                        disabled=${reqPage <= 1}
-                                                        onClick=${() => setReqPage(reqPage - 1)}
-                                                    >
-                                                        <i class="dashicons dashicons-arrow-right-alt2"></i>
-                                                        <span>السابق</span>
-                                                    </button>
-
-                                                    <div class="portal-page-numbers">
-                                                        ${Array.from({ length: totalReqPages }, (_, i) => i + 1).map(p => html`
-                                                            <button 
-                                                                key=${p}
-                                                                type="button" 
-                                                                class="portal-page-num ${p === reqPage ? 'is-active' : ''}"
-                                                                onClick=${() => setReqPage(p)}
-                                                            >
-                                                                ${p}
-                                                            </button>
-                                                        `)}
-                                                    </div>
-
-                                                    <button 
-                                                        type="button" 
-                                                        class="portal-page-btn is-nav" 
-                                                        disabled=${reqPage >= totalReqPages}
-                                                        onClick=${() => setReqPage(reqPage + 1)}
-                                                    >
-                                                        <span>التالي</span>
-                                                        <i class="dashicons dashicons-arrow-left-alt2"></i>
-                                                    </button>
-                                                </div>
-                                            ` : null}
-                                        </div>
-                                    `;
-                                })()}
                             </div>
                         `}
                     </div>
