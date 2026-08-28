@@ -1,12 +1,12 @@
-import { html, useState, useEffect } from '../utils/html.js';
+﻿import { html, useState, useEffect } from '../utils/html.js';
 import { tasksApi, contributionsApi, projectsApi, usersApi } from '../api/client.js';
-import ContributionDetailModal from '../components/ContributionDetailModal.js';
-import TaskModal from '../components/TaskModal.js';
-import ConfirmModal from '../components/ConfirmModal.js';
-import Loader from '../components/Loader.js';
-import TaskChecklist from '../components/TaskChecklist.js';
-import TaskTimeTracker from '../components/TaskTimeTracker.js';
-import TaskDocuments from '../components/TaskDocuments.js';
+import ContributionDetailModal from '../components/modals/Modal.js';
+import TaskModal from '../components/modals/Modal.js';
+import ConfirmModal from '../components/modals/Modal.js';
+import Loader from '../components/ui/Loader.js';
+import TaskChecklist from '../components/tasks/TaskChecklist.js';
+import TaskTimeTracker from '../components/tasks/TaskTimeTracker.js';
+import TaskDocuments from '../components/tasks/TaskDocuments.js';
 import TaskHeaderActions from '../components/task-detail/TaskHeaderActions.js';
 import TaskContributionsStream from '../components/task-detail/TaskContributionsStream.js';
 import TaskMetaSidebar from '../components/task-detail/TaskMetaSidebar.js';
@@ -122,12 +122,12 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 			setFeaturedImage( null );
 			setFeaturedImageUrl( '' );
 			setContributionAttachments( [] );
-			toast( 'تمت إضافة المساهمة بنجاح', 'success' );
+			toast( 'ØªÙ…Øª Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø© Ø¨Ù†Ø¬Ø§Ø­', 'success' );
 			sound.play( 'button' );
 			fetchTaskData();
 		} ).catch( err => {
 			console.error( err );
-			toast( err.message || 'فشل إضافة المساهمة', 'danger' );
+			toast( err.message || 'ÙØ´Ù„ Ø¥Ø¶Ø§ÙØ© Ø§Ù„Ù…Ø³Ø§Ù‡Ù…Ø©', 'danger' );
 			sound.play( 'caution' );
 		} ).finally( () => setIsSubmitting( false ) );
 	};
@@ -152,10 +152,10 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 	
 	const handleUnassign = ( uid ) => {
 		setConfirmConfig({
-			title: 'إلغاء التكليف',
-			message: 'هل أنت متأكد من إلغاء تكليف هذا العضو؟',
+			title: 'Ø¥Ù„ØºØ§Ø¡ Ø§Ù„ØªÙƒÙ„ÙŠÙ',
+			message: 'Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø¥Ù„ØºØ§Ø¡ ØªÙƒÙ„ÙŠÙ Ù‡Ø°Ø§ Ø§Ù„Ø¹Ø¶ÙˆØŸ',
 			isDanger: true,
-			confirmText: 'إلغاء التكليف',
+			confirmText: 'Ø¥Ù„ØºØ§Ø¡ Ø§Ù„ØªÙƒÙ„ÙŠÙ',
 			onConfirm: () => {
 				const newIds = assignees.filter(a => a.id !== uid).map(a => a.id);
 				tasksApi.assignment.update( taskId, newIds ).then( () => {
@@ -171,18 +171,18 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 				<span className="icon is-large has-text-warning mb-3" style=${{ fontSize: '48px', height: '48px' }}>
 					<i className="dashicons dashicons-warning"></i>
 				</span>
-				<h2 className="title is-4 has-text-grey-dark">المهمة غير موجودة أو تم حذفها</h2>
+				<h2 className="title is-4 has-text-grey-dark">Ø§Ù„Ù…Ù‡Ù…Ø© ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯Ø© Ø£Ùˆ ØªÙ… Ø­Ø°ÙÙ‡Ø§</h2>
 				<p className="subtitle is-6 has-text-grey mt-2">
-					المعرف المطلوب (#${taskId}) غير موجود حالياً في المنظومة.
+					Ø§Ù„Ù…Ø¹Ø±Ù Ø§Ù„Ù…Ø·Ù„ÙˆØ¨ (#${taskId}) ØºÙŠØ± Ù…ÙˆØ¬ÙˆØ¯ Ø­Ø§Ù„ÙŠØ§Ù‹ ÙÙŠ Ø§Ù„Ù…Ù†Ø¸ÙˆÙ…Ø©.
 				</p>
 				<div className="buttons is-centered mt-4">
 					<a href="#/kanban" className="button is-primary wp-sharp-button" style=${{ fontWeight: '700' }}>
 						<span className="icon"><i className="dashicons dashicons-columns"></i></span>
-						<span>العودة للكانبان</span>
+						<span>Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„ÙƒØ§Ù†Ø¨Ø§Ù†</span>
 					</a>
 					<a href="#/requests" className="button is-light wp-sharp-button" style=${{ fontWeight: '700' }}>
 						<span className="icon"><i className="dashicons dashicons-email-alt"></i></span>
-						<span>وارد الطلبات</span>
+						<span>ÙˆØ§Ø±Ø¯ Ø§Ù„Ø·Ù„Ø¨Ø§Øª</span>
 					</a>
 				</div>
 			</div>
@@ -192,7 +192,7 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 	if ( ! task ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحميل تفاصيل المهمة..." size="large" />
+				<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ù‡Ù…Ø©..." size="large" />
 			</div>
 		`;
 	}
@@ -306,7 +306,7 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 					title=${ confirmConfig.title }
 					message=${ confirmConfig.message }
 					confirmText=${ confirmConfig.confirmText }
-					cancelText="إلغاء"
+					cancelText="Ø¥Ù„ØºØ§Ø¡"
 					isDanger=${ confirmConfig.isDanger }
 					onConfirm=${ () => {
 						confirmConfig.onConfirm();

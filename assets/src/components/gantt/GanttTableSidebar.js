@@ -1,5 +1,5 @@
-import { html } from '../../utils/html.js';
-import AvatarStack from '../AvatarStack.js';
+﻿import { html } from '../../utils/html.js';
+import AvatarStack from '../ui/AvatarStack.js';
 import { formatDate } from '../../utils/datetime.js';
 
 /**
@@ -23,29 +23,29 @@ export default function GanttTableSidebar({
 			<!-- Table Header (Height 58px) -->
 			<div className="wp-gantt-table-header">
 				<div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-					<span>المشروع والمهمة</span>
+					<span>Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ ÙˆØ§Ù„Ù…Ù‡Ù…Ø©</span>
 					<div className="wp-btn-group-tight" style=${{ height: '22px' }}>
 						<button 
 							type="button" 
 							className="button is-small" 
 							onClick=${ expandAllProjects }
-							title="توسيع كافة شجرة المشاريع"
+							title="ØªÙˆØ³ÙŠØ¹ ÙƒØ§ÙØ© Ø´Ø¬Ø±Ø© Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹"
 							style=${{ height: '22px', fontSize: '10px', padding: '0 5px', fontWeight: '800' }}
 						>
-							توسيع
+							ØªÙˆØ³ÙŠØ¹
 						</button>
 						<button 
 							type="button" 
 							className="button is-small" 
 							onClick=${ collapseAllProjects }
-							title="طي كافة شجرة المشاريع"
+							title="Ø·ÙŠ ÙƒØ§ÙØ© Ø´Ø¬Ø±Ø© Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹"
 							style=${{ height: '22px', fontSize: '10px', padding: '0 5px', fontWeight: '800' }}
 						>
-							طي
+							Ø·ÙŠ
 						</button>
 					</div>
 				</div>
-				<span style=${{ fontSize: '0.72rem', color: '#64748b' }}>المدة والإسناد</span>
+				<span style=${{ fontSize: '0.72rem', color: '#64748b' }}>Ø§Ù„Ù…Ø¯Ø© ÙˆØ§Ù„Ø¥Ø³Ù†Ø§Ø¯</span>
 			</div>
 
 			<!-- Table Rows List -->
@@ -101,7 +101,7 @@ export default function GanttTableSidebar({
 										<div 
 											style=${{ display: 'flex', alignItems: 'center', gap: '0.45rem', flex: 1, minWidth: 0, cursor: 'pointer' }}
 											onClick=${ () => onTaskClick && onTaskClick( task.id ) }
-											title="انقر لفتح تفاصيل المهمة والمعاينة السريعة"
+											title="Ø§Ù†Ù‚Ø± Ù„ÙØªØ­ ØªÙØ§ØµÙŠÙ„ Ø§Ù„Ù…Ù‡Ù…Ø© ÙˆØ§Ù„Ù…Ø¹Ø§ÙŠÙ†Ø© Ø§Ù„Ø³Ø±ÙŠØ¹Ø©"
 										>
 											<span style=${{ width: '6px', height: '6px', flexShrink: 0, backgroundColor: [ 'completed', 'closed' ].includes( task.status ) ? '#10b981' : ( [ 'in_progress', 'in_review' ].includes( task.status ) ? '#f59e0b' : '#3b82f6' ) }}></span>
 											<div style=${{ flex: 1, minWidth: 0 }}>
@@ -110,8 +110,8 @@ export default function GanttTableSidebar({
 												</div>
 												<div style=${{ fontSize: '0.67rem', color: isOverdue ? '#dc2626' : '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
 													<span>${ formatDate( metrics.createdDate, { short: true } ) } - ${ formatDate( metrics.dueDate, { short: true } ) }</span>
-													<span>(${ metrics.durationDays } يوم)</span>
-													${ isOverdue ? html`<span style=${{ fontWeight: '800', color: '#dc2626' }}>[متأخرة]</span>` : null }
+													<span>(${ metrics.durationDays } ÙŠÙˆÙ…)</span>
+													${ isOverdue ? html`<span style=${{ fontWeight: '800', color: '#dc2626' }}>[Ù…ØªØ£Ø®Ø±Ø©]</span>` : null }
 												</div>
 											</div>
 										</div>

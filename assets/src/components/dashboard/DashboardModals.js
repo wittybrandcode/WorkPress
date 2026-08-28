@@ -1,12 +1,12 @@
-import { html } from '../../utils/html.js';
-import TaskModal from '../TaskModal.js';
-import ProjectModal from '../ProjectModal.js';
-import TaskAssignmentModal from '../TaskAssignmentModal.js';
-import ContributionModal from '../ContributionModal.js';
-import ContributionDetailModal from '../ContributionDetailModal.js';
-import ProjectMembersModal from '../ProjectMembersModal.js';
-import ConfirmModal from '../ConfirmModal.js';
-import ReportModal from '../ReportModal.js';
+﻿import { html } from '../../utils/html.js';
+import TaskModal from '../modals/Modal.js';
+import ProjectModal from '../modals/Modal.js';
+import TaskAssignmentModal from '../modals/Modal.js';
+import ContributionModal from '../modals/Modal.js';
+import ContributionDetailModal from '../modals/Modal.js';
+import ProjectMembersModal from '../modals/Modal.js';
+import ConfirmModal from '../modals/Modal.js';
+import ReportModal from '../modals/Modal.js';
 
 /**
  * Shared Modals Container for Dashboard Operations

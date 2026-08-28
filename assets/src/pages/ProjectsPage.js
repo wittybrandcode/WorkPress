@@ -1,13 +1,13 @@
-import { html, useState, useEffect, useRef } from '../utils/html.js';
+﻿import { html, useState, useEffect, useRef } from '../utils/html.js';
 import { projectsApi } from '../api/client.js';
-import ProjectCard from '../components/ProjectCard.js';
-import ProjectModal from '../components/ProjectModal.js';
-import ProjectMembersModal from '../components/ProjectMembersModal.js';
-import TaskModal from '../components/TaskModal.js';
-import ProjectQuickPreviewModal from '../components/ProjectQuickPreviewModal.js';
-import ConfirmModal from '../components/ConfirmModal.js';
-import FilterBar from '../components/FilterBar.js';
-import Loader from '../components/Loader.js';
+import ProjectCard from '../components/projects/ProjectCard.js';
+import ProjectModal from '../components/modals/Modal.js';
+import ProjectMembersModal from '../components/modals/Modal.js';
+import TaskModal from '../components/modals/Modal.js';
+import ProjectQuickPreviewModal from '../components/modals/Modal.js';
+import ConfirmModal from '../components/modals/Modal.js';
+import FilterBar from '../components/ui/FilterBar.js';
+import Loader from '../components/ui/Loader.js';
 import { toast } from '../utils/toast.js';
 
 export default function ProjectsPage({ refreshKey }) {
@@ -95,10 +95,10 @@ export default function ProjectsPage({ refreshKey }) {
 		setProjects(prev => prev.map(p => p.id === project.id ? { ...p, status: 'active', is_pending_trash: false } : p));
 		
 		projectsApi.update( project.id, { status: 'active' } ).then( () => {
-			toast('تم استعادة المشروع بنجاح', 'success');
+			toast('ØªÙ… Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ø¨Ù†Ø¬Ø§Ø­', 'success');
 			fetchProjects();
 		} ).catch( err => {
-			toast( err.message || 'فشل استعادة المشروع', 'danger' );
+			toast( err.message || 'ÙØ´Ù„ Ø§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ù…Ø´Ø±ÙˆØ¹', 'danger' );
 			fetchProjects(); // Revert on error
 		});
 	};
@@ -108,9 +108,9 @@ export default function ProjectsPage({ refreshKey }) {
 			// Hard delete for pending trash projects (Admin only)
 			setConfirmModalConfig({
 				isActive: true,
-				title: 'تأكيد الحذف النهائي',
-				message: `هل أنت متأكد من الموافقة على طلب الحذف ومسح مشروع "${project.name}" نهائياً؟`,
-				confirmText: 'موافقة وحذف',
+				title: 'ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø­Ø°Ù Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ',
+				message: `Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø§Ù„Ù…ÙˆØ§ÙÙ‚Ø© Ø¹Ù„Ù‰ Ø·Ù„Ø¨ Ø§Ù„Ø­Ø°Ù ÙˆÙ…Ø³Ø­ Ù…Ø´Ø±ÙˆØ¹ "${project.name}" Ù†Ù‡Ø§Ø¦ÙŠØ§Ù‹ØŸ`,
+				confirmText: 'Ù…ÙˆØ§ÙÙ‚Ø© ÙˆØ­Ø°Ù',
 				confirmColor: 'is-danger',
 				isDangerous: true,
 				requiresReason: false,
@@ -123,11 +123,11 @@ export default function ProjectsPage({ refreshKey }) {
 					
 					projectsApi.delete( project.id ).then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast('تم حذف المشروع نهائياً', 'success');
+						toast('ØªÙ… Ø­Ø°Ù Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Ù†Ù‡Ø§Ø¦ÙŠØ§Ù‹', 'success');
 						fetchProjects();
 					} ).catch( err => {
 						setConfirmModalConfig({ isActive: false });
-						toast( err.message || 'فشل الحذف النهائي.', 'danger' );
+						toast( err.message || 'ÙØ´Ù„ Ø§Ù„Ø­Ø°Ù Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ.', 'danger' );
 						fetchProjects(); // Revert on error
 					} );
 				}
@@ -137,13 +137,13 @@ export default function ProjectsPage({ refreshKey }) {
 
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'طلب حذف / أرشفة',
-			message: `أنت على وشك طلب أرشفة/إخفاء مشروع "${project.name}". الرجاء توضيح السبب ليتم اعتماده من الإدارة.`,
-			confirmText: 'إرسال الطلب',
+			title: 'Ø·Ù„Ø¨ Ø­Ø°Ù / Ø£Ø±Ø´ÙØ©',
+			message: `Ø£Ù†Øª Ø¹Ù„Ù‰ ÙˆØ´Ùƒ Ø·Ù„Ø¨ Ø£Ø±Ø´ÙØ©/Ø¥Ø®ÙØ§Ø¡ Ù…Ø´Ø±ÙˆØ¹ "${project.name}". Ø§Ù„Ø±Ø¬Ø§Ø¡ ØªÙˆØ¶ÙŠØ­ Ø§Ù„Ø³Ø¨Ø¨ Ù„ÙŠØªÙ… Ø§Ø¹ØªÙ…Ø§Ø¯Ù‡ Ù…Ù† Ø§Ù„Ø¥Ø¯Ø§Ø±Ø©.`,
+			confirmText: 'Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨',
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'سبب الأرشفة/الحذف',
+			reasonLabel: 'Ø³Ø¨Ø¨ Ø§Ù„Ø£Ø±Ø´ÙØ©/Ø§Ù„Ø­Ø°Ù',
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
@@ -153,11 +153,11 @@ export default function ProjectsPage({ refreshKey }) {
 				
 				projectsApi.trashRequest( project.id, reason ).then( () => {
 					setConfirmModalConfig({ isActive: false });
-					toast('تم إرسال طلب الحذف/الأرشفة بنجاح.', 'info');
+					toast('ØªÙ… Ø¥Ø±Ø³Ø§Ù„ Ø·Ù„Ø¨ Ø§Ù„Ø­Ø°Ù/Ø§Ù„Ø£Ø±Ø´ÙØ© Ø¨Ù†Ø¬Ø§Ø­.', 'info');
 					fetchProjects();
 				} ).catch( err => {
 					setConfirmModalConfig({ isActive: false });
-					toast( err.message || 'فشل إرسال الطلب.', 'danger' );
+					toast( err.message || 'ÙØ´Ù„ Ø¥Ø±Ø³Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨.', 'danger' );
 					fetchProjects(); // Revert on error
 				} );
 			}
@@ -170,12 +170,12 @@ export default function ProjectsPage({ refreshKey }) {
 	};
 
 	const statusOptions = [
-		{ value: 'all', label: 'جميع الحالات' },
-		{ value: 'active', label: 'نشطة' },
-		{ value: 'pending', label: 'طلبات المستفيدين المعلقة' },
-		{ value: 'frozen', label: 'في الثلاجة (مجمدة)' },
-		{ value: 'completed', label: 'مكتملة' },
-		{ value: 'archived', label: 'مؤرشفة' }
+		{ value: 'all', label: 'Ø¬Ù…ÙŠØ¹ Ø§Ù„Ø­Ø§Ù„Ø§Øª' },
+		{ value: 'active', label: 'Ù†Ø´Ø·Ø©' },
+		{ value: 'pending', label: 'Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ù…Ø³ØªÙÙŠØ¯ÙŠÙ† Ø§Ù„Ù…Ø¹Ù„Ù‚Ø©' },
+		{ value: 'frozen', label: 'ÙÙŠ Ø§Ù„Ø«Ù„Ø§Ø¬Ø© (Ù…Ø¬Ù…Ø¯Ø©)' },
+		{ value: 'completed', label: 'Ù…ÙƒØªÙ…Ù„Ø©' },
+		{ value: 'archived', label: 'Ù…Ø¤Ø±Ø´ÙØ©' }
 	];
 
 	const isFilterActive = Boolean( searchQuery || selectedStatus !== 'all' );
@@ -188,7 +188,7 @@ export default function ProjectsPage({ refreshKey }) {
 	if ( projects === null ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحميل شبكة المشاريع..." size="large" />
+				<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ø´Ø¨ÙƒØ© Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹..." size="large" />
 			</div>
 		`;
 	}
@@ -226,7 +226,7 @@ export default function ProjectsPage({ refreshKey }) {
 						style=${{ fontWeight: '800', backgroundColor: '#fef3c7', color: '#92400e', border: '1px solid #fde68a' }}
 					>
 						<span className="icon"><i className="dashicons dashicons-email-alt"></i></span>
-						<span>وارد طلبات العملاء</span>
+						<span>ÙˆØ§Ø±Ø¯ Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡</span>
 					</a>
 					<a 
 						href="#/forms"
@@ -234,7 +234,7 @@ export default function ProjectsPage({ refreshKey }) {
 						style=${{ fontWeight: '700' }}
 					>
 						<span className="icon"><i className="dashicons dashicons-forms"></i></span>
-						<span>إدارة نماذج استقبال الطلبات</span>
+						<span>Ø¥Ø¯Ø§Ø±Ø© Ù†Ù…Ø§Ø°Ø¬ Ø§Ø³ØªÙ‚Ø¨Ø§Ù„ Ø§Ù„Ø·Ù„Ø¨Ø§Øª</span>
 					</a>
 				</div>
 			</div>
@@ -243,12 +243,12 @@ export default function ProjectsPage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'بحث في المشاريع (الاسم، الرمز، الوصف)...',
+					placeholder: 'Ø¨Ø­Ø« ÙÙŠ Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ (Ø§Ù„Ø§Ø³Ù…ØŒ Ø§Ù„Ø±Ù…Ø²ØŒ Ø§Ù„ÙˆØµÙ)...',
 				}}
 				filters=${[
 					{
 						key: 'status',
-						label: 'الحالة',
+						label: 'Ø§Ù„Ø­Ø§Ù„Ø©',
 						icon: 'dashicons-tag',
 						value: selectedStatus,
 						onChange: setSelectedStatus,
@@ -258,7 +258,7 @@ export default function ProjectsPage({ refreshKey }) {
 				]}
 				totalCount=${ filteredProjects.length }
 				totalUnfiltered=${ projects.length }
-				counterLabel="مشروع"
+				counterLabel="Ù…Ø´Ø±ÙˆØ¹"
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
@@ -285,22 +285,22 @@ export default function ProjectsPage({ refreshKey }) {
 								<i className="dashicons dashicons-category has-text-primary" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i>
 							</div>
 							<h3 className="title is-5 mb-2 has-text-weight-bold has-text-dark">
-								${ isFilterActive ? 'لا توجد مشاريع مطابقة للبحث' : 'لا توجد مشاريع في مساحة العمل بعد' }
+								${ isFilterActive ? 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ø´Ø§Ø±ÙŠØ¹ Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ù„Ø¨Ø­Ø«' : 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ù…Ø´Ø§Ø±ÙŠØ¹ ÙÙŠ Ù…Ø³Ø§Ø­Ø© Ø§Ù„Ø¹Ù…Ù„ Ø¨Ø¹Ø¯' }
 							</h3>
 							<p className="has-text-grey is-size-6 mb-5" style=${{ maxWidth: '460px', margin: '0 auto' }}>
 								${ isFilterActive 
-									? 'جرب تعديل شروط البحث أو الفلاتر المختارة للعثور على المشاريع المطلوبة.' 
-									: 'المشاريع هي الحاوية الكبرى للمهام والمساهمات الفنية. ابدأ الآن بإنشاء أول مشروع لفريقك.' }
+									? 'Ø¬Ø±Ø¨ ØªØ¹Ø¯ÙŠÙ„ Ø´Ø±ÙˆØ· Ø§Ù„Ø¨Ø­Ø« Ø£Ùˆ Ø§Ù„ÙÙ„Ø§ØªØ± Ø§Ù„Ù…Ø®ØªØ§Ø±Ø© Ù„Ù„Ø¹Ø«ÙˆØ± Ø¹Ù„Ù‰ Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ Ø§Ù„Ù…Ø·Ù„ÙˆØ¨Ø©.' 
+									: 'Ø§Ù„Ù…Ø´Ø§Ø±ÙŠØ¹ Ù‡ÙŠ Ø§Ù„Ø­Ø§ÙˆÙŠØ© Ø§Ù„ÙƒØ¨Ø±Ù‰ Ù„Ù„Ù…Ù‡Ø§Ù… ÙˆØ§Ù„Ù…Ø³Ø§Ù‡Ù…Ø§Øª Ø§Ù„ÙÙ†ÙŠØ©. Ø§Ø¨Ø¯Ø£ Ø§Ù„Ø¢Ù† Ø¨Ø¥Ù†Ø´Ø§Ø¡ Ø£ÙˆÙ„ Ù…Ø´Ø±ÙˆØ¹ Ù„ÙØ±ÙŠÙ‚Ùƒ.' }
 							</p>
 							${ isFilterActive ? html`
 								<button className="button is-light wp-sharp-button" onClick=${ handleResetFilters }>
 									<span className="icon"><i className="dashicons dashicons-image-rotate"></i></span>
-									<span>إعادة ضبط الفلاتر</span>
+									<span>Ø¥Ø¹Ø§Ø¯Ø© Ø¶Ø¨Ø· Ø§Ù„ÙÙ„Ø§ØªØ±</span>
 								</button>
 							` : html`
 								<button className="button is-primary wp-sharp-button" onClick=${ handleCreateClick }>
 									<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-									<span>إنشاء أول مشروع</span>
+									<span>Ø¥Ù†Ø´Ø§Ø¡ Ø£ÙˆÙ„ Ù…Ø´Ø±ÙˆØ¹</span>
 								</button>
 							` }
 						</div>
@@ -315,7 +315,7 @@ export default function ProjectsPage({ refreshKey }) {
 						onClick=${ () => fetchProjects( page + 1, true ) }
 						style=${{ border: '2px solid #0f172a' }}
 					>
-						تحميل المزيد
+						ØªØ­Ù…ÙŠÙ„ Ø§Ù„Ù…Ø²ÙŠØ¯
 					</button>
 				</div>
 			` : null }

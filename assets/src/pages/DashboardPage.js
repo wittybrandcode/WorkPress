@@ -1,7 +1,7 @@
-import { html, useState, useEffect } from '../utils/html.js';
+﻿import { html, useState, useEffect } from '../utils/html.js';
 import { projectsApi, tasksApi, knowledgeApi, contributionsApi } from '../api/client.js';
 import { toast } from '../utils/toast.js';
-import Loader from '../components/Loader.js';
+import Loader from '../components/ui/Loader.js';
 import DashboardPerspectiveToolbar from '../components/dashboard/DashboardPerspectiveToolbar.js';
 import AdminPerspectiveView from '../components/dashboard/AdminPerspectiveView.js';
 import LeadPerspectiveView from '../components/dashboard/LeadPerspectiveView.js';
@@ -87,7 +87,7 @@ export default function DashboardPage() {
 			}
 		} ).catch( err => {
 			console.error( 'CoWorkPress data error:', err );
-			toast( 'تعذر تحميل بيانات مساحة العمل', 'danger' );
+			toast( 'ØªØ¹Ø°Ø± ØªØ­Ù…ÙŠÙ„ Ø¨ÙŠØ§Ù†Ø§Øª Ù…Ø³Ø§Ø­Ø© Ø§Ù„Ø¹Ù…Ù„', 'danger' );
 		} ).finally( () => setIsLoading( false ) );
 	};
 
@@ -164,18 +164,18 @@ export default function DashboardPage() {
 
 		if ( apiCall ) {
 			apiCall.then( () => {
-				toast( 'تم رفض طلب الحذف واستعادة العنصر بنجاح', 'success' );
+				toast( 'ØªÙ… Ø±ÙØ¶ Ø·Ù„Ø¨ Ø§Ù„Ø­Ø°Ù ÙˆØ§Ø³ØªØ¹Ø§Ø¯Ø© Ø§Ù„Ø¹Ù†ØµØ± Ø¨Ù†Ø¬Ø§Ø­', 'success' );
 				fetchData();
-			} ).catch( () => toast( 'حدث خطأ أثناء الاستعادة', 'danger' ) );
+			} ).catch( () => toast( 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ù„Ø§Ø³ØªØ¹Ø§Ø¯Ø©', 'danger' ) );
 		}
 	};
 
 	const handleDeleteItem = ( entityType, id ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'تأكيد الحذف النهائي',
-			message: 'هل أنت متأكد من حذف هذا العنصر نهائياً؟ هذا الإجراء لا يمكن التراجع عنه.',
-			confirmText: 'حذف نهائي',
+			title: 'ØªØ£ÙƒÙŠØ¯ Ø§Ù„Ø­Ø°Ù Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ',
+			message: 'Ù‡Ù„ Ø£Ù†Øª Ù…ØªØ£ÙƒØ¯ Ù…Ù† Ø­Ø°Ù Ù‡Ø°Ø§ Ø§Ù„Ø¹Ù†ØµØ± Ù†Ù‡Ø§Ø¦ÙŠØ§Ù‹ØŸ Ù‡Ø°Ø§ Ø§Ù„Ø¥Ø¬Ø±Ø§Ø¡ Ù„Ø§ ÙŠÙ…ÙƒÙ† Ø§Ù„ØªØ±Ø§Ø¬Ø¹ Ø¹Ù†Ù‡.',
+			confirmText: 'Ø­Ø°Ù Ù†Ù‡Ø§Ø¦ÙŠ',
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			onConfirm: () => {
@@ -186,11 +186,11 @@ export default function DashboardPage() {
 
 				if ( apiCall ) {
 					apiCall.then( () => {
-						toast( 'تم الحذف النهائي بنجاح', 'success' );
+						toast( 'ØªÙ… Ø§Ù„Ø­Ø°Ù Ø§Ù„Ù†Ù‡Ø§Ø¦ÙŠ Ø¨Ù†Ø¬Ø§Ø­', 'success' );
 						setConfirmModalConfig( { isActive: false } );
 						fetchData();
 					} ).catch( () => {
-						toast( 'حدث خطأ أثناء الحذف', 'danger' );
+						toast( 'Ø­Ø¯Ø« Ø®Ø·Ø£ Ø£Ø«Ù†Ø§Ø¡ Ø§Ù„Ø­Ø°Ù', 'danger' );
 						setConfirmModalConfig( { isActive: false } );
 					} );
 				}
@@ -201,7 +201,7 @@ export default function DashboardPage() {
 	if ( isLoading ) {
 		return html`
 			<div className="admin-workspace py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحضير مساحة العمل CoWorkPress..." size="large" />
+				<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ ØªØ­Ø¶ÙŠØ± Ù…Ø³Ø§Ø­Ø© Ø§Ù„Ø¹Ù…Ù„ CoWorkPress..." size="large" />
 			</div>
 		`;
 	}

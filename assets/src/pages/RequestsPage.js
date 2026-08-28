@@ -1,15 +1,15 @@
-import { html, useState, useEffect } from '../utils/html.js';
+﻿import { html, useState, useEffect } from '../utils/html.js';
 import { projectsApi, usersApi } from '../api/client.js';
-import Loader from '../components/Loader.js';
+import Loader from '../components/ui/Loader.js';
 import { isStaffUser } from '../utils/userScope.js';
 import { toast } from '../utils/toast.js';
 import sound from '../utils/sound.js';
-import RequestFilterBar from '../components/requests/RequestFilterBar.js';
+import RequestFilterBar from '../components/ui/FilterBar.js';
 import RequestCardsView from '../components/requests/RequestCardsView.js';
 import RequestTriageBoard from '../components/requests/RequestTriageBoard.js';
 import RequestTableView from '../components/requests/RequestTableView.js';
-import RequestConversionModal from '../components/requests/RequestConversionModal.js';
-import RequestEvaluationModal from '../components/requests/RequestEvaluationModal.js';
+import RequestConversionModal from '../components/modals/Modal.js';
+import RequestEvaluationModal from '../components/modals/Modal.js';
 
 /**
  * WorkPress Request Studio & Triage Page (Lean Controller)
@@ -105,13 +105,13 @@ export default function RequestsPage({ refreshKey }) {
 			} );
 
 			sound.play( 'celebration' );
-			toast( `تم اعتماد وتأسيس المشروع «${approvingProject.name}» بنجاح`, 'success' );
+			toast( `ØªÙ… Ø§Ø¹ØªÙ…Ø§Ø¯ ÙˆØªØ£Ø³ÙŠØ³ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ Â«${approvingProject.name}Â» Ø¨Ù†Ø¬Ø§Ø­`, 'success' );
 			setApprovingProject( null );
 			setIsApproving( false );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل اعتماد المشروع، يرجى المحاولة ثانية.', 'danger' );
+			toast( err.message || 'ÙØ´Ù„ Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ù…Ø´Ø±ÙˆØ¹ØŒ ÙŠØ±Ø¬Ù‰ Ø§Ù„Ù…Ø­Ø§ÙˆÙ„Ø© Ø«Ø§Ù†ÙŠØ©.', 'danger' );
 			setIsApproving( false );
 		}
 	};
@@ -131,13 +131,13 @@ export default function RequestsPage({ refreshKey }) {
 				review_notes: reviewNotes,
 			} );
 			sound.play( 'button' );
-			toast( `تم تحويل الطلب «${reviewingProject.name}» إلى قيد الدراسة وإشعار العميل مع التبرير`, 'info' );
+			toast( `ØªÙ… ØªØ­ÙˆÙŠÙ„ Ø§Ù„Ø·Ù„Ø¨ Â«${reviewingProject.name}Â» Ø¥Ù„Ù‰ Ù‚ÙŠØ¯ Ø§Ù„Ø¯Ø±Ø§Ø³Ø© ÙˆØ¥Ø´Ø¹Ø§Ø± Ø§Ù„Ø¹Ù…ÙŠÙ„ Ù…Ø¹ Ø§Ù„ØªØ¨Ø±ÙŠØ±`, 'info' );
 			setReviewingProject( null );
 			setIsReviewing( false );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل تحديث حالة الطلب', 'danger' );
+			toast( err.message || 'ÙØ´Ù„ ØªØ­Ø¯ÙŠØ« Ø­Ø§Ù„Ø© Ø§Ù„Ø·Ù„Ø¨', 'danger' );
 			setIsReviewing( false );
 		}
 	};
@@ -157,13 +157,13 @@ export default function RequestsPage({ refreshKey }) {
 				rejection_reason: rejectionReason,
 			} );
 			sound.play( 'caution' );
-			toast( `تم رفض الطلب «${rejectingProject.name}» وتسجيل المبررات وإشعار العميل`, 'warning' );
+			toast( `ØªÙ… Ø±ÙØ¶ Ø§Ù„Ø·Ù„Ø¨ Â«${rejectingProject.name}Â» ÙˆØªØ³Ø¬ÙŠÙ„ Ø§Ù„Ù…Ø¨Ø±Ø±Ø§Øª ÙˆØ¥Ø´Ø¹Ø§Ø± Ø§Ù„Ø¹Ù…ÙŠÙ„`, 'warning' );
 			setRejectingProject( null );
 			setIsRejecting( false );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل تسجيل رفض الطلب', 'danger' );
+			toast( err.message || 'ÙØ´Ù„ ØªØ³Ø¬ÙŠÙ„ Ø±ÙØ¶ Ø§Ù„Ø·Ù„Ø¨', 'danger' );
 			setIsRejecting( false );
 		}
 	};
@@ -172,18 +172,18 @@ export default function RequestsPage({ refreshKey }) {
 		try {
 			await projectsApi.update( projectId, { status: newStatus } );
 			sound.play( newStatus === 'active' ? 'celebration' : 'button' );
-			toast( `تم تحديث حالة الطلب إلى: ${newStatus === 'active' ? 'معتمد ونشط' : (newStatus === 'under_review' ? 'قيد الدراسة' : (newStatus === 'rejected' ? 'مرفوض' : 'قيد المراجعة'))}`, 'success' );
+			toast( `ØªÙ… ØªØ­Ø¯ÙŠØ« Ø­Ø§Ù„Ø© Ø§Ù„Ø·Ù„Ø¨ Ø¥Ù„Ù‰: ${newStatus === 'active' ? 'Ù…Ø¹ØªÙ…Ø¯ ÙˆÙ†Ø´Ø·' : (newStatus === 'under_review' ? 'Ù‚ÙŠØ¯ Ø§Ù„Ø¯Ø±Ø§Ø³Ø©' : (newStatus === 'rejected' ? 'Ù…Ø±ÙÙˆØ¶' : 'Ù‚ÙŠØ¯ Ø§Ù„Ù…Ø±Ø§Ø¬Ø¹Ø©'))}`, 'success' );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل تحديث الحالة', 'danger' );
+			toast( err.message || 'ÙØ´Ù„ ØªØ­Ø¯ÙŠØ« Ø§Ù„Ø­Ø§Ù„Ø©', 'danger' );
 		}
 	};
 
 	if ( projects === null ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحميل محرك فرز طلبات العملاء..." size="large" />
+				<${Loader} center=${true} label="Ø¬Ø§Ø±ÙŠ ØªØ­Ù…ÙŠÙ„ Ù…Ø­Ø±Ùƒ ÙØ±Ø² Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡..." size="large" />
 			</div>
 		`;
 	}
@@ -265,11 +265,11 @@ export default function RequestsPage({ refreshKey }) {
 					<span className="icon is-large has-text-grey-light mb-3" style=${{ fontSize: '48px', height: '48px' }}>
 						<i className="dashicons dashicons-email-alt"></i>
 					</span>
-					<h3 className="title is-4 has-text-grey-dark">لا توجد طلبات عملاء مطابقة للفرز حالياً</h3>
+					<h3 className="title is-4 has-text-grey-dark">Ù„Ø§ ØªÙˆØ¬Ø¯ Ø·Ù„Ø¨Ø§Øª Ø¹Ù…Ù„Ø§Ø¡ Ù…Ø·Ø§Ø¨Ù‚Ø© Ù„Ù„ÙØ±Ø² Ø­Ø§Ù„ÙŠØ§Ù‹</h3>
 					<p className="subtitle is-6 has-text-grey mt-2">
 						${totalRequests === 0 
-							? 'لم يتم تقديم أي طلبات مشاريع جديدة من بوابة العملاء حتى اللحظة.' 
-							: 'لا توجد طلبات تطابق معايير الفرز أو البحث المحددة.'
+							? 'Ù„Ù… ÙŠØªÙ… ØªÙ‚Ø¯ÙŠÙ… Ø£ÙŠ Ø·Ù„Ø¨Ø§Øª Ù…Ø´Ø§Ø±ÙŠØ¹ Ø¬Ø¯ÙŠØ¯Ø© Ù…Ù† Ø¨ÙˆØ§Ø¨Ø© Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡ Ø­ØªÙ‰ Ø§Ù„Ù„Ø­Ø¸Ø©.' 
+							: 'Ù„Ø§ ØªÙˆØ¬Ø¯ Ø·Ù„Ø¨Ø§Øª ØªØ·Ø§Ø¨Ù‚ Ù…Ø¹Ø§ÙŠÙŠØ± Ø§Ù„ÙØ±Ø² Ø£Ùˆ Ø§Ù„Ø¨Ø­Ø« Ø§Ù„Ù…Ø­Ø¯Ø¯Ø©.'
 						}
 					</p>
 					<div className="mt-4 is-flex is-justify-content-center" style=${{ gap: '10px' }}>
@@ -280,7 +280,7 @@ export default function RequestsPage({ refreshKey }) {
 							style=${{ fontWeight: '700' }}
 						>
 							<span className="icon"><i className="dashicons dashicons-external"></i></span>
-							<span>فتح استوديو طلبات العملاء للتجربة</span>
+							<span>ÙØªØ­ Ø§Ø³ØªÙˆØ¯ÙŠÙˆ Ø·Ù„Ø¨Ø§Øª Ø§Ù„Ø¹Ù…Ù„Ø§Ø¡ Ù„Ù„ØªØ¬Ø±Ø¨Ø©</span>
 						</a>
 						<a 
 							href="#/forms" 
@@ -288,7 +288,7 @@ export default function RequestsPage({ refreshKey }) {
 							style=${{ fontWeight: '700' }}
 						>
 							<span className="icon"><i className="dashicons dashicons-admin-generic"></i></span>
-							<span>تخصيص نماذج الاستقبال</span>
+							<span>ØªØ®ØµÙŠØµ Ù†Ù…Ø§Ø°Ø¬ Ø§Ù„Ø§Ø³ØªÙ‚Ø¨Ø§Ù„</span>
 						</a>
 					</div>
 				</div>

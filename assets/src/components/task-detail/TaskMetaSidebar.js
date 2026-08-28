@@ -1,7 +1,7 @@
-import { html } from '../../utils/html.js';
+﻿import { html } from '../../utils/html.js';
 import { hooks } from '../../utils/hooks.js';
-import PriorityBadge from '../PriorityBadge.js';
-import MemberSelect from '../MemberSelect.js';
+import PriorityBadge from '../ui/PriorityBadge.js';
+import MemberSelect from '../ui/MemberSelect.js';
 
 /**
  * Task Detail Metadata & Assignees Sidebar Component
@@ -25,44 +25,44 @@ export default function TaskMetaSidebar({
 	return html`
 		<div className="task-meta-sidebar">
 			<div className="wp-card wp-task-sidebar-card p-4 mb-4">
-				<h3 className="title is-6 mb-4 has-text-grey">إدارة المهمة</h3>
+				<h3 className="title is-6 mb-4 has-text-grey">Ø¥Ø¯Ø§Ø±Ø© Ø§Ù„Ù…Ù‡Ù…Ø©</h3>
 				
 				<!-- Task Status Section -->
 				<div className="field mb-4">
-					<label className="label is-small">حالة المهمة (الحالة المشتقة حياً)</label>
+					<label className="label is-small">Ø­Ø§Ù„Ø© Ø§Ù„Ù…Ù‡Ù…Ø© (Ø§Ù„Ø­Ø§Ù„Ø© Ø§Ù„Ù…Ø´ØªÙ‚Ø© Ø­ÙŠØ§Ù‹)</label>
 					<div className="p-3 wp-border" style=${{ backgroundColor: '#f8fafc' }}>
 						<div className="mb-2">
 							${ isCompleted && html`
 								<span className="tag is-success is-medium is-fullwidth has-text-weight-bold" style=${{ borderRadius: 0 }}>
-									<i className="dashicons dashicons-yes-alt ml-1"></i> مكتملة ومعتمدة
+									<i className="dashicons dashicons-yes-alt ml-1"></i> Ù…ÙƒØªÙ…Ù„Ø© ÙˆÙ…Ø¹ØªÙ…Ø¯Ø©
 								</span>
 							` }
 							${ isInProgress && html`
 								<span className="tag is-warning is-light is-medium is-fullwidth has-text-weight-bold" style=${{ borderRadius: 0 }}>
-									<i className="dashicons dashicons-hammer ml-1"></i> قيد الإنجاز والتعاون
+									<i className="dashicons dashicons-hammer ml-1"></i> Ù‚ÙŠØ¯ Ø§Ù„Ø¥Ù†Ø¬Ø§Ø² ÙˆØ§Ù„ØªØ¹Ø§ÙˆÙ†
 								</span>
 							` }
 							${ isAssigned && html`
 								<span className="tag is-info is-light is-medium is-fullwidth has-text-weight-bold" style=${{ borderRadius: 0 }}>
-									<i className="dashicons dashicons-admin-users ml-1"></i> مسندة ومخصصة
+									<i className="dashicons dashicons-admin-users ml-1"></i> Ù…Ø³Ù†Ø¯Ø© ÙˆÙ…Ø®ØµØµØ©
 								</span>
 							` }
 							${ isNew && html`
 								<span className="tag is-dark is-light is-medium is-fullwidth has-text-weight-bold" style=${{ borderRadius: 0 }}>
-									<i className="dashicons dashicons-tag ml-1"></i> جديدة وغير مسندة
+									<i className="dashicons dashicons-tag ml-1"></i> Ø¬Ø¯ÙŠØ¯Ø© ÙˆØºÙŠØ± Ù…Ø³Ù†Ø¯Ø©
 								</span>
 							` }
 						</div>
 						<p className="is-size-7 has-text-grey">
 							<i className="dashicons dashicons-update is-size-7 ml-1"></i>
-							تتدرج الحالة أوتوماتيكياً: (تخصيص عضو ← إضافة مساهمة ← اعتماد الحل).
+							ØªØªØ¯Ø±Ø¬ Ø§Ù„Ø­Ø§Ù„Ø© Ø£ÙˆØªÙˆÙ…Ø§ØªÙŠÙƒÙŠØ§Ù‹: (ØªØ®ØµÙŠØµ Ø¹Ø¶Ùˆ â† Ø¥Ø¶Ø§ÙØ© Ù…Ø³Ø§Ù‡Ù…Ø© â† Ø§Ø¹ØªÙ…Ø§Ø¯ Ø§Ù„Ø­Ù„).
 						</p>
 					</div>
 				</div>
 				
 				<!-- Priority Level Section -->
 				<div className="field mb-4">
-					<label className="label is-small">مستوى الأولوية</label>
+					<label className="label is-small">Ù…Ø³ØªÙˆÙ‰ Ø§Ù„Ø£ÙˆÙ„ÙˆÙŠØ©</label>
 					<div className="p-1" style=${{ border: '1px solid #ededed', backgroundColor: '#f8fafc' }}>
 						<${PriorityBadge} priority=${ task.priority } />
 					</div>
@@ -72,10 +72,10 @@ export default function TaskMetaSidebar({
 				
 				<!-- Assignees Section -->
 				<div className="field mb-4">
-					<label className="label is-small">المكلَّفون بالمهمة</label>
+					<label className="label is-small">Ø§Ù„Ù…ÙƒÙ„Ù‘ÙŽÙÙˆÙ† Ø¨Ø§Ù„Ù…Ù‡Ù…Ø©</label>
 					<div className="mb-2">
 						${ assignees.length === 0 ? html`
-							<p className="has-text-grey is-size-7">لا يوجد أعضاء مكلفين بهذه المهمة.</p>
+							<p className="has-text-grey is-size-7">Ù„Ø§ ÙŠÙˆØ¬Ø¯ Ø£Ø¹Ø¶Ø§Ø¡ Ù…ÙƒÙ„ÙÙŠÙ† Ø¨Ù‡Ø°Ù‡ Ø§Ù„Ù…Ù‡Ù…Ø©.</p>
 						` : assignees.map( a => html`
 							<div key=${a.id} className="is-flex is-align-items-center is-justify-content-space-between p-2 mb-1" style=${{ border: '1px solid #ededed', backgroundColor: '#fff' }}>
 								<div className="is-flex is-align-items-center">
@@ -84,7 +84,7 @@ export default function TaskMetaSidebar({
 									</figure>
 									<span className="is-size-7 has-text-weight-bold">${a.display_name}</span>
 								</div>
-								<button className="delete is-small" onClick=${() => handleUnassign(a.id)} title="إلغاء التكليف"></button>
+								<button className="delete is-small" onClick=${() => handleUnassign(a.id)} title="Ø¥Ù„ØºØ§Ø¡ Ø§Ù„ØªÙƒÙ„ÙŠÙ"></button>
 							</div>
 						`)}
 					</div>
@@ -96,7 +96,7 @@ export default function TaskMetaSidebar({
 									users=${availableUsers.filter( u => !assignees.find( a => parseInt(a.id) === parseInt(u.id) ) )}
 									value=${selectedAssigneeId}
 									onChange=${(uid) => setSelectedAssigneeId(uid)}
-									placeholder="-- اختر عضواً للتكليف --"
+									placeholder="-- Ø§Ø®ØªØ± Ø¹Ø¶ÙˆØ§Ù‹ Ù„Ù„ØªÙƒÙ„ÙŠÙ --"
 									size="small"
 								/>
 							</div>
@@ -107,7 +107,7 @@ export default function TaskMetaSidebar({
 								disabled=${!selectedAssigneeId}
 								style=${{ height: '32px' }}
 							>
-								تكليف
+								ØªÙƒÙ„ÙŠÙ
 							</button>
 						</div>
 					</div>
@@ -119,7 +119,7 @@ export default function TaskMetaSidebar({
 				<div className="field mb-2">
 					<button type="button" className="button is-fullwidth wp-sidebar-action wp-sharp-button" onClick=${ () => window.location.hash = '#/kanban' } style=${{ justifyContent: 'flex-start' }}>
 						<span className="icon"><i className="dashicons dashicons-columns"></i></span>
-						<span>العودة للكانبان</span>
+						<span>Ø§Ù„Ø¹ÙˆØ¯Ø© Ù„Ù„ÙƒØ§Ù†Ø¨Ø§Ù†</span>
 					</button>
 				</div>
 
