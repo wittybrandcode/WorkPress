@@ -33,8 +33,6 @@ export default function GeneralLocalizationTab({
 	handleSaveLocalizationSettings,
 	handleSaveGeneralSettings
 }) {
-	const [previewBgDark, setPreviewBgDark] = useState(false);
-
 	const openMediaSelector = (title, onSelected) => {
 		if (!window.wp || !window.wp.media) {
 			console.error('WordPress Media Library is not available.');
@@ -166,30 +164,17 @@ export default function GeneralLocalizationTab({
 						<div className="box p-4 mb-4" style=${{ border: '1px solid #e2e8f0', borderRadius: 0, background: '#f8fafc' }}>
 							<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 								<label className="label is-small mb-0">شعار المنظومة (WorkPress Logo)</label>
-								<div className="is-flex is-align-items-center" style=${{ gap: '6px' }}>
-									<span className=${`tag is-small ${isCustomLogoActive ? 'is-success is-light' : 'is-dark is-light'}`} style=${{ borderRadius: 0, fontSize: '0.7rem' }}>
-										${isCustomLogoActive ? 'شعار مخصص نشط' : 'الشعار الافتراضي المدمج'}
-									</span>
-									<button 
-										type="button" 
-										className="button is-small is-white px-1 py-0" 
-										title=${previewBgDark ? 'التبديل إلى خلفية بيضاء للمعاينة' : 'التبديل إلى خلفية داكنة للمعاينة'}
-										onClick=${() => setPreviewBgDark(!previewBgDark)}
-										style=${{ height: '22px' }}
-									>
-										<i className=${`dashicons ${previewBgDark ? 'dashicons-sun' : 'dashicons-moon'}`} style=${{ fontSize: '14px' }}></i>
-									</button>
-								</div>
+								<span className=${`tag is-small ${isCustomLogoActive ? 'is-success is-light' : 'is-dark is-light'}`} style=${{ borderRadius: 0, fontSize: '0.7rem' }}>
+									${isCustomLogoActive ? 'شعار مخصص نشط' : 'الشعار الافتراضي المدمج'}
+								</span>
 							</div>
 
 							<!-- صندوق المعاينة الحية للشعار -->
 							<div 
-								className="is-flex is-justify-content-center is-align-items-center p-3 mb-3" 
+								className="is-flex is-justify-content-center is-align-items-center p-3 mb-3 has-background-white" 
 								style=${{ 
-									background: previewBgDark ? '#00192f' : '#ffffff', 
 									border: '1px dashed #cbd5e1', 
-									minHeight: '64px',
-									transition: 'background 0.2s ease'
+									minHeight: '64px'
 								}}
 							>
 								${isCustomLogoActive ? html`
@@ -199,7 +184,7 @@ export default function GeneralLocalizationTab({
 										style=${{ maxHeight: '42px', maxWidth: '100%', objectFit: 'contain' }}
 									/>
 								` : html`
-									<${WorkPressLogo} height=${32} dark=${previewBgDark} />
+									<${WorkPressLogo} height=${32} />
 								`}
 							</div>
 
