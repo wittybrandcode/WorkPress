@@ -239,4 +239,85 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         `;
     };
 
+    /**
+     * Generate Smart Pagination Array with Ellipsis
+     * 
+     * @param {number} current
+     * @param {number} total
+     * @return {Array<number|string>}
+     */
+    exports.getPaginationItems = function(current, total) {
+        if (total <= 7) {
+            return Array.from({ length: total }, (_, i) => i + 1);
+        }
+        if (current <= 4) {
+            return [1, 2, 3, 4, 5, '...', total];
+        }
+        if (current >= total - 3) {
+            return [1, '...', total - 4, total - 3, total - 2, total - 1, total];
+        }
+        return [1, '...', current - 1, current, current + 1, '...', total];
+    };
+
+    /**
+     * Render Standard Clean Modern Pagination Bar (Arrows + Modern Digits + Smart Ellipsis)
+     * 
+     * @param {number} currentPage
+     * @param {number} totalPages
+     * @param {Function} onPageChange
+     * @return {Object|null}
+     */
+    exports.renderPaginationBar = function(currentPage, totalPages, onPageChange) {
+        if (!window.preact || !window.htm || totalPages <= 1) return null;
+        const { h } = window.preact;
+        const html = window.htm.bind(h);
+
+        const items = exports.getPaginationItems(currentPage, totalPages);
+
+        return html`
+            <div class="portal-pagination-bar">
+                <!-- Previous Button (Right arrow in RTL) -->
+                <button 
+                    type="button" 
+                    class="portal-page-btn is-nav" 
+                    disabled=${currentPage <= 1}
+                    onClick=${() => onPageChange(currentPage - 1)}
+                    title="الصفحة السابقة"
+                >
+                    <i class="dashicons dashicons-arrow-right-alt2"></i>
+                </button>
+
+                <!-- Page Numbers & Ellipsis -->
+                <div class="portal-page-numbers">
+                    ${items.map((item, idx) => {
+                        if (item === '...') {
+                            return html`<span key=${'el_' + idx} class="portal-page-ellipsis">...</span>`;
+                        }
+                        return html`
+                            <button 
+                                key=${item}
+                                type="button" 
+                                class="portal-page-num ${item === currentPage ? 'is-active' : ''}"
+                                onClick=${() => onPageChange(item)}
+                            >
+                                ${item}
+                            </button>
+                        `;
+                    })}
+                </div>
+
+                <!-- Next Button (Left arrow in RTL) -->
+                <button 
+                    type="button" 
+                    class="portal-page-btn is-nav" 
+                    disabled=${currentPage >= totalPages}
+                    onClick=${() => onPageChange(currentPage + 1)}
+                    title="الصفحة التالية"
+                >
+                    <i class="dashicons dashicons-arrow-left-alt2"></i>
+                </button>
+            </div>
+        `;
+    };
+
 })(window.WorkPressPortal);

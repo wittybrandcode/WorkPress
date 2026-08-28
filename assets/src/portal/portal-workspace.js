@@ -136,42 +136,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                 })}
                             </div>
 
-                            ${totalReqPages > 1 ? html`
-                                <div class="portal-pagination-bar">
-                                    <button 
-                                        type="button" 
-                                        class="portal-page-btn is-nav" 
-                                        disabled=${reqPage <= 1}
-                                        onClick=${() => setReqPage(reqPage - 1)}
-                                    >
-                                        <i class="dashicons dashicons-arrow-right-alt2"></i>
-                                        <span>السابق</span>
-                                    </button>
-
-                                    <div class="portal-page-numbers">
-                                        ${Array.from({ length: totalReqPages }, (_, i) => i + 1).map(p => html`
-                                            <button 
-                                                key=${p}
-                                                type="button" 
-                                                class="portal-page-num ${p === reqPage ? 'is-active' : ''}"
-                                                onClick=${() => setReqPage(p)}
-                                            >
-                                                ${p}
-                                            </button>
-                                        `)}
-                                    </div>
-
-                                    <button 
-                                        type="button" 
-                                        class="portal-page-btn is-nav" 
-                                        disabled=${reqPage >= totalReqPages}
-                                        onClick=${() => setReqPage(reqPage + 1)}
-                                    >
-                                        <span>التالي</span>
-                                        <i class="dashicons dashicons-arrow-left-alt2"></i>
-                                    </button>
-                                </div>
-                            ` : null}
+                            ${window.WorkPressPortal?.renderPaginationBar ? window.WorkPressPortal.renderPaginationBar(reqPage, totalReqPages, setReqPage) : null}
                         </div>
                     `}
                 </div>

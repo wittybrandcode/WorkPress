@@ -22,48 +22,10 @@ window.WorkPressPortal = window.WorkPressPortal || {};
      * Render reusable pagination bar
      */
     function renderPaginationBar(currentPage, totalPages, onPageChange) {
-        if (totalPages <= 1) return null;
-        const { h } = window.preact;
-        const html = window.htm.bind(h);
-        const pages = [];
-        for (let i = 1; i <= totalPages; i++) pages.push(i);
-
-        return html`
-            <div class="portal-pagination-bar">
-                <button 
-                    type="button" 
-                    class="portal-page-btn is-nav" 
-                    disabled=${currentPage <= 1}
-                    onClick=${() => onPageChange(currentPage - 1)}
-                >
-                    <i class="dashicons dashicons-arrow-right-alt2"></i>
-                    <span>السابق</span>
-                </button>
-
-                <div class="portal-page-numbers">
-                    ${pages.map(p => html`
-                        <button 
-                            key=${p}
-                            type="button" 
-                            class="portal-page-num ${p === currentPage ? 'is-active' : ''}"
-                            onClick=${() => onPageChange(p)}
-                        >
-                            ${p}
-                        </button>
-                    `)}
-                </div>
-
-                <button 
-                    type="button" 
-                    class="portal-page-btn is-nav" 
-                    disabled=${currentPage >= totalPages}
-                    onClick=${() => onPageChange(currentPage + 1)}
-                >
-                    <span>التالي</span>
-                    <i class="dashicons dashicons-arrow-left-alt2"></i>
-                </button>
-            </div>
-        `;
+        if (window.WorkPressPortal?.renderPaginationBar) {
+            return window.WorkPressPortal.renderPaginationBar(currentPage, totalPages, onPageChange);
+        }
+        return null;
     }
 
     /**
