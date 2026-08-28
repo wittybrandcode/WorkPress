@@ -1374,3 +1374,114 @@ a:hover {
     }
 }
 
+/* -------------------------------------------------------------
+ * 13. PRINT & PDF INSTITUTIONAL DOCUMENT ENGINE
+ * ------------------------------------------------------------- */
+@media print {
+    @page {
+        size: A4 portrait;
+        margin: 12mm 15mm;
+    }
+
+    body, html {
+        background: #ffffff !important;
+        color: #000000 !important;
+        font-family: 'Cairo', 'Segoe UI', Tahoma, sans-serif !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+    }
+
+    /* Hide UI controls and modal chrome */
+    .portal-header-wrapper,
+    .portal-top-bar,
+    .portal-action-bar,
+    .portal-tabs-bar,
+    .portal-preview-banner,
+    .portal-floating-alert,
+    .portal-no-print,
+    .portal-modal-backdrop::before,
+    .btn-portal,
+    header,
+    nav {
+        display: none !important;
+    }
+
+    .portal-modal-backdrop {
+        position: static !important;
+        background: transparent !important;
+        backdrop-filter: none !important;
+        padding: 0 !important;
+        display: block !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .portal-report-card {
+        max-width: 100% !important;
+        width: 100% !important;
+        max-height: none !important;
+        overflow: visible !important;
+        box-shadow: none !important;
+        border: none !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        background: #ffffff !important;
+    }
+
+    .portal-report-header {
+        border-bottom: 2px solid #0f172a !important;
+        padding-bottom: 1rem !important;
+        margin-bottom: 1.25rem !important;
+    }
+
+    .portal-report-title {
+        font-size: 1.6rem !important;
+        color: #0f172a !important;
+    }
+
+    .portal-report-meta-grid {
+        border: 1px solid #cbd5e1 !important;
+        background: #f8fafc !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .portal-report-notice {
+        border-right: 4px solid #10b981 !important;
+        background: #f1f5f9 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .portal-report-table {
+        border: 1px solid #cbd5e1 !important;
+        width: 100% !important;
+    }
+
+    .portal-report-table th {
+        background: #f1f5f9 !important;
+        color: #0f172a !important;
+        border-bottom: 2px solid #cbd5e1 !important;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    .portal-report-table td {
+        border-bottom: 1px solid #e2e8f0 !important;
+    }
+
+    .portal-report-signatures {
+        page-break-inside: avoid !important;
+        margin-top: 2rem !important;
+    }
+
+    .portal-report-footer {
+        border-top: 1px solid #cbd5e1 !important;
+        padding-top: 1rem !important;
+        margin-top: 1.5rem !important;
+    }
+}
+
