@@ -272,4 +272,33 @@ class WorkPress_Portal_Projects_Handler {
 			200
 		);
 	}
+
+	/**
+	 * Get executive project summary report for client handover/sign-off document.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response
+	 */
+	public function get_project_report( $request ) {
+		$project_id = absint( $request['id'] );
+		$summary    = WorkPress_Report_Service::get_project_summary( $project_id );
+
+		if ( is_wp_error( $summary ) ) {
+			return new WP_REST_Response(
+				array(
+					'success' => false,
+					'message' => $summary->get_error_message(),
+				),
+				404
+			);
+		}
+
+		return new WP_REST_Response(
+			array(
+				'success' => true,
+				'data'    => $summary,
+			),
+			200
+		);
+	}
 }

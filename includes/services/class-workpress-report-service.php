@@ -97,7 +97,7 @@ class WorkPress_Report_Service {
 			'organization'     => array(
 				'name'        => $org_name,
 				'description' => $org_desc,
-				'logo_url'    => get_site_icon_url(),
+				'logo_url'    => class_exists( 'WorkPress_REST_Settings_Controller' ) ? WorkPress_REST_Settings_Controller::get_custom_logo_url() : ( WORKPRESS_URL . 'assets/brand/workpress.svg' ),
 				'generated_at'=> current_time( 'mysql' ),
 			),
 			'metrics'          => array(

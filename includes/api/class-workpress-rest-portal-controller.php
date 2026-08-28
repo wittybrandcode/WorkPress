@@ -319,7 +319,20 @@ class WorkPress_REST_Portal_Controller extends WP_REST_Controller {
 			)
 		);
 
-		// 20. Portal Notifications Stream
+		// 20. Get Executive Project Summary Report (Handover Document)
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/projects/(?P<id>\d+)/report',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this->projects_handler, 'get_project_report' ),
+					'permission_callback' => array( $this->auth_handler, 'check_project_access_permission' ),
+				),
+			)
+		);
+
+		// 21. Portal Notifications Stream
 		register_rest_route(
 			$this->namespace,
 			'/' . $this->rest_base . '/notifications',
