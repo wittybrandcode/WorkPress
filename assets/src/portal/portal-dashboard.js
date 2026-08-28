@@ -92,7 +92,6 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
         // Pagination states
         const [prjPage, setPrjPage] = useState ? useState(1) : [1, () => {}];
-        const [reqPage, setReqPage] = useState ? useState(1) : [1, () => {}];
         const [notifPage, setNotifPage] = useState ? useState(1) : [1, () => {}];
 
         // Calculate Overall Portfolio Metrics
@@ -110,16 +109,11 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
         // Pending Decisions (Action Required)
         const pendingCandidates = pulse.candidates || [];
-        const pendingRequests = requests.filter(r => r.status === 'pending' || r.status === 'under_review');
 
         // Pagination slices (Maximized for full-width screens)
         const PRJ_PER_PAGE = 8;
         const totalPrjPages = Math.ceil(projects.length / PRJ_PER_PAGE);
         const paginatedProjects = projects.slice((prjPage - 1) * PRJ_PER_PAGE, prjPage * PRJ_PER_PAGE);
-
-        const REQ_PER_PAGE = 8;
-        const totalReqPages = Math.ceil(requests.length / REQ_PER_PAGE);
-        const paginatedRequests = requests.slice((reqPage - 1) * REQ_PER_PAGE, reqPage * REQ_PER_PAGE);
 
         const NOTIF_PER_PAGE = 8;
         const totalNotifPages = Math.ceil(notifications.length / NOTIF_PER_PAGE);
@@ -380,64 +374,6 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                 ${renderPaginationBar(prjPage, totalPrjPages, setPrjPage)}
                             </div>
                         `}
-
-                        <!-- ZONE 4: RECENT REQUESTS PIPELINE -->
-                        <div class="portal-dash-requests-section mt-5">
-                            <div class="portal-dash-section-header mb-3">
-                                <div>
-                                    <h3 class="portal-dash-section-title">
-                                        <i class="dashicons dashicons-email-alt ml-1" style="color: var(--wp-indigo);"></i>
-                                        سجل متابعة طلباتي الواردة
-                                    </h3>
-                                    <p class="portal-dash-section-desc">متابعة حالة الطلبات الجديدة المرسلة من طرفكم ومراحل دراستها واعتمادها.</p>
-                                </div>
-                            </div>
-
-                            ${requests.length === 0 ? html`
-                                <div class="portal-empty-card p-4 has-text-centered" style="background: #f8fafc; border: 1px solid #e2e8f0;">
-                                    <p class="is-size-7 has-text-grey">لم تقم بإرسال أي طلبات إضافية مؤخراً.</p>
-                                </div>
-                            ` : html`
-                                <div>
-                                    <div class="portal-dash-requests-list" style="background: #ffffff; border: 1px solid #e2e8f0;">
-                                        ${paginatedRequests.map((req, idx) => {
-                                            let statusLabel = 'قيد الدراسة الفنية';
-                                            let statusClass = 'portal-badge-amber';
-                                            if (req.status === 'approved') {
-                                                statusLabel = 'تمت الموافقة وتجهيز المشروع';
-                                                statusClass = 'portal-badge-emerald';
-                                            } else if (req.status === 'rejected') {
-                                                statusLabel = 'معتذر عنه';
-                                                statusClass = 'portal-badge-danger';
-                                            }
-
-                                            return html`
-                                                <div key=${idx} class="portal-dash-request-row">
-                                                    <div style="display: flex; align-items: center; gap: 12px;">
-                                                        <span class="portal-dash-req-tag">#${req.id || (idx + 1)}</span>
-                                                        <div class="portal-dash-row-thumb">
-                                                            ${renderCover(req, 'request', '40px')}
-                                                        </div>
-                                                        <div>
-                                                            <strong class="portal-dash-req-title">${req.title || req.name || 'طلب مشروع بدون عنوان'}</strong>
-                                                            <div class="portal-dash-req-date">
-                                                                <i class="dashicons dashicons-calendar-alt"></i>
-                                                                <span>${req.created_at ? req.created_at.substring(0, 10) : 'مؤخراً'}</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
-                                                    <span class="portal-badge ${statusClass}">
-                                                        ${statusLabel}
-                                                    </span>
-                                                </div>
-                                            `;
-                                        })}
-                                    </div>
-                                    ${renderPaginationBar(reqPage, totalReqPages, setReqPage)}
-                                </div>
-                            `}
-                        </div>
                     </div>
 
                     <!-- RIGHT COLUMN: ACTIVITY STREAM & NOTIFICATIONS (30% Width) -->
