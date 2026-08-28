@@ -87,14 +87,21 @@
 }
 
 /* -------------------------------------------------------------
- * 2. LAYOUT & CONTAINERS (Full-Width SaaS Canvas)
- * ------------------------------------------------------------- */
+.portal-app-wrapper {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    position: relative;
+}
+
 .portal-container {
     width: 100%;
     max-width: 100%;
     margin: 0;
     padding: 1.5rem 2rem 5rem;
     box-sizing: border-box;
+    flex: 1;
 }
 
 .portal-dashboard-wrapper,

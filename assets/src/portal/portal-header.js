@@ -63,7 +63,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         const logoRenderer = renderWorkPressLogo || exports.renderWorkPressLogo || (() => null);
 
         return html`
-            <div>
+            <header class="portal-header-wrapper">
                 <!-- 1. Real-Time Floating Approval Toast Notification -->
                 ${activeToastAlert && html`
                     <div class="portal-toast-alert" onClick=${e => e.stopPropagation()}>
@@ -102,11 +102,8 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     </div>
                 `}
 
-                <!-- 3. TWO-TIER WORKPRESS INSTITUTIONAL HEADER -->
-                <div class="portal-header-wrapper">
-                    
-                    <!-- Top Tier -->
-                    <div class="portal-top-bar">
+                <!-- Top Tier -->
+                <div class="portal-top-bar">
                         <div class="portal-brand-area">
                             <a href="#/" style="text-decoration: none;">
                                 ${logoRenderer(32)}
@@ -424,8 +421,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             ` : null}
                         `;
                     })()}
-                </div>
-            </div>
+            </header>
         `;
     };
 
