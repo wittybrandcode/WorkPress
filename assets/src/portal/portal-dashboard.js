@@ -52,9 +52,10 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
         const renderCover = window.WorkPressPortal?.renderCardCover || (() => null);
 
-        // Pagination states
+        // Pagination & Filter states
         const [prjPage, setPrjPage] = useState ? useState(1) : [1, () => {}];
         const [notifPage, setNotifPage] = useState ? useState(1) : [1, () => {}];
+        const [statusFilter, setStatusFilter] = useState ? useState('all') : ['all', () => {}];
 
         // Calculate Overall Portfolio Metrics
         const totalProjects = projects.length;
@@ -72,10 +73,27 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         // Pending Decisions (Action Required)
         const pendingCandidates = pulse.candidates || [];
 
+        // Dynamic Status Counts
+        const countAll = projects.length;
+        const countInProgress = projects.filter(p => p.status === 'active' || p.status === 'in_progress').length;
+        const countPending = projects.filter(p => p.status === 'pending' || p.status === 'under_review' || p.status === 'new').length;
+        const countApproved = projects.filter(p => p.status === 'approved').length;
+        const countCompleted = projects.filter(p => p.status === 'completed' || p.status === 'closed').length;
+
+        // Filter projects by selected lifecycle status
+        const filteredProjects = projects.filter(p => {
+            if (statusFilter === 'all') return true;
+            if (statusFilter === 'in_progress') return p.status === 'active' || p.status === 'in_progress';
+            if (statusFilter === 'pending') return p.status === 'pending' || p.status === 'under_review' || p.status === 'new';
+            if (statusFilter === 'approved') return p.status === 'approved';
+            if (statusFilter === 'completed') return p.status === 'completed' || p.status === 'closed';
+            return true;
+        });
+
         // Pagination slices (Maximized for full-width screens)
         const PRJ_PER_PAGE = 8;
-        const totalPrjPages = Math.ceil(projects.length / PRJ_PER_PAGE);
-        const paginatedProjects = projects.slice((prjPage - 1) * PRJ_PER_PAGE, prjPage * PRJ_PER_PAGE);
+        const totalPrjPages = Math.ceil(filteredProjects.length / PRJ_PER_PAGE);
+        const paginatedProjects = filteredProjects.slice((prjPage - 1) * PRJ_PER_PAGE, prjPage * PRJ_PER_PAGE);
 
         const NOTIF_PER_PAGE = 8;
         const totalNotifPages = Math.ceil(notifications.length / NOTIF_PER_PAGE);
@@ -181,28 +199,98 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     
                     <!-- LEFT COLUMN: ACTIVE PROJECTS PORTFOLIO (70% Width) -->
                     <div class="portal-dash-main-col">
-                        <div class="portal-dash-section-header mb-4">
+                        <div class="portal-dash-section-header mb-3" style="border-bottom: none; padding-bottom: 0;">
                             <div>
                                 <h3 class="portal-dash-section-title">
                                     <i class="dashicons dashicons-category ml-1" style="color: var(--wp-emerald);"></i>
-                                    محفظة المشاريع النشطة
+                                    محفظة المشاريع
                                 </h3>
-                                <p class="portal-dash-section-desc">متابعة دقيقة لمسار تنفيذ وتسليم المشاريع المخصصة لك.</p>
+                                <p class="portal-dash-section-desc">متابعة دقيقة لمسار تنفيذ وتسليم المشاريع المخصصة لك حسب الحالة.</p>
                             </div>
                         </div>
 
-                        ${projects.length === 0 ? html`
+                        <!-- Lifecycle Status Filter Tabs -->
+                        <div class="portal-dash-filter-tabs mb-4">
+                            <button 
+                                type="button" 
+                                class="portal-dash-filter-tab ${statusFilter === 'all' ? 'is-active' : ''}"
+                                onClick=${() => {
+                                    playPortalSound('tab');
+                                    setStatusFilter('all');
+                                    setPrjPage(1);
+                                }}
+                            >
+                                <span>جميع المشاريع</span>
+                                <span class="portal-dash-filter-count">${countAll}</span>
+                            </button>
+
+                            <button 
+                                type="button" 
+                                class="portal-dash-filter-tab ${statusFilter === 'in_progress' ? 'is-active' : ''}"
+                                onClick=${() => {
+                                    playPortalSound('tab');
+                                    setStatusFilter('in_progress');
+                                    setPrjPage(1);
+                                }}
+                            >
+                                <span>قيد التنفيذ والإنجاز</span>
+                                <span class="portal-dash-filter-count">${countInProgress}</span>
+                            </button>
+
+                            <button 
+                                type="button" 
+                                class="portal-dash-filter-tab ${statusFilter === 'pending' ? 'is-active' : ''}"
+                                onClick=${() => {
+                                    playPortalSound('tab');
+                                    setStatusFilter('pending');
+                                    setPrjPage(1);
+                                }}
+                            >
+                                <span>قيد الدراسة والانتظار</span>
+                                <span class="portal-dash-filter-count">${countPending}</span>
+                            </button>
+
+                            ${countApproved > 0 ? html`
+                                <button 
+                                    type="button" 
+                                    class="portal-dash-filter-tab ${statusFilter === 'approved' ? 'is-active' : ''}"
+                                    onClick=${() => {
+                                        playPortalSound('tab');
+                                        setStatusFilter('approved');
+                                        setPrjPage(1);
+                                    }}
+                                >
+                                    <span>المعتمدة حديثاً</span>
+                                    <span class="portal-dash-filter-count">${countApproved}</span>
+                                </button>
+                            ` : null}
+
+                            <button 
+                                type="button" 
+                                class="portal-dash-filter-tab ${statusFilter === 'completed' ? 'is-active' : ''}"
+                                onClick=${() => {
+                                    playPortalSound('tab');
+                                    setStatusFilter('completed');
+                                    setPrjPage(1);
+                                }}
+                            >
+                                <span>المكتملة والمنجزة</span>
+                                <span class="portal-dash-filter-count">${countCompleted}</span>
+                            </button>
+                        </div>
+
+                        ${filteredProjects.length === 0 ? html`
                             <div class="portal-empty-card p-5 has-text-centered" style="background: #ffffff; border: 1px dashed #cbd5e1;">
                                 <i class="dashicons dashicons-portfolio has-text-grey" style="font-size: 36px; height: 36px; width: 36px;"></i>
-                                <h4 class="title is-6 has-text-grey mt-2">لا توجد مشاريع مسندة حالياً</h4>
-                                <p class="is-size-7 has-text-grey-light mb-4">يمكنك بدء مشروعك الأول فوراً بتقديم طلب خدمة عبر منشئ النماذج.</p>
+                                <h4 class="title is-6 has-text-grey mt-2">لا توجد مشاريع مطابقة لهذا التبويب حالياً</h4>
+                                <p class="is-size-7 has-text-grey-light mb-4">يمكنك مراجعة باقي التبويبات أو تقديم طلب مشروع جديد.</p>
                                 <button 
                                     type="button" 
                                     class="btn-portal btn-portal-primary btn-portal-sm"
                                     onClick=${() => onOpenRequestModal()}
                                 >
                                     <i class="dashicons dashicons-plus-alt2"></i>
-                                    <span>تقديم أول طلب مشروع</span>
+                                    <span>تقديم طلب مشروع جديد</span>
                                 </button>
                             </div>
                         ` : html`

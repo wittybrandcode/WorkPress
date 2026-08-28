@@ -235,6 +235,64 @@
 }
 
 /* -------------------------------------------------------------
+ * ZONE 3: STATUS FILTER TABS
+ * ------------------------------------------------------------- */
+.portal-dash-filter-tabs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.portal-dash-filter-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.45rem 0.9rem;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    color: var(--wp-text-secondary);
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.portal-dash-filter-tab:hover {
+    background: #f8fafc;
+    border-color: #cbd5e1;
+    color: var(--wp-text-main);
+    transform: translateY(-1px);
+}
+
+.portal-dash-filter-tab.is-active {
+    background: var(--wp-primary);
+    border-color: var(--wp-primary);
+    color: #ffffff;
+    font-weight: 800;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.2);
+}
+
+.portal-dash-filter-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1px 7px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+    background: #f1f5f9;
+    color: #475569;
+    border: 1px solid #e2e8f0;
+}
+
+.portal-dash-filter-tab.is-active .portal-dash-filter-count {
+    background: rgba(255, 255, 255, 0.25);
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* -------------------------------------------------------------
  * ZONE 3: PORTFOLIO GRID & CARDS (Wider Screen & Compact SaaS Canvas)
  * ------------------------------------------------------------- */
 .portal-dash-portfolio-grid {
