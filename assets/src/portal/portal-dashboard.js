@@ -199,17 +199,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     
                     <!-- LEFT COLUMN: ACTIVE PROJECTS PORTFOLIO (70% Width) -->
                     <div class="portal-dash-main-col">
-                        <div class="portal-dash-section-header mb-3" style="border-bottom: none; padding-bottom: 0;">
-                            <div>
-                                <h3 class="portal-dash-section-title">
-                                    <i class="dashicons dashicons-category ml-1" style="color: var(--wp-emerald);"></i>
-                                    محفظة المشاريع
-                                </h3>
-                                <p class="portal-dash-section-desc">متابعة دقيقة لمسار تنفيذ وتسليم المشاريع المخصصة لك حسب الحالة.</p>
-                            </div>
-                        </div>
-
-                        <!-- Lifecycle Status Filter Tabs -->
+                        <!-- Lifecycle Status Filter Tabs (Button-Shaped Direct SaaS Bar) -->
                         <div class="portal-dash-filter-tabs mb-4">
                             <button 
                                 type="button" 

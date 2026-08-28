@@ -248,14 +248,16 @@
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 0.45rem 0.9rem;
+    padding: 0.5rem 1rem;
     background: #ffffff;
     border: 1px solid var(--wp-border);
     color: var(--wp-text-secondary);
-    font-size: 0.82rem;
-    font-weight: 700;
+    font-family: 'Cairo', sans-serif !important;
+    font-size: 0.84rem;
+    font-weight: 800;
     cursor: pointer;
     transition: all 0.15s ease;
+    border-radius: 0 !important;
 }
 
 .portal-dash-filter-tab:hover {
@@ -278,12 +280,13 @@
     align-items: center;
     justify-content: center;
     padding: 1px 7px;
-    font-size: 0.72rem;
+    font-size: 0.74rem;
     font-weight: 800;
-    font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif !important;
+    font-family: 'Cairo', sans-serif !important;
     background: #f1f5f9;
     color: #475569;
     border: 1px solid #e2e8f0;
+    border-radius: 0 !important;
 }
 
 .portal-dash-filter-tab.is-active .portal-dash-filter-count {
