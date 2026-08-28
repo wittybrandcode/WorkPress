@@ -38,6 +38,7 @@ require_once WORKPRESS_PATH . 'includes/services/class-workpress-permission-serv
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-capabilities-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-assignment-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-task-service.php';
+require_once WORKPRESS_PATH . 'includes/services/class-workpress-task-state-machine.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-contribution-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-knowledge-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-template-service.php';
