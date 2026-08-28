@@ -1,9 +1,9 @@
 # 📑 الفهرس المرجعي العام لتوثيق منظومة WorkPress
-## WorkPress Master Documentation & Engineering Architecture Hub (v2.2.1-Stable)
+## WorkPress Master Documentation & Engineering Architecture Hub (v2.2.2-Stable)
 
 > **هذا الملف هو الخريطة المرجعية العليا لكافة وثائق، معمارية، أدلة، ومراجع منظومة WorkPress.**  
 > تم تنظيم وتطهير التوثيق بالكامل في **6 محاور هندسية متخصصة** تمثل المرجع المؤسسي والبرمجي المتكامل للمطورين والمنشآت.  
-> **الدستور الحاكم الأعلى:** [FIRST_PRINCIPLES.md](core/FIRST_PRINCIPLES.md) | [دستور وركبرس](../.agents/rules/workpress-constitution.md)
+> **الدستور الحاكم الأعلى:** [FIRST_PRINCIPLES.md](core/FIRST_PRINCIPLES.md) | [دستور وركبرس](../../.agents/rules/workpress-constitution.md) | [حارس وركبرس](../../.agents/skills/workpress-guardian/SKILL.md)
 
 ---
 
@@ -29,7 +29,7 @@ docs/
 │
 ├── 📖 guides/                                       # 3. الأدلة التشغيلية ودليل المطور الشامل
 │   ├── DEVELOPER_GUIDE.md                           # 🛠️ دليل المطور، إعداد البيئة، الاختبارات، ومعايير الكود
-│   ├── CLIENT_PORTAL_GUIDE.md                       # 🏢 دليل بوابة العميل المستقلة، العزل البصري، والتوقيع الرقمي
+│   ├── CLIENT_PORTAL_GUIDE.md                       # 🏢 دليل بوابة ومساحة المستفيدين المستقلة، العزل البصري، والتوقيع الرقمي
 │   ├── DYNAMIC_FORMS_GUIDE.md                       # 📝 دليل نماذج استقبال الطلبات الديناميكية واستوديو الفرز
 │   ├── WEBHOOKS_INTEGRATION_GUIDE.md                # 🔗 دليل التكامل مع Discord و Slack و Teams و Make.com
 │   ├── COWORKPRESS_USER_GUIDE.md                    # 🧭 الدليل التشغيلي السردي لغرفة عمليات CoWorkPress والكانبان
@@ -74,7 +74,7 @@ docs/
 
 ### 3. 📖 الأدلة التشغيلية ودليل المطور (`docs/guides/`)
 * [DEVELOPER_GUIDE.md](guides/DEVELOPER_GUIDE.md): 🛠️ **دليل المطور والمساهمة البرمجية** (إعداد البيئة، تشغيل حزم الاختبارات PHP CLI، معايير الكود، وضوابط التوسعة).
-* [CLIENT_PORTAL_GUIDE.md](guides/CLIENT_PORTAL_GUIDE.md): 🏢 **دليل بوابة ومساحة العميل المستقلة** (العزل البصري Zero CSS Bleed، دورة حياة الطلبات، والتوقيع الرقمي بـ SHA-256).
+* [CLIENT_PORTAL_GUIDE.md](guides/CLIENT_PORTAL_GUIDE.md): 🏢 **دليل بوابة ومساحة المستفيدين المستقلة** (العزل البصري Zero CSS Bleed، دورة حياة الطلبات، والتوقيع الرقمي بـ SHA-256).
 * [DYNAMIC_FORMS_GUIDE.md](guides/DYNAMIC_FORMS_GUIDE.md): 📝 **دليل نماذج استقبال الطلبات الديناميكية** (المخطط التجريدي JSON Schema واستوديو الفرز الإداري).
 * [WEBHOOKS_INTEGRATION_GUIDE.md](guides/WEBHOOKS_INTEGRATION_GUIDE.md): 🔗 **دليل التكامل الخارجي** وربط الـ Webhooks مع Discord و Slack و Teams و Make.com.
 * [COWORKPRESS_USER_GUIDE.md](guides/COWORKPRESS_USER_GUIDE.md): 🧭 **الدليل التشغيلي السردي الشامل** للوحة التحكم، الكانبان، ومخطط جانت وتتبع الوقت.
@@ -98,4 +98,4 @@ docs/
 * [FUTURE_HORIZONS.md](roadmap/FUTURE_HORIZONS.md): 🧠 **خريطة الإصدارات الكبرى القادمة (v3.0+)**، محرك الذكاء الاصطناعي المبني على المعرفة الحقيقية (RAG)، وحزم القطاعات المتخصصة (Office Packs).
 
 ---
-*تم تنقيح وبناء هذا التوثيق ليمثل المرجع الهندسي القياسي لـ WorkPress v2.2.1-Stable.*
+*تم تنقيح وبناء هذا التوثيق ليمثل المرجع الهندسي القياسي لـ WorkPress v2.2.2-Stable.*
