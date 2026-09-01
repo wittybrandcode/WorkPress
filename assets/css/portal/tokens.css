@@ -74,17 +74,42 @@
     border-radius: 0 !important;
 }
 
+/* Dynamic Typography & Direction Variables */
+:root {
+    --wp-font-arabic: 'Cairo', system-ui, -apple-system, sans-serif;
+    --wp-font-latin: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --wp-font-main: var(--wp-font-arabic);
+}
+
+:root[dir="ltr"], body[dir="ltr"], .is-ltr {
+    --wp-font-main: var(--wp-font-latin);
+}
+
+:root[dir="rtl"], body[dir="rtl"], .is-rtl {
+    --wp-font-main: var(--wp-font-arabic);
+}
+
 body.workpress-portal-body {
-    font-family: 'Cairo', 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    font-family: var(--wp-font-main);
     background-color: var(--wp-bg-page);
     color: var(--wp-text-main);
     line-height: 1.65;
     min-height: 100vh;
-    direction: rtl;
-    text-align: right;
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
     max-width: 100%;
+}
+
+body.workpress-portal-body[dir="rtl"], html[dir="rtl"] body.workpress-portal-body, .is-rtl {
+    direction: rtl;
+    text-align: right;
+    font-family: var(--wp-font-arabic) !important;
+}
+
+body.workpress-portal-body[dir="ltr"], html[dir="ltr"] body.workpress-portal-body, .is-ltr {
+    direction: ltr;
+    text-align: left;
+    font-family: var(--wp-font-latin) !important;
 }
 
 /* Base Link & Typography */

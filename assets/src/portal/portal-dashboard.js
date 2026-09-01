@@ -35,10 +35,12 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         const { h } = window.preact;
         const html = window.htm.bind(h);
         const { useState } = window.preactHooks || {};
+        const __ = window.__ || ((s) => s);
+        const isRtl = window.WorkPressPortalI18n ? window.WorkPressPortalI18n.isRTL() : (document.dir === 'rtl');
 
         const {
             user = {},
-            roleLabel = 'مستفيد',
+            roleLabel = __('Client', 'workpress'),
             projects = [],
             requests = [],
             pulse = {},
@@ -110,7 +112,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
                         <div>
                             <span class="portal-dash-kpi-num">${activeProjects.length}</span>
-                            <span class="portal-dash-kpi-lbl">مشاريع جارية</span>
+                            <span class="portal-dash-kpi-lbl">${__('Active Projects', 'workpress')}</span>
                         </div>
                     </div>
 
@@ -120,7 +122,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
                         <div>
                             <span class="portal-dash-kpi-num">${totalDeliverablesCount}</span>
-                            <span class="portal-dash-kpi-lbl">مخرجات مستلمة</span>
+                            <span class="portal-dash-kpi-lbl">${__('Approved Deliverables', 'workpress')}</span>
                         </div>
                     </div>
 
@@ -130,7 +132,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
                         <div>
                             <span class="portal-dash-kpi-num">${averageProgress}%</span>
-                            <span class="portal-dash-kpi-lbl">متوسط الإنجاز الكلي</span>
+                            <span class="portal-dash-kpi-lbl">${__('Average Progress', 'workpress')}</span>
                         </div>
                     </div>
 
@@ -140,21 +142,21 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         </div>
                         <div>
                             <span class="portal-dash-kpi-num">${requests.length}</span>
-                            <span class="portal-dash-kpi-lbl">إجمالي الطلبات</span>
+                            <span class="portal-dash-kpi-lbl">${__('Total Requests', 'workpress')}</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- ZONE 2: ACTION REQUIRED (الأهم فالمهم) -->
+                <!-- ZONE 2: ACTION REQUIRED -->
                 ${pendingCandidates.length > 0 && html`
                     <div class="portal-dash-action-box mb-5">
                         <div class="portal-dash-action-header">
                             <div style="display: flex; align-items: center; gap: 8px;">
                                 <i class="dashicons dashicons-warning" style="color: #f59e0b; font-size: 20px;"></i>
-                                <h3 class="portal-dash-action-title">مخرجات فنية تتطلب مراجعتك وقرارك الفوري</h3>
+                                <h3 class="portal-dash-action-title">${__('Deliverables requiring your review and sign-off', 'workpress')}</h3>
                             </div>
                             <span class="portal-badge portal-badge-amber">
-                                ${pendingCandidates.length} بانتظار الاعتماد
+                                ${pendingCandidates.length} ${__('Pending', 'workpress')}
                             </span>
                         </div>
 
@@ -169,8 +171,8 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                         <div>
                                             <strong class="portal-dash-candidate-title">${candidate.task_title || candidate.title}</strong>
                                             <div class="portal-dash-candidate-meta">
-                                                <span>المشروع: <strong>${candidate.project_name || 'مشروع نشط'}</strong></span>
-                                                <span>• المنفذ: ${candidate.author_name || 'فريق العمل'}</span>
+                                                <span>${__('Project:', 'workpress')} <strong>${candidate.project_name || __('Active Project', 'workpress')}</strong></span>
+                                                <span>• ${__('Lead:', 'workpress')} ${candidate.author_name || __('Staff', 'workpress')}</span>
                                             </div>
                                         </div>
                                     </div>
@@ -185,7 +187,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                             }}
                                         >
                                             <i class="dashicons dashicons-visibility"></i>
-                                            <span>معاينة واعتماد المخرج</span>
+                                            <span>${__('Review & Sign-off', 'workpress')}</span>
                                         </button>
                                     </div>
                                 </div>
@@ -210,7 +212,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     setPrjPage(1);
                                 }}
                             >
-                                <span>جميع المشاريع</span>
+                                <span>${__('All Projects', 'workpress')}</span>
                                 <span class="portal-dash-filter-count">${countAll}</span>
                             </button>
 
@@ -223,7 +225,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     setPrjPage(1);
                                 }}
                             >
-                                <span>قيد التنفيذ والإنجاز</span>
+                                <span>${__('In Progress', 'workpress')}</span>
                                 <span class="portal-dash-filter-count">${countInProgress}</span>
                             </button>
 
@@ -236,7 +238,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     setPrjPage(1);
                                 }}
                             >
-                                <span>قيد الدراسة والانتظار</span>
+                                <span>${__('Under Review / Pending', 'workpress')}</span>
                                 <span class="portal-dash-filter-count">${countPending}</span>
                             </button>
 
@@ -250,7 +252,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                         setPrjPage(1);
                                     }}
                                 >
-                                    <span>المعتمدة حديثاً</span>
+                                    <span>${__('Approved', 'workpress')}</span>
                                     <span class="portal-dash-filter-count">${countApproved}</span>
                                 </button>
                             ` : null}
@@ -264,7 +266,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     setPrjPage(1);
                                 }}
                             >
-                                <span>المكتملة والمنجزة</span>
+                                <span>${__('Completed', 'workpress')}</span>
                                 <span class="portal-dash-filter-count">${countCompleted}</span>
                             </button>
                         </div>
@@ -272,15 +274,15 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         ${filteredProjects.length === 0 ? html`
                             <div class="portal-empty-card p-5 has-text-centered" style="background: #ffffff; border: 1px dashed #cbd5e1;">
                                 <i class="dashicons dashicons-portfolio has-text-grey" style="font-size: 36px; height: 36px; width: 36px;"></i>
-                                <h4 class="title is-6 has-text-grey mt-2">لا توجد مشاريع مطابقة لهذا التبويب حالياً</h4>
-                                <p class="is-size-7 has-text-grey-light mb-4">يمكنك مراجعة باقي التبويبات أو تقديم طلب مشروع جديد.</p>
+                                <h4 class="title is-6 has-text-grey mt-2">${__('No active projects matching this filter.', 'workpress')}</h4>
+                                <p class="is-size-7 has-text-grey-light mb-4">${__('Click here to submit your first project request.', 'workpress')}</p>
                                 <button 
                                     type="button" 
                                     class="btn-portal btn-portal-primary btn-portal-sm"
                                     onClick=${() => onOpenRequestModal()}
                                 >
                                     <i class="dashicons dashicons-plus-alt2"></i>
-                                    <span>تقديم طلب مشروع جديد</span>
+                                    <span>${__('Submit New Request', 'workpress')}</span>
                                 </button>
                             </div>
                         ` : html`
@@ -303,30 +305,30 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                                 <h4 class="portal-dash-prj-name">${proj.name}</h4>
                                                             </div>
                                                             <span class="portal-badge ${isDone ? 'portal-badge-emerald' : 'portal-badge-indigo'}">
-                                                                ${isDone ? 'مكتمل' : 'قيد التنفيذ'}
+                                                                ${isDone ? __('Completed', 'workpress') : __('In Progress', 'workpress')}
                                                             </span>
                                                         </div>
 
                                                         <!-- Compact Metadata Pills -->
                                                         <div class="portal-dash-meta-pills">
-                                                            <span class="portal-dash-meta-pill" title="المسؤول الفني">
+                                                            <span class="portal-dash-meta-pill" title=${__('Lead', 'workpress')}>
                                                                 <i class="dashicons dashicons-admin-users"></i>
-                                                                <span>${(proj.lead && proj.lead.name) ? proj.lead.name : 'فريق العمل'}</span>
+                                                                <span>${(proj.lead && proj.lead.name) ? proj.lead.name : __('Staff', 'workpress')}</span>
                                                             </span>
-                                                            <span class="portal-dash-meta-pill" title="تاريخ التسليم المستهدف">
+                                                            <span class="portal-dash-meta-pill" title=${__('Due Date', 'workpress')}>
                                                                 <i class="dashicons dashicons-calendar-alt"></i>
-                                                                <span>${proj.due_at ? proj.due_at.substring(0, 10) : 'مرن'}</span>
+                                                                <span>${proj.due_at ? proj.due_at.substring(0, 10) : __('Flexible', 'workpress')}</span>
                                                             </span>
-                                                            <span class="portal-dash-meta-pill" title="المخرجات الفنية">
+                                                            <span class="portal-dash-meta-pill" title=${__('Deliverables', 'workpress')}>
                                                                 <i class="dashicons dashicons-portfolio"></i>
-                                                                <span>${proj.deliverables_count || 0} مخرج</span>
+                                                                <span>${proj.deliverables_count || 0} ${__('Deliverables', 'workpress')}</span>
                                                             </span>
                                                         </div>
 
                                                         <!-- Progress Bar & Percentage -->
                                                         <div class="portal-dash-progress-box">
                                                             <div class="portal-dash-progress-labels">
-                                                                <span>نسبة الإنجاز الفني</span>
+                                                                <span>${__('Progress', 'workpress')}</span>
                                                                 <strong>${progressVal}%</strong>
                                                             </div>
                                                             <div class="portal-dash-progress-track">
@@ -349,7 +351,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                                 <button 
                                                                     type="button" 
                                                                     class="btn-portal-icon btn-portal-emerald"
-                                                                    title="استعراض وطباعة وثيقة الاستلام الرسمية"
+                                                                    title=${__('View Delivery Certificate', 'workpress')}
                                                                     onClick=${(e) => {
                                                                         e.stopPropagation();
                                                                         playPortalSound('button');
@@ -363,13 +365,13 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                             <button 
                                                                 type="button" 
                                                                 class="btn-portal-icon btn-portal-primary"
-                                                                title="دخول مساحة العمل والتفاصيل الكاملة للمشروع"
+                                                                title=${__('Open Workspace', 'workpress')}
                                                                 onClick=${() => {
                                                                     playPortalSound('transition');
                                                                     onSelectProject(proj.id);
                                                                 }}
                                                             >
-                                                                <i class="dashicons dashicons-arrow-left-alt2"></i>
+                                                                <i class="dashicons ${isRtl ? 'dashicons-arrow-left-alt2' : 'dashicons-arrow-right-alt2'}"></i>
                                                             </button>
                                                         </div>
                                                     </div>
@@ -388,13 +390,13 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         <div class="portal-dash-side-box">
                             <h4 class="portal-dash-side-title">
                                 <i class="dashicons dashicons-bell ml-1" style="color: var(--wp-amber);"></i>
-                                <span>نبض المستجدات والنشاط الأخير</span>
+                                <span>${__('Notifications', 'workpress')}</span>
                             </h4>
 
                             ${notifications.length === 0 ? html`
                                 <div class="p-4 has-text-centered">
                                     <i class="dashicons dashicons-yes-alt has-text-success" style="font-size: 24px;"></i>
-                                    <p class="is-size-7 has-text-grey mt-1">أنت مطلع على كافة المستجدات حتى الآن.</p>
+                                    <p class="is-size-7 has-text-grey mt-1">${__('No new notifications', 'workpress')}</p>
                                 </div>
                             ` : html`
                                 <div>
@@ -403,9 +405,9 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                             <div key=${idx} class="portal-dash-timeline-item">
                                                 <div class="portal-dash-timeline-dot"></div>
                                                 <div class="portal-dash-timeline-body">
-                                                    <strong class="portal-dash-timeline-title">${notif.title || 'إشعار جديد'}</strong>
+                                                    <strong class="portal-dash-timeline-title">${notif.title || __('Notification', 'workpress')}</strong>
                                                     <p class="portal-dash-timeline-msg">${notif.message || ''}</p>
-                                                    <span class="portal-dash-timeline-time">${notif.time || 'الآن'}</span>
+                                                    <span class="portal-dash-timeline-time">${notif.time || __('Just now', 'workpress')}</span>
                                                 </div>
                                             </div>
                                         `)}
@@ -419,10 +421,10 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         <div class="portal-dash-trust-box mt-4">
                             <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
                                 <i class="dashicons dashicons-shield-alt" style="color: var(--wp-emerald); font-size: 20px;"></i>
-                                <strong style="font-size: 0.85rem; color: #0f172a;">حوكمة وضمان الجودة</strong>
+                                <strong style="font-size: 0.85rem; color: #0f172a;">${__('Quality Assurance & Governance', 'workpress')}</strong>
                             </div>
                             <p style="font-size: 0.75rem; color: #64748b; line-height: 1.5;">
-                                كافة العمليات والمخرجات موثقة ومؤرشفة في محرك الذاكرة المؤسسية وفق أرقى معايير الحماية والاستقلالية.
+                                ${__('All deliverables and milestone sign-offs are cryptographically hashed and permanently recorded in the organizational memory engine.', 'workpress')}
                             </p>
                         </div>
                     </div>

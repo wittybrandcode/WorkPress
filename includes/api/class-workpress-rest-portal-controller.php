@@ -394,6 +394,19 @@ class WorkPress_REST_Portal_Controller extends WP_REST_Controller {
 				),
 			)
 		);
+
+		// 23. Set Client Preferred Language
+		register_rest_route(
+			$this->namespace,
+			'/' . $this->rest_base . '/set-language',
+			array(
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this->auth_handler, 'set_language' ),
+					'permission_callback' => '__return_true',
+				),
+			)
+		);
 	}
 
 	// ------------------------------------------------------------------------
@@ -502,5 +515,9 @@ class WorkPress_REST_Portal_Controller extends WP_REST_Controller {
 
 	public function mark_all_portal_notifications_read( $request ) {
 		return $this->pulse_handler->mark_all_portal_notifications_read( $request );
+	}
+
+	public function set_language( $request ) {
+		return $this->auth_handler->set_language( $request );
 	}
 }

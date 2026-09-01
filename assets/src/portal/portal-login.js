@@ -7,7 +7,7 @@
  *
  * @package WorkPress
  * @subpackage Portal
- * @version 2.2.2
+ * @version 2.3.0
  */
 
 window.WorkPressPortal = window.WorkPressPortal || {};
@@ -25,6 +25,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         if (!window.preact || !window.htm) return null;
         const { h } = window.preact;
         const html = window.htm.bind(h);
+        const __ = window.__ || ((s) => s);
 
         const {
             loginUsername,
@@ -48,10 +49,10 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     </div>
 
                     <h1 class="portal-login-title">
-                        تسجيل الدخول
+                        ${__('Sign In', 'workpress')}
                     </h1>
                     <p class="portal-login-subtitle">
-                        مرحباً بك، يرجى إدخال بيانات الدخول للمتابعة
+                        ${__('Please sign in with your authorized client credentials to access your workspace.', 'workpress')}
                     </p>
 
                     ${loginError && html`
@@ -62,19 +63,19 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
                     <form class="portal-login-form" onSubmit=${onLoginSubmit}>
                         <div class="portal-form-group">
-                            <label class="portal-label">اسم المستخدم أو البريد الإلكتروني</label>
+                            <label class="portal-label">${__('Username or Email', 'workpress')}</label>
                             <input 
                                 type="text" 
                                 class="portal-input" 
                                 value=${loginUsername} 
                                 onInput=${e => onUsernameChange(e.target.value)} 
-                                placeholder="اسم الحساب أو email@domain.com"
+                                placeholder="name@domain.com"
                                 required 
                             />
                         </div>
 
                         <div class="portal-form-group">
-                            <label class="portal-label">كلمة المرور</label>
+                            <label class="portal-label">${__('Password', 'workpress')}</label>
                             <input 
                                 type="password" 
                                 class="portal-input" 
@@ -90,8 +91,8 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             class="btn-portal btn-portal-primary portal-login-btn" 
                             disabled=${loginLoading}
                         >
-                            <i class="dashicons dashicons-lock" style="margin-left: 4px;"></i>
-                            <span>${loginLoading ? 'جاري التحقق...' : 'تسجيل الدخول'}</span>
+                            <i class="dashicons dashicons-lock" style="margin-inline-end: 4px;"></i>
+                            <span>${loginLoading ? __('Entering Workspace...', 'workpress') : __('Sign In', 'workpress')}</span>
                         </button>
                     </form>
                 </div>

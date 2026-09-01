@@ -1,1838 +1,1838 @@
+# Arabic translation for WorkPress.
 # Copyright (C) 2026 WorkPress Team
-# This file is distributed under the same license as the WorkPress package.
 msgid ""
 msgstr ""
 "Project-Id-Version: WorkPress 2.3.0\n"
 "Report-Msgid-Bugs-To: https://workpress.local/support\n"
-"POT-Creation-Date: 2026-09-01T13:50:31.827Z\n"
+"POT-Creation-Date: 2026-09-01T13:50:31.828Z\n"
+"PO-Revision-Date: 2026-09-01T13:50:31.828Z\n"
+"Last-Translator: WorkPress Localization Team <ar@workpress.local>\n"
+"Language-Team: Arabic <ar@li.org>\n"
+"Language: ar\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2026-YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: WorkPress Team <support@workpress.local>\n"
-"Language-Team: Arabic <ar@li.org>\n"
-"Language: ar\n"
 "Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5);\n"
 "X-Generator: WorkPress Native i18n Suite\n"
 "X-Domain: workpress\n"
 
 #: assets/src/portal/portal-app.js assets/src/portal/portal-radar.js includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "Administrator"
-msgstr ""
+msgstr "مدير عام"
 
 #: assets/src/portal/portal-app.js assets/src/portal/portal-dashboard.js assets/src/portal/portal-gateway.js
 msgid "Client"
-msgstr ""
+msgstr "مستفيد"
 
 #: assets/src/portal/portal-app.js assets/src/portal/portal-gateway.js includes/services/class-workpress-portal-service.php
 msgid "Subscriber"
-msgstr ""
+msgstr "مشترك"
 
 #: assets/src/portal/portal-app.js
 msgid "An error occurred while uploading file."
-msgstr ""
+msgstr "حدث خطأ أثناء رفع الملف."
 
 #: assets/src/portal/portal-app.js
 msgid "Invalid credentials."
-msgstr ""
+msgstr "بيانات الدخول غير صحيحة، يرجى التأكد والمحاولة ثانية."
 
 #: assets/src/portal/portal-app.js
 msgid "Connection failed, please try again."
-msgstr ""
+msgstr "تعذر الاتصال بالخادم، يرجى المحاولة ثانية."
 
 #: assets/src/portal/portal-app.js
 msgid "Your feedback has been sent successfully."
-msgstr ""
+msgstr "تم إرسال ملاحظتكم واستفساركم بنجاح إلى فريق العمل."
 
 #: assets/src/portal/portal-app.js
 msgid "Failed to send feedback, please try again."
-msgstr ""
+msgstr "فشل إرسال الملاحظة، يرجى المحاولة ثانية."
 
 #: assets/src/portal/portal-app.js
 msgid "Please enter a title for the project request."
-msgstr ""
+msgstr "يرجى كتابة عنوان أو اسم لطلب المشروع."
 
 #: assets/src/portal/portal-app.js assets/src/portal/portal-request.js
 msgid "Request Submitted Successfully!"
-msgstr ""
+msgstr "تم استلام وتوثيق طلبكم بنجاح!"
 
 #: assets/src/portal/portal-app.js
 msgid "An error occurred while submitting request."
-msgstr ""
+msgstr "حدث خطأ أثناء إرسال الطلب، يرجى المحاولة ثانية."
 
 #: assets/src/portal/portal-app.js
 msgid "Unable to load executive report."
-msgstr ""
+msgstr "تعذر جلب التقرير التنفيذي."
 
 #: assets/src/portal/portal-app.js
 msgid "An error occurred while loading report."
-msgstr ""
+msgstr "حدث خطأ أثناء تحميل التقرير."
 
 #: assets/src/portal/portal-app.js assets/src/portal/portal-modals.js assets/src/portal/portal-radar.js
 msgid "Loading..."
-msgstr ""
+msgstr "جاري التحميل..."
 
 #: assets/src/portal/portal-core.js
 msgid "An error occurred while processing the request."
-msgstr ""
+msgstr "حدث خطأ أثناء معالجة الطلب."
 
 #: assets/src/portal/portal-core.js
 msgid "Approved Project"
-msgstr ""
+msgstr "مشروع معتمد"
 
 #: assets/src/portal/portal-core.js
 msgid "Technical System"
-msgstr ""
+msgstr "منظومة تقنية"
 
 #: assets/src/portal/portal-core.js
 msgid "Service Request"
-msgstr ""
+msgstr "طلب خدمة"
 
 #: assets/src/portal/portal-core.js assets/src/portal/portal-radar.js assets/src/portal/portal-workspace.js
 msgid "Under Review"
-msgstr ""
+msgstr "قيد الدراسة"
 
 #: assets/src/portal/portal-core.js
 msgid "Approved Deliverable"
-msgstr ""
+msgstr "مخرج معتمد"
 
 #: assets/src/portal/portal-core.js
 msgid "Previous Page"
-msgstr ""
+msgstr "الصفحة السابقة"
 
 #: assets/src/portal/portal-core.js
 msgid "Next Page"
-msgstr ""
+msgstr "الصفحة التالية"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Active Projects"
-msgstr ""
+msgstr "المشاريع الجارية"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Approved Deliverables"
-msgstr ""
+msgstr "المخرجات المعتمدة"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Average Progress"
-msgstr ""
+msgstr "معدل الإنجاز العام"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
 msgid "Total Requests"
-msgstr ""
+msgstr "إجمالي الطلبات"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Deliverables requiring your review and sign-off"
-msgstr ""
+msgstr "مخرجات فنية تتطلب مراجعتك وقرارك الفوري"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
 msgid "Pending"
-msgstr ""
+msgstr "معلق"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js
 msgid "Project:"
-msgstr ""
+msgstr "المشروع:"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Active Project"
-msgstr ""
+msgstr "مشروع نشط"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Lead:"
-msgstr ""
+msgstr "المسؤول الفني:"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Staff"
-msgstr ""
+msgstr "فريق العمل"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Review & Sign-off"
-msgstr ""
+msgstr "المعاينة والمصادقة"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "All Projects"
-msgstr ""
+msgstr "جميع المشاريع"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
 msgid "In Progress"
-msgstr ""
+msgstr "قيد التنفيذ والإنجاز"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Under Review / Pending"
-msgstr ""
+msgstr "قيد الدراسة والانتظار"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js
 msgid "Approved"
-msgstr ""
+msgstr "المعتمدة حديثاً"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Completed"
-msgstr ""
+msgstr "المكتملة والمنجزة"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "No active projects matching this filter."
-msgstr ""
+msgstr "لا توجد مشاريع تطابق هذا الفلتر حالياً."
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Click here to submit your first project request."
-msgstr ""
+msgstr "اضغط هنا لتقديم أول طلب مشروع."
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js assets/src/portal/portal-request.js
 msgid "Submit New Request"
-msgstr ""
+msgstr "تقديم طلب مشروع"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-radar.js
 msgid "Lead"
-msgstr ""
+msgstr "المسؤول الفني"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
 msgid "Due Date"
-msgstr ""
+msgstr "موعد التسليم"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
 msgid "Flexible"
-msgstr ""
+msgstr "مرن"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Deliverables"
-msgstr ""
+msgstr "المخرجات"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
 msgid "Progress"
-msgstr ""
+msgstr "نسبة الإنجاز"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "View Delivery Certificate"
-msgstr ""
+msgstr "معاينة وثيقة الاستلام الرسمية"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-gateway.js
 msgid "Open Workspace"
-msgstr ""
+msgstr "فتح مساحة عمل المشروع"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js
 msgid "Notifications"
-msgstr ""
+msgstr "الإشعارات"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "No new notifications"
-msgstr ""
+msgstr "لا توجد إشعارات جديدة حالياً"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Notification"
-msgstr ""
+msgstr "إشعار"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Just now"
-msgstr ""
+msgstr "الآن"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Quality Assurance & Governance"
-msgstr ""
+msgstr "حوكمة وضمان الجودة"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js
 msgid "All deliverables and milestone sign-offs are cryptographically hashed and permanently recorded in the organizational memory engine."
-msgstr ""
+msgstr "كافة المخرجات ومصادقات الاستلام موثقة ببصمات مشفرة ومحفوظة بصورة دائمة في محرك الذاكرة المؤسسية."
 
 #: assets/src/portal/portal-gateway.js
 msgid "Welcome! Redirecting you to the main site..."
-msgstr ""
+msgstr "مرحباً بك! جاري تحويلك تلقائياً إلى الصفحة الرئيسية للموقع..."
 
 #: assets/src/portal/portal-gateway.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Back to Main Site"
-msgstr ""
+msgstr "العودة للموقع الرئيسي"
 
 #: assets/src/portal/portal-gateway.js
 msgid "Welcome! Initializing CoWorkPress operations plaza..."
-msgstr ""
+msgstr "مرحباً بك! جاري تهيئة غرفة العمليات والرادار الإداري..."
 
 #: assets/src/portal/portal-gateway.js
 msgid "Welcome! Entering your authorized project workspace..."
-msgstr ""
+msgstr "مرحباً بك! جاري نقلك إلى مساحة مشاريعك ومخرجاتك المعتمدة..."
 
 #: assets/src/portal/portal-gateway.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Logout"
-msgstr ""
+msgstr "تسجيل الخروج"
 
 #: assets/src/portal/portal-header.js
 msgid "Your request status has been officially updated."
-msgstr ""
+msgstr "تم تحديث حالة طلبكم رسمياً."
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-modals.js
 msgid "Close"
-msgstr ""
+msgstr "إغلاق"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Client Preview Mode — Viewing the portal exactly as seen by the authorized client."
-msgstr ""
+msgstr "وضع المعاينة التجريبية كزبون — استعراض البوابة كما يراها العميل تماماً."
 
 #: assets/src/portal/portal-header.js
 msgid "Return to Executive Radar"
-msgstr ""
+msgstr "العودة للرادار التنفيذي"
 
 #: assets/src/portal/portal-header.js
 msgid "Client Portal"
-msgstr ""
+msgstr "بوابة المستفيد"
 
 #: assets/src/portal/portal-header.js
 msgid "Language"
-msgstr ""
+msgstr "اللغة"
 
 #: assets/src/portal/portal-header.js
 msgid "Mark all as read"
-msgstr ""
+msgstr "تحديد الكل كمقروء"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js assets/src/portal/portal-workspace.js
 msgid "View"
-msgstr ""
+msgstr "معاينة"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js assets/src/portal/portal-request.js
 msgid "Main Overview"
-msgstr ""
+msgstr "الرئيسية"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Project Requests"
-msgstr ""
+msgstr "سجل الطلبات والمقترحات"
 
 #: assets/src/portal/portal-header.js
 msgid "Active Project:"
-msgstr ""
+msgstr "المشروع النشط:"
 
 #: assets/src/portal/portal-header.js
 msgid "Select a project..."
-msgstr ""
+msgstr "اختر مشروعاً..."
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Deliverables Vault"
-msgstr ""
+msgstr "خزانة المخرجات المعتمدة"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-workspace.js
 msgid "Milestones & Roadmap"
-msgstr ""
+msgstr "المعالم وخطة الإنجاز"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js assets/src/portal/portal-workspace.js
 msgid "Submit Feedback"
-msgstr ""
+msgstr "إرسال ملاحظة أو استفسار"
 
 #: assets/src/portal/portal-login.js
 msgid "Sign In"
-msgstr ""
+msgstr "تسجيل الدخول"
 
 #: assets/src/portal/portal-login.js
 msgid "Please sign in with your authorized client credentials to access your workspace."
-msgstr ""
+msgstr "مرحباً بك، يرجى إدخال بيانات الدخول للمتابعة"
 
 #: assets/src/portal/portal-login.js
 msgid "Username or Email"
-msgstr ""
+msgstr "اسم المستخدم أو البريد الإلكتروني"
 
 #: assets/src/portal/portal-login.js
 msgid "Password"
-msgstr ""
+msgstr "كلمة المرور"
 
 #: assets/src/portal/portal-login.js
 msgid "Entering Workspace..."
-msgstr ""
+msgstr "جاري التحقق والدخول..."
 
 #: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Official Delivery Certificate"
-msgstr ""
+msgstr "وثيقة الاستلام الرسمية للمشروع"
 
 #: assets/src/portal/portal-modals.js
 msgid "Date"
-msgstr ""
+msgstr "التاريخ"
 
 #: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Status"
-msgstr ""
+msgstr "الحالة"
 
 #: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "No deliverables submitted yet for this project."
-msgstr ""
+msgstr "لم تُرفع مخرجات معتمدة لهذا المشروع حتى الآن."
 
 #: assets/src/portal/portal-modals.js includes/api/portal/class-workpress-portal-auth-handler.php includes/services/class-workpress-portal-service.php
 msgid "Project Lead"
-msgstr ""
+msgstr "قائد مشروع"
 
 #: assets/src/portal/portal-modals.js
 msgid "SHA-256 Digital Fingerprint:"
-msgstr ""
+msgstr "البصمة الرقمية المشفرة SHA-256:"
 
 #: assets/src/portal/portal-modals.js
 msgid "Official Sign-off"
-msgstr ""
+msgstr "المصادقة والتوقيع الرسمي"
 
 #: assets/src/portal/portal-modals.js
 msgid "Sign-off Approved"
-msgstr ""
+msgstr "تمت المصادقة والاستلام بنجاح"
 
 #: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Print"
-msgstr ""
+msgstr "طباعة"
 
 #: assets/src/portal/portal-radar.js
 msgid "Executive Dashboard"
-msgstr ""
+msgstr "لوحة القيادة والمتابعة"
 
 #: assets/src/portal/portal-radar.js
 msgid "Executive intelligence radar for real-time portfolio monitoring, intake requests, and client review feedback."
-msgstr ""
+msgstr "شاشة استعلامية متقدمة تمنحك إحاطة فورية بنشاط الزبائن والطلبات والملاحظات الواردة، مع روابط فورية لإدارتها داخل منظومة WorkPress."
 
 #: assets/src/portal/portal-radar.js
 msgid "Tasks"
-msgstr ""
+msgstr "المهام"
 
 #: assets/src/portal/portal-radar.js
 msgid "Connected & Live"
-msgstr ""
+msgstr "متصل ومحدث"
 
 #: assets/src/portal/portal-radar.js assets/src/portal/portal-request.js
 msgid "Filter"
-msgstr ""
+msgstr "تصفية"
 
 #: assets/src/portal/portal-request.js
 msgid "WorkPress Certified Request Gateway"
-msgstr ""
+msgstr "بوابة تقديم الطلبات الرسمية المعتمدة"
 
 #: assets/src/portal/portal-request.js
 msgid "Submit Project Request"
-msgstr ""
+msgstr "إرسال وتوثيق طلب المشروع"
 
 #: assets/src/portal/portal-request.js
 msgid "Our technical leads will review your request and get back to you shortly."
-msgstr ""
+msgstr "حدد متطلباتك ومواصفات طلبك وسيصل مباشرة للإدارة العامة كمشروع رسمي للمراجعة والتسعير والاعتماد الفوري."
 
 #: assets/src/portal/portal-request.js
 msgid "Project Title"
-msgstr ""
+msgstr "عنوان المشروع المطلوب"
 
 #: assets/src/portal/portal-request.js assets/src/portal/portal-workspace.js
 msgid "Detailed Specifications"
-msgstr ""
+msgstr "المواصفات والمتطلبات التفصيلية"
 
 #: assets/src/portal/portal-request.js
 msgid "Attachments & Files"
-msgstr ""
+msgstr "المرفقات والملفات الداعمة"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Requests History"
-msgstr ""
+msgstr "سجل الطلبات والمقترحات"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Track and manage your submitted project proposals."
-msgstr ""
+msgstr "متابعة مسار فرز واعتماد مقترحات وطلبات المشاريع المقدمة."
 
 #: assets/src/portal/portal-workspace.js
 msgid "No requests submitted yet."
-msgstr ""
+msgstr "لا توجد طلبات سابقة مسجلة"
 
 #: assets/src/portal/portal-workspace.js
 msgid "You can submit a project or service request at any time for executive review and scope estimation."
-msgstr ""
+msgstr "يمكنك تقديم طلب مشروع أو خدمة جديدة في أي وقت وسيقوم الفريق الفني بمراجعته واعتماده فوراً."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Approved & Ready"
-msgstr ""
+msgstr "معتمد ومجدول للتنفيذ"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Declined"
-msgstr ""
+msgstr "معتذر عنه"
 
 #: assets/src/portal/portal-workspace.js
 msgid "No additional details provided."
-msgstr ""
+msgstr "لا يوجد بيان إضافي مرفق مع الطلب."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Welcome to Client Portal"
-msgstr ""
+msgstr "مرحباً بك في بوابة المستفيدين"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Your client account is verified and ready. You can begin by submitting a project or service request for review and scope preparation."
-msgstr ""
+msgstr "Your client account is verified and ready. You can begin by submitting a project or service request for review and scope preparation."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Executive tracking and approved deliverables vault."
-msgstr ""
+msgstr "مساحة المتابعة التنفيذية واستلام المخرجات المعتمدة."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Frozen / Paused"
-msgstr ""
+msgstr "مجمد مؤقتاً"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Active"
-msgstr ""
+msgstr "نشط"
 
 #: assets/src/portal/portal-workspace.js
 msgid "The comprehensive project delivery certificate aggregates verified solutions, milestones index, and cryptographic sign-off metadata."
-msgstr ""
+msgstr "تتضمن وثيقة الاستلام الشاملة حصر كافة الحلول المعتمدة، مؤشرات الإنجاز، وبيانات التوقيع والاستلام الرسمي."
 
 #: assets/src/portal/portal-workspace.js
 msgid "When the project lead publishes approved deliverables, they will appear here immediately for review, download, and permanent sign-off."
-msgstr ""
+msgstr "عندما يقوم الفريق الفني برفع الحلول واعتمادها من قبل مدير المشروع، ستظهر ملفاتها وروابطها هنا مباشرة للتحميل والمصادقة."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Approved Solutions"
-msgstr ""
+msgstr "الحلول المعتمدة"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Download"
-msgstr ""
+msgstr "تحميل"
 
 #: assets/src/portal/portal-workspace.js
 msgid "The technical team is currently structuring the milestone delivery roadmap."
-msgstr ""
+msgstr "يقوم مدير المشروع حالياً بهيكلة المراحل وتوزيع المهام على الفريق الفني."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Priority"
-msgstr ""
+msgstr "الأولوية"
 
 #: assets/src/portal/portal-workspace.js
 msgid "High"
-msgstr ""
+msgstr "عالية"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Medium"
-msgstr ""
+msgstr "متوسطة"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Assignees"
-msgstr ""
+msgstr "المكلفون"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Your message will be sent immediately to the project lead and recorded as an official evidence entry in the task timeline."
-msgstr ""
+msgstr "ستصل ملاحظتك فوراً لمدير المشروع والفريق الفني وتُسجل كـ Evidence رسمي في خط زمن المهمة."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Select milestone or task for feedback:"
-msgstr ""
+msgstr "اختر المرحلة أو المهمة المراد الاستفسار عنها:"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Request Revisions"
-msgstr ""
+msgstr "طلب تعديل واستدراك"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Write your feedback or clarification request here..."
-msgstr ""
+msgstr "اكتب ملاحظتك أو طلب التوضيح هنا..."
 
 #: includes/admin/class-workpress-admin.php includes/core/class-workpress-install.php
 msgid "WorkPress"
-msgstr ""
+msgstr "ورك برس"
 
 #: includes/api/class-workpress-rest-contributions-controller.php
 msgid "البيانات المرسلة غير صحيحة."
-msgstr ""
+msgstr "البيانات المرسلة غير صحيحة."
 
 #: includes/api/class-workpress-rest-contributions-controller.php includes/services/class-workpress-contribution-service.php
 msgid "المعرّف والتسمية مطلوبان."
-msgstr ""
+msgstr "المعرّف والتسمية مطلوبان."
 
 #: includes/api/class-workpress-rest-contributions-controller.php includes/api/class-workpress-rest-tasks-controller.php
 msgid "غير مصرح لك"
-msgstr ""
+msgstr "غير مصرح لك"
 
 #: includes/api/class-workpress-rest-contributions-controller.php
 msgid "المحتوى أو المرفقات مطلوبة."
-msgstr ""
+msgstr "المحتوى أو المرفقات مطلوبة."
 
 #: includes/api/class-workpress-rest-contributions-controller.php includes/services/class-workpress-contribution-service.php includes/services/class-workpress-portal-signoff-service.php
 msgid "المساهمة غير موجودة."
-msgstr ""
+msgstr "المساهمة غير موجودة."
 
 #: includes/api/class-workpress-rest-contributions-controller.php
 msgid "تم نقل المساهمة إلى سلة المهملات."
-msgstr ""
+msgstr "تم نقل المساهمة إلى سلة المهملات."
 
 #: includes/api/class-workpress-rest-contributions-controller.php includes/api/portal/class-workpress-portal-projects-handler.php
 msgid "نص التعليق مطلوب."
-msgstr ""
+msgstr "نص التعليق مطلوب."
 
 #: includes/api/class-workpress-rest-members-controller.php
 msgid "معرف المستخدم والدور مطلوبان."
-msgstr ""
+msgstr "معرف المستخدم والدور مطلوبان."
 
 #: includes/api/class-workpress-rest-members-controller.php
 msgid "فشل إضافة العضو."
-msgstr ""
+msgstr "فشل إضافة العضو."
 
 #: includes/api/class-workpress-rest-members-controller.php
 msgid "الدور مطلوب."
-msgstr ""
+msgstr "الدور مطلوب."
 
 #: includes/api/class-workpress-rest-members-controller.php
 msgid "فشل تحديث العضو."
-msgstr ""
+msgstr "فشل تحديث العضو."
 
 #: includes/api/class-workpress-rest-members-controller.php
 msgid "فشل إزالة العضو."
-msgstr ""
+msgstr "فشل إزالة العضو."
 
 #: includes/api/class-workpress-rest-projects-controller.php
 msgid "اسم المشروع مطلوب"
-msgstr ""
+msgstr "اسم المشروع مطلوب"
 
 #: includes/api/class-workpress-rest-projects-controller.php
 msgid "المشروع غير موجود"
-msgstr ""
+msgstr "المشروع غير موجود"
 
 #: includes/api/class-workpress-rest-report-controller.php includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "يجب تسجيل الدخول أولاً."
-msgstr ""
+msgstr "يجب تسجيل الدخول أولاً."
 
 #: includes/api/class-workpress-rest-report-controller.php
 msgid "ليس لديك صلاحية للاطلاع على تقارير هذا المشروع."
-msgstr ""
+msgstr "ليس لديك صلاحية للاطلاع على تقارير هذا المشروع."
 
 #: includes/api/class-workpress-rest-roles-controller.php includes/api/portal/class-workpress-portal-auth-handler.php templates/portal/index.php
 msgid "مدير عام"
-msgstr ""
+msgstr "مدير عام"
 
 #: includes/api/class-workpress-rest-roles-controller.php includes/api/portal/class-workpress-portal-auth-handler.php includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "قائد مشروع"
-msgstr ""
+msgstr "قائد مشروع"
 
 #: includes/api/class-workpress-rest-roles-controller.php
 msgid "منفذ رئيسي"
-msgstr ""
+msgstr "منفذ رئيسي"
 
 #: includes/api/class-workpress-rest-roles-controller.php
 msgid "مساهم فني"
-msgstr ""
+msgstr "مساهم فني"
 
 #: includes/api/class-workpress-rest-roles-controller.php includes/api/portal/class-workpress-portal-auth-handler.php templates/portal/index.php
 msgid "مشترك"
-msgstr ""
+msgstr "مشترك"
 
 #: includes/api/class-workpress-rest-roles-controller.php includes/api/portal/class-workpress-portal-auth-handler.php includes/core/class-workpress-install.php
 msgid "مستفيد"
-msgstr ""
+msgstr "مستفيد"
 
 #: includes/api/class-workpress-rest-roles-controller.php
 msgid "بيانات غير صالحة"
-msgstr ""
+msgstr "بيانات غير صالحة"
 
 #: includes/api/class-workpress-rest-roles-controller.php
 msgid "جميع الحقول مطلوبة"
-msgstr ""
+msgstr "جميع الحقول مطلوبة"
 
 #: includes/api/class-workpress-rest-roles-controller.php
 msgid "هذا الدور موجود مسبقاً"
-msgstr ""
+msgstr "هذا الدور موجود مسبقاً"
 
 #: includes/api/class-workpress-rest-roles-controller.php
 msgid "الدور الأساسي غير صالح"
-msgstr ""
+msgstr "الدور الأساسي غير صالح"
 
 #: includes/api/class-workpress-rest-roles-controller.php
 msgid "لا يمكن حذف هذا الدور أو أنه غير موجود"
-msgstr ""
+msgstr "لا يمكن حذف هذا الدور أو أنه غير موجود"
 
 #: includes/api/class-workpress-rest-tasks-controller.php
 msgid "عنوان المهمة مطلوب"
-msgstr ""
+msgstr "عنوان المهمة مطلوب"
 
 #: includes/api/class-workpress-rest-tasks-controller.php
 msgid "المهمة غير موجودة"
-msgstr ""
+msgstr "المهمة غير موجودة"
 
 #: includes/api/class-workpress-rest-tasks-controller.php
 msgid "الحالة مطلوبة"
-msgstr ""
+msgstr "الحالة مطلوبة"
 
 #: includes/api/class-workpress-rest-tasks-controller.php
 msgid "خدمة التكليف غير متوفرة"
-msgstr ""
+msgstr "خدمة التكليف غير متوفرة"
 
 #: includes/api/class-workpress-rest-trash-controller.php
 msgid "سبب الحذف مطلوب"
-msgstr ""
+msgstr "سبب الحذف مطلوب"
 
 #: includes/api/class-workpress-rest-trash-controller.php
 msgid "عذراً، لا تملك صلاحية لطلب حذف هذا العنصر."
-msgstr ""
+msgstr "عذراً، لا تملك صلاحية لطلب حذف هذا العنصر."
 
 #: includes/api/class-workpress-rest-trash-controller.php
 msgid "تم تقديم طلب الحذف بنجاح"
-msgstr ""
+msgstr "تم تقديم طلب الحذف بنجاح"
 
 #: includes/api/class-workpress-rest-webhooks-controller.php
 msgid "عذراً، إدارة خطافات الويب والتكامل الخارجي محصورة بمدير النظام فقط."
-msgstr ""
+msgstr "عذراً، إدارة خطافات الويب والتكامل الخارجي محصورة بمدير النظام فقط."
 
 #: includes/api/class-workpress-rest-webhooks-controller.php
 msgid "تم حفظ إعدادات الخطاف بنجاح."
-msgstr ""
+msgstr "تم حفظ إعدادات الخطاف بنجاح."
 
 #: includes/api/class-workpress-rest-webhooks-controller.php
 msgid "الخطاف المطلوب غير موجود."
-msgstr ""
+msgstr "الخطاف المطلوب غير موجود."
 
 #: includes/api/class-workpress-rest-webhooks-controller.php
 msgid "تم حذف الخطاف بنجاح."
-msgstr ""
+msgstr "تم حذف الخطاف بنجاح."
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "يجب تسجيل الدخول للوصول إلى بوابة المشاريع."
-msgstr ""
+msgstr "يجب تسجيل الدخول للوصول إلى بوابة المشاريع."
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "ليس لديك صلاحية للاطلاع على هذا المشروع."
-msgstr ""
+msgstr "ليس لديك صلاحية للاطلاع على هذا المشروع."
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "يرجى إدخال اسم المستخدم وكلمة المرور."
-msgstr ""
+msgstr "يرجى إدخال اسم المستخدم وكلمة المرور."
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "بيانات الدخول غير صحيحة، يرجى التأكد والمحاولة ثانية."
-msgstr ""
+msgstr "بيانات الدخول غير صحيحة، يرجى التأكد والمحاولة ثانية."
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php templates/portal/index.php
 msgid "منفذ فني"
-msgstr ""
+msgstr "منفذ فني"
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php includes/services/class-workpress-portal-service.php
 msgid "Technical Staff"
-msgstr ""
+msgstr "منفذ فني"
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "Language updated successfully."
-msgstr ""
+msgstr "تم تحديث اللغة بنجاح."
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php includes/services/class-workpress-portal-signoff-service.php includes/services/class-workpress-project-service.php
 msgid "المشروع غير موجود."
-msgstr ""
+msgstr "المشروع غير موجود."
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php includes/modules/notifications/class-workpress-notification-api.php includes/services/class-workpress-portal-service.php
 msgid "غير محدد"
-msgstr ""
+msgstr "غير محدد"
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php
 msgid "تم قبول المخرج بنجاح!"
-msgstr ""
+msgstr "تم قبول المخرج بنجاح!"
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php
 msgid "تم إرسال التعليق بنجاح."
-msgstr ""
+msgstr "تم إرسال التعليق بنجاح."
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php
 msgid "تم اعتماد المشروع وإغلاقه بنجاح! شكراً لتعاونكم."
-msgstr ""
+msgstr "تم اعتماد المشروع وإغلاقه بنجاح! شكراً لتعاونكم."
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "يرجى كتابة نص الملاحظة أو الاستفسار أو سبب طلب الاستدراك."
-msgstr ""
+msgstr "يرجى كتابة نص الملاحظة أو الاستفسار أو سبب طلب الاستدراك."
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "تم اعتماد ومصادقة استلام المخرجات والحلول الفنية رسمياً من قِبل المستفيد."
-msgstr ""
+msgstr "تم اعتماد ومصادقة استلام المخرجات والحلول الفنية رسمياً من قِبل المستفيد."
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "تم إرسال ملاحظتك واستفسارك بنجاح لفريق العمل."
-msgstr ""
+msgstr "تم إرسال ملاحظتك واستفسارك بنجاح لفريق العمل."
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "تم إرسال طلب التعديل والاستدراك المسبب لمدير المشروع."
-msgstr ""
+msgstr "تم إرسال طلب التعديل والاستدراك المسبب لمدير المشروع."
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "تم تسجيل توقيعك والمصادقة على استلام المخرجات بنجاح."
-msgstr ""
+msgstr "تم تسجيل توقيعك والمصادقة على استلام المخرجات بنجاح."
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "عميل"
-msgstr ""
+msgstr "عميل"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "المدير العام"
-msgstr ""
+msgstr "المدير العام"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "عضو فريق العمل"
-msgstr ""
+msgstr "عضو فريق العمل"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "عميل مسجل"
-msgstr ""
+msgstr "عميل مسجل"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php includes/modules/notifications/class-workpress-notification-api.php
 msgid "مهمة"
-msgstr ""
+msgstr "مهمة"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "استوديو فرز الطلبات"
-msgstr ""
+msgstr "استوديو فرز الطلبات"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "إدارة المشاريع"
-msgstr ""
+msgstr "إدارة المشاريع"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "لوحة الكانبان"
-msgstr ""
+msgstr "لوحة الكانبان"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "نماذج استقبال الطلبات"
-msgstr ""
+msgstr "نماذج استقبال الطلبات"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "قاعدة المعرفة"
-msgstr ""
+msgstr "قاعدة المعرفة"
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "تم حفظ إعدادات قنوات الإشعارات بنجاح."
-msgstr ""
+msgstr "تم حفظ إعدادات قنوات الإشعارات بنجاح."
 
 #: includes/api/portal/class-workpress-portal-pulse-handler.php
 msgid "تم تحديث الملف التعريفي بنجاح."
-msgstr ""
+msgstr "تم تحديث الملف التعريفي بنجاح."
 
 #: includes/api/portal/class-workpress-portal-requests-handler.php
 msgid "لم يتم إرسال أي ملف."
-msgstr ""
+msgstr "لم يتم إرسال أي ملف."
 
 #: includes/api/portal/class-workpress-portal-requests-handler.php
 msgid "عذراً، لا يُسمح برفع هذا النوع من الملفات لأسباب أمنية."
-msgstr ""
+msgstr "عذراً، لا يُسمح برفع هذا النوع من الملفات لأسباب أمنية."
 
 #: includes/api/portal/class-workpress-portal-requests-handler.php
 msgid "حجم الملف يتجاوز الحد الأقصى المسموح به (25 ميجابايت)."
-msgstr ""
+msgstr "حجم الملف يتجاوز الحد الأقصى المسموح به (25 ميجابايت)."
 
 #: includes/api/portal/class-workpress-portal-requests-handler.php
 msgid "يرجى إدخال عنوان أو اسم الطلب."
-msgstr ""
+msgstr "يرجى إدخال عنوان أو اسم الطلب."
 
 #: includes/api/portal/class-workpress-portal-requests-handler.php
 msgid "تم تقديم طلب المشروع بنجاح وسيصل إشعار فوري لمدير المنظومة للمراجعة والتسعير "
-msgstr ""
+msgstr "تم تقديم طلب المشروع بنجاح وسيصل إشعار فوري لمدير المنظومة للمراجعة والتسعير "
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "واجهات الوصول والدخول (Access & Perimeter)"
-msgstr ""
+msgstr "واجهات الوصول والدخول (Access & Perimeter)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "الدخول لغرفة عمليات CoWorkPress"
-msgstr ""
+msgstr "الدخول لغرفة عمليات CoWorkPress"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "الدخول للبوابة المستقلة ومساحة المخرجات"
-msgstr ""
+msgstr "الدخول للبوابة المستقلة ومساحة المخرجات"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "صلاحيات المشاريع وسياقات العمل (Projects)"
-msgstr ""
+msgstr "صلاحيات المشاريع وسياقات العمل (Projects)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "الاطلاع على المشاريع المصرح بها"
-msgstr ""
+msgstr "الاطلاع على المشاريع المصرح بها"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إنشاء وتأسيس مشاريع جديدة"
-msgstr ""
+msgstr "إنشاء وتأسيس مشاريع جديدة"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تعديل بيانات ومواعيد المشاريع"
-msgstr ""
+msgstr "تعديل بيانات ومواعيد المشاريع"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "حذف وأرشفة المشاريع"
-msgstr ""
+msgstr "حذف وأرشفة المشاريع"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إدارة وتعيين أعضاء المشروع"
-msgstr ""
+msgstr "إدارة وتعيين أعضاء المشروع"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "صلاحيات المهام والكانبان (Tasks & Workflow)"
-msgstr ""
+msgstr "صلاحيات المهام والكانبان (Tasks & Workflow)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "استعراض المهام وقراءتها"
-msgstr ""
+msgstr "استعراض المهام وقراءتها"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إنشاء مهام جديدة"
-msgstr ""
+msgstr "إنشاء مهام جديدة"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تعديل المهام المسندة للشخص"
-msgstr ""
+msgstr "تعديل المهام المسندة للشخص"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تعديل كافة مهام المشروع"
-msgstr ""
+msgstr "تعديل كافة مهام المشروع"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تغيير حالات المهام ونقلها في الكانبان"
-msgstr ""
+msgstr "تغيير حالات المهام ونقلها في الكانبان"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إسناد المهام وتوزيع المسؤوليات"
-msgstr ""
+msgstr "إسناد المهام وتوزيع المسؤوليات"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "حذف المهام"
-msgstr ""
+msgstr "حذف المهام"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "المساهمات والحلول الفنية (Contributions & Evidence)"
-msgstr ""
+msgstr "المساهمات والحلول الفنية (Contributions & Evidence)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "قراءة مساهمات وأدلة المهام"
-msgstr ""
+msgstr "قراءة مساهمات وأدلة المهام"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إضافة تعليق أو مساهمة فنية"
-msgstr ""
+msgstr "إضافة تعليق أو مساهمة فنية"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تعديل مساهماته"
-msgstr ""
+msgstr "تعديل مساهماته"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "حذف مساهماته"
-msgstr ""
+msgstr "حذف مساهماته"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "اعتماد مساهمة كحل نهائي"
-msgstr ""
+msgstr "اعتماد مساهمة كحل نهائي"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إلغاء اعتماد الحل وإعادة الفتح"
-msgstr ""
+msgstr "إلغاء اعتماد الحل وإعادة الفتح"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "وارد الطلبات وحوكمة الفرز (Requests & Triage)"
-msgstr ""
+msgstr "وارد الطلبات وحوكمة الفرز (Requests & Triage)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تقديم طلبات مشاريع جديدة"
-msgstr ""
+msgstr "تقديم طلبات مشاريع جديدة"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "استعراض وارد الطلبات"
-msgstr ""
+msgstr "استعراض وارد الطلبات"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "فرز ووضع الطلبات قيد الدراسة بتبرير"
-msgstr ""
+msgstr "فرز ووضع الطلبات قيد الدراسة بتبرير"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "اعتماد الطلب وتأسيس المشروع رسمياً"
-msgstr ""
+msgstr "اعتماد الطلب وتأسيس المشروع رسمياً"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "رفض الطلب مع تبرير رسمي للمستفيد"
-msgstr ""
+msgstr "رفض الطلب مع تبرير رسمي للمستفيد"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "المعرفة والتقارير التنفيذية (Knowledge & Reports)"
-msgstr ""
+msgstr "المعرفة والتقارير التنفيذية (Knowledge & Reports)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "الاطلاع على قاعدة المعرفة المستخلصة"
-msgstr ""
+msgstr "الاطلاع على قاعدة المعرفة المستخلصة"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "استخراج التقارير التنفيذية الرسمية (A4)"
-msgstr ""
+msgstr "استخراج التقارير التنفيذية الرسمية (A4)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تصدير كتيب المعرفة المجمع (Markdown)"
-msgstr ""
+msgstr "تصدير كتيب المعرفة المجمع (Markdown)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "أدوات وإعدادات النظام (System Administration)"
-msgstr ""
+msgstr "أدوات وإعدادات النظام (System Administration)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إدارة إعدادات وتخصيصات المنظومة والمصفوفة"
-msgstr ""
+msgstr "إدارة إعدادات وتخصيصات المنظومة والمصفوفة"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "تصميم وبناء قوالب نماذج الاستقبال"
-msgstr ""
+msgstr "تصميم وبناء قوالب نماذج الاستقبال"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إدارة خطافات الويب والتكامل الخارجي"
-msgstr ""
+msgstr "إدارة خطافات الويب والتكامل الخارجي"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "خدمات البوابة ومساحة المستفيد (Portal Stakeholder Suite)"
-msgstr ""
+msgstr "خدمات البوابة ومساحة المستفيد (Portal Stakeholder Suite)"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "استعراض وتنزيل المخرجات والحلول المعتمدة"
-msgstr ""
+msgstr "استعراض وتنزيل المخرجات والحلول المعتمدة"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "إرسال الملاحظات والاستفسارات على المخرجات"
-msgstr ""
+msgstr "إرسال الملاحظات والاستفسارات على المخرجات"
 
 #: includes/core/class-workpress-capabilities-registry.php
 msgid "التوقيع الرقمي واستخراج محضر الاستلام"
-msgstr ""
+msgstr "التوقيع الرقمي واستخراج محضر الاستلام"
 
 #: includes/core/class-workpress-install.php
 msgid "البحث في المشاريع"
-msgstr ""
+msgstr "البحث في المشاريع"
 
 #: includes/core/class-workpress-install.php
 msgid "جميع المشاريع"
-msgstr ""
+msgstr "جميع المشاريع"
 
 #: includes/core/class-workpress-install.php
 msgid "المشروع الأب"
-msgstr ""
+msgstr "المشروع الأب"
 
 #: includes/core/class-workpress-install.php
 msgid "المشروع الأب:"
-msgstr ""
+msgstr "المشروع الأب:"
 
 #: includes/core/class-workpress-install.php
 msgid "تعديل المشروع"
-msgstr ""
+msgstr "تعديل المشروع"
 
 #: includes/core/class-workpress-install.php
 msgid "تحديث المشروع"
-msgstr ""
+msgstr "تحديث المشروع"
 
 #: includes/core/class-workpress-install.php
 msgid "إضافة مشروع جديد"
-msgstr ""
+msgstr "إضافة مشروع جديد"
 
 #: includes/core/class-workpress-install.php
 msgid "اسم المشروع الجديد"
-msgstr ""
+msgstr "اسم المشروع الجديد"
 
 #: includes/core/class-workpress-install.php
 msgid "المشاريع"
-msgstr ""
+msgstr "المشاريع"
 
 #: includes/core/class-workpress-install.php
 msgid "إضافة عنصر عمل جديد"
-msgstr ""
+msgstr "إضافة عنصر عمل جديد"
 
 #: includes/core/class-workpress-install.php
 msgid "عنصر عمل جديد"
-msgstr ""
+msgstr "عنصر عمل جديد"
 
 #: includes/core/class-workpress-install.php
 msgid "تعديل عنصر العمل"
-msgstr ""
+msgstr "تعديل عنصر العمل"
 
 #: includes/core/class-workpress-install.php
 msgid "عرض عنصر العمل"
-msgstr ""
+msgstr "عرض عنصر العمل"
 
 #: includes/core/class-workpress-install.php
 msgid "جميع عناصر العمل"
-msgstr ""
+msgstr "جميع عناصر العمل"
 
 #: includes/core/class-workpress-install.php
 msgid "البحث في عناصر العمل"
-msgstr ""
+msgstr "البحث في عناصر العمل"
 
 #: includes/core/class-workpress-install.php
 msgid "لم يتم العثور على عناصر عمل"
-msgstr ""
+msgstr "لم يتم العثور على عناصر عمل"
 
 #: includes/core/class-workpress-install.php
 msgid "لا توجد عناصر عمل في سلة المهملات"
-msgstr ""
+msgstr "لا توجد عناصر عمل في سلة المهملات"
 
 #: includes/core/class-workpress-install.php
 msgid "مشروع"
-msgstr ""
+msgstr "مشروع"
 
 #: includes/core/class-workpress-install.php
 msgid "عناصر العمل"
-msgstr ""
+msgstr "عناصر العمل"
 
 #: includes/core/class-workpress-install.php
 msgid "عنصر عمل"
-msgstr ""
+msgstr "عنصر عمل"
 
 #: includes/core/class-workpress-install.php
 msgid "إضافة عنصر جديد"
-msgstr ""
+msgstr "إضافة عنصر جديد"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "شخص ما"
-msgstr ""
+msgstr "شخص ما"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "النظام"
-msgstr ""
+msgstr "النظام"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تم تكليفك بمهمة جديدة: %s"
-msgstr ""
+msgstr "تم تكليفك بمهمة جديدة: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تم إلغاء تكليفك من المهمة: %s"
-msgstr ""
+msgstr "تم إلغاء تكليفك من المهمة: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تغيرت حالة المهمة: %s"
-msgstr ""
+msgstr "تغيرت حالة المهمة: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تم إعادة فتح المهمة: %s"
-msgstr ""
+msgstr "تم إعادة فتح المهمة: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تم إغلاق المهمة: %s"
-msgstr ""
+msgstr "تم إغلاق المهمة: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "أضاف %1$s مساهمة جديدة في المهمة: %2$s"
-msgstr ""
+msgstr "أضاف %1$s مساهمة جديدة في المهمة: %2$s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "علق %1$s على مساهمة في المهمة: %2$s"
-msgstr ""
+msgstr "علق %1$s على مساهمة في المهمة: %2$s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تم اعتماد مساهمتك في المهمة كحل: %s"
-msgstr ""
+msgstr "تم اعتماد مساهمتك في المهمة كحل: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تم التراجع عن اعتماد مساهمتك في المهمة: %s"
-msgstr ""
+msgstr "تم التراجع عن اعتماد مساهمتك في المهمة: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تمت إضافتك إلى مشروع: %s"
-msgstr ""
+msgstr "تمت إضافتك إلى مشروع: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تمت إزالتك من مشروع: %s"
-msgstr ""
+msgstr "تمت إزالتك من مشروع: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "تم الحذف النهائي لمشروعك والمهام الخاصة به: %s"
-msgstr ""
+msgstr "تم الحذف النهائي لمشروعك والمهام الخاصة به: %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "مشروع محذوف"
-msgstr ""
+msgstr "مشروع محذوف"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "عنصر"
-msgstr ""
+msgstr "عنصر"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<strong>طلب حذف:</strong> يطلب %1$s حذف \"%2$s\". <br><strong>السبب:</strong> %3$s"
-msgstr ""
+msgstr "<strong>طلب حذف:</strong> يطلب %1$s حذف \"%2$s\". <br><strong>السبب:</strong> %3$s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<strong>استفسار من العميل:</strong> أرسل %1$s ملاحظة حول المهمة: \"%2$s\""
-msgstr ""
+msgstr "<strong>استفسار من العميل:</strong> أرسل %1$s ملاحظة حول المهمة: \"%2$s\""
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<strong>طلب مشروع جديد:</strong> قدم العميل %1$s طلباً جديداً لمشروع: \"%2$s\""
-msgstr ""
+msgstr "<strong>طلب مشروع جديد:</strong> قدم العميل %1$s طلباً جديداً لمشروع: \"%2$s\""
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "مشروع جديد"
-msgstr ""
+msgstr "مشروع جديد"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<strong>تم اعتماد طلبكم:</strong> قامت الإدارة باعتماد طلبكم لمشروع \"%s\" وتدشينه رسمياً في مساحتكم "
-msgstr ""
+msgstr "<strong>تم اعتماد طلبكم:</strong> قامت الإدارة باعتماد طلبكم لمشروع \"%s\" وتدشينه رسمياً في مساحتكم "
 
 #: includes/modules/notifications/class-workpress-notification-api.php includes/services/class-workpress-portal-service.php includes/services/class-workpress-task-service.php
 msgid "المشروع"
-msgstr ""
+msgstr "المشروع"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<br><strong>توضيح الإدارة:</strong> %s"
-msgstr ""
+msgstr "<br><strong>توضيح الإدارة:</strong> %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<strong>طلبكم قيد الدراسة:</strong> يجري التدقيق الهندسي لطلب مشروع \"%1$s\".%2$s"
-msgstr ""
+msgstr "<strong>طلبكم قيد الدراسة:</strong> يجري التدقيق الهندسي لطلب مشروع \"%1$s\".%2$s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<br><strong>سبب عدم الاعتماد:</strong> %s"
-msgstr ""
+msgstr "<br><strong>سبب عدم الاعتماد:</strong> %s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "<strong>تحديث حول طلبكم:</strong> تعذر اعتماد مشروع \"%1$s\".%2$s"
-msgstr ""
+msgstr "<strong>تحديث حول طلبكم:</strong> تعذر اعتماد مشروع \"%1$s\".%2$s"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "لديك إشعار جديد"
-msgstr ""
+msgstr "لديك إشعار جديد"
 
 #: includes/modules/notifications/class-workpress-notification-api.php
 msgid "حدث خطأ أثناء تحديث الإشعار"
-msgstr ""
+msgstr "حدث خطأ أثناء تحديث الإشعار"
 
 #: includes/modules/notifications/class-workpress-notification-hooks.php
 msgid "تم إيداع مخرج / حل فني جديد بانتظار مراجعتكم."
-msgstr ""
+msgstr "تم إيداع مخرج / حل فني جديد بانتظار مراجعتكم."
 
 #: includes/modules/notifications/class-workpress-notification-hooks.php
 msgid "تم اعتماد الحل النهائي للمهمة بنجاح."
-msgstr ""
+msgstr "تم اعتماد الحل النهائي للمهمة بنجاح."
 
 #: includes/modules/notifications/class-workpress-notification-hooks.php
 msgid "تم اعتماد طلبكم رسمياً وتدشين المشروع في المنظومة "
-msgstr ""
+msgstr "تم اعتماد طلبكم رسمياً وتدشين المشروع في المنظومة "
 
 #: includes/modules/notifications/class-workpress-notification-hooks.php
 msgid "طلبكم قيد الدراسة الهندسية والتدقيق الفني "
-msgstr ""
+msgstr "طلبكم قيد الدراسة الهندسية والتدقيق الفني "
 
 #: includes/modules/notifications/class-workpress-notification-hooks.php
 msgid "تعذر اعتماد الطلب. يرجى مراجعة سبب الرفض."
-msgstr ""
+msgstr "تعذر اعتماد الطلب. يرجى مراجعة سبب الرفض."
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "تطوير برمجيات (Software Development)"
-msgstr ""
+msgstr "تطوير برمجيات (Software Development)"
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "قالب مخصص لمشاريع تطوير البرمجيات يشمل مهام تحليل المتطلبات، التصميم، التطوير، والاختبار."
-msgstr ""
+msgstr "قالب مخصص لمشاريع تطوير البرمجيات يشمل مهام تحليل المتطلبات، التصميم، التطوير، والاختبار."
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "تحليل المتطلبات"
-msgstr ""
+msgstr "تحليل المتطلبات"
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "جمع وتحليل متطلبات النظام وإعداد وثيقة المتطلبات (PRD)."
-msgstr ""
+msgstr "جمع وتحليل متطلبات النظام وإعداد وثيقة المتطلبات (PRD)."
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "تصميم واجهة المستخدم (UI/UX)"
-msgstr ""
+msgstr "تصميم واجهة المستخدم (UI/UX)"
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "تصميم واجهات النظام وتجربة المستخدم."
-msgstr ""
+msgstr "تصميم واجهات النظام وتجربة المستخدم."
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "بناء وتطوير واجهات برمجة التطبيقات (API)"
-msgstr ""
+msgstr "بناء وتطوير واجهات برمجة التطبيقات (API)"
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "بناء نقاط الاتصال المطلوبة بناءً على التصميم المعماري."
-msgstr ""
+msgstr "بناء نقاط الاتصال المطلوبة بناءً على التصميم المعماري."
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "الاختبار الأوتوماتيكي (Automated Testing)"
-msgstr ""
+msgstr "الاختبار الأوتوماتيكي (Automated Testing)"
 
 #: includes/office-packs/class-workpress-software-pack.php
 msgid "كتابة اختبارات الوحدة والتحقق من التغطية البرمجية."
-msgstr ""
+msgstr "كتابة اختبارات الوحدة والتحقق من التغطية البرمجية."
 
 #: includes/services/class-workpress-assignment-service.php includes/services/class-workpress-contribution-service.php includes/services/class-workpress-task-service.php
 msgid "المهمة غير موجودة."
-msgstr ""
+msgstr "المهمة غير موجودة."
 
 #: includes/services/class-workpress-assignment-service.php
 msgid "تم تكليف المستخدمين: %s."
-msgstr ""
+msgstr "تم تكليف المستخدمين: %s."
 
 #: includes/services/class-workpress-assignment-service.php
 msgid "تم إلغاء تكليف المستخدمين: %s."
-msgstr ""
+msgstr "تم إلغاء تكليف المستخدمين: %s."
 
 #: includes/services/class-workpress-assignment-service.php
 msgid "تم تعيين المكلفين بالمهمة: %s."
-msgstr ""
+msgstr "تم تعيين المكلفين بالمهمة: %s."
 
 #: includes/services/class-workpress-assignment-service.php
 msgid "تمت إزالة جميع المكلفين من المهمة."
-msgstr ""
+msgstr "تمت إزالة جميع المكلفين من المهمة."
 
 #: includes/services/class-workpress-auth-service.php
 msgid "تم تجاوز الحد المسموح من محاولات الدخول الخاطئة. تم قفل المحاولات مؤقتاً لمدة 15 دقيقة لدواعي الأمان والحماية."
-msgstr ""
+msgstr "تم تجاوز الحد المسموح من محاولات الدخول الخاطئة. تم قفل المحاولات مؤقتاً لمدة 15 دقيقة لدواعي الأمان والحماية."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "عام"
-msgstr ""
+msgstr "عام"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "تنفيذ فني"
-msgstr ""
+msgstr "تنفيذ فني"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "حل مقترح"
-msgstr ""
+msgstr "حل مقترح"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "مراجعة وتدقيق"
-msgstr ""
+msgstr "مراجعة وتدقيق"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "نقاش وملاحظة"
-msgstr ""
+msgstr "نقاش وملاحظة"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "قرار وتوجيه"
-msgstr ""
+msgstr "قرار وتوجيه"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "تغيير حالة"
-msgstr ""
+msgstr "تغيير حالة"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "تكليف"
-msgstr ""
+msgstr "تكليف"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "طلب حذف"
-msgstr ""
+msgstr "طلب حذف"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "ملاحظة واستفسار مستفيد"
-msgstr ""
+msgstr "ملاحظة واستفسار مستفيد"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "طلب استدراك / تعديل مسبب"
-msgstr ""
+msgstr "طلب استدراك / تعديل مسبب"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "مصادقة وتوقيع استلام"
-msgstr ""
+msgstr "مصادقة وتوقيع استلام"
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "نوع المساهمة موجود مسبقاً بهذا المعرّف."
-msgstr ""
+msgstr "نوع المساهمة موجود مسبقاً بهذا المعرّف."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "لا يمكن حذف أنواع النظام المحمية."
-msgstr ""
+msgstr "لا يمكن حذف أنواع النظام المحمية."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "نوع المساهمة غير موجود."
-msgstr ""
+msgstr "نوع المساهمة غير موجود."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "لا يمكن إضافة مساهمات لمهمة مغلقة."
-msgstr ""
+msgstr "لا يمكن إضافة مساهمات لمهمة مغلقة."
 
 #: includes/services/class-workpress-contribution-service.php includes/services/class-workpress-portal-signoff-service.php
 msgid "المستخدم غير موجود."
-msgstr ""
+msgstr "المستخدم غير موجود."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "فشل في حفظ المساهمة."
-msgstr ""
+msgstr "فشل في حفظ المساهمة."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "لا يمكن حذف مساهمة معتمدة كحل رسمي؛ يجب إلغاء اعتمادها أولاً."
-msgstr ""
+msgstr "لا يمكن حذف مساهمة معتمدة كحل رسمي؛ يجب إلغاء اعتمادها أولاً."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "فشل نقل المساهمة إلى سلة المهملات."
-msgstr ""
+msgstr "فشل نقل المساهمة إلى سلة المهملات."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "لا يمكن إرسال تعليق فارغ."
-msgstr ""
+msgstr "لا يمكن إرسال تعليق فارغ."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "مستخدم غير صالح."
-msgstr ""
+msgstr "مستخدم غير صالح."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "ليس لديك صلاحية التعليق في هذا المشروع."
-msgstr ""
+msgstr "ليس لديك صلاحية التعليق في هذا المشروع."
 
 #: includes/services/class-workpress-contribution-service.php includes/services/class-workpress-portal-signoff-service.php
 msgid "فشل حفظ التعليق."
-msgstr ""
+msgstr "فشل حفظ التعليق."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "التعليق غير موجود."
-msgstr ""
+msgstr "التعليق غير موجود."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "ليس لديك صلاحية حذف هذا التعليق."
-msgstr ""
+msgstr "ليس لديك صلاحية حذف هذا التعليق."
 
 #: includes/services/class-workpress-contribution-service.php
 msgid "فشل حذف التعليق."
-msgstr ""
+msgstr "فشل حذف التعليق."
 
 #: includes/services/class-workpress-portal-service.php
 msgid "الإدارة"
-msgstr ""
+msgstr "الإدارة"
 
 #: includes/services/class-workpress-portal-service.php
 msgid " تم اعتماد طلبكم لمشروع \"%s\" وتدشينه رسمياً في المنظومة "
-msgstr ""
+msgstr " تم اعتماد طلبكم لمشروع \"%s\" وتدشينه رسمياً في المنظومة "
 
 #: includes/services/class-workpress-portal-service.php
 msgid " طلبكم لمشروع \"%1$s\" قيد الدراسة الهندسية: %2$s"
-msgstr ""
+msgstr " طلبكم لمشروع \"%1$s\" قيد الدراسة الهندسية: %2$s"
 
 #: includes/services/class-workpress-portal-service.php
 msgid "يجري الفحص الفني للجدوى"
-msgstr ""
+msgstr "يجري الفحص الفني للجدوى"
 
 #: includes/services/class-workpress-portal-service.php
 msgid " تعذر اعتماد مشروع \"%1$s\". السبب: %2$s"
-msgstr ""
+msgstr " تعذر اعتماد مشروع \"%1$s\". السبب: %2$s"
 
 #: includes/services/class-workpress-portal-service.php
 msgid "خارج نطاق الخدمات المتاحة"
-msgstr ""
+msgstr "خارج نطاق الخدمات المتاحة"
 
 #: includes/services/class-workpress-portal-service.php
 msgid " تم إيداع مخرج / مقترح جديد في مشروع \"%s\" بانتظار مراجعتكم."
-msgstr ""
+msgstr " تم إيداع مخرج / مقترح جديد في مشروع \"%s\" بانتظار مراجعتكم."
 
 #: includes/services/class-workpress-portal-service.php
 msgid " تم اعتماد الحل النهائي للمهمة: \"%s\""
-msgstr ""
+msgstr " تم اعتماد الحل النهائي للمهمة: \"%s\""
 
 #: includes/services/class-workpress-portal-service.php
 msgid "المهمة"
-msgstr ""
+msgstr "المهمة"
 
 #: includes/services/class-workpress-portal-service.php
 msgid " تم تقديم طلبكم لمشروع: \"%s\""
-msgstr ""
+msgstr " تم تقديم طلبكم لمشروع: \"%s\""
 
 #: includes/services/class-workpress-portal-service.php
 msgid "إشعار جديد بخصوص مشروع: %s"
-msgstr ""
+msgstr "إشعار جديد بخصوص مشروع: %s"
 
 #: includes/services/class-workpress-portal-service.php
 msgid "مشاريعك"
-msgstr ""
+msgstr "مشاريعك"
 
 #: includes/services/class-workpress-portal-service.php
 msgid "Loading Workspace..."
-msgstr ""
+msgstr "جاري تشغيل مساحة المشاريع..."
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "غير مصرح لك بالتعليق على هذا المخرج."
-msgstr ""
+msgstr "غير مصرح لك بالتعليق على هذا المخرج."
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "المخرج المطلوب غير موجود."
-msgstr ""
+msgstr "المخرج المطلوب غير موجود."
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "غير مصرح لك باعتماد مخرجات هذا المشروع."
-msgstr ""
+msgstr "غير مصرح لك باعتماد مخرجات هذا المشروع."
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "قام العميل %s باعتماد هذا الحل رسميًا وتم تسليمه بنجاح "
-msgstr ""
+msgstr "قام العميل %s باعتماد هذا الحل رسميًا وتم تسليمه بنجاح "
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "العميل"
-msgstr ""
+msgstr "العميل"
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "تم اعتماد الحل بنجاح وإغلاق المهمة! "
-msgstr ""
+msgstr "تم اعتماد الحل بنجاح وإغلاق المهمة! "
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "غير مصرح لك باعتماد هذا المشروع."
-msgstr ""
+msgstr "غير مصرح لك باعتماد هذا المشروع."
 
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "تم توقيع واستلام المشروع بنجاح! شكرًا لثقتكم بنا "
-msgstr ""
+msgstr "تم توقيع واستلام المشروع بنجاح! شكرًا لثقتكم بنا "
 
 #: includes/services/class-workpress-project-service.php
 msgid "اسم المشروع مطلوب."
-msgstr ""
+msgstr "اسم المشروع مطلوب."
 
 #: includes/services/class-workpress-report-service.php
 msgid "غير مسند"
-msgstr ""
+msgstr "غير مسند"
 
 #: includes/services/class-workpress-report-service.php
 msgid "قائد المشروع"
-msgstr ""
+msgstr "قائد المشروع"
 
 #: includes/services/class-workpress-solution-transform-service.php
 msgid "عذراً، حق اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط."
-msgstr ""
+msgstr "عذراً، حق اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط."
 
 #: includes/services/class-workpress-solution-transform-service.php
 msgid "قام %s باعتماد هذه المساهمة كحل رسمي واكتملت المهمة."
-msgstr ""
+msgstr "قام %s باعتماد هذه المساهمة كحل رسمي واكتملت المهمة."
 
 #: includes/services/class-workpress-solution-transform-service.php
 msgid "عذراً، حق إلغاء اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط."
-msgstr ""
+msgstr "عذراً، حق إلغاء اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط."
 
 #: includes/services/class-workpress-solution-transform-service.php
 msgid "قام %s بإلغاء اعتماد الحل وأُعيد فتح المهمة للمراجعة."
-msgstr ""
+msgstr "قام %s بإلغاء اعتماد الحل وأُعيد فتح المهمة للمراجعة."
 
 #: includes/services/class-workpress-task-service.php
 msgid "عنوان المهمة مطلوب."
-msgstr ""
+msgstr "عنوان المهمة مطلوب."
 
 #: includes/services/class-workpress-task-service.php
 msgid "تم إنشاء المهمة."
-msgstr ""
+msgstr "تم إنشاء المهمة."
 
 #: includes/services/class-workpress-task-service.php
 msgid "العنوان"
-msgstr ""
+msgstr "العنوان"
 
 #: includes/services/class-workpress-task-service.php
 msgid "الأولوية"
-msgstr ""
+msgstr "الأولوية"
 
 #: includes/services/class-workpress-task-service.php
 msgid "الساعات المقدرة"
-msgstr ""
+msgstr "الساعات المقدرة"
 
 #: includes/services/class-workpress-task-service.php
 msgid "تم تعديل تفاصيل المهمة: %s."
-msgstr ""
+msgstr "تم تعديل تفاصيل المهمة: %s."
 
 #: includes/services/class-workpress-task-service.php
 msgid "يجب أن تكون الساعات المسجلة أكبر من الصفر."
-msgstr ""
+msgstr "يجب أن تكون الساعات المسجلة أكبر من الصفر."
 
 #: includes/services/class-workpress-task-service.php
 msgid "مستخدم"
-msgstr ""
+msgstr "مستخدم"
 
 #: includes/services/class-workpress-task-service.php
 msgid "قام %1$s بتسجيل %2$s ساعة عمل: \"%3$s\""
-msgstr ""
+msgstr "قام %1$s بتسجيل %2$s ساعة عمل: \"%3$s\""
 
 #: includes/services/class-workpress-task-service.php
 msgid "عمل بدون ملاحظة"
-msgstr ""
+msgstr "عمل بدون ملاحظة"
 
 #: includes/services/class-workpress-task-service.php
 msgid "سجل العمل غير موجود."
-msgstr ""
+msgstr "سجل العمل غير موجود."
 
 #: includes/services/class-workpress-task-service.php
 msgid "عنوان عنصر قائمة الفحص مطلوب."
-msgstr ""
+msgstr "عنوان عنصر قائمة الفحص مطلوب."
 
 #: includes/services/class-workpress-task-service.php
 msgid "عنصر قائمة الفحص غير موجود."
-msgstr ""
+msgstr "عنصر قائمة الفحص غير موجود."
 
 #: includes/services/class-workpress-task-service.php
 msgid "المرفق غير صالح."
-msgstr ""
+msgstr "المرفق غير صالح."
 
 #: includes/services/class-workpress-task-service.php
 msgid "ملف مرفق"
-msgstr ""
+msgstr "ملف مرفق"
 
 #: includes/services/class-workpress-task-service.php
 msgid "قام %1$s بإضافة مرفق جديد للمهمة: \"%2$s\""
-msgstr ""
+msgstr "قام %1$s بإضافة مرفق جديد للمهمة: \"%2$s\""
 
 #: includes/services/class-workpress-task-state-machine.php
 msgid "تم تحديث حالة المهمة آلياً: من %1$s إلى %2$s"
-msgstr ""
+msgstr "تم تحديث حالة المهمة آلياً: من %1$s إلى %2$s"
 
 #: includes/services/class-workpress-task-state-machine.php
 msgid "تم تغيير حالة المهمة من ( %1$s ) إلى ( %2$s )."
-msgstr ""
+msgstr "تم تغيير حالة المهمة من ( %1$s ) إلى ( %2$s )."
 
 #: includes/services/class-workpress-task-state-machine.php
 msgid "تم تقديم طلب حذف المهمة (السبب: %s)."
-msgstr ""
+msgstr "تم تقديم طلب حذف المهمة (السبب: %s)."
 
 #: includes/services/class-workpress-task-state-machine.php
 msgid "تم تقديم طلب حذف المهمة."
-msgstr ""
+msgstr "تم تقديم طلب حذف المهمة."
 
 #: includes/services/class-workpress-task-state-machine.php
 msgid "تمت استعادة المهمة وإلغاء طلب الحذف."
-msgstr ""
+msgstr "تمت استعادة المهمة وإلغاء طلب الحذف."
 
 #: includes/services/class-workpress-task-state-machine.php
 msgid "تم حذف المهمة ونقلها إلى سلة المهملات نهائياً."
-msgstr ""
+msgstr "تم حذف المهمة ونقلها إلى سلة المهملات نهائياً."
 
 #: includes/services/class-workpress-task-state-machine.php
 msgid "فشل حذف المهمة."
-msgstr ""
+msgstr "فشل حذف المهمة."
 
 #: includes/services/class-workpress-template-service.php
 msgid "القالب غير موجود."
-msgstr ""
+msgstr "القالب غير موجود."
 
 #: includes/services/class-workpress-template-service.php
 msgid "مهمة جديدة"
-msgstr ""
+msgstr "مهمة جديدة"
 
 #: includes/services/class-workpress-template-service.php
 msgid "مشروع فارغ"
-msgstr ""
+msgstr "مشروع فارغ"
 
 #: includes/services/class-workpress-template-service.php
 msgid "مشروع بدون مهام مبدئية."
-msgstr ""
+msgstr "مشروع بدون مهام مبدئية."
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "اعتماد حل رسمي لمهمة (Solution Accepted)"
-msgstr ""
+msgstr "اعتماد حل رسمي لمهمة (Solution Accepted)"
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "يُطلق فور قيام مدير المشروع أو المسؤول باعتماد مساهمة كحل رسمي معتمد."
-msgstr ""
+msgstr "يُطلق فور قيام مدير المشروع أو المسؤول باعتماد مساهمة كحل رسمي معتمد."
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "إلغاء اعتماد حل لمهمة (Solution Revoked)"
-msgstr ""
+msgstr "إلغاء اعتماد حل لمهمة (Solution Revoked)"
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "يُطلق عند إلغاء اعتماد حل وإعادة فتح المهمة للمراجعة."
-msgstr ""
+msgstr "يُطلق عند إلغاء اعتماد حل وإعادة فتح المهمة للمراجعة."
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "تقديم طلب مشروع جديد من عميل (Client Request Submitted)"
-msgstr ""
+msgstr "تقديم طلب مشروع جديد من عميل (Client Request Submitted)"
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "يُطلق فور إرسال عميل لطلب مشروع جديد عبر نماذج الاستقبال بالبوابة."
-msgstr ""
+msgstr "يُطلق فور إرسال عميل لطلب مشروع جديد عبر نماذج الاستقبال بالبوابة."
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "تغيير حالة المهمة (Task Status Changed)"
-msgstr ""
+msgstr "تغيير حالة المهمة (Task Status Changed)"
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "يُطلق عند نقل مهمة بين أعمدة الكانبان أو إغلاقها."
-msgstr ""
+msgstr "يُطلق عند نقل مهمة بين أعمدة الكانبان أو إغلاقها."
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "اكتمال كافة مهام المشروع 100% (Project Completed)"
-msgstr ""
+msgstr "اكتمال كافة مهام المشروع 100% (Project Completed)"
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "يُطلق عند إنجاز واعتماد الحلول لجميع مهام المشروع بنسبة 100%."
-msgstr ""
+msgstr "يُطلق عند إنجاز واعتماد الحلول لجميع مهام المشروع بنسبة 100%."
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "خطاف جديد"
-msgstr ""
+msgstr "خطاف جديد"
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "يرجى إدخال رابط Webhook صالح."
-msgstr ""
+msgstr "يرجى إدخال رابط Webhook صالح."
 
 #: includes/services/class-workpress-webhook-service.php
 msgid "الرابط المدخل غير صالح."
-msgstr ""
+msgstr "الرابط المدخل غير صالح."
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "جديدة"
-msgstr ""
+msgstr "جديدة"
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "مسندة"
-msgstr ""
+msgstr "مسندة"
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "مفتوحة"
-msgstr ""
+msgstr "مفتوحة"
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "قيد التنفيذ"
-msgstr ""
+msgstr "قيد التنفيذ"
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "في المراجعة"
-msgstr ""
+msgstr "في المراجعة"
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "معتمدة"
-msgstr ""
+msgstr "معتمدة"
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "مكتملة"
-msgstr ""
+msgstr "مكتملة"
 
 #: includes/services/class-workpress-workflow-service.php
 msgid "مغلقة"
-msgstr ""
+msgstr "مغلقة"
 
 #: templates/portal/index.php
 msgid "بوابة ومساحة متابعة المشاريع"
-msgstr ""
+msgstr "بوابة ومساحة متابعة المشاريع"
 
 #: includes/i18n.php
 msgid "Native Organizational Memory & Work Management Engine for WordPress."
-msgstr ""
+msgstr "محرك إدارة العمل والذاكرة المؤسسية الأصيل لووردبريس."
 
 #: includes/i18n.php
 msgid "Submit Request"
-msgstr ""
+msgstr "إرسال الطلب"
 
 #: includes/i18n.php
 msgid "New Request"
-msgstr ""
+msgstr "طلب جديد"
 
 #: includes/i18n.php
 msgid "Search"
-msgstr ""
+msgstr "بحث"
 
 #: includes/i18n.php
 msgid "Cancel"
-msgstr ""
+msgstr "إلغاء"
 
 #: includes/i18n.php
 msgid "Confirm"
-msgstr ""
+msgstr "تأكيد"
 
 #: includes/i18n.php
 msgid "Save"
-msgstr ""
+msgstr "حفظ"
 
 #: includes/i18n.php
 msgid "Back"
-msgstr ""
+msgstr "رجوع"
 
 #: includes/i18n.php
 msgid "Next"
-msgstr ""
+msgstr "التالي"
 
 #: includes/i18n.php
 msgid "Previous"
-msgstr ""
+msgstr "السابق"
 
 #: includes/i18n.php
 msgid "Total"
-msgstr ""
+msgstr "الإجمالي"
 
 #: includes/i18n.php
 msgid "Closed"
-msgstr ""
+msgstr "مغلق"
 
 #: includes/i18n.php
 msgid "Low"
-msgstr ""
+msgstr "منخفضة"
 
 #: includes/i18n.php
 msgid "Critical"
-msgstr ""
+msgstr "حرجة"
 
 #: includes/i18n.php
 msgid "Quick Project Switcher"
-msgstr ""
+msgstr "التبديل السريع للمشاريع"
 
 #: includes/i18n.php
 msgid "Total Projects"
-msgstr ""
+msgstr "إجمالي المشاريع"
 
 #: includes/i18n.php
 msgid "Workspace"
-msgstr ""
+msgstr "مساحة العمل"
 
 #: includes/i18n.php
 msgid "Sign-off Timestamp:"
-msgstr ""
+msgstr "توقيت المصادقة:"
 
 #: includes/i18n.php
 msgid "Signed By:"
-msgstr ""
+msgstr "الموقع:"
 
 #: includes/i18n.php
 msgid "All milestones have been successfully delivered and verified."
-msgstr ""
+msgstr "تم إنجاز والتحقق من كافة المعالم والمخرجات بنجاح."
 
 #: includes/i18n.php
 msgid "Quotation & Scope"
-msgstr ""
+msgstr "إعداد نطاق العمل والميزانية"
 
 #: includes/i18n.php
 msgid "Estimated Budget"
-msgstr ""
+msgstr "الميزانية المقترحة"
 
 #: includes/i18n.php
 msgid "Target Delivery"
-msgstr ""
+msgstr "موعد التسليم المستهدف"
 
 #: includes/i18n.php
 msgid "Secure enterprise gateway for project delivery, deliverables review, and organizational memory sign-offs."
-msgstr ""
+msgstr "البوابة المؤسسية الآمنة لمتابعة مسار تنفيذ المشاريع ومراجعة المخرجات وتوثيق الاستلام في الذاكرة المؤسسية."
 
 #: includes/i18n.php
 msgid "Keep me signed in"
-msgstr ""
+msgstr "تذكر بيانات دخولي"
 
 #: includes/i18n.php
 msgid "Projects"
-msgstr ""
+msgstr "المشاريع"
 
 #: includes/i18n.php
 msgid "Project"
-msgstr ""
+msgstr "مشروع"
 
 #: includes/i18n.php
 msgid "Search Projects"
-msgstr ""
+msgstr "البحث في المشاريع"
 
 #: includes/i18n.php
 msgid "Parent Project"
-msgstr ""
+msgstr "المشروع الأب"
 
 #: includes/i18n.php
 msgid "Edit Project"
-msgstr ""
+msgstr "تعديل المشروع"
 
 #: includes/i18n.php
 msgid "Update Project"
-msgstr ""
+msgstr "تحديث المشروع"
 
 #: includes/i18n.php
 msgid "Add New Project"
-msgstr ""
+msgstr "إضافة مشروع جديد"
 
 #: includes/i18n.php
 msgid "New Project Name"
-msgstr ""
+msgstr "اسم المشروع الجديد"
 
 #: includes/i18n.php
 msgid "Work Items"
-msgstr ""
+msgstr "عناصر العمل"
 
 #: includes/i18n.php
 msgid "Work Item"
-msgstr ""
+msgstr "عنصر عمل"
 
 #: includes/i18n.php
 msgid "Add New Work Item"
-msgstr ""
+msgstr "إضافة عنصر عمل جديد"
 
 #: includes/i18n.php
 msgid "Edit Work Item"
-msgstr ""
+msgstr "تعديل عنصر العمل"
 
 #: includes/i18n.php
 msgid "View Work Item"
-msgstr ""
+msgstr "عرض عنصر العمل"
 
 #: includes/i18n.php
 msgid "All Work Items"
-msgstr ""
+msgstr "جميع عناصر العمل"
 
 #: includes/i18n.php
 msgid "Search Work Items"
-msgstr ""
+msgstr "البحث في عناصر العمل"
 
 #: includes/i18n.php
 msgid "No work items found"
-msgstr ""
+msgstr "لم يتم العثور على عناصر عمل"
 
 #: includes/i18n.php
 msgid "No work items in trash"
-msgstr ""
+msgstr "لا توجد عناصر عمل في سلة المهملات"
 

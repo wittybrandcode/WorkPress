@@ -145,48 +145,45 @@ class WorkPress_Portal_Auth_Handler {
 		$user_data = null;
 		if ( $is_logged_in ) {
 			$user_roles     = (array) $user->roles;
-			$executive_type = 'subscriber';
-			$role_label     = __( 'مشترك', 'workpress' );
-			$can_access     = false;
 
 			if ( in_array( 'administrator', $user_roles, true ) || user_can( $user, 'manage_options' ) ) {
 				$executive_type = 'admin';
-				$role_label     = __( 'مدير عام', 'workpress' );
+				$role_label     = __( 'Administrator', 'workpress' );
 				$can_access     = true;
 			} elseif ( in_array( 'workpress_client', $user_roles, true ) || in_array( 'workpress_portal_user', $user_roles, true ) || user_can( $user, 'access_workpress_portal' ) ) {
 				$executive_type = 'client';
-				$role_label     = __( 'مستفيد', 'workpress' );
+				$role_label     = __( 'Client', 'workpress' );
 				$can_access     = true;
 			} elseif ( in_array( 'editor', $user_roles, true ) ) {
 				$executive_type = 'lead';
-				$role_label     = __( 'قائد مشروع', 'workpress' );
+				$role_label     = __( 'Project Lead', 'workpress' );
 				$can_access     = true;
 			} elseif ( user_can( $user, 'edit_posts' ) || in_array( 'author', $user_roles, true ) || in_array( 'contributor', $user_roles, true ) ) {
 				$executive_type = 'member';
-				$role_label     = __( 'منفذ فني', 'workpress' );
+				$role_label     = __( 'Technical Staff', 'workpress' );
 				$can_access     = true;
 			}
-
-			global $wp_roles;
-			if ( ! isset( $wp_roles ) ) {
-				$wp_roles = new WP_Roles();
-			}
-			$primary_slug = ! empty( $user_roles ) ? $user_roles[0] : 'subscriber';
-			$role_name    = isset( $wp_roles->roles[ $primary_slug ]['name'] ) ? translate_user_role( $wp_roles->roles[ $primary_slug ]['name'] ) : $role_label;
-
-			$user_data = array(
-				'id'             => $user->ID,
-				'display_name'   => $user->display_name,
-				'email'          => $user->user_email,
-				'avatar_url'     => get_avatar_url( $user->ID, array( 'size' => 128 ) ),
-				'roles'          => $user_roles,
-				'role_name'      => $role_name,
-				'role_label'     => $role_label,
-				'executive_type' => $executive_type,
-				'can_access'     => $can_access,
-				'is_admin'       => user_can( $user, 'manage_options' ),
-			);
 		}
+
+		global $wp_roles;
+		if ( ! isset( $wp_roles ) ) {
+			$wp_roles = new WP_Roles();
+		}
+		$primary_slug = ! empty( $user_roles ) ? $user_roles[0] : 'subscriber';
+		$role_name    = isset( $wp_roles->roles[ $primary_slug ]['name'] ) ? translate_user_role( $wp_roles->roles[ $primary_slug ]['name'] ) : $role_label;
+
+		$user_data = array(
+			'id'             => $user ? $user->ID : 0,
+			'display_name'   => $user ? $user->display_name : '',
+			'email'          => $user ? $user->user_email : '',
+			'avatar_url'     => $user ? get_avatar_url( $user->ID, array( 'size' => 128 ) ) : '',
+			'roles'          => $user_roles,
+			'role_name'      => $role_name,
+			'role_label'     => $role_label,
+			'executive_type' => $executive_type,
+			'can_access'     => $can_access,
+			'is_admin'       => $user ? user_can( $user, 'manage_options' ) : false,
+		);
 
 		return new WP_REST_Response(
 			array(
@@ -194,6 +191,38 @@ class WorkPress_Portal_Auth_Handler {
 				'nonce'      => wp_create_nonce( 'wp_rest' ),
 				'isLoggedIn' => $is_logged_in,
 				'user'       => $user_data,
+			),
+			200
+		);
+	}
+
+	/**
+	 * Set client preferred language in user meta and cookie.
+	 *
+	 * @param WP_REST_Request $request Request object.
+	 * @return WP_REST_Response
+	 */
+	public function set_language( $request ) {
+		$lang = sanitize_key( $request->get_param( 'lang' ) );
+		$allowed = array( 'ar', 'en_US', 'fr_FR', 'es_ES', 'en', 'fr', 'es' );
+		if ( ! in_array( $lang, $allowed, true ) ) {
+			$lang = 'ar';
+		}
+
+		if ( is_user_logged_in() ) {
+			update_user_meta( get_current_user_id(), '_workpress_portal_locale', $lang );
+		}
+
+		if ( ! headers_sent() ) {
+			setcookie( 'workpress_portal_locale', $lang, time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), false );
+		}
+
+		return new WP_REST_Response(
+			array(
+				'success' => true,
+				'lang'    => $lang,
+				'is_rtl'  => in_array( substr( $lang, 0, 2 ), array( 'ar', 'he', 'fa', 'ur' ), true ),
+				'message' => __( 'Language updated successfully.', 'workpress' ),
 			),
 			200
 		);

@@ -514,3 +514,77 @@
     font-weight: 800;
     padding: 1px 6px;
 }
+
+/* -------------------------------------------------------------
+ * LANGUAGE SELECTOR POPOVER & SWITCHER
+ * ------------------------------------------------------------- */
+.portal-lang-btn {
+    font-family: 'Plus Jakarta Sans', system-ui, sans-serif !important;
+    font-weight: 800;
+    color: var(--wp-text-main);
+}
+
+.portal-lang-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    inset-inline-end: 0;
+    width: 200px;
+    background: #ffffff;
+    border: 1px solid var(--wp-border);
+    box-shadow: var(--wp-shadow-lg);
+    z-index: 1200;
+    border-radius: 0 !important;
+}
+
+.portal-lang-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0.65rem 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: var(--wp-text-secondary);
+    border-bottom: 1px solid var(--wp-border-subtle);
+    background: var(--wp-bg-subtle);
+}
+
+.portal-lang-list {
+    padding: 0.35rem 0;
+}
+
+.portal-lang-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0.55rem 0.9rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--wp-text-main);
+    transition: all 0.12s ease;
+    text-align: start;
+    border-radius: 0 !important;
+}
+
+.portal-lang-item:hover {
+    background: var(--wp-bg-subtle);
+    color: var(--wp-primary);
+}
+
+.portal-lang-item.is-active {
+    background: var(--wp-primary-light);
+    color: var(--wp-primary);
+    font-weight: 800;
+}
+
+.portal-lang-flag {
+    margin-inline-end: 8px;
+    font-size: 1rem;
+}
+
+.portal-lang-label {
+    flex: 1;
+}

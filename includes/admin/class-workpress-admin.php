@@ -113,14 +113,16 @@ class WorkPress_Admin {
 		$css_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $css_path ) ? filemtime( $css_path ) : WORKPRESS_VERSION );
 		wp_enqueue_style( 'workpress-app-css', WORKPRESS_URL . 'assets/src/css/admin.css', array( 'workpress-bulma' ), $css_ver );
 		
-		// Load React & wp-api-fetch from WP Core
+		// Load React, wp-api-fetch & wp-i18n from WP Core
 		wp_enqueue_script( 'wp-element' );
 		wp_enqueue_script( 'wp-api-fetch' );
+		wp_enqueue_script( 'wp-i18n' );
 		
 		// Load our ES Module Entry Point
 		$js_path = WORKPRESS_PATH . 'assets/src/index.js';
 		$js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $js_path ) ? filemtime( $js_path ) : WORKPRESS_VERSION );
-		wp_enqueue_script( 'workpress-app-js', WORKPRESS_URL . 'assets/src/index.js', array( 'wp-element', 'wp-api-fetch' ), $js_ver, true );
+		wp_enqueue_script( 'workpress-app-js', WORKPRESS_URL . 'assets/src/index.js', array( 'wp-element', 'wp-api-fetch', 'wp-i18n' ), $js_ver, true );
+		wp_set_script_translations( 'workpress-app-js', 'workpress', WORKPRESS_PATH . 'languages' );
 
 		$bell_js_path = WORKPRESS_PATH . 'assets/src/modules/notifications/notification-bell.js';
 		$bell_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $bell_js_path ) ? filemtime( $bell_js_path ) : WORKPRESS_VERSION );
@@ -148,6 +150,7 @@ class WorkPress_Admin {
 	public static function get_client_settings() {
 		$current_user = wp_get_current_user();
 		$is_admin     = current_user_can( 'manage_options' );
+		$locale       = get_user_locale();
 
 		return array(
 			'ajaxUrl'            => admin_url( 'admin-ajax.php' ),
@@ -155,6 +158,15 @@ class WorkPress_Admin {
 			'restUrl'            => esc_url_raw( rest_url( 'workpress/v1/' ) ),
 			'restNonce'          => wp_create_nonce( 'wp_rest' ),
 			'siteName'           => get_bloginfo( 'name' ),
+			'locale'             => $locale,
+			'isRtl'              => is_rtl(),
+			'activeLanguage'     => substr( $locale, 0, 2 ),
+			'supportedLanguages' => array(
+				array( 'code' => 'en_US', 'short' => 'en', 'label' => 'English', 'dir' => 'ltr' ),
+				array( 'code' => 'ar',    'short' => 'ar', 'label' => 'العربية', 'dir' => 'rtl' ),
+				array( 'code' => 'fr_FR', 'short' => 'fr', 'label' => 'Français', 'dir' => 'ltr' ),
+				array( 'code' => 'es_ES', 'short' => 'es', 'label' => 'Español', 'dir' => 'ltr' ),
+			),
 			'defaultPriority'    => get_option( 'workpress_default_priority', 'medium' ),
 			'emailNotifications' => (bool) get_option( 'workpress_email_notifications', true ),
 			'timezone'           => get_option( 'workpress_timezone', wp_timezone_string() ?: 'Africa/Algiers' ),

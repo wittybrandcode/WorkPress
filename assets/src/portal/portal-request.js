@@ -5,7 +5,7 @@
  * 
  * @package WorkPress
  * @subpackage Portal
- * @version 2.2.1
+ * @version 2.3.0
  */
 
 window.WorkPressPortal = window.WorkPressPortal || {};
@@ -17,9 +17,11 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         if (!window.preact || !window.htm) return null;
         const { h } = window.preact;
         const html = window.htm.bind(h);
+        const __ = window.__ || ((s) => s);
+        const isRtl = window.WorkPressPortalI18n ? window.WorkPressPortalI18n.isRTL() : (document.dir === 'rtl');
 
         const {
-            projects, activeForm, intakeForms, selectedFormId,
+            projects = [], activeForm, intakeForms = [], selectedFormId,
             reqCustomTitle, reqDesc, reqSpecs, uploadingSpecs,
             reqSubmitting, reqSuccess, reqError,
             onNavigateToTab, onFormTypeChange, onTitleChange, onDescChange,
@@ -27,7 +29,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
             onSubmit, onResetSuccess
         } = ctx;
 
-        const formTitle = (activeForm && activeForm.name) || 'طلب مشروع جديد';
+        const formTitle = (activeForm && activeForm.name) || __('Submit New Request', 'workpress');
 
         return html`
             <div style="max-width: 900px; margin: 0 auto;">
@@ -37,12 +39,12 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         class="btn-portal btn-portal-ghost btn-portal-sm"
                         onClick=${() => onNavigateToTab('deliverables')}
                     >
-                        <i class="dashicons dashicons-arrow-right-alt"></i>
-                        <span>${projects.length > 0 ? 'العودة للمشاريع' : 'الرئيسية'}</span>
+                        <i class="dashicons ${isRtl ? 'dashicons-arrow-right-alt' : 'dashicons-arrow-left-alt'}"></i>
+                        <span>${projects.length > 0 ? __('Active Projects', 'workpress') : __('Main Overview', 'workpress')}</span>
                     </button>
 
                     <span style="font-size: 0.82rem; color: var(--wp-text-muted);">
-                        بوابة تقديم الطلبات الرسمية المعتمدة
+                        ${__('WorkPress Certified Request Gateway', 'workpress')}
                     </span>
                 </div>
 
@@ -50,13 +52,13 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     <div style="margin-bottom: 1.5rem; border-bottom: 1px solid var(--wp-border); padding-bottom: 1.25rem;">
                         <div style="display: inline-flex; align-items: center; gap: 5px; padding: 0.25rem 0.75rem; background: var(--wp-primary-light); border: 1px solid var(--wp-primary-border); color: #065f46; font-size: 0.8rem; font-weight: 800; margin-bottom: 0.6rem;">
                             <i class="dashicons dashicons-plus-alt2"></i>
-                            <span>استوديو طلب مشروع / خدمة جديدة</span>
+                            <span>${__('Submit Project Request', 'workpress')}</span>
                         </div>
                         <h2 style="font-size: 1.35rem; font-weight: 900; color: var(--wp-text-main); margin-bottom: 0.35rem;">
                             ${formTitle}
                         </h2>
                         <p style="font-size: 0.88rem; color: var(--wp-text-secondary);">
-                            حدد متطلباتك ومواصفات طلبك وسيصل مباشرة للإدارة العامة كمشروع رسمي للمراجعة والتسعير والاعتماد الفوري.
+                            ${__('Our technical leads will review your request and get back to you shortly.', 'workpress')}
                         </p>
                     </div>
 
@@ -64,7 +66,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         <div style="background: var(--wp-primary-light); border: 1px solid var(--wp-primary-border); color: #065f46; padding: 1.25rem; margin-bottom: 1.5rem;">
                             <div style="display: flex; align-items: center; gap: 8px; font-weight: 800; font-size: 1rem; margin-bottom: 0.35rem;">
                                 <i class="dashicons dashicons-yes-alt" style="font-size: 22px;"></i>
-                                <span>تم استلام وتوثيق طلبكم بنجاح!</span>
+                                <span>${__('Request Submitted Successfully!', 'workpress')}</span>
                             </div>
                             <p style="font-size: 0.88rem; margin-bottom: 1rem;">
                                 ${reqSuccess}
@@ -79,7 +81,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                             onNavigateToTab('deliverables');
                                         }}
                                     >
-                                        <span>الانتقال إلى قائمة المشاريع</span>
+                                        <span>${__('Active Projects', 'workpress')}</span>
                                     </button>
                                 ` : null}
                                 <button 
@@ -87,7 +89,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     class="btn-portal btn-portal-outline btn-portal-sm"
                                     onClick=${onResetSuccess}
                                 >
-                                    <span>تقديم طلب خدمة آخر</span>
+                                    <span>${__('Submit New Request', 'workpress')}</span>
                                 </button>
                             </div>
                         </div>
@@ -102,7 +104,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     <!-- Form Schema Switcher (If multiple intake forms exist) -->
                     ${intakeForms.length > 1 && html`
                         <div style="margin-bottom: 1.5rem;">
-                            <label class="portal-label">اختر نوع النموذج أو الخدمة المطلوبة:</label>
+                            <label class="portal-label">${__('Filter', 'workpress')}:</label>
                             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                                 ${intakeForms.map(f => html`
                                     <button 
@@ -120,25 +122,25 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
                     <form onSubmit=${onSubmit}>
                         <div class="portal-form-group">
-                            <label class="portal-label">${(activeForm && activeForm.title_label) || 'عنوان الطلب / اسم المشروع:'}</label>
+                            <label class="portal-label">${(activeForm && activeForm.title_label) || __('Project Title', 'workpress')}</label>
                             <input 
                                 type="text" 
                                 class="portal-input" 
                                 value=${reqCustomTitle} 
                                 onInput=${e => onTitleChange(e.target.value)} 
-                                placeholder="${(activeForm && activeForm.title_placeholder) || 'اكتب اسم أو عنوان طلبك...'}" 
+                                placeholder="${(activeForm && activeForm.title_placeholder) || __('Project Title', 'workpress')}" 
                                 required 
                             />
                         </div>
 
                         <div class="portal-form-group">
-                            <label class="portal-label">${(activeForm && activeForm.desc_label) || 'بيان وشرح تفاصيل الطلب:'}</label>
+                            <label class="portal-label">${(activeForm && activeForm.desc_label) || __('Detailed Specifications', 'workpress')}</label>
                             <textarea 
                                 class="portal-textarea" 
                                 rows="5" 
                                 value=${reqDesc} 
                                 onInput=${e => onDescChange(e.target.value)} 
-                                placeholder="${(activeForm && activeForm.desc_placeholder) || 'وضح بالتفصيل ما تريده من فريق العمل...'}" 
+                                placeholder="${(activeForm && activeForm.desc_placeholder) || __('Detailed Specifications', 'workpress')}" 
                                 required
                             ></textarea>
                         </div>
@@ -159,14 +161,14 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                 <label class="portal-label">${spec.label || spec.name}</label>
                                                 <div style="border: 2px dashed var(--wp-border); background: var(--wp-bg-subtle); padding: 1.25rem; text-align: center;">
                                                     <i class="dashicons dashicons-upload" style="font-size: 28px; color: var(--wp-text-muted); margin-bottom: 0.35rem;"></i>
-                                                    <div style="font-size: 0.85rem; color: var(--wp-text-secondary); margin-bottom: 0.5rem;">اسحب الملفات هنا أو اضغط للاختيار</div>
+                                                    <div style="font-size: 0.85rem; color: var(--wp-text-secondary); margin-bottom: 0.5rem;">${__('Attachments & Files', 'workpress')}</div>
                                                     <input 
                                                         type="file" 
                                                         onChange=${e => onFileUpload(specKey, e)} 
                                                         disabled=${isUp} 
                                                         style="font-size: 0.82rem;"
                                                     />
-                                                    ${isUp && html`<span style="font-size: 0.78rem; color: var(--wp-primary); margin-right: 6px;">جاري الرفع...</span>`}
+                                                    ${isUp && html`<span style="font-size: 0.78rem; color: var(--wp-primary); margin-right: 6px;">${__('Loading...', 'workpress')}</span>`}
                                                 </div>
 
                                                 ${uploadedList.length > 0 && html`
@@ -236,7 +238,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             disabled=${reqSubmitting}
                         >
                             <i class="dashicons dashicons-yes-alt"></i>
-                            <span>${reqSubmitting ? 'جاري توثيق الطلب...' : 'إرسال وتوثيق طلب المشروع'}</span>
+                            <span>${reqSubmitting ? __('Loading...', 'workpress') : __('Submit Project Request', 'workpress')}</span>
                         </button>
                     </form>
                 </div>

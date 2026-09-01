@@ -72,9 +72,12 @@ require_once WORKPRESS_PATH . 'includes/office-packs/class-workpress-software-pa
 require_once WORKPRESS_PATH . 'includes/modules/notifications/class-workpress-notification-module.php';
 
 /**
- * Initialize WorkPress Core.
+ * Initialize WorkPress Core & Text Domain.
  */
 function workpress_init() {
+	// Load plugin text domain for native internationalization.
+	load_plugin_textdomain( 'workpress', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+
 	WorkPress_Install::init();
 	WorkPress_Capabilities_Service::init();
 	WorkPress_Template_Service::init();
@@ -86,4 +89,9 @@ function workpress_init() {
 	new WorkPress_Admin();
 }
 add_action( 'plugins_loaded', 'workpress_init' );
+
+add_action( 'init', function() {
+	load_plugin_textdomain( 'workpress', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
+} );
+
 

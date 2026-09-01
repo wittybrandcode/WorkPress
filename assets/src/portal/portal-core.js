@@ -47,7 +47,8 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     console.warn('WorkPress Portal: Nonce refresh failed', retryErr);
                 }
             }
-            throw new Error(json.message || 'حدث خطأ أثناء معالجة الطلب');
+            const __ = window.__ || ((s) => s);
+            throw new Error(json.message || __('An error occurred while processing the request.', 'workpress'));
         }
         return json;
     };
@@ -192,13 +193,14 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         }
 
         // Smart Generative Vector Cover with Deterministic Themed Palette
+        const __ = window.__ || ((s) => s);
         const idNum = parseInt(item.id || 0, 10);
         const palettes = [
-            { bg1: '#064e3b', bg2: '#047857', accent: '#10b981', icon: 'dashicons-portfolio', label: 'مشروع معتمد' },
-            { bg1: '#1e1b4b', bg2: '#4338ca', accent: '#6366f1', icon: 'dashicons-admin-generic', label: 'منظومة تقنية' },
-            { bg1: '#0f172a', bg2: '#334155', accent: '#0ea5e9', icon: 'dashicons-clipboard', label: 'طلب خدمة' },
-            { bg1: '#78350f', bg2: '#d97706', accent: '#f59e0b', icon: 'dashicons-clock', label: 'قيد الدراسة' },
-            { bg1: '#134e4a', bg2: '#0f766e', accent: '#14b8a6', icon: 'dashicons-yes-alt', label: 'مخرج معتمد' }
+            { bg1: '#064e3b', bg2: '#047857', accent: '#10b981', icon: 'dashicons-portfolio', label: __('Approved Project', 'workpress') },
+            { bg1: '#1e1b4b', bg2: '#4338ca', accent: '#6366f1', icon: 'dashicons-admin-generic', label: __('Technical System', 'workpress') },
+            { bg1: '#0f172a', bg2: '#334155', accent: '#0ea5e9', icon: 'dashicons-clipboard', label: __('Service Request', 'workpress') },
+            { bg1: '#78350f', bg2: '#d97706', accent: '#f59e0b', icon: 'dashicons-clock', label: __('Under Review', 'workpress') },
+            { bg1: '#134e4a', bg2: '#0f766e', accent: '#14b8a6', icon: 'dashicons-yes-alt', label: __('Approved Deliverable', 'workpress') }
         ];
 
         let selected = palettes[idNum % palettes.length];
@@ -271,20 +273,22 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         if (!window.preact || !window.htm || totalPages <= 1) return null;
         const { h } = window.preact;
         const html = window.htm.bind(h);
+        const __ = window.__ || ((s) => s);
+        const isRtl = window.WorkPressPortalI18n ? window.WorkPressPortalI18n.isRTL() : (document.dir === 'rtl');
 
         const items = exports.getPaginationItems(currentPage, totalPages);
 
         return html`
             <div class="portal-pagination-bar">
-                <!-- Previous Button (Right arrow in RTL) -->
+                <!-- Previous Button (Directional) -->
                 <button 
                     type="button" 
                     class="portal-page-btn is-nav" 
                     disabled=${currentPage <= 1}
                     onClick=${() => onPageChange(currentPage - 1)}
-                    title="الصفحة السابقة"
+                    title=${__('Previous Page', 'workpress')}
                 >
-                    <i class="dashicons dashicons-arrow-right-alt2"></i>
+                    <i class="dashicons ${isRtl ? 'dashicons-arrow-right-alt2' : 'dashicons-arrow-left-alt2'}"></i>
                 </button>
 
                 <!-- Page Numbers & Ellipsis -->
@@ -306,15 +310,15 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     })}
                 </div>
 
-                <!-- Next Button (Left arrow in RTL) -->
+                <!-- Next Button (Directional) -->
                 <button 
                     type="button" 
                     class="portal-page-btn is-nav" 
                     disabled=${currentPage >= totalPages}
                     onClick=${() => onPageChange(currentPage + 1)}
-                    title="الصفحة التالية"
+                    title=${__('Next Page', 'workpress')}
                 >
-                    <i class="dashicons dashicons-arrow-left-alt2"></i>
+                    <i class="dashicons ${isRtl ? 'dashicons-arrow-left-alt2' : 'dashicons-arrow-right-alt2'}"></i>
                 </button>
             </div>
         `;

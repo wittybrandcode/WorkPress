@@ -13,7 +13,7 @@
  * 
  * @package WorkPress
  * @subpackage Portal
- * @version 2.2.2
+ * @version 2.3.0
  */
 
 window.WorkPressPortal = window.WorkPressPortal || {};
@@ -25,6 +25,8 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         if (!window.preact || !window.htm) return null;
         const { h } = window.preact;
         const html = window.htm.bind(h);
+        const __ = window.__ || ((s) => s);
+        const isRtl = window.WorkPressPortalI18n ? window.WorkPressPortalI18n.isRTL() : (document.dir === 'rtl');
 
         const {
             projects = [], projectData = {}, selectedProjectId, activeTab,
@@ -49,10 +51,10 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                     <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
                         <div>
                             <h2 style="font-size: 1.35rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.25rem;">
-                                سجل طلبات المشاريع والخدمات المقدمة
+                                ${__('Requests History', 'workpress')}
                             </h2>
                             <p style="font-size: 0.85rem; color: var(--wp-text-muted);">
-                                متابعة فورية لحالة دراسة واعتماد وتحويل طلباتك الفنية إلى مشاريع قيد التنفيذ
+                                ${__('Track and manage your submitted project proposals.', 'workpress')}
                             </p>
                         </div>
 
@@ -61,40 +63,40 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             onClick=${() => onNavigateToTab('new-request')}
                         >
                             <i class="dashicons dashicons-plus-alt2"></i>
-                            <span>تقديم طلب جديد</span>
+                            <span>${__('Submit New Request', 'workpress')}</span>
                         </button>
                     </div>
 
                     ${allReqs.length === 0 ? html`
                         <div class="wp-portal-card portal-empty-state">
                             <i class="dashicons dashicons-inbox portal-empty-icon"></i>
-                            <h3 class="portal-empty-title">لا توجد طلبات سابقة مسجلة</h3>
+                            <h3 class="portal-empty-title">${__('No requests submitted yet.', 'workpress')}</h3>
                             <p class="portal-empty-desc">
-                                يمكنك تقديم طلب مشروع أو خدمة جديدة في أي وقت وسيقوم الفريق الفني بمراجعته واعتماده فوراً.
+                                ${__('You can submit a project or service request at any time for executive review and scope estimation.', 'workpress')}
                             </p>
                             <button 
                                 class="btn-portal btn-portal-primary"
                                 onClick=${() => onNavigateToTab('new-request')}
                             >
-                                <span>تقديم أول طلب الآن</span>
+                                <span>${__('Submit New Request', 'workpress')}</span>
                             </button>
                         </div>
                     ` : html`
                         <div>
                             <div class="portal-requests-grid-natural">
                                 ${paginatedReqs.map(r => {
-                                    let statusLabel = 'طلب قيد المراجعة والدراسة';
+                                    let statusLabel = __('Under Review', 'workpress');
                                     let badgeClass = 'var(--wp-warning-light)';
                                     let borderClass = 'var(--wp-warning-border)';
                                     let textClass = 'var(--wp-warning-text)';
 
                                     if (r.status === 'approved') {
-                                        statusLabel = 'معتمد ومحول لمشروع';
+                                        statusLabel = __('Approved & Ready', 'workpress');
                                         badgeClass = 'var(--wp-primary-light)';
                                         borderClass = 'var(--wp-primary-border)';
                                         textClass = '#065f46';
                                     } else if (r.status === 'rejected') {
-                                        statusLabel = 'معتذر عنه';
+                                        statusLabel = __('Declined', 'workpress');
                                         badgeClass = '#fef2f2';
                                         borderClass = '#fecaca';
                                         textClass = '#dc2626';
@@ -116,18 +118,18 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                     </div>
 
                                                     <h4 class="portal-req-card-title">${r.title || r.name}</h4>
-                                                    <p class="portal-req-card-desc">${r.description || 'لا يوجد بيان إضافي مرفق مع الطلب.'}</p>
+                                                    <p class="portal-req-card-desc">${r.description || __('No additional details provided.', 'workpress')}</p>
                                                 </div>
 
                                                 <div class="portal-req-card-footer">
-                                                    <span style="font-size: 0.75rem; color: var(--wp-text-muted);">رقم الطلب: <strong>#${r.id}</strong></span>
+                                                    <span style="font-size: 0.75rem; color: var(--wp-text-muted);">${__('Total Requests', 'workpress')}: <strong>#${r.id}</strong></span>
                                                     <button 
                                                         type="button" 
                                                         class="btn-portal btn-portal-outline btn-portal-sm"
                                                         onClick=${() => onNavigateToTab('new-request')}
                                                     >
-                                                        <span>متابعة الطلب</span>
-                                                        <i class="dashicons dashicons-arrow-left-alt"></i>
+                                                        <span>${__('View', 'workpress')}</span>
+                                                        <i class="dashicons ${isRtl ? 'dashicons-arrow-left-alt' : 'dashicons-arrow-right-alt'}"></i>
                                                     </button>
                                                 </div>
                                             </div>
@@ -152,17 +154,17 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             <i class="dashicons dashicons-portfolio"></i>
                         </div>
                         <h2 class="portal-gate-title">
-                            مرحباً بك في مساحة المشاريع والخدمات
+                            ${__('Welcome to Client Portal', 'workpress')}
                         </h2>
                         <p class="portal-gate-desc">
-                            حسابك مسجل بنجاح في المنظومة. يمكنك البدء الآن بتقديم طلب مشروع أو خدمة جديدة لتصل مباشرة للإدارة العامة للمراجعة والاعتماد.
+                            ${__('Your client account is verified and ready. You can begin by submitting a project or service request for review and scope preparation.', 'workpress')}
                         </p>
                         <button 
                             class="btn-portal btn-portal-primary portal-gate-btn" 
                             onClick=${() => onNavigateToTab('new-request')}
                         >
                             <i class="dashicons dashicons-plus-alt2"></i>
-                            <span>تقديم طلب مشروع جديد</span>
+                            <span>${__('Submit New Request', 'workpress')}</span>
                         </button>
                     </div>
                 `}
@@ -186,36 +188,36 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     </span>
                                     <h1 style="margin: 0;">${projectData.name}</h1>
                                 </div>
-                                <p>${projectData.description || 'مساحة المتابعة التنفيذية واستلام المخرجات المعتمدة'}</p>
+                                <p>${projectData.description || __('Executive tracking and approved deliverables vault.', 'workpress')}</p>
                             </div>
                         </div>
 
                         <!-- KPI Radar Cards -->
                         <div class="portal-kpi-grid">
                             <div class="portal-kpi-card">
-                                <span class="portal-kpi-label">حالة المشروع</span>
+                                <span class="portal-kpi-label">${__('Status', 'workpress')}</span>
                                 <span class="portal-kpi-value portal-kpi-status-val">
                                     <i class="dashicons dashicons-yes-alt"></i>
-                                    <span>${projectData.status === 'completed' ? 'مكتمل ومسلّم' : (projectData.status === 'frozen' ? 'مجمد في الثلاجة' : 'نشط وفق الخطة')}</span>
+                                    <span>${projectData.status === 'completed' ? __('Completed', 'workpress') : (projectData.status === 'frozen' ? __('Frozen / Paused', 'workpress') : __('Active', 'workpress'))}</span>
                                 </span>
                             </div>
                             <div class="portal-kpi-card">
-                                <span class="portal-kpi-label">قائد المشروع المكلف</span>
+                                <span class="portal-kpi-label">${__('Lead', 'workpress')}</span>
                                 <span class="portal-kpi-value portal-kpi-lead-val">
                                     <i class="dashicons dashicons-admin-users" style="color: var(--wp-indigo);"></i>
-                                    <span>${projectData.lead ? projectData.lead.name : 'فريق العمل'}</span>
+                                    <span>${projectData.lead ? projectData.lead.name : __('Staff', 'workpress')}</span>
                                 </span>
                             </div>
                             <div class="portal-kpi-card">
-                                <span class="portal-kpi-label">الموعد المستهدف للتسليم</span>
+                                <span class="portal-kpi-label">${__('Due Date', 'workpress')}</span>
                                 <span class="portal-kpi-value portal-kpi-due-val">
                                     <i class="dashicons dashicons-calendar-alt"></i>
-                                    <span>${projectData.due_at ? projectData.due_at.substring(0, 10) : 'قيد التحديد'}</span>
+                                    <span>${projectData.due_at ? projectData.due_at.substring(0, 10) : __('Flexible', 'workpress')}</span>
                                 </span>
                             </div>
                             <div class="portal-kpi-card">
                                 <div class="portal-kpi-progress-row">
-                                    <span class="portal-kpi-label">نسبة الإنجاز</span>
+                                    <span class="portal-kpi-label">${__('Progress', 'workpress')}</span>
                                     <span class="portal-kpi-progress-text">${projectData.progress}%</span>
                                 </div>
                                 <div class="portal-progress-track">
@@ -232,10 +234,10 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                     <div>
                                         <div class="portal-signoff-title">
                                             <i class="dashicons dashicons-awards" style="font-size: 22px;"></i>
-                                            <span>وثيقة وتقرير الاستلام الرسمي للمشروع</span>
+                                            <span>${__('Official Delivery Certificate', 'workpress')}</span>
                                         </div>
                                         <p class="portal-signoff-desc">
-                                            تتضمن وثيقة الاستلام الشاملة حصر كافة الحلول المعتمدة، مؤشرات الإنجاز، وبيانات التوقيع والاستلام الرسمي.
+                                            ${__('The comprehensive project delivery certificate aggregates verified solutions, milestones index, and cryptographic sign-off metadata.', 'workpress')}
                                         </p>
                                     </div>
                                     <button 
@@ -244,25 +246,25 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                         onClick=${() => onOpenProjectReport(selectedProjectId)}
                                     >
                                         <i class="dashicons dashicons-printer"></i>
-                                        <span>استعراض وطباعة التقرير (PDF)</span>
+                                        <span>${__('Print', 'workpress')} (PDF)</span>
                                     </button>
                                 </div>
 
                                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.25rem;">
                                     <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--wp-text-main);">
-                                        المخرجات والحلول الفنية المعتمدة:
+                                        ${__('Deliverables Vault', 'workpress')}:
                                     </h3>
                                     <span style="font-size: 0.8rem; color: var(--wp-text-muted);">
-                                        ${deliverables.length} مخرج معتمد
+                                        ${deliverables.length} ${__('Deliverables', 'workpress')}
                                     </span>
                                 </div>
 
                                 ${deliverables.length === 0 ? html`
                                     <div class="wp-portal-card portal-empty-state">
                                         <i class="dashicons dashicons-portfolio portal-empty-icon"></i>
-                                        <h3 class="portal-empty-title">لا توجد مخرجات معتمدة نهائياً حتى اللحظة</h3>
+                                        <h3 class="portal-empty-title">${__('No deliverables submitted yet for this project.', 'workpress')}</h3>
                                         <p class="portal-empty-desc">
-                                            عندما يقوم الفريق الفني برفع الحلول واعتمادها من قبل مدير المشروع، ستظهر ملفاتها وروابطها هنا مباشرة للتحميل والمصادقة.
+                                            ${__('When the project lead publishes approved deliverables, they will appear here immediately for review, download, and permanent sign-off.', 'workpress')}
                                         </p>
                                     </div>
                                 ` : html`
@@ -277,25 +279,25 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                         <div class="portal-vault-header">
                                                             <span class="portal-vault-approved-tag">
                                                                 <i class="dashicons dashicons-yes" style="font-size: 14px;"></i>
-                                                                <span>حل معتمد رسمي</span>
+                                                                <span>${__('Approved Solutions', 'workpress')}</span>
                                                             </span>
                                                             <span style="font-size: 0.75rem; color: var(--wp-text-muted); font-family: monospace;">${d.created_at ? d.created_at.substring(0, 10) : ''}</span>
                                                         </div>
                                                         <h4 class="portal-vault-title">
-                                                            ${d.task_title || 'مخرج فني'}
+                                                            ${d.task_title || __('Deliverables', 'workpress')}
                                                         </h4>
                                                         <div class="portal-vault-body" dangerouslySetInnerHTML=${{ __html: d.content || d.payload || '' }}></div>
                                                     </div>
 
                                                     <div class="portal-vault-footer">
                                                         <span style="font-size: 0.78rem; color: var(--wp-text-muted);">
-                                                            بواسطة: <strong>${d.author_name || 'الفريق الفني'}</strong>
+                                                            ${__('Lead', 'workpress')}: <strong>${d.author_name || __('Staff', 'workpress')}</strong>
                                                         </span>
 
                                                         ${d.file_url ? html`
                                                             <a href="${d.file_url}" target="_blank" download class="btn-portal btn-portal-primary btn-portal-sm">
                                                                 <i class="dashicons dashicons-download"></i>
-                                                                <span>تنزيل الملف</span>
+                                                                <span>${__('Download', 'workpress')}</span>
                                                             </a>
                                                         ` : null}
                                                     </div>
@@ -312,14 +314,14 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             <div>
                                 <div style="margin-bottom: 1.25rem;">
                                     <h3 style="font-size: 1.1rem; font-weight: 800; color: var(--wp-text-main);">
-                                        مراحل وخطة الإنجاز:
+                                        ${__('Milestones & Roadmap', 'workpress')}:
                                     </h3>
                                 </div>
 
                                 ${milestones.length === 0 ? html`
                                     <div class="wp-portal-card portal-empty-state">
                                         <i class="dashicons dashicons-clipboard portal-empty-icon"></i>
-                                        <p style="color: var(--wp-text-secondary); font-size: 0.9rem;">يقوم مدير المشروع حالياً بهيكلة المراحل وتوزيع المهام على الفريق الفني.</p>
+                                        <p style="color: var(--wp-text-secondary); font-size: 0.9rem;">${__('The technical team is currently structuring the milestone delivery roadmap.', 'workpress')}</p>
                                     </div>
                                 ` : html`
                                     <div class="portal-milestones-list">
@@ -340,7 +342,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                         </div>
                                                         
                                                         <span class="portal-milestone-badge ${isDone ? 'is-done' : (inProg ? 'is-progress' : 'is-pending')}">
-                                                            ${isDone ? 'مكتملة ومعتمدة' : (inProg ? 'قيد التنفيذ' : 'قيد الجدولة')}
+                                                            ${isDone ? __('Completed', 'workpress') : (inProg ? __('In Progress', 'workpress') : __('Pending', 'workpress'))}
                                                         </span>
                                                     </div>
 
@@ -353,17 +355,17 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                                             ${m.due_at ? html`
                                                                 <span style="color: var(--wp-warning-text); font-weight: 700; display: inline-flex; align-items: center; gap: 4px;">
                                                                     <i class="dashicons dashicons-calendar-alt"></i>
-                                                                    <span>الموعد: ${m.due_at.substring(0, 10)}</span>
+                                                                    <span>${__('Due Date', 'workpress')}: ${m.due_at.substring(0, 10)}</span>
                                                                 </span>
                                                             ` : null}
                                                             ${m.priority ? html`
-                                                                <span>الأولوية: <strong>${m.priority === 'high' ? 'عالية' : 'عادية'}</strong></span>
+                                                                <span>${__('Priority', 'workpress')}: <strong>${m.priority === 'high' ? __('High', 'workpress') : __('Medium', 'workpress')}</strong></span>
                                                             ` : null}
                                                         </div>
 
                                                         ${m.assignees && m.assignees.length > 0 ? html`
                                                             <div style="display: flex; align-items: center; gap: 6px;">
-                                                                <span style="font-size: 0.75rem;">المكلفون:</span>
+                                                                <span style="font-size: 0.75rem;">${__('Assignees', 'workpress')}:</span>
                                                                 ${m.assignees.map(a => html`
                                                                     <span key=${a.id} style="font-size: 0.78rem; font-weight: 700; color: var(--wp-text-secondary); background: var(--wp-bg-subtle); padding: 2px 8px;">
                                                                         ${a.name}
@@ -385,10 +387,10 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             <div style="max-width: 800px; margin: 0 auto;">
                                 <div class="wp-portal-card" style="padding: 1.75rem;">
                                     <h3 style="font-size: 1.15rem; font-weight: 800; color: var(--wp-text-main); margin-bottom: 0.4rem;">
-                                        إرسال استفسار أو ملاحظة حول المشروع
+                                        ${__('Submit Feedback', 'workpress')}
                                     </h3>
                                     <p style="font-size: 0.85rem; color: var(--wp-text-secondary); margin-bottom: 1.25rem;">
-                                        ستصل ملاحظتك فوراً لمدير المشروع والفريق الفني وتُسجل كـ Evidence رسمي في خط زمن المهمة.
+                                        ${__('Your message will be sent immediately to the project lead and recorded as an official evidence entry in the task timeline.', 'workpress')}
                                     </p>
 
                                     ${feedbackSuccess && html`
@@ -405,7 +407,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
 
                                     <form onSubmit=${onFeedbackSubmit}>
                                         <div class="portal-form-group">
-                                            <label class="portal-label">اختر المرحلة أو المهمة المراد الاستفسار عنها:</label>
+                                            <label class="portal-label">${__('Select milestone or task for feedback:', 'workpress')}</label>
                                             <select class="portal-select" value=${feedbackTask} onChange=${e => onFeedbackTaskChange(e.target.value)}>
                                                 ${milestones.map(m => html`
                                                     <option key=${m.id} value=${m.id}>${m.title}</option>
@@ -414,40 +416,40 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                                         </div>
 
                                         <div class="portal-form-group">
-                                            <label class="portal-label">نوع التفاعل:</label>
+                                            <label class="portal-label">${__('Status', 'workpress')}:</label>
                                             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                                                 <button 
                                                     type="button" 
                                                     class="portal-pill ${feedbackActionType === 'client_feedback' ? 'is-selected' : ''}"
                                                     onClick=${() => onFeedbackActionTypeChange('client_feedback')}
                                                 >
-                                                    استفسار وملاحظة
+                                                    ${__('Submit Feedback', 'workpress')}
                                                 </button>
                                                 <button 
                                                     type="button" 
                                                     class="portal-pill ${feedbackActionType === 'client_revision_request' ? 'is-selected' : ''}"
                                                     onClick=${() => onFeedbackActionTypeChange('client_revision_request')}
                                                 >
-                                                    طلب تعديل واستدراك
+                                                    ${__('Request Revisions', 'workpress')}
                                                 </button>
                                             </div>
                                         </div>
 
                                         <div class="portal-form-group">
-                                            <label class="portal-label">نص الاستفسار أو الملاحظة:</label>
+                                            <label class="portal-label">${__('Detailed Specifications', 'workpress')}:</label>
                                             <textarea 
                                                 class="portal-textarea" 
                                                 rows="4" 
                                                 value=${feedbackMsg} 
                                                 onInput=${e => onFeedbackMsgChange(e.target.value)} 
-                                                placeholder="اكتب ملاحظتك أو طلب التوضيح هنا..."
+                                                placeholder=${__('Write your feedback or clarification request here...', 'workpress')}
                                                 required
                                             ></textarea>
                                         </div>
 
                                         <button type="submit" class="btn-portal btn-portal-primary" disabled=${feedbackSubmitting}>
                                             <i class="dashicons dashicons-format-chat"></i>
-                                            <span>${feedbackSubmitting ? 'جاري الإرسال...' : 'إرسال الملاحظة لمدير المشروع'}</span>
+                                            <span>${feedbackSubmitting ? __('Loading...', 'workpress') : __('Submit Feedback', 'workpress')}</span>
                                         </button>
                                     </form>
                                 </div>

@@ -6,7 +6,7 @@
  * 
  * @package WorkPress
  * @subpackage Portal
- * @version 2.2.2
+ * @version 2.3.0
  */
 
 window.WorkPressPortal = window.WorkPressPortal || {};
@@ -18,32 +18,33 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         if (!window.preact || !window.htm) return null;
         const { h } = window.preact;
         const html = window.htm.bind(h);
+        const __ = window.__ || ((s) => s);
         const config = window.workpressPortalConfig || {};
         const renderWorkPressLogo = exports.renderWorkPressLogo || (() => '');
 
         const { user, gatewayCountdown, executiveType, roleLabel, onClientEnter } = ctx;
-        const userName = (user && (user.display_name || user.name)) || 'عضو المنظومة';
+        const userName = (user && (user.display_name || user.name)) || __('Client', 'workpress');
         const userEmail = (user && user.email) || '';
         const userAvatar = (user && user.avatar_url) || '';
-        const roleName = (user && (user.role_name || user.role_label)) || roleLabel || 'مشترك';
+        const roleName = (user && (user.role_name || user.role_label)) || roleLabel || __('Subscriber', 'workpress');
         const initials = userName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
 
         // Dynamic Context per Role
-        let roleMsg = 'مرحباً بك! جاري تحويلك تلقائياً إلى الصفحة الرئيسية للموقع...';
-        let actionText = 'العودة للموقع';
+        let roleMsg = __('Welcome! Redirecting you to the main site...', 'workpress');
+        let actionText = __('Back to Main Site', 'workpress');
         let actionIcon = 'dashicons-admin-home';
         let actionUrl = config.siteUrl || '/';
         let onActionClick = () => { window.location.href = actionUrl; };
 
         if (executiveType === 'admin' || executiveType === 'lead' || executiveType === 'member') {
-            roleMsg = 'مرحباً بك! جاري تهيئة غرفة العمليات والرادار الإداري...';
-            actionText = 'دخول غرفة العمليات';
+            roleMsg = __('Welcome! Initializing CoWorkPress operations plaza...', 'workpress');
+            actionText = 'CoWorkPress Plaza';
             actionIcon = 'dashicons-dashboard';
             actionUrl = config.adminUrl || '/wp-admin/admin.php?page=workpress#/';
             onActionClick = () => { window.location.href = actionUrl; };
         } else if (executiveType === 'client') {
-            roleMsg = 'مرحباً بك! جاري نقلك إلى مساحة مشاريعك ومخرجاتك المعتمدة...';
-            actionText = 'دخول مساحة المشاريع';
+            roleMsg = __('Welcome! Entering your authorized project workspace...', 'workpress');
+            actionText = __('Open Workspace', 'workpress');
             actionIcon = 'dashicons-portfolio';
             actionUrl = '#/';
             onActionClick = (e) => {
@@ -100,7 +101,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                         ` : null}
                     </div>
 
-                    <!-- 3. Active Real Countdown in Green Container -->
+                    <!-- 3. Active Real Countdown in Container -->
                     <div class="portal-gateway-timer">
                         <i class="dashicons dashicons-clock portal-gateway-timer-icon"></i>
                         <span class="portal-gateway-timer-num">
@@ -125,7 +126,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
                             class="btn-portal btn-portal-outline portal-gateway-btn"
                         >
                             <i class="dashicons dashicons-migrate"></i>
-                            <span>تسجيل الخروج</span>
+                            <span>${__('Logout', 'workpress')}</span>
                         </a>
                     </div>
 

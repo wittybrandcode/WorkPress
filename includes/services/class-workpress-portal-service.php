@@ -856,46 +856,52 @@ class WorkPress_Portal_Service {
 
 		wp_enqueue_script( 'preact', 'https://unpkg.com/preact@10.19.3/dist/preact.umd.js', array(), '10.19.3', true );
 		wp_enqueue_script( 'htm', 'https://unpkg.com/htm@3.1.1/dist/htm.umd.js', array( 'preact' ), '3.1.1', true );
+		wp_enqueue_script( 'wp-i18n' );
+
+		$i18n_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-i18n.js';
+		$i18n_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $i18n_js_path ) ? filemtime( $i18n_js_path ) : '2.3.0' );
+		wp_enqueue_script( 'workpress-portal-i18n-js', WORKPRESS_URL . 'assets/src/portal/portal-i18n.js', array( 'wp-i18n' ), $i18n_js_ver, true );
 
 		$core_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-core.js';
-		$core_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $core_js_path ) ? filemtime( $core_js_path ) : '1.2.0' );
-		wp_enqueue_script( 'workpress-portal-core-js', WORKPRESS_URL . 'assets/src/portal/portal-core.js', array( 'preact', 'htm' ), $core_js_ver, true );
+		$core_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $core_js_path ) ? filemtime( $core_js_path ) : '2.3.0' );
+		wp_enqueue_script( 'workpress-portal-core-js', WORKPRESS_URL . 'assets/src/portal/portal-core.js', array( 'preact', 'htm', 'workpress-portal-i18n-js' ), $core_js_ver, true );
 
 		$login_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-login.js';
-		$login_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $login_js_path ) ? filemtime( $login_js_path ) : '1.2.0' );
+		$login_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $login_js_path ) ? filemtime( $login_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-login-js', WORKPRESS_URL . 'assets/src/portal/portal-login.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $login_js_ver, true );
 
 		$header_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-header.js';
-		$header_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $header_js_path ) ? filemtime( $header_js_path ) : '1.2.0' );
+		$header_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $header_js_path ) ? filemtime( $header_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-header-js', WORKPRESS_URL . 'assets/src/portal/portal-header.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $header_js_ver, true );
 
 		$gw_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-gateway.js';
-		$gw_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $gw_js_path ) ? filemtime( $gw_js_path ) : '1.2.0' );
+		$gw_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $gw_js_path ) ? filemtime( $gw_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-gateway-js', WORKPRESS_URL . 'assets/src/portal/portal-gateway.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $gw_js_ver, true );
 
 		$radar_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-radar.js';
-		$radar_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $radar_js_path ) ? filemtime( $radar_js_path ) : '1.2.0' );
+		$radar_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $radar_js_path ) ? filemtime( $radar_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-radar-js', WORKPRESS_URL . 'assets/src/portal/portal-radar.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $radar_js_ver, true );
 
 		$modals_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-modals.js';
-		$modals_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $modals_js_path ) ? filemtime( $modals_js_path ) : '1.2.0' );
+		$modals_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $modals_js_path ) ? filemtime( $modals_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-modals-js', WORKPRESS_URL . 'assets/src/portal/portal-modals.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $modals_js_ver, true );
 
 		$req_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-request.js';
-		$req_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $req_js_path ) ? filemtime( $req_js_path ) : '1.2.0' );
+		$req_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $req_js_path ) ? filemtime( $req_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-request-js', WORKPRESS_URL . 'assets/src/portal/portal-request.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $req_js_ver, true );
 
 		$dash_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-dashboard.js';
-		$dash_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $dash_js_path ) ? filemtime( $dash_js_path ) : '1.2.0' );
+		$dash_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $dash_js_path ) ? filemtime( $dash_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-dashboard-js', WORKPRESS_URL . 'assets/src/portal/portal-dashboard.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $dash_js_ver, true );
 
 		$ws_js_path = WORKPRESS_PATH . 'assets/src/portal/portal-workspace.js';
-		$ws_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $ws_js_path ) ? filemtime( $ws_js_path ) : '1.2.0' );
+		$ws_js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $ws_js_path ) ? filemtime( $ws_js_path ) : '2.3.0' );
 		wp_enqueue_script( 'workpress-portal-workspace-js', WORKPRESS_URL . 'assets/src/portal/portal-workspace.js', array( 'preact', 'htm', 'workpress-portal-core-js' ), $ws_js_ver, true );
 
 		$js_path = WORKPRESS_PATH . 'assets/src/portal/portal-app.js';
-		$js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $js_path ) ? filemtime( $js_path ) : '1.2.0' );
-		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm', 'workpress-portal-core-js', 'workpress-portal-login-js', 'workpress-portal-header-js', 'workpress-portal-gateway-js', 'workpress-portal-radar-js', 'workpress-portal-modals-js', 'workpress-portal-request-js', 'workpress-portal-dashboard-js', 'workpress-portal-workspace-js' ), $js_ver, true );
+		$js_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $js_path ) ? filemtime( $js_path ) : '2.3.0' );
+		wp_enqueue_script( 'workpress-portal-js', WORKPRESS_URL . 'assets/src/portal/portal-app.js', array( 'preact', 'htm', 'workpress-portal-i18n-js', 'workpress-portal-core-js', 'workpress-portal-login-js', 'workpress-portal-header-js', 'workpress-portal-gateway-js', 'workpress-portal-radar-js', 'workpress-portal-modals-js', 'workpress-portal-request-js', 'workpress-portal-dashboard-js', 'workpress-portal-workspace-js' ), $js_ver, true );
+		wp_set_script_translations( 'workpress-portal-js', 'workpress', WORKPRESS_PATH . 'languages' );
 
 		if ( class_exists( 'WorkPress_REST_Settings_Controller' ) ) {
 			$logo_url    = WorkPress_REST_Settings_Controller::get_custom_logo_url();
@@ -909,37 +915,51 @@ class WorkPress_Portal_Service {
 
 		$can_access_portal = false;
 		$executive_type    = 'subscriber';
-		$role_label        = __( 'مشترك', 'workpress' );
+		$role_label        = __( 'Subscriber', 'workpress' );
 
 		if ( $is_logged_in ) {
 			if ( user_can( $current_user, 'manage_options' ) || in_array( 'administrator', (array) $current_user->roles, true ) ) {
 				$executive_type    = 'admin';
-				$role_label        = __( 'مدير عام', 'workpress' );
+				$role_label        = __( 'Administrator', 'workpress' );
 				$can_access_portal = true;
 			} elseif ( in_array( 'workpress_client', (array) $current_user->roles, true ) || in_array( 'workpress_portal_user', (array) $current_user->roles, true ) || user_can( $current_user, 'access_workpress_portal' ) ) {
 				$executive_type    = 'client';
-				$role_label        = __( 'مستفيد', 'workpress' );
+				$role_label        = __( 'Client', 'workpress' );
 				$can_access_portal = true;
 			} elseif ( in_array( 'editor', (array) $current_user->roles, true ) ) {
 				$executive_type    = 'lead';
-				$role_label        = __( 'قائد مشروع', 'workpress' );
+				$role_label        = __( 'Project Lead', 'workpress' );
 				$can_access_portal = true;
 			} elseif ( user_can( $current_user, 'edit_posts' ) || in_array( 'author', (array) $current_user->roles, true ) || in_array( 'contributor', (array) $current_user->roles, true ) ) {
 				$executive_type    = 'member';
-				$role_label        = __( 'منفذ فني', 'workpress' );
+				$role_label        = __( 'Technical Staff', 'workpress' );
 				$can_access_portal = true;
 			} else {
 				$executive_type    = 'subscriber';
-				$role_label        = __( 'مشترك', 'workpress' );
+				$role_label        = __( 'Subscriber', 'workpress' );
 				$can_access_portal = false;
 			}
 		}
+
+		// Detect Portal Active Locale & Direction.
+		$cookie_locale = isset( $_COOKIE['workpress_portal_locale'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['workpress_portal_locale'] ) ) : '';
+		$user_locale   = $is_logged_in ? get_user_meta( $current_user->ID, '_workpress_portal_locale', true ) : '';
+		$active_locale = $cookie_locale ?: ( $user_locale ?: get_user_locale() );
+		$is_rtl        = in_array( substr( $active_locale, 0, 2 ), array( 'ar', 'he', 'fa', 'ur' ), true );
 
 		$portal_config = array(
 			'apiUrl'          => rest_url( 'workpress/v1/portal' ),
 			'restNonce'       => wp_create_nonce( 'wp_rest' ),
 			'isLoggedIn'      => $is_logged_in,
 			'canAccessPortal' => $can_access_portal,
+			'locale'          => $active_locale,
+			'isRtl'           => $is_rtl,
+			'activeLanguage'  => substr( $active_locale, 0, 2 ),
+			'supportedLanguages' => array(
+				array( 'code' => 'ar',    'short' => 'ar', 'label' => 'العربية', 'dir' => 'rtl', 'flag' => '🇸🇦' ),
+				array( 'code' => 'en_US', 'short' => 'en', 'label' => 'English', 'dir' => 'ltr', 'flag' => '🇺🇸' ),
+				array( 'code' => 'fr_FR', 'short' => 'fr', 'label' => 'Français', 'dir' => 'ltr', 'flag' => '🇫🇷' ),
+			),
 			'intakeForms'     => get_option( 'workpress_intake_forms_schema', WorkPress_Project_Service::get_default_intake_forms_schema() ),
 			'adminUrl'        => admin_url( 'admin.php?page=workpress#/' ),
 			'executiveType'   => $executive_type,
@@ -965,6 +985,6 @@ class WorkPress_Portal_Service {
 
 		wp_localize_script( 'workpress-portal-js', 'workpressPortalConfig', $portal_config );
 
-		return '<div id="workpress-portal-root"><div class="portal-initial-loader"><div class="portal-spinner"></div><p>' . esc_html__( 'جاري تشغيل مساحة المشاريع...', 'workpress' ) . '</p></div></div>';
+		return '<div id="workpress-portal-root"><div class="portal-initial-loader"><div class="portal-spinner"></div><p>' . esc_html__( 'Loading Workspace...', 'workpress' ) . '</p></div></div>';
 	}
 }

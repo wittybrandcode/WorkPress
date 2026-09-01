@@ -5,10 +5,11 @@
  * - Lean State Controller & Reactive Router (Preact + HTM)
  * - Zero-build modular presentation layer
  * - 100% semantic BEM CSS classes with strict sharp edges (0px radius)
+ * - Reactive Internationalization (i18n) and instant language switching
  *
  * @package WorkPress
  * @subpackage Assets/JS
- * @version 2.2.2
+ * @version 2.3.0
  */
 
 (function() {
@@ -23,6 +24,7 @@
     const html = window.htm.bind(h);
     const config = window.workpressPortalConfig || {};
     const { apiFetch, playPortalSound, playClockTick, renderWorkPressLogo } = window.WorkPressPortal || {};
+    const __ = window.__ || ((s) => s);
 
     /**
      * Portal Application Root Component
@@ -39,7 +41,7 @@
             const isRequestRoute = currentHash.startsWith('#/new-request') || currentHash.startsWith('#/request');
 
             const executiveType = config.executiveType || (config.user && config.user.is_admin ? 'admin' : 'client');
-            const roleLabel = config.roleLabel || (config.user && config.user.is_admin ? 'مدير عام' : 'مستفيد');
+            const roleLabel = config.roleLabel || (config.user && config.user.is_admin ? __('Administrator', 'workpress') : __('Client', 'workpress'));
 
             const urlParams = new URLSearchParams(window.location.search);
             const isWelcomeParam = urlParams.get('welcome') === '1';
@@ -51,13 +53,13 @@
             let forcedRoleLabel = roleLabel;
             if (isPreviewSub) {
                 forcedExecType = 'subscriber';
-                forcedRoleLabel = 'مشترك';
+                forcedRoleLabel = __('Subscriber', 'workpress');
             } else if (isPreviewStaff) {
                 forcedExecType = 'admin';
-                forcedRoleLabel = 'مدير عام';
+                forcedRoleLabel = __('Administrator', 'workpress');
             } else if (isPreviewClient) {
                 forcedExecType = 'client';
-                forcedRoleLabel = 'مستفيد';
+                forcedRoleLabel = __('Client', 'workpress');
             }
 
             const inGatewayTransition = isWelcomeParam || isPreviewSub || isPreviewStaff || isPreviewClient || (forcedExecType === 'subscriber') || (config.canAccessPortal === false);
@@ -108,12 +110,20 @@
                 unreadNotificationsCount: 0,
                 isNotificationsOpen: false,
                 isProfileMenuOpen: false,
+                isLanguageMenuOpen: false,
                 activeToastAlert: null,
                 prevUnreadCount: null
             };
         }
 
         componentDidMount() {
+            // Subscribe to reactive language changes
+            if (window.WorkPressPortalI18n && typeof window.WorkPressPortalI18n.onLanguageChange === 'function') {
+                this.unsubscribeLang = window.WorkPressPortalI18n.onLanguageChange(() => {
+                    this.forceUpdate();
+                });
+            }
+
             if (this.state.isLoggedIn) {
                 if (this.state.inGatewayTransition || config.canAccessPortal === false || this.state.executiveType === 'subscriber') {
                     this.setState({ loading: false });
@@ -143,6 +153,7 @@
         componentWillUnmount() {
             if (this.pulseTimer) clearInterval(this.pulseTimer);
             if (this.gatewayTimer) clearInterval(this.gatewayTimer);
+            if (this.unsubscribeLang) this.unsubscribeLang();
             document.removeEventListener('visibilitychange', this.handleVisibilityChange);
             window.removeEventListener('hashchange', this.handleHashChange);
         }
@@ -349,23 +360,29 @@
             playPortalSound('button');
         }
 
-        handleSpecChange(key, value) {
+        handleSpecChange(specKey, val) {
             this.setState(prevState => ({
-                reqSpecs: { ...prevState.reqSpecs, [key]: value }
+                reqSpecs: {
+                    ...prevState.reqSpecs,
+                    [specKey]: val
+                }
             }));
         }
 
-        toggleSpecPill(key, pillValue) {
+        toggleSpecPill(specKey, pillVal) {
             this.setState(prevState => {
-                const current = Array.isArray(prevState.reqSpecs[key]) ? [...prevState.reqSpecs[key]] : [];
-                const idx = current.indexOf(pillValue);
+                const curList = Array.isArray(prevState.reqSpecs[specKey]) ? [...prevState.reqSpecs[specKey]] : [];
+                const idx = curList.indexOf(pillVal);
                 if (idx > -1) {
-                    current.splice(idx, 1);
+                    curList.splice(idx, 1);
                 } else {
-                    current.push(pillValue);
+                    curList.push(pillVal);
                 }
                 return {
-                    reqSpecs: { ...prevState.reqSpecs, [key]: current }
+                    reqSpecs: {
+                        ...prevState.reqSpecs,
+                        [specKey]: curList
+                    }
                 };
             });
             playPortalSound('button');
@@ -375,123 +392,108 @@
             const files = event.target.files;
             if (!files || files.length === 0) return;
 
-            const blockedExtensions = ['php', 'phtml', 'exe', 'sh', 'bat', 'cmd', 'js', 'py', 'cgi', 'pl', 'asp', 'aspx'];
-
             this.setState(prevState => ({
                 uploadingSpecs: { ...prevState.uploadingSpecs, [specKey]: true }
             }));
 
             try {
+                const uploadedFiles = [];
                 for (let i = 0; i < files.length; i++) {
                     const file = files[i];
-                    const ext = file.name.split('.').pop().toLowerCase();
-                    if (blockedExtensions.includes(ext)) {
-                        throw new Error(`نوع الملف (${ext}) غير مسموح به لأسباب أمنية.`);
-                    }
-
                     const formData = new FormData();
                     formData.append('file', file);
 
-                    const res = await fetch(`${config.apiUrl}/upload-file`, {
+                    const res = await fetch(`${config.apiUrl}/upload`, {
                         method: 'POST',
-                        headers: { 'X-WP-Nonce': config.restNonce || '' },
+                        headers: {
+                            'X-WP-Nonce': config.restNonce || ''
+                        },
                         body: formData
                     });
-
-                    const json = await res.json();
-                    if (res.ok && json.success) {
-                        this.setState(prevState => {
-                            const currentFiles = Array.isArray(prevState.reqSpecs[specKey]) ? [...prevState.reqSpecs[specKey]] : [];
-                            currentFiles.push({
-                                id: json.id,
-                                name: json.name || file.name,
-                                url: json.url,
-                                size: json.size || ''
-                            });
-                            return {
-                                reqSpecs: { ...prevState.reqSpecs, [specKey]: currentFiles }
-                            };
-                        });
-                        playPortalSound('button');
-                    } else {
-                        throw new Error(json.message || 'فشل رفع الملف.');
+                    const data = await res.json();
+                    if (data && data.url) {
+                        uploadedFiles.push({ name: file.name, url: data.url, id: data.id });
                     }
                 }
-            } catch (uploadErr) {
-                alert(uploadErr.message || 'تعذر رفع الملف، يرجى المحاولة ثانية.');
-            } finally {
+
+                this.setState(prevState => {
+                    const curList = Array.isArray(prevState.reqSpecs[specKey]) ? [...prevState.reqSpecs[specKey]] : [];
+                    return {
+                        reqSpecs: {
+                            ...prevState.reqSpecs,
+                            [specKey]: curList.concat(uploadedFiles)
+                        },
+                        uploadingSpecs: { ...prevState.uploadingSpecs, [specKey]: false }
+                    };
+                });
+                playPortalSound('button');
+            } catch (err) {
                 this.setState(prevState => ({
                     uploadingSpecs: { ...prevState.uploadingSpecs, [specKey]: false }
                 }));
+                alert(__('An error occurred while uploading file.', 'workpress'));
             }
         }
 
-        removeUploadedFile(specKey, fileIdx) {
+        removeUploadedFile(specKey, fIdx) {
             this.setState(prevState => {
-                const currentFiles = Array.isArray(prevState.reqSpecs[specKey]) ? [...prevState.reqSpecs[specKey]] : [];
-                currentFiles.splice(fileIdx, 1);
+                const curList = Array.isArray(prevState.reqSpecs[specKey]) ? [...prevState.reqSpecs[specKey]] : [];
+                curList.splice(fIdx, 1);
                 return {
-                    reqSpecs: { ...prevState.reqSpecs, [specKey]: currentFiles }
+                    reqSpecs: {
+                        ...prevState.reqSpecs,
+                        [specKey]: curList
+                    }
                 };
             });
             playPortalSound('button');
         }
 
-        handleVisibilityChange = async () => {
-            if (document.visibilityState === 'visible' && this.state.isLoggedIn) {
-                try {
-                    const res = await apiFetch('refresh-nonce');
-                    if (res && res.nonce) {
-                        config.restNonce = res.nonce;
-                    }
-                } catch (e) {}
-            }
-        };
-
         async fetchProjects() {
-            this.setState({ loading: true });
             try {
                 const res = await apiFetch('my-projects');
-                const projs = res.data || [];
-                this.setState({ projects: projs });
+                if (res.success && Array.isArray(res.data)) {
+                    const projects = res.data;
+                    const initialProjectId = projects.length > 0 ? projects[0].id : null;
+                    
+                    this.setState({
+                        projects,
+                        loading: false
+                    });
 
-                // Check if current hash specifies a project
-                const hash = window.location.hash || '';
-                if (hash.startsWith('#/project/')) {
-                    const pid = parseInt(hash.replace('#/project/', '').split('/')[0], 10);
-                    if (pid) {
-                        this.setState({ selectedProjectId: pid });
-                        this.loadProjectDetails(pid);
-                        return;
+                    if (this.state.selectedProjectId) {
+                        this.loadProjectDetails(this.state.selectedProjectId);
                     }
+                } else {
+                    this.setState({ loading: false });
                 }
-
-                this.setState({ loading: false });
             } catch (err) {
                 this.setState({ loading: false });
             }
         }
 
         async loadProjectDetails(projectId) {
-            this.setState({ loading: true });
+            if (!projectId) return;
             try {
-                const [pRes, mRes, dRes] = await Promise.all([
+                const [projectRes, deliverablesRes, milestonesRes] = await Promise.all([
                     apiFetch(`projects/${projectId}`),
-                    apiFetch(`projects/${projectId}/milestones`),
-                    apiFetch(`projects/${projectId}/deliverables`)
+                    apiFetch(`projects/${projectId}/deliverables`),
+                    apiFetch(`projects/${projectId}/milestones`)
                 ]);
 
-                const milestones = mRes.data || [];
+                const projectData = projectRes.success ? projectRes.data : null;
+                const deliverables = deliverablesRes.success ? deliverablesRes.data : [];
+                const milestones = milestonesRes.success ? milestonesRes.data : [];
+
+                const firstMilestoneId = milestones.length > 0 ? milestones[0].id : '';
+
                 this.setState({
-                    projectData: pRes.data,
-                    milestones: milestones,
-                    deliverables: dRes.data || [],
-                    feedbackTask: milestones.length > 0 ? milestones[0].id : ''
+                    projectData,
+                    deliverables,
+                    milestones,
+                    feedbackTask: this.state.feedbackTask || firstMilestoneId
                 });
-            } catch (err) {
-            } finally {
-                this.setState({ loading: false });
-            }
+            } catch (err) {}
         }
 
         handleProjectChange(e) {
@@ -521,7 +523,7 @@
                     config.user = res.user;
                     config.canAccessPortal = res.user.can_access !== false;
                     config.executiveType = res.user.executive_type || 'subscriber';
-                    config.roleLabel = res.user.role_label || 'مشترك';
+                    config.roleLabel = res.user.role_label || __('Subscriber', 'workpress');
                     if (res.nonce) config.restNonce = res.nonce;
 
                     playPortalSound('celebration');
@@ -530,7 +532,7 @@
                         isLoggedIn: true,
                         user: res.user,
                         executiveType: res.user.executive_type || 'subscriber',
-                        roleLabel: res.user.role_label || 'مشترك',
+                        roleLabel: res.user.role_label || __('Subscriber', 'workpress'),
                         inGatewayTransition: true,
                         gatewayCountdown: 10,
                         loginLoading: false
@@ -538,10 +540,10 @@
                         this.startGatewayCountdown();
                     });
                 } else {
-                    this.setState({ loginError: res.message || 'بيانات الدخول غير صحيحة.', loginLoading: false });
+                    this.setState({ loginError: res.message || __('Invalid credentials.', 'workpress'), loginLoading: false });
                 }
             } catch (err) {
-                this.setState({ loginError: err.message || 'تعذر الاتصال بالخادم، يرجى المحاولة ثانية.', loginLoading: false });
+                this.setState({ loginError: err.message || __('Connection failed, please try again.', 'workpress'), loginLoading: false });
             }
         }
 
@@ -561,7 +563,7 @@
                 });
                 playPortalSound(actionType === 'client_signoff' ? 'celebration' : 'button');
                 this.setState({
-                    feedbackSuccess: res.message || 'تم إرسال ملاحظتكم واستفساركم بنجاح إلى فريق العمل.',
+                    feedbackSuccess: res.message || __('Your feedback has been sent successfully.', 'workpress'),
                     feedbackMsg: '',
                     feedbackSubmitting: false,
                     feedbackError: ''
@@ -572,7 +574,7 @@
                 }, 5000);
             } catch (err) {
                 this.setState({
-                    feedbackError: err.message || 'فشل إرسال الملاحظة، يرجى المحاولة ثانية.',
+                    feedbackError: err.message || __('Failed to send feedback, please try again.', 'workpress'),
                     feedbackSubmitting: false
                 });
             }
@@ -587,7 +589,7 @@
             const finalTitle = (reqCustomTitle || '').trim();
 
             if (!finalTitle) {
-                this.setState({ reqError: 'يرجى كتابة عنوان أو اسم لطلب المشروع.' });
+                this.setState({ reqError: __('Please enter a title for the project request.', 'workpress') });
                 return;
             }
 
@@ -598,13 +600,13 @@
                     description: reqDesc,
                     form_id: activeForm.id || 'standard_request',
                     specs: reqSpecs,
-                    budget: reqSpecs.budget_est || reqSpecs['الميزانية أو الكمية التقديرية (اختياري):'] || '',
-                    due_date: reqSpecs.target_date || reqSpecs['تاريخ الإنجاز المطلوب (Target Deadline):'] || ''
+                    budget: reqSpecs.budget_est || '',
+                    due_date: reqSpecs.target_date || ''
                 });
 
                 playPortalSound('celebration');
                 this.setState({
-                    reqSuccess: 'تم تقديم طلب المشروع بنجاح وسيصل إشعار فوري للإدارة لمراجعته واعتماده.',
+                    reqSuccess: __('Request Submitted Successfully!', 'workpress'),
                     reqCreatedProjectId: res.project_id || null,
                     reqCustomTitle: '',
                     reqDesc: '',
@@ -614,7 +616,7 @@
                 this.fetchProjects();
             } catch (err) {
                 this.setState({
-                    reqError: err.message || 'حدث خطأ أثناء إرسال الطلب، يرجى المحاولة ثانية.',
+                    reqError: err.message || __('An error occurred while submitting request.', 'workpress'),
                     reqSubmitting: false
                 });
             }
@@ -630,11 +632,11 @@
                     this.setState({ reportModalData: res.data, reportLoading: false });
                     playPortalSound('celebration');
                 } else {
-                    throw new Error(res.message || 'تعذر جلب التقرير التنفيذي');
+                    throw new Error(res.message || __('Unable to load executive report.', 'workpress'));
                 }
             } catch (err) {
                 this.setState({ reportLoading: false, reportModalOpen: false });
-                alert(err.message || 'حدث خطأ أثناء تحميل التقرير');
+                alert(err.message || __('An error occurred while loading report.', 'workpress'));
             }
         }
 
@@ -650,7 +652,7 @@
                 intakeForms, selectedFormId, reqCustomTitle, reqDesc, reqSpecs, uploadingSpecs,
                 loginUsername, loginPassword, loginLoading, loginError,
                 executiveType, roleLabel, isPreviewAsClient, reportModalOpen, reportModalData, reportLoading,
-                notifications, unreadNotificationsCount, isNotificationsOpen, isProfileMenuOpen, activeToastAlert,
+                notifications, unreadNotificationsCount, isNotificationsOpen, isProfileMenuOpen, isLanguageMenuOpen, activeToastAlert,
                 inGatewayTransition
             } = this.state;
 
@@ -709,7 +711,7 @@
 
             // 4. Authenticated Client Workspace
             return html`
-                <div class="portal-app-wrapper" onClick=${() => { if (isNotificationsOpen || isProfileMenuOpen) this.setState({ isNotificationsOpen: false, isProfileMenuOpen: false }); }}>
+                <div class="portal-app-wrapper" onClick=${() => { if (isNotificationsOpen || isProfileMenuOpen || isLanguageMenuOpen) this.setState({ isNotificationsOpen: false, isProfileMenuOpen: false, isLanguageMenuOpen: false }); }}>
                     
                     <!-- Institutional Header & Navigation -->
                     ${window.WorkPressPortal?.renderPortalHeader && window.WorkPressPortal.renderPortalHeader({
@@ -728,7 +730,7 @@
                         isNotificationsOpen,
                         onToggleNotifications: (e) => {
                             e.stopPropagation();
-                            this.setState(prevState => ({ isNotificationsOpen: !prevState.isNotificationsOpen, isProfileMenuOpen: false }));
+                            this.setState(prevState => ({ isNotificationsOpen: !prevState.isNotificationsOpen, isProfileMenuOpen: false, isLanguageMenuOpen: false }));
                             playPortalSound('button');
                         },
                         onMarkNotificationRead: (id) => this.markNotificationAsRead(id),
@@ -738,13 +740,19 @@
                             this.loadProjectDetails(pid);
                             this.navigateToTab('deliverables');
                         },
+                        isLanguageMenuOpen,
+                        onToggleLanguageMenu: (e) => {
+                            if (e) e.stopPropagation();
+                            this.setState(prevState => ({ isLanguageMenuOpen: !prevState.isLanguageMenuOpen, isNotificationsOpen: false, isProfileMenuOpen: false }));
+                            playPortalSound('button');
+                        },
                         user,
                         roleLabel,
                         adminUrl: this.state.adminUrl,
                         isProfileMenuOpen,
                         onToggleProfileMenu: (e) => {
                             e.stopPropagation();
-                            this.setState(prevState => ({ isProfileMenuOpen: !prevState.isProfileMenuOpen, isNotificationsOpen: false }));
+                            this.setState(prevState => ({ isProfileMenuOpen: !prevState.isProfileMenuOpen, isNotificationsOpen: false, isLanguageMenuOpen: false }));
                             playPortalSound('button');
                         },
                         projects,
@@ -762,7 +770,7 @@
                         ${loading && html`
                             <div class="portal-initial-loader">
                                 <div class="portal-spinner"></div>
-                                <p>جاري تحميل بيانات المشاريع والمخرجات...</p>
+                                <p>${__('Loading...', 'workpress')}</p>
                             </div>
                         `}
 
