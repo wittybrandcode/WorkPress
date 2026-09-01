@@ -1,5 +1,5 @@
 {
-  "translation-revision-date": "2026-09-01T15:12:44.076Z",
+  "translation-revision-date": "2026-09-01T15:17:13.907Z",
   "generator": "WorkPress i18n Suite",
   "domain": "workpress",
   "locale_data": {
@@ -2592,6 +2592,18 @@
       "Click or drag to select": [
         "Click or drag to select"
       ],
+      "Switching language...": [
+        "Switching language..."
+      ],
+      "Language updated:": [
+        "Language updated:"
+      ],
+      "Change Language / تغيير اللغة": [
+        "Change Language / تغيير اللغة"
+      ],
+      "Select Language": [
+        "Select Language"
+      ],
       "Member": [
         "Member"
       ],
@@ -3693,6 +3705,12 @@
       "لا يمكن حذف هذا الدور أو أنه غير موجود": [
         "لا يمكن حذف هذا الدور أو أنه غير موجود"
       ],
+      "Invalid locale provided.": [
+        "Invalid locale provided."
+      ],
+      "Language updated successfully.": [
+        "Language updated successfully."
+      ],
       "عنوان المهمة مطلوب": [
         "عنوان المهمة مطلوب"
       ],
@@ -3743,9 +3761,6 @@
       ],
       "Technical Staff": [
         "منفذ فني"
-      ],
-      "Language updated successfully.": [
-        "Language updated successfully."
       ],
       "المشروع غير موجود.": [
         "المشروع غير موجود."

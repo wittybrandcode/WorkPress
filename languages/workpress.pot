@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkPress 2.3.0\n"
 "Report-Msgid-Bugs-To: https://workpress.local/support\n"
-"POT-Creation-Date: 2026-09-01T15:12:44.067Z\n"
+"POT-Creation-Date: 2026-09-01T15:17:13.898Z\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3460,6 +3460,22 @@ msgstr ""
 msgid "Click or drag to select"
 msgstr ""
 
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Switching language..."
+msgstr ""
+
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Language updated:"
+msgstr ""
+
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Change Language / تغيير اللغة"
+msgstr ""
+
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Select Language"
+msgstr ""
+
 #: assets/src/components/ui/MemberSelect.js
 msgid "Member"
 msgstr ""
@@ -4928,6 +4944,14 @@ msgstr ""
 msgid "لا يمكن حذف هذا الدور أو أنه غير موجود"
 msgstr ""
 
+#: includes/api/class-workpress-rest-settings-controller.php
+msgid "Invalid locale provided."
+msgstr ""
+
+#: includes/api/class-workpress-rest-settings-controller.php includes/api/portal/class-workpress-portal-auth-handler.php
+msgid "Language updated successfully."
+msgstr ""
+
 #: includes/api/class-workpress-rest-tasks-controller.php
 msgid "عنوان المهمة مطلوب"
 msgstr ""
@@ -4994,10 +5018,6 @@ msgstr ""
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php includes/services/class-workpress-portal-service.php
 msgid "Technical Staff"
-msgstr ""
-
-#: includes/api/portal/class-workpress-portal-auth-handler.php
-msgid "Language updated successfully."
 msgstr ""
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php includes/services/class-workpress-portal-signoff-service.php includes/services/class-workpress-project-service.php

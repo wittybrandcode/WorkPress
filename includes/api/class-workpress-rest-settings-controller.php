@@ -32,6 +32,14 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 				'permission_callback' => array( $this, 'update_permissions_check' ),
 			),
 		) );
+
+		register_rest_route( $this->namespace, '/user/locale', array(
+			array(
+				'methods'             => WP_REST_Server::CREATABLE,
+				'callback'            => array( $this, 'update_user_locale' ),
+				'permission_callback' => 'is_user_logged_in',
+			),
+		) );
 	}
 
 	public function get_permissions_check( $request ) {
@@ -250,4 +258,36 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 
 		return $this->get_settings( $request );
 	}
+
+	/**
+	 * Update the current user's WordPress locale preference.
+	 *
+	 * @param WP_REST_Request $request
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function update_user_locale( $request ) {
+		$locale = sanitize_text_field( $request->get_param( 'locale' ) );
+		$valid_locales = array( 'en_US', 'ar', 'fr_FR', 'es_ES', 'en' );
+		if ( ! in_array( $locale, $valid_locales, true ) ) {
+			return new WP_Error( 'invalid_locale', __( 'Invalid locale provided.', 'workpress' ), array( 'status' => 400 ) );
+		}
+
+		$user_id = get_current_user_id();
+		if ( $locale === 'en' || $locale === 'en_US' ) {
+			update_user_meta( $user_id, 'locale', 'en_US' );
+		} else {
+			update_user_meta( $user_id, 'locale', $locale );
+		}
+
+		// Also set cookie for persistent instant recognition
+		setcookie( 'workpress_user_locale', $locale, time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), false );
+
+		return rest_ensure_response( array(
+			'success' => true,
+			'locale'  => $locale,
+			'isRtl'   => in_array( substr( $locale, 0, 2 ), array( 'ar', 'he', 'fa', 'ur' ), true ),
+			'message' => __( 'Language updated successfully.', 'workpress' ),
+		) );
+	}
 }
+

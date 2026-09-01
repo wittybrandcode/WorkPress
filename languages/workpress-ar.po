@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkPress 2.3.0\n"
 "Report-Msgid-Bugs-To: https://workpress.local/support\n"
-"POT-Creation-Date: 2026-09-01T15:12:44.068Z\n"
-"PO-Revision-Date: 2026-09-01T15:12:44.068Z\n"
+"POT-Creation-Date: 2026-09-01T15:17:13.899Z\n"
+"PO-Revision-Date: 2026-09-01T15:17:13.899Z\n"
 "Last-Translator: WorkPress Localization Team <ar@workpress.local>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "Language: ar\n"
@@ -3460,6 +3460,22 @@ msgstr "Upload Cover Image"
 msgid "Click or drag to select"
 msgstr "Click or drag to select"
 
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Switching language..."
+msgstr "Switching language..."
+
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Language updated:"
+msgstr "Language updated:"
+
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Change Language / تغيير اللغة"
+msgstr "Change Language / تغيير اللغة"
+
+#: assets/src/components/ui/LanguageQuickMenu.js
+msgid "Select Language"
+msgstr "Select Language"
+
 #: assets/src/components/ui/MemberSelect.js
 msgid "Member"
 msgstr "Member"
@@ -4928,6 +4944,14 @@ msgstr "الدور الأساسي غير صالح"
 msgid "لا يمكن حذف هذا الدور أو أنه غير موجود"
 msgstr "لا يمكن حذف هذا الدور أو أنه غير موجود"
 
+#: includes/api/class-workpress-rest-settings-controller.php
+msgid "Invalid locale provided."
+msgstr "Invalid locale provided."
+
+#: includes/api/class-workpress-rest-settings-controller.php includes/api/portal/class-workpress-portal-auth-handler.php
+msgid "Language updated successfully."
+msgstr "Language updated successfully."
+
 #: includes/api/class-workpress-rest-tasks-controller.php
 msgid "عنوان المهمة مطلوب"
 msgstr "عنوان المهمة مطلوب"
@@ -4995,10 +5019,6 @@ msgstr "منفذ فني"
 #: includes/api/portal/class-workpress-portal-auth-handler.php includes/services/class-workpress-portal-service.php
 msgid "Technical Staff"
 msgstr "منفذ فني"
-
-#: includes/api/portal/class-workpress-portal-auth-handler.php
-msgid "Language updated successfully."
-msgstr "Language updated successfully."
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php includes/services/class-workpress-portal-signoff-service.php includes/services/class-workpress-project-service.php
 msgid "المشروع غير موجود."

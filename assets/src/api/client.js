@@ -140,6 +140,7 @@ export const rolesApi = {
 export const settingsApi = {
 	get: () => apiFetch( { path: '/workpress/v1/settings' } ),
 	update: ( data ) => apiFetch( { path: '/workpress/v1/settings', method: 'POST', data } ),
+	updateLocale: ( locale ) => apiFetch( { path: '/workpress/v1/user/locale', method: 'POST', data: { locale } } ),
 };
 
 export const devApi = {

@@ -15,6 +15,7 @@ import IntakeFormsPage from './pages/IntakeFormsPage.js?v=2';
 import SettingsPage from './pages/SettingsPage.js';
 import SettingsQuickMenu from './components/settings/SettingsQuickMenu.js';
 import SoundQuickToggle from './components/ui/SoundQuickToggle.js';
+import LanguageQuickMenu from './components/ui/LanguageQuickMenu.js';
 import ProjectModal from './components/projects/ProjectModal.js';
 import TaskModal from './components/tasks/TaskModal.js';
 import ContributionModal from './components/contributions/ContributionModal.js';
