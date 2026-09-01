@@ -139,6 +139,9 @@ class WorkPress_Admin {
 		}, 10, 3 );
 
 		$settings = self::get_client_settings();
+		if ( ! empty( $settings['localeData'] ) ) {
+			wp_add_inline_script( 'wp-i18n', 'if (window.wp && window.wp.i18n) { window.wp.i18n.setLocaleData(' . wp_json_encode( $settings['localeData'] ) . ', "workpress"); }', 'after' );
+		}
 		wp_add_inline_script( 'workpress-app-js', 'window.workpressSettings = ' . wp_json_encode( $settings ) . ';', 'before' );
 	}
 
@@ -150,7 +153,29 @@ class WorkPress_Admin {
 	public static function get_client_settings() {
 		$current_user = wp_get_current_user();
 		$is_admin     = current_user_can( 'manage_options' );
-		$locale       = get_user_locale();
+
+		// Detect active locale preference from cookie, user meta, or WordPress default
+		$cookie_locale = isset( $_COOKIE['workpress_user_locale'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['workpress_user_locale'] ) ) : '';
+		$user_locale   = $current_user->ID ? get_user_meta( $current_user->ID, 'locale', true ) : '';
+		$locale        = $cookie_locale ?: ( $user_locale ?: get_user_locale() );
+		if ( $locale === 'en' ) {
+			$locale = 'en_US';
+		}
+
+		$is_rtl = in_array( substr( $locale, 0, 2 ), array( 'ar', 'he', 'fa', 'ur' ), true );
+
+		// Load JED JSON translation data for active non-English locale
+		$domain_data = null;
+		if ( strpos( $locale, 'ar' ) === 0 ) {
+			$json_file = WORKPRESS_PATH . 'languages/workpress-ar-workpress-app-js.json';
+			if ( file_exists( $json_file ) ) {
+				$raw_json = file_get_contents( $json_file );
+				$decoded  = json_decode( $raw_json, true );
+				if ( ! empty( $decoded['locale_data']['workpress'] ) ) {
+					$domain_data = $decoded['locale_data']['workpress'];
+				}
+			}
+		}
 
 		return array(
 			'ajaxUrl'            => admin_url( 'admin-ajax.php' ),
@@ -159,13 +184,14 @@ class WorkPress_Admin {
 			'restNonce'          => wp_create_nonce( 'wp_rest' ),
 			'siteName'           => get_bloginfo( 'name' ),
 			'locale'             => $locale,
-			'isRtl'              => is_rtl(),
+			'isRtl'              => $is_rtl,
 			'activeLanguage'     => substr( $locale, 0, 2 ),
+			'localeData'         => $domain_data,
 			'supportedLanguages' => array(
-				array( 'code' => 'en_US', 'short' => 'en', 'label' => 'English', 'dir' => 'ltr' ),
-				array( 'code' => 'ar',    'short' => 'ar', 'label' => 'العربية', 'dir' => 'rtl' ),
-				array( 'code' => 'fr_FR', 'short' => 'fr', 'label' => 'Français', 'dir' => 'ltr' ),
-				array( 'code' => 'es_ES', 'short' => 'es', 'label' => 'Español', 'dir' => 'ltr' ),
+				array( 'code' => 'en_US', 'short' => 'en', 'label' => 'English (US)', 'flag' => '🇺🇸', 'dir' => 'ltr' ),
+				array( 'code' => 'ar',    'short' => 'ar', 'label' => 'العربية (Arabic)', 'flag' => '🇩🇿', 'dir' => 'rtl' ),
+				array( 'code' => 'fr_FR', 'short' => 'fr', 'label' => 'Français (French)', 'flag' => '🇫🇷', 'dir' => 'ltr' ),
+				array( 'code' => 'es_ES', 'short' => 'es', 'label' => 'Español (Spanish)', 'flag' => '🇪🇸', 'dir' => 'ltr' ),
 			),
 			'defaultPriority'    => get_option( 'workpress_default_priority', 'medium' ),
 			'emailNotifications' => (bool) get_option( 'workpress_email_notifications', true ),

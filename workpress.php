@@ -90,8 +90,27 @@ function workpress_init() {
 }
 add_action( 'plugins_loaded', 'workpress_init' );
 
-add_action( 'init', function() {
-	load_plugin_textdomain( 'workpress', false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
-} );
+/**
+ * Filter WordPress locale for WorkPress requests and user preferences.
+ *
+ * @param string $locale
+ * @return string
+ */
+function workpress_filter_locale( $locale ) {
+	$cookie_locale = isset( $_COOKIE['workpress_user_locale'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['workpress_user_locale'] ) ) : '';
+	if ( ! empty( $cookie_locale ) && in_array( $cookie_locale, array( 'ar', 'en_US', 'en', 'fr_FR', 'es_ES' ), true ) ) {
+		return ( $cookie_locale === 'en' ) ? 'en_US' : $cookie_locale;
+	}
+	if ( is_user_logged_in() ) {
+		$user_locale = get_user_meta( get_current_user_id(), 'locale', true );
+		if ( ! empty( $user_locale ) && in_array( $user_locale, array( 'ar', 'en_US', 'en', 'fr_FR', 'es_ES' ), true ) ) {
+			return ( $user_locale === 'en' ) ? 'en_US' : $user_locale;
+		}
+	}
+	return $locale;
+}
+add_filter( 'locale', 'workpress_filter_locale', 99 );
+add_filter( 'determine_locale', 'workpress_filter_locale', 99 );
+
 
 

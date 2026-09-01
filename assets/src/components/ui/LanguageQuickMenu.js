@@ -38,7 +38,7 @@ export default function LanguageQuickMenu() {
 
 	const handleSelectLanguage = (lang) => {
 		if (isSwitching) return;
-		if (currentShort === lang.short || currentLocale === lang.code) {
+		if (currentShort === lang.short && currentLocale === lang.code) {
 			setIsOpen(false);
 			return;
 		}
@@ -47,22 +47,22 @@ export default function LanguageQuickMenu() {
 		sound.play('button');
 		toast( __( 'Switching language...', 'workpress' ), 'info', 1200 );
 
+		// Set cookie immediately so PHP hooks pick it up on reload
+		document.cookie = `workpress_user_locale=${lang.code}; path=/; max-age=31536000; SameSite=Lax`;
+		localStorage.setItem('workpress_locale', lang.code);
+
 		settingsApi.updateLocale(lang.code)
 			.then(() => {
-				localStorage.setItem('workpress_locale', lang.code);
 				toast( `${ __( 'Language updated:', 'workpress' ) } ${lang.label}`, 'success', 1500 );
 				setTimeout(() => {
 					window.location.reload();
-				}, 350);
+				}, 200);
 			})
 			.catch((err) => {
 				console.error(err);
-				// Fallback: set cookie and reload anyway
-				document.cookie = `workpress_user_locale=${lang.code}; path=/; max-age=31536000`;
-				localStorage.setItem('workpress_locale', lang.code);
 				setTimeout(() => {
 					window.location.reload();
-				}, 350);
+				}, 200);
 			});
 	};
 
