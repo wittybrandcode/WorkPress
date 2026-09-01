@@ -1,35 +1,115 @@
 /**
- * WorkPress Core Admin Plaza Internationalization (i18n) Helper
+ * WorkPress Core Admin Plaza Internationalization & Localization Engine
  *
- * Wraps @wordpress/i18n with safe fallbacks and runtime utilities.
+ * Systematic & Reactive Client-Side i18n Architecture:
+ * - English as Canonical Base Source String Standard (msgid)
+ * - Bundled 1st-Class Arabic Translation Catalog with 100% Offline & Instant Availability
+ * - Reactive Language Switcher with Instant DOM dir & Font State Management
+ * - Full Compatibility with WordPress Backend & Rest APIs
  *
  * @package WorkPress
  * @subpackage Utils/i18n
  * @version 2.3.0
  */
 
-// Initialize Locale Data if provided by server
-const getLoadedLocaleData = () => {
-    if (typeof window === 'undefined') return null;
-    return window.workpressSettings?.localeData || null;
+import arCatalog from './translations/ar.js';
+
+// Reactive Listeners for Instant UI Updates
+const listeners = new Set();
+
+// Active Locale Resolution Strategy
+const detectInitialLocale = () => {
+    if (typeof window === 'undefined') return 'ar';
+    
+    // 1. LocalStorage has highest user priority
+    try {
+        const saved = localStorage.getItem('workpress_locale');
+        if (saved && (saved === 'ar' || saved === 'en_US' || saved === 'en' || saved === 'fr_FR' || saved === 'es_ES')) {
+            return (saved === 'en') ? 'en_US' : saved;
+        }
+    } catch (e) {}
+
+    // 2. Cookie preference
+    try {
+        const match = document.cookie.match(/workpress_user_locale=([^;]+)/);
+        if (match && match[1]) {
+            return (match[1] === 'en') ? 'en_US' : match[1];
+        }
+    } catch (e) {}
+
+    // 3. Settings passed from PHP
+    if (window.workpressSettings?.locale) {
+        return (window.workpressSettings.locale === 'en') ? 'en_US' : window.workpressSettings.locale;
+    }
+
+    return 'ar'; // Default institutional Arabic
 };
 
-if (typeof window !== 'undefined' && window.wp?.i18n?.setLocaleData) {
-    const data = getLoadedLocaleData();
-    if (data) {
-        try {
-            const domainData = data.locale_data?.workpress || data;
-            window.wp.i18n.setLocaleData(domainData, 'workpress');
-        } catch (e) {
-            // Safe fallback
-        }
+let currentLocale = detectInitialLocale();
+
+// Apply document direction and fonts immediately
+const applyDOMDirectionAndFont = (locale) => {
+    if (typeof document === 'undefined') return;
+    const rtl = locale === 'ar' || locale.startsWith('ar');
+    document.documentElement.dir = rtl ? 'rtl' : 'ltr';
+    document.documentElement.lang = locale.startsWith('ar') ? 'ar' : (locale.startsWith('fr') ? 'fr' : (locale.startsWith('es') ? 'es' : 'en'));
+    if (document.body) {
+        document.body.dir = rtl ? 'rtl' : 'ltr';
     }
-}
+};
+
+applyDOMDirectionAndFont(currentLocale);
+
+export const getLocale = () => currentLocale;
+
+export const isRtl = () => {
+    return currentLocale === 'ar' || currentLocale.startsWith('ar');
+};
+
+export const setLocale = (newLocale) => {
+    if (!newLocale) return;
+    if (newLocale === 'en') newLocale = 'en_US';
+    if (newLocale === currentLocale) return;
+
+    currentLocale = newLocale;
+    try {
+        localStorage.setItem('workpress_locale', newLocale);
+        document.cookie = `workpress_user_locale=${newLocale}; path=/; max-age=31536000; SameSite=Lax`;
+    } catch (e) {}
+
+    applyDOMDirectionAndFont(newLocale);
+
+    // Notify all active React / Preact subscribers
+    listeners.forEach((fn) => {
+        try { fn(newLocale); } catch (err) { console.error('i18n listener error', err); }
+    });
+
+    if (typeof window !== 'undefined') {
+        window.dispatchEvent(new CustomEvent('workpress_locale_changed', { detail: { locale: newLocale, isRtl: isRtl() } }));
+    }
+};
+
+export const onLocaleChange = (fn) => {
+    listeners.add(fn);
+    return () => listeners.delete(fn);
+};
 
 export const __ = (text, domain = 'workpress') => {
     if (!text) return '';
     
-    // 1. Try standard WordPress i18n
+    // If English, return canonical msgid immediately
+    if (currentLocale === 'en_US' || currentLocale === 'en') {
+        return text;
+    }
+
+    // If Arabic, return translation from bundled catalog
+    if (currentLocale === 'ar' || currentLocale.startsWith('ar')) {
+        if (arCatalog && arCatalog[text]) {
+            return arCatalog[text];
+        }
+    }
+
+    // Standard WordPress wp.i18n fallback if available
     if (typeof window !== 'undefined' && window.wp?.i18n?.__) {
         const translated = window.wp.i18n.__(text, domain);
         if (translated && translated !== text) {
@@ -37,63 +117,33 @@ export const __ = (text, domain = 'workpress') => {
         }
     }
 
-    // 2. Direct fallback from embedded locale data
-    const data = getLoadedLocaleData();
-    if (data) {
-        const domainData = data.locale_data?.workpress || data;
-        if (domainData && domainData[text]) {
-            const val = domainData[text];
-            return Array.isArray(val) ? (val[0] || text) : val;
-        }
-    }
-
     return text;
 };
 
 export const _x = (text, context, domain = 'workpress') => {
-    if (!text) return '';
     return __(text, domain);
 };
 
 export const _n = (single, plural, number, domain = 'workpress') => {
     if (!single) return '';
-    if (window.wp?.i18n?._n) {
-        return window.wp.i18n._n(single, plural, number, domain);
+    if (currentLocale === 'en_US' || currentLocale === 'en') {
+        return number === 1 ? single : plural;
     }
-    return number === 1 ? single : plural;
+    return __(single, domain);
 };
 
 export const sprintf = (format, ...args) => {
     if (!format) return '';
-    if (window.wp?.i18n?.sprintf) {
-        return window.wp.i18n.sprintf(format, ...args);
-    }
-    return format.replace(/%[s|d|f]/g, (_, i = 0) => args[i++] || '');
-};
-
-export const getLocale = () => {
-    if (typeof window !== 'undefined' && window.workpressSettings?.locale) {
-        return window.workpressSettings.locale;
-    }
-    return 'en_US';
-};
-
-export const isRtl = () => {
-    if (typeof window !== 'undefined' && typeof window.workpressSettings?.isRtl === 'boolean') {
-        return window.workpressSettings.isRtl;
-    }
-    const loc = (typeof window !== 'undefined' && window.workpressSettings?.locale) || '';
-    if (loc.startsWith('ar') || loc.startsWith('he') || loc.startsWith('fa') || loc.startsWith('ur')) {
-        return true;
-    }
-    return typeof document !== 'undefined' ? document.dir === 'rtl' : false;
+    let result = __(format);
+    let i = 0;
+    return result.replace(/%[s|d|f]/g, () => (args[i++] !== undefined ? args[i - 1] : ''));
 };
 
 export const getSupportedLanguages = () => {
-    return window.workpressSettings?.supportedLanguages || [
+    return [
         { code: 'en_US', short: 'en', label: 'English (US)', flag: '🇺🇸', dir: 'ltr' },
-        { code: 'ar', short: 'ar', label: 'العربية (Arabic)', flag: '🇩🇿', dir: 'rtl' },
+        { code: 'ar',    short: 'ar', label: 'العربية (Arabic)', flag: '🇩🇿', dir: 'rtl' },
         { code: 'fr_FR', short: 'fr', label: 'Français (French)', flag: '🇫🇷', dir: 'ltr' },
-        { code: 'es_ES', short: 'es', label: 'Español (Spanish)', flag: '🇪🇸', dir: 'ltr' }
+        { code: 'es_ES', short: 'es', label: 'Español (Spanish)', flag: '🇪🇸', dir: 'ltr' },
     ];
 };

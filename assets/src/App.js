@@ -1,4 +1,4 @@
-import { html, useState, useEffect, __, isRtl } from './utils/html.js';
+import { html, useState, useEffect, __, isRtl, getLocale, onLocaleChange } from './utils/html.js';
 import { hooks } from './utils/hooks.js';
 import WorkPressLogo from './components/ui/WorkPressLogo.js';
 import DashboardPage from './pages/DashboardPage.js';
@@ -24,6 +24,7 @@ import sound from './utils/sound.js';
 
 export default function App() {
 	const [ route, setRoute ] = useState( window.location.hash || '#/' );
+	const [ locale, setLocaleState ] = useState( getLocale() );
 	const [ refreshKey, setRefreshKey ] = useState( 0 );
 	const [ isProjectModalOpen, setIsProjectModalOpen ] = useState( false );
 	const [ isTaskModalOpen, setIsTaskModalOpen ] = useState( false );
@@ -40,9 +41,14 @@ export default function App() {
 	useEffect( () => {
 		const handleHashChange = () => setRoute( window.location.hash || '#/' );
 		const handleBrandUpdate = () => setBrandRevision( ( prev ) => prev + 1 );
+		const handleLocaleUpdate = ( newLoc ) => {
+			setLocaleState( newLoc );
+			setRefreshKey( ( prev ) => prev + 1 );
+		};
 
 		window.addEventListener( 'hashchange', handleHashChange );
 		window.addEventListener( 'workpress_brand_updated', handleBrandUpdate );
+		const unsubscribeLocale = onLocaleChange( handleLocaleUpdate );
 
 		// Universal Session Keep-Alive (Refresh nonce on tab visibility & every 15 mins)
 		const refreshNonce = async () => {
@@ -86,6 +92,7 @@ export default function App() {
 			window.removeEventListener( 'hashchange', handleHashChange );
 			window.removeEventListener( 'workpress_brand_updated', handleBrandUpdate );
 			document.removeEventListener( 'visibilitychange', handleVisibilityChange );
+			if ( typeof unsubscribeLocale === 'function' ) unsubscribeLocale();
 			clearInterval( keepAliveInterval );
 		};
 	}, [] );

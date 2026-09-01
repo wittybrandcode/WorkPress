@@ -1,5 +1,5 @@
 import htm from '../vendor/htm.module.js';
-import { __, _x, _n, sprintf, isRtl, getLocale, getSupportedLanguages } from './i18n.js';
+import { __, _x, _n, sprintf, isRtl, getLocale, setLocale, onLocaleChange, getSupportedLanguages } from './i18n.js';
 
 // Universal Element Provider: Supports window.wp.element (Admin React) and window.preact (Standalone Portal)
 const elementProvider = window.wp?.element || window.preact || {};
@@ -34,5 +34,7 @@ export {
     sprintf,
     isRtl,
     getLocale,
+    setLocale,
+    onLocaleChange,
     getSupportedLanguages
 };

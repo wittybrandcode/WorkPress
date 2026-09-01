@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef, __, isRtl } from '../../utils/html.js';
+import { html, useState, useEffect, useRef, __, isRtl, getLocale, setLocale } from '../../utils/html.js';
 import { hooks } from '../../utils/hooks.js';
 import { settingsApi } from '../../api/client.js';
 import sound from '../../utils/sound.js';
@@ -14,10 +14,8 @@ export default function LanguageQuickMenu() {
 	const [isSwitching, setIsSwitching] = useState(false);
 	const dropdownRef = useRef(null);
 	const rtl = isRtl();
-
-	const settings = window.workpressSettings || {};
-	const currentLocale = settings.locale || (rtl ? 'ar' : 'en_US');
-	const currentShort = (settings.activeLanguage || (rtl ? 'ar' : 'en')).toLowerCase();
+	const currentLocale = getLocale();
+	const currentShort = currentLocale.startsWith('ar') ? 'ar' : (currentLocale.startsWith('fr') ? 'fr' : (currentLocale.startsWith('es') ? 'es' : 'en'));
 
 	const supportedLanguages = [
 		{ code: 'en_US', short: 'en', label: 'English (US)', flag: '🇺🇸', dir: 'ltr' },
@@ -38,32 +36,22 @@ export default function LanguageQuickMenu() {
 
 	const handleSelectLanguage = (lang) => {
 		if (isSwitching) return;
-		if (currentShort === lang.short && currentLocale === lang.code) {
+		if (currentLocale === lang.code) {
 			setIsOpen(false);
 			return;
 		}
 
 		setIsSwitching(true);
 		sound.play('button');
-		toast( __( 'Switching language...', 'workpress' ), 'info', 1200 );
 
-		// Set cookie immediately so PHP hooks pick it up on reload
-		document.cookie = `workpress_user_locale=${lang.code}; path=/; max-age=31536000; SameSite=Lax`;
-		localStorage.setItem('workpress_locale', lang.code);
+		// Instant zero-delay reactive UI update
+		setLocale(lang.code);
+		toast( `${ __( 'Language updated:', 'workpress' ) } ${lang.label}`, 'success', 1500 );
+		setIsOpen(false);
+		setIsSwitching(false);
 
-		settingsApi.updateLocale(lang.code)
-			.then(() => {
-				toast( `${ __( 'Language updated:', 'workpress' ) } ${lang.label}`, 'success', 1500 );
-				setTimeout(() => {
-					window.location.reload();
-				}, 200);
-			})
-			.catch((err) => {
-				console.error(err);
-				setTimeout(() => {
-					window.location.reload();
-				}, 200);
-			});
+		// Background sync to WordPress database
+		settingsApi.updateLocale(lang.code).catch(() => {});
 	};
 
 	const activeLangObj = supportedLanguages.find(l => l.code === currentLocale || l.short === currentShort) || supportedLanguages[0];
