@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { html, useState, useEffect, useRef, __ } from '../utils/html.js';
 import { tasksApi, projectsApi } from '../api/client.js';
 import TaskCard from '../components/tasks/TaskCard.js';
 import TaskModal from '../components/tasks/TaskModal.js';
@@ -102,29 +102,29 @@ export default function KanbanPage({ refreshKey }) {
 	}, [page] );
 
 	const columns = [ 
-		{ id: 'new', label: 'جديدة / غير مسندة', subtitle: 'بانتظار التكليف وبدء العمل', icon: 'dashicons-tag', color: '#3b82f6', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
-		{ id: 'assigned', label: 'مسندة ومخصصة', subtitle: 'مكلفون بانتظار المساهمة الأولى', icon: 'dashicons-admin-users', color: '#0284c7', bg: '#f0f9ff', headerBg: '#e0f2fe', border: '#bae6fd' }, 
-		{ id: 'in_progress', label: 'قيد الإنجاز والتعاون', subtitle: 'مساهمات جارية قيد التنفيذ', icon: 'dashicons-hammer', color: '#d97706', bg: '#fffbeb', headerBg: '#fef3c7', border: '#fde68a' }, 
-		{ id: 'completed', label: 'مكتملة ومعتمدة', subtitle: 'حلول معتمدة وموثقة بالمعرفة', icon: 'dashicons-awards', color: '#059669', bg: '#ecfdf5', headerBg: '#d1fae5', border: '#a7f3d0' } 
+		{ id: 'new', label: __( 'New / Unassigned', 'workpress' ), subtitle: __( 'Awaiting assignment and kickoff', 'workpress' ), icon: 'dashicons-tag', color: '#3b82f6', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
+		{ id: 'assigned', label: __( 'Assigned & Targeted', 'workpress' ), subtitle: __( 'Assigned members awaiting first contribution', 'workpress' ), icon: 'dashicons-admin-users', color: '#0284c7', bg: '#f0f9ff', headerBg: '#e0f2fe', border: '#bae6fd' }, 
+		{ id: 'in_progress', label: __( 'In Progress & Collaboration', 'workpress' ), subtitle: __( 'Active contributions in execution', 'workpress' ), icon: 'dashicons-hammer', color: '#d97706', bg: '#fffbeb', headerBg: '#fef3c7', border: '#fde68a' }, 
+		{ id: 'completed', label: __( 'Completed & Verified', 'workpress' ), subtitle: __( 'Approved solutions documented in knowledge base', 'workpress' ), icon: 'dashicons-awards', color: '#059669', bg: '#ecfdf5', headerBg: '#d1fae5', border: '#a7f3d0' } 
 	];
 
 	const handleCloneTask = ( task ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'تأكيد الاستنساخ',
-			message: `هل أنت متأكد من استنساخ المهمة "${task.title}"؟`,
-			confirmText: 'استنساخ',
+			title: __( 'Confirm Task Clone', 'workpress' ),
+			message: `${ __( 'Are you sure you want to clone task', 'workpress' ) } "${task.title}"?`,
+			confirmText: __( 'Confirm', 'workpress' ),
 			confirmColor: 'is-info',
 			onConfirm: () => {
 				tasksApi.create({
-					title: task.title + ' (نسخة)',
+					title: task.title + ' (' + __( 'Copy', 'workpress' ) + ')',
 					content: task.content,
 					project_id: task.project_id,
 					priority: task.priority
 				}).then( () => {
-					toast('تم استنساخ المهمة بنجاح', 'success');
+					toast( __( 'Task cloned successfully', 'workpress' ), 'success' );
 					fetchTasks();
-				} ).catch( err => toast(err.message || 'حدث خطأ أثناء الاستنساخ', 'danger') );
+				} ).catch( err => toast( err.message || __( 'An error occurred during restore', 'workpress' ), 'danger' ) );
 				setConfirmModalConfig({ isActive: false });
 			}
 		});
@@ -133,25 +133,25 @@ export default function KanbanPage({ refreshKey }) {
 	const handleTrashRequest = ( task ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'طلب حذف مهمة',
-			message: `هل أنت متأكد من رغبتك في طلب حذف المهمة "${task.title}"؟`,
-			confirmText: 'إرسال الطلب',
+			title: __( 'Trash / Delete Request', 'workpress' ),
+			message: `${ __( 'Are you sure you want to request trashing task', 'workpress' ) } "${task.title}"?`,
+			confirmText: __( 'Submit Request', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'سبب حذف المهمة',
+			reasonLabel: __( 'Reason for deletion', 'workpress' ),
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
 				tasksApi.trashRequest( task.id, reason )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم إرسال طلب حذف المهمة بنجاح', 'info' );
+						toast( __( 'Trash request sent successfully.', 'workpress' ), 'info' );
 						fetchTasks();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء طلب الحذف', 'danger' );
+						toast( err.message || __( 'Failed to send feedback, please try again.', 'workpress' ), 'danger' );
 					} );
 			}
 		});
@@ -161,11 +161,11 @@ export default function KanbanPage({ refreshKey }) {
 		setTasks( prev => prev.map( t => t.id === task.id ? { ...t, is_pending_trash: false } : t ) );
 		tasksApi.update( task.id, { is_pending_trash: false } )
 			.then( () => {
-				toast( 'تمت استعادة المهمة بنجاح', 'success' );
+				toast( __( 'Task restored successfully', 'workpress' ), 'success' );
 				fetchTasks();
 			} )
 			.catch( err => {
-				toast( err.message || 'حدث خطأ أثناء استعادة المهمة', 'danger' );
+				toast( err.message || __( 'Failed to restore project', 'workpress' ), 'danger' );
 				fetchTasks();
 			} );
 	};
@@ -173,9 +173,9 @@ export default function KanbanPage({ refreshKey }) {
 	const handleDeleteTask = ( task ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'تأكيد الحذف النهائي للمهمة',
-			message: `هل أنت متأكد من حذف هذه المهمة نهائياً ونقلها لسلة المهملات؟`,
-			confirmText: 'حذف',
+			title: __( 'Confirm Permanent Deletion', 'workpress' ),
+			message: __( 'Are you sure you want to permanently delete this item? This action cannot be undone.', 'workpress' ),
+			confirmText: __( 'Delete Permanently', 'workpress' ),
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			requiresReason: false,
@@ -186,12 +186,12 @@ export default function KanbanPage({ refreshKey }) {
 				tasksApi.delete( task.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم حذف المهمة بنجاح', 'success' );
+						toast( __( 'Task permanently deleted', 'workpress' ), 'success' );
 						fetchTasks();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء الحذف', 'danger' );
+						toast( err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger' );
 						fetchTasks();
 					} );
 			}
@@ -199,22 +199,22 @@ export default function KanbanPage({ refreshKey }) {
 	};
 
 	const projectOptions = [
-		{ value: '', label: '-- جميع المشاريع --' },
+		{ value: '', label: `-- ${ __( 'All Projects', 'workpress' ) } --` },
 		...projects.map( p => ({ value: p.id, label: p.name }) )
 	];
 
 	const assigneeOptions = [
-		{ value: '', label: '-- جميع المكلفين --' },
-		{ value: 'unassigned', label: 'غير مسندة' },
+		{ value: '', label: `-- ${ __( 'Assignees', 'workpress' ) } --` },
+		{ value: 'unassigned', label: __( 'Unassigned', 'workpress' ) },
 		...users.map( u => ({ value: u.id, label: u.name }) )
 	];
 
 	const priorityOptions = [
-		{ value: '', label: '-- جميع الأولويات --' },
-		{ value: 'urgent', label: 'طارئة' },
-		{ value: 'high', label: 'عالية' },
-		{ value: 'medium', label: 'متوسطة' },
-		{ value: 'low', label: 'منخفضة' }
+		{ value: '', label: `-- ${ __( 'Priority', 'workpress' ) } --` },
+		{ value: 'urgent', label: __( 'Critical', 'workpress' ) },
+		{ value: 'high', label: __( 'High', 'workpress' ) },
+		{ value: 'medium', label: __( 'Medium', 'workpress' ) },
+		{ value: 'low', label: __( 'Low', 'workpress' ) }
 	];
 
 	const isFilterActive = Boolean( searchQuery || selectedProject || selectedAssignee || selectedPriority );
@@ -265,7 +265,7 @@ export default function KanbanPage({ refreshKey }) {
 	if ( ! tasks ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحميل لوحة الكانبان..." size="large" />
+				<${Loader} center=${true} label=${ __( 'Loading...', 'workpress' ) } size="large" />
 			</div>
 		`;
 	}
@@ -276,12 +276,12 @@ export default function KanbanPage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'بحث سريع في المهام...',
+					placeholder: __( 'Search tasks...', 'workpress' ),
 				}}
 				filters=${[
 					{
 						key: 'project',
-						label: 'المشروع',
+						label: __( 'Project', 'workpress' ),
 						icon: 'dashicons-category',
 						value: selectedProject,
 						onChange: setSelectedProject,
@@ -291,7 +291,7 @@ export default function KanbanPage({ refreshKey }) {
 					},
 					{
 						key: 'assignee',
-						label: 'المكلف',
+						label: __( 'Assignees', 'workpress' ),
 						icon: 'dashicons-admin-users',
 						value: selectedAssignee,
 						onChange: setSelectedAssignee,
@@ -301,7 +301,7 @@ export default function KanbanPage({ refreshKey }) {
 					},
 					{
 						key: 'priority',
-						label: 'الأولوية',
+						label: __( 'Priority', 'workpress' ),
 						icon: 'dashicons-flag',
 						value: selectedPriority,
 						onChange: setSelectedPriority,
@@ -311,7 +311,7 @@ export default function KanbanPage({ refreshKey }) {
 				]}
 				totalCount=${ filteredTasks.length }
 				totalUnfiltered=${ tasks ? tasks.length : 0 }
-				counterLabel="مهمة"
+				counterLabel=${ __( 'Task', 'workpress' ) }
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
@@ -331,7 +331,7 @@ export default function KanbanPage({ refreshKey }) {
 							borderTopWidth: '4px'
 						}}
 					>
-						<!-- Column Header with Status Theme and Count Badge (No Add Icon) -->
+						<!-- Column Header with Status Theme and Count Badge -->
 						<div 
 							className="px-3 py-2 is-flex is-justify-content-space-between is-align-items-center wp-border-bottom" 
 							style=${{ backgroundColor: col.headerBg, height: '40px', borderBottom: `1px solid ${ col.border }` }}
@@ -369,8 +369,8 @@ export default function KanbanPage({ refreshKey }) {
 									<div className="mb-2" style=${{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '40px', height: '40px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 										<i className=${'dashicons ' + col.icon + ' has-text-grey'} style=${{ fontSize: '20px' }}></i>
 									</div>
-									<p className="is-size-7 has-text-grey-dark has-text-weight-bold mb-1">لا توجد مهام في هذا المسار</p>
-									<p className="is-size-7 has-text-grey mb-0">${ col.id === 'open' ? 'المهام الجديدة تظهر هنا' : col.id === 'completed' ? 'تظهر هنا المهام المكتملة' : 'اسحب المهام إلى هنا' }</p>
+									<p className="is-size-7 has-text-grey-dark has-text-weight-bold mb-1">${ __( 'No tasks in this lane', 'workpress' ) }</p>
+									<p className="is-size-7 has-text-grey mb-0">${ col.id === 'new' ? __( 'New tasks will appear here', 'workpress' ) : col.id === 'completed' ? __( 'Completed tasks appear here', 'workpress' ) : __( 'Active tasks in progress', 'workpress' ) }</p>
 								</div>
 							` }
 						</div>
@@ -384,7 +384,7 @@ export default function KanbanPage({ refreshKey }) {
 						className=${ `button wp-btn is-white wp-border ${ isLoadingMore ? 'is-loading' : '' }` } 
 						onClick=${ () => fetchTasks( page + 1, true ) }
 					>
-						تحميل المزيد
+						${ __( 'Load More', 'workpress' ) }
 					</button>
 				</div>
 			` : null }

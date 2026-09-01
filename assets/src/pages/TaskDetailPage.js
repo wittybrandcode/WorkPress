@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect, __ } from '../utils/html.js';
 import { tasksApi, contributionsApi, projectsApi, usersApi } from '../api/client.js';
 import ContributionDetailModal from '../components/contributions/ContributionDetailModal.js';
 import TaskModal from '../components/tasks/TaskModal.js';
@@ -19,7 +19,7 @@ import sound from '../utils/sound.js';
  *
  * @package WorkPress
  * @subpackage Pages/TaskDetail
- * @version 2.2.3
+ * @version 2.3.0
  */
 export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 	const [ task, setTask ] = useState( null );
@@ -122,12 +122,12 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 			setFeaturedImage( null );
 			setFeaturedImageUrl( '' );
 			setContributionAttachments( [] );
-			toast( 'تمت إضافة المساهمة بنجاح', 'success' );
+			toast( __( 'Contribution added successfully', 'workpress' ), 'success' );
 			sound.play( 'button' );
 			fetchTaskData();
 		} ).catch( err => {
 			console.error( err );
-			toast( err.message || 'فشل إضافة المساهمة', 'danger' );
+			toast( err.message || __( 'An error occurred while adding contribution.', 'workpress' ), 'danger' );
 			sound.play( 'caution' );
 		} ).finally( () => setIsSubmitting( false ) );
 	};
@@ -152,10 +152,10 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 	
 	const handleUnassign = ( uid ) => {
 		setConfirmConfig({
-			title: 'إلغاء التكليف',
-			message: 'هل أنت متأكد من إلغاء تكليف هذا العضو؟',
+			title: __( 'Remove Assignee', 'workpress' ),
+			message: __( 'Are you sure you want to unassign this member?', 'workpress' ),
 			isDanger: true,
-			confirmText: 'إلغاء التكليف',
+			confirmText: __( 'Remove Assignee', 'workpress' ),
 			onConfirm: () => {
 				const newIds = assignees.filter(a => a.id !== uid).map(a => a.id);
 				tasksApi.assignment.update( taskId, newIds ).then( () => {
@@ -171,18 +171,18 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 				<span className="icon is-large has-text-warning mb-3" style=${{ fontSize: '48px', height: '48px' }}>
 					<i className="dashicons dashicons-warning"></i>
 				</span>
-				<h2 className="title is-4 has-text-grey-dark">المهمة غير موجودة أو تم حذفها</h2>
+				<h2 className="title is-4 has-text-grey-dark">${ __( 'Task not found or has been deleted', 'workpress' ) }</h2>
 				<p className="subtitle is-6 has-text-grey mt-2">
-					المعرف المطلوب (#${taskId}) غير موجود حالياً في المنظومة.
+					${ __( 'Requested task ID', 'workpress' ) } (#${taskId})
 				</p>
 				<div className="buttons is-centered mt-4">
 					<a href="#/kanban" className="button is-primary wp-sharp-button" style=${{ fontWeight: '700' }}>
 						<span className="icon"><i className="dashicons dashicons-columns"></i></span>
-						<span>العودة للكانبان</span>
+						<span>${ __( 'Kanban', 'workpress' ) }</span>
 					</a>
 					<a href="#/requests" className="button is-light wp-sharp-button" style=${{ fontWeight: '700' }}>
 						<span className="icon"><i className="dashicons dashicons-email-alt"></i></span>
-						<span>وارد الطلبات</span>
+						<span>${ __( 'Project Requests', 'workpress' ) }</span>
 					</a>
 				</div>
 			</div>
@@ -192,7 +192,7 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 	if ( ! task ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحميل تفاصيل المهمة..." size="large" />
+				<${Loader} center=${true} label=${ __( 'Loading task details...', 'workpress' ) } size="large" />
 			</div>
 		`;
 	}
@@ -306,7 +306,7 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 					title=${ confirmConfig.title }
 					message=${ confirmConfig.message }
 					confirmText=${ confirmConfig.confirmText }
-					cancelText="إلغاء"
+					cancelText=${ __( 'Cancel', 'workpress' ) }
 					isDanger=${ confirmConfig.isDanger }
 					onConfirm=${ () => {
 						confirmConfig.onConfirm();

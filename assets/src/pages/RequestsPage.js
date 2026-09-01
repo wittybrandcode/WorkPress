@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect, __, sprintf } from '../utils/html.js';
 import { projectsApi, usersApi } from '../api/client.js';
 import Loader from '../components/ui/Loader.js';
 import { isStaffUser } from '../utils/userScope.js';
@@ -16,7 +16,7 @@ import RequestEvaluationModal from '../components/requests/RequestEvaluationModa
  *
  * @package WorkPress
  * @subpackage Pages/Requests
- * @version 2.2.3
+ * @version 2.3.0
  */
 export default function RequestsPage({ refreshKey }) {
 	const [ projects, setProjects ] = useState( null );
@@ -105,13 +105,13 @@ export default function RequestsPage({ refreshKey }) {
 			} );
 
 			sound.play( 'celebration' );
-			toast( `تم اعتماد وتأسيس المشروع «${approvingProject.name}» بنجاح`, 'success' );
+			toast( sprintf( __( 'Project "%s" approved and established successfully', 'workpress' ), approvingProject.name ), 'success' );
 			setApprovingProject( null );
 			setIsApproving( false );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل اعتماد المشروع، يرجى المحاولة ثانية.', 'danger' );
+			toast( err.message || __( 'An error occurred while submitting request.', 'workpress' ), 'danger' );
 			setIsApproving( false );
 		}
 	};
@@ -131,13 +131,13 @@ export default function RequestsPage({ refreshKey }) {
 				review_notes: reviewNotes,
 			} );
 			sound.play( 'button' );
-			toast( `تم تحويل الطلب «${reviewingProject.name}» إلى قيد الدراسة وإشعار العميل مع التبرير`, 'info' );
+			toast( sprintf( __( 'Request "%s" moved to under review and client notified', 'workpress' ), reviewingProject.name ), 'info' );
 			setReviewingProject( null );
 			setIsReviewing( false );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل تحديث حالة الطلب', 'danger' );
+			toast( err.message || __( 'An error occurred while processing the request.', 'workpress' ), 'danger' );
 			setIsReviewing( false );
 		}
 	};
@@ -157,13 +157,13 @@ export default function RequestsPage({ refreshKey }) {
 				rejection_reason: rejectionReason,
 			} );
 			sound.play( 'caution' );
-			toast( `تم رفض الطلب «${rejectingProject.name}» وتسجيل المبررات وإشعار العميل`, 'warning' );
+			toast( sprintf( __( 'Request "%s" rejected and client notified', 'workpress' ), rejectingProject.name ), 'warning' );
 			setRejectingProject( null );
 			setIsRejecting( false );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل تسجيل رفض الطلب', 'danger' );
+			toast( err.message || __( 'An error occurred while processing the request.', 'workpress' ), 'danger' );
 			setIsRejecting( false );
 		}
 	};
@@ -172,18 +172,18 @@ export default function RequestsPage({ refreshKey }) {
 		try {
 			await projectsApi.update( projectId, { status: newStatus } );
 			sound.play( newStatus === 'active' ? 'celebration' : 'button' );
-			toast( `تم تحديث حالة الطلب إلى: ${newStatus === 'active' ? 'معتمد ونشط' : (newStatus === 'under_review' ? 'قيد الدراسة' : (newStatus === 'rejected' ? 'مرفوض' : 'قيد المراجعة'))}`, 'success' );
+			toast( sprintf( __( 'Request status updated to: %s', 'workpress' ), newStatus ), 'success' );
 			fetchProjects();
 		} catch ( err ) {
 			sound.play( 'caution' );
-			toast( err.message || 'فشل تحديث الحالة', 'danger' );
+			toast( err.message || __( 'An error occurred while processing the request.', 'workpress' ), 'danger' );
 		}
 	};
 
 	if ( projects === null ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحميل محرك فرز طلبات العملاء..." size="large" />
+				<${Loader} center=${true} label=${ __( 'Loading...', 'workpress' ) } size="large" />
 			</div>
 		`;
 	}
@@ -265,11 +265,11 @@ export default function RequestsPage({ refreshKey }) {
 					<span className="icon is-large has-text-grey-light mb-3" style=${{ fontSize: '48px', height: '48px' }}>
 						<i className="dashicons dashicons-email-alt"></i>
 					</span>
-					<h3 className="title is-4 has-text-grey-dark">لا توجد طلبات عملاء مطابقة للفرز حالياً</h3>
+					<h3 className="title is-4 has-text-grey-dark">${ __( 'No requests matching triage filters currently', 'workpress' ) }</h3>
 					<p className="subtitle is-6 has-text-grey mt-2">
 						${totalRequests === 0 
-							? 'لم يتم تقديم أي طلبات مشاريع جديدة من بوابة العملاء حتى اللحظة.' 
-							: 'لا توجد طلبات تطابق معايير الفرز أو البحث المحددة.'
+							? __( 'No requests submitted yet.', 'workpress' ) 
+							: __( 'No matching results found in knowledge base.', 'workpress' )
 						}
 					</p>
 					<div className="mt-4 is-flex is-justify-content-center" style=${{ gap: '10px' }}>
@@ -280,7 +280,7 @@ export default function RequestsPage({ refreshKey }) {
 							style=${{ fontWeight: '700' }}
 						>
 							<span className="icon"><i className="dashicons dashicons-external"></i></span>
-							<span>فتح استوديو طلبات العملاء للتجربة</span>
+							<span>${ __( 'Submit New Request', 'workpress' ) }</span>
 						</a>
 						<a 
 							href="#/forms" 
@@ -288,7 +288,7 @@ export default function RequestsPage({ refreshKey }) {
 							style=${{ fontWeight: '700' }}
 						>
 							<span className="icon"><i className="dashicons dashicons-admin-generic"></i></span>
-							<span>تخصيص نماذج الاستقبال</span>
+							<span>${ __( 'Intake Forms Builder', 'workpress' ) }</span>
 						</a>
 					</div>
 				</div>

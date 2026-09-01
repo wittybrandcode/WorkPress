@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf, isRtl } from '../../utils/html.js';
 import { isStaffUser, isStakeholderUser, isStandardSubscriber } from '../../utils/userScope.js';
 import RoleDropdown from './RoleDropdown.js';
 
@@ -17,13 +17,15 @@ export default function UserDirectoryTab({
 	clientSubFilter = 'all',
 	setClientSubFilter
 }) {
+	const rtl = isRtl();
+
 	if (activeTab === 'members') {
 		return html`
 			<div className="wp-card p-4">
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 pb-2" style=${{ borderBottom: '1px solid #ededed' }}>
 					<div>
-						<h3 className="title is-5 mb-1 has-text-weight-bold">دليل أعضاء الفريق والمنفذين (Specialists & Staff Directory)</h3>
-						<p className="has-text-grey is-size-7">إدارة الكوادر والمشرفين الفنيين المكلفين بإنجاز المهام والمشاريع داخل غرفة عمليات CoWorkPress.</p>
+						<h3 className="title is-5 mb-1 has-text-weight-bold">${ __( 'Team Members & Staff Directory', 'workpress' ) }</h3>
+						<p className="has-text-grey is-size-7">${ __( 'Manage staff, specialists, and technical leads handling tasks in the CoWorkPress operations room.', 'workpress' ) }</p>
 					</div>
 				</div>
 
@@ -37,7 +39,7 @@ export default function UserDirectoryTab({
 						if (teamUsers.length === 0) {
 							return html`
 								<div className="has-text-centered py-6 has-text-grey">
-									<p className="mt-2">لا يوجد أعضاء فريق مسجلون حالياً في هذه الصفحة.</p>
+									<p className="mt-2">${ __( 'No team members registered on this page.', 'workpress' ) }</p>
 								</div>
 							`;
 						}
@@ -45,9 +47,9 @@ export default function UserDirectoryTab({
 							<table className="table is-fullwidth is-hoverable wp-table mb-0">
 								<thead>
 									<tr>
-										<th style=${{ textAlign: 'right', width: '35%', borderBottom: '2px solid #0f172a' }}>العضو / المنفذ</th>
-										<th style=${{ textAlign: 'right', width: '35%', borderBottom: '2px solid #0f172a' }}>البريد الإلكتروني</th>
-										<th style=${{ textAlign: 'right', width: '30%', borderBottom: '2px solid #0f172a' }}>الصلاحية (الدور)</th>
+										<th style=${{ textAlign: rtl ? 'right' : 'left', width: '35%', borderBottom: '2px solid #0f172a' }}>${ __( 'Member / Specialist', 'workpress' ) }</th>
+										<th style=${{ textAlign: rtl ? 'right' : 'left', width: '35%', borderBottom: '2px solid #0f172a' }}>${ __( 'Email', 'workpress' ) }</th>
+										<th style=${{ textAlign: rtl ? 'right' : 'left', width: '30%', borderBottom: '2px solid #0f172a' }}>${ __( 'Role / Capability', 'workpress' ) }</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -55,18 +57,18 @@ export default function UserDirectoryTab({
 										const currentRole = (u.roles && u.roles.length > 0) ? u.roles[0] : 'author';
 										return html`
 											<tr key=${u.id}>
-												<td className="is-vcentered" style=${{ textAlign: 'right' }}>
+												<td className="is-vcentered" style=${{ textAlign: rtl ? 'right' : 'left' }}>
 													<div className="is-flex is-align-items-center">
-														<figure className="image is-24x24 mr-2" style=${{ marginLeft: '8px' }}>
+														<figure className="image is-24x24" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '8px' }}>
 															<img src=${u.avatar_urls && u.avatar_urls['48'] ? u.avatar_urls['48'] : ''} alt=${u.name} style=${{ borderRadius: 0 }} />
 														</figure>
 														<span className="has-text-weight-bold is-size-7">${u.name}</span>
 													</div>
 												</td>
-												<td className="is-vcentered has-text-grey is-size-7" style=${{ textAlign: 'right' }}>
+												<td className="is-vcentered has-text-grey is-size-7" style=${{ textAlign: rtl ? 'right' : 'left' }}>
 													${u.email || '-'}
 												</td>
-												<td className="is-vcentered" style=${{ textAlign: 'right' }}>
+												<td className="is-vcentered" style=${{ textAlign: rtl ? 'right' : 'left' }}>
 													<${RoleDropdown} 
 														currentRole=${currentRole} 
 														onRoleChange=${(newRole) => handleRoleChange(u.id, newRole)}
@@ -81,10 +83,10 @@ export default function UserDirectoryTab({
 						`;
 					})()}
 
-					<!-- أزرار الترقيم Pagination Controls -->
+					<!-- Pagination Controls -->
 					<div className="is-flex is-justify-content-space-between is-align-items-center mt-4 pt-3" style=${{ borderTop: '1px solid #f1f5f9' }}>
 						<span className="is-size-7 has-text-grey font-weight-bold">
-							الصفحة ${page} من ${totalPages}
+							${ sprintf( __( 'Page %d of %d', 'workpress' ), page, totalPages ) }
 						</span>
 						<div className="buttons mb-0">
 							<button 
@@ -93,7 +95,7 @@ export default function UserDirectoryTab({
 								disabled=${page <= 1}
 								style=${{ borderRadius: 0 }}
 							>
-								السابق
+								${ __( 'Previous', 'workpress' ) }
 							</button>
 							<button 
 								className="button is-small wp-header-btn" 
@@ -101,7 +103,7 @@ export default function UserDirectoryTab({
 								disabled=${page >= totalPages}
 								style=${{ borderRadius: 0 }}
 							>
-								التالي
+								${ __( 'Next', 'workpress' ) }
 							</button>
 						</div>
 					</div>
@@ -115,17 +117,17 @@ export default function UserDirectoryTab({
 			<div className="wp-card p-4">
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-3 pb-2" style=${{ borderBottom: '1px solid #ededed' }}>
 					<div>
-						<h3 className="title is-5 mb-1 has-text-weight-bold">سجل المستفيدين وأصحاب الطلبات (Stakeholders & Subscribers Directory)</h3>
-						<p className="has-text-grey is-size-7">إدارة حسابات المستفيدين الموسومين وأعضاء الموقع العاديين. يمكن ترقية أي مشترك عادي ليصبح مشتركاً مستفيداً يملك صلاحية البوابة.</p>
+						<h3 className="title is-5 mb-1 has-text-weight-bold">${ __( 'Stakeholders & Clients Directory', 'workpress' ) }</h3>
+						<p className="has-text-grey is-size-7">${ __( 'Manage client accounts and subscribers. Upgrade any standard subscriber to a portal stakeholder.', 'workpress' ) }</p>
 					</div>
 					<div className="buttons mb-0">
 						<a href="#/requests" className="button is-small wp-header-btn is-primary">
-							<span>استوديو فرز الطلبات ↗</span>
+							<span>${ __( 'Triage Studio ↗', 'workpress' ) }</span>
 						</a>
 					</div>
 				</div>
 
-				<!-- شريط الفرز والتقسيم السريع -->
+				<!-- Quick Filter Bar -->
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 p-2" style=${{ backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 					<div className="buttons has-addons mb-0">
 						<button 
@@ -133,25 +135,25 @@ export default function UserDirectoryTab({
 							onClick=${() => setClientSubFilter('all')}
 							style=${{ borderRadius: 0 }}
 						>
-							الكل (${users.length})
+							${ sprintf( __( 'All (%d)', 'workpress' ), users.length ) }
 						</button>
 						<button 
 							className=${`button is-small ${clientSubFilter === 'stakeholders' ? 'is-dark is-selected has-text-weight-bold' : 'is-white'}`}
 							onClick=${() => setClientSubFilter('stakeholders')}
 							style=${{ borderRadius: 0 }}
 						>
-							المستفيدون (${users.filter(isStakeholderUser).length})
+							${ sprintf( __( 'Stakeholders (%d)', 'workpress' ), users.filter(isStakeholderUser).length ) }
 						</button>
 						<button 
 							className=${`button is-small ${clientSubFilter === 'subscribers' ? 'is-dark is-selected has-text-weight-bold' : 'is-white'}`}
 							onClick=${() => setClientSubFilter('subscribers')}
 							style=${{ borderRadius: 0 }}
 						>
-							المشتركون (${users.filter(isStandardSubscriber).length})
+							${ sprintf( __( 'Subscribers (%d)', 'workpress' ), users.filter(isStandardSubscriber).length ) }
 						</button>
 					</div>
 					<span className="is-size-7 has-text-grey">
-						إجمالي المسجلين في هذه الصفحة: <strong>${users.length}</strong>
+						${ sprintf( __( 'Total registered on this page: %d', 'workpress' ), users.length ) }
 					</span>
 				</div>
 
@@ -174,13 +176,13 @@ export default function UserDirectoryTab({
 								<div className="has-text-centered py-6 has-text-grey">
 									<p className="has-text-weight-bold mt-2">
 										${clientSubFilter === 'stakeholders' 
-											? 'لا يوجد مستفيدون معتمدون حالياً في هذه الصفحة.' 
-											: 'لا يوجد أعضاء مطابقون في هذه الصفحة.'}
+											? __( 'No verified stakeholders on this page.', 'workpress' ) 
+											: __( 'No matching users on this page.', 'workpress' )}
 									</p>
 									<p className="is-size-7 mt-1">
 										${clientSubFilter === 'stakeholders' 
-											? 'يمكنك ترقية أي عضو مشترك إلى مستفيد باستخدام زر «تعيين كمستفيد » من تبويب (المشتركون).' 
-											: 'يتم إضافة الأعضاء تلقائياً عند تسجيلهم في ووردبريس أو تقديم طلبات جديدة.'}
+											? __( 'You can upgrade any subscriber using "Assign as Stakeholder" from the Subscribers tab.', 'workpress' ) 
+											: __( 'Users appear here automatically when registered in WordPress or submitting requests.', 'workpress' )}
 									</p>
 								</div>
 							`;
@@ -189,10 +191,10 @@ export default function UserDirectoryTab({
 							<table className="table is-fullwidth is-hoverable wp-table mb-0">
 								<thead>
 									<tr>
-										<th style=${{ textAlign: 'right', width: '35%', borderBottom: '2px solid #0f172a' }}>العضو / المستفيد</th>
-										<th style=${{ textAlign: 'right', width: '25%', borderBottom: '2px solid #0f172a' }}>البريد الإلكتروني</th>
-										<th style=${{ textAlign: 'right', width: '22%', borderBottom: '2px solid #0f172a' }}>الصلاحية (الدور)</th>
-										<th style=${{ textAlign: 'center', width: '18%', borderBottom: '2px solid #0f172a' }}>الإجراء والوصول</th>
+										<th style=${{ textAlign: rtl ? 'right' : 'left', width: '35%', borderBottom: '2px solid #0f172a' }}>${ __( 'Member / Stakeholder', 'workpress' ) }</th>
+										<th style=${{ textAlign: rtl ? 'right' : 'left', width: '25%', borderBottom: '2px solid #0f172a' }}>${ __( 'Email', 'workpress' ) }</th>
+										<th style=${{ textAlign: rtl ? 'right' : 'left', width: '22%', borderBottom: '2px solid #0f172a' }}>${ __( 'Role / Capability', 'workpress' ) }</th>
+										<th style=${{ textAlign: 'center', width: '18%', borderBottom: '2px solid #0f172a' }}>${ __( 'Action & Access', 'workpress' ) }</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -201,29 +203,29 @@ export default function UserDirectoryTab({
 										const currentRole = (u.roles && u.roles.length > 0) ? u.roles[0] : (isStakeholder ? 'workpress_client' : 'subscriber');
 										return html`
 											<tr key=${u.id}>
-												<td className="is-vcentered" style=${{ textAlign: 'right' }}>
+												<td className="is-vcentered" style=${{ textAlign: rtl ? 'right' : 'left' }}>
 													<div className="is-flex is-align-items-center">
-														<figure className="image is-28x28 mr-2" style=${{ marginLeft: '8px' }}>
+														<figure className="image is-28x28" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '8px' }}>
 															<img src=${u.avatar_urls && u.avatar_urls['48'] ? u.avatar_urls['48'] : ''} alt=${u.name} style=${{ borderRadius: '50%' }} />
 														</figure>
 														<div>
 															<span className="has-text-weight-bold is-size-7">${u.name}</span>
 															${isStakeholder ? html`
-																<span className="tag is-success is-light is-small ml-2" style=${{ fontSize: '0.68rem', fontWeight: 'bold' }}>
-																	مستفيد
+																<span className="tag is-success is-light is-small" style=${{ [rtl ? 'marginRight' : 'marginLeft']: '0.5rem', fontSize: '0.68rem', fontWeight: 'bold' }}>
+																	${ __( 'Stakeholder', 'workpress' ) }
 																</span>
 															` : html`
-																<span className="tag is-light is-small ml-2" style=${{ fontSize: '0.68rem', color: '#64748b' }}>
-																	مشترك
+																<span className="tag is-light is-small" style=${{ [rtl ? 'marginRight' : 'marginLeft']: '0.5rem', fontSize: '0.68rem', color: '#64748b' }}>
+																	${ __( 'Subscriber', 'workpress' ) }
 																</span>
 															`}
 														</div>
 													</div>
 												</td>
-												<td className="is-vcentered has-text-grey is-size-7" style=${{ textAlign: 'right' }}>
+												<td className="is-vcentered has-text-grey is-size-7" style=${{ textAlign: rtl ? 'right' : 'left' }}>
 													${u.email || '-'}
 												</td>
-												<td className="is-vcentered" style=${{ textAlign: 'right' }}>
+												<td className="is-vcentered" style=${{ textAlign: rtl ? 'right' : 'left' }}>
 													<${RoleDropdown} 
 														currentRole=${currentRole} 
 														onRoleChange=${(newRole) => handleRoleChange(u.id, newRole)}
@@ -232,17 +234,17 @@ export default function UserDirectoryTab({
 												</td>
 												<td className="is-vcentered has-text-centered">
 													${isStakeholder ? html`
-														<a href="#/requests" className="button is-small is-light wp-sharp-button" style=${{ fontSize: '0.75rem' }} title="استعراض وارد الطلبات">
-															<span>وارد الطلبات ↗</span>
+														<a href="#/requests" className="button is-small is-light wp-sharp-button" style=${{ fontSize: '0.75rem' }} title=${ __( 'View incoming requests', 'workpress' ) }>
+															<span>${ __( 'Incoming Requests ↗', 'workpress' ) }</span>
 														</a>
 													` : html`
 														<button 
 															className="button is-small is-primary is-light wp-sharp-button" 
 															style=${{ fontSize: '0.75rem', fontWeight: 'bold' }} 
 															onClick=${() => handleRoleChange(u.id, 'workpress_client')}
-															title="ترقية العضو إلى مستفيد لتمكينه من دخول البوابة وطلب مشاريع"
+															title=${ __( 'Upgrade subscriber to stakeholder for portal access', 'workpress' ) }
 														>
-															<span>تعيين كمستفيد </span>
+															<span>${ __( 'Assign as Stakeholder', 'workpress' ) }</span>
 														</button>
 													`}
 												</td>
@@ -254,10 +256,10 @@ export default function UserDirectoryTab({
 						`;
 					})()}
 
-					<!-- أزرار الترقيم Pagination Controls -->
+					<!-- Pagination Controls -->
 					<div className="is-flex is-justify-content-space-between is-align-items-center mt-4 pt-3" style=${{ borderTop: '1px solid #f1f5f9' }}>
 						<span className="is-size-7 has-text-grey font-weight-bold">
-							الصفحة ${page} من ${totalPages}
+							${ sprintf( __( 'Page %d of %d', 'workpress' ), page, totalPages ) }
 						</span>
 						<div className="buttons mb-0">
 							<button 
@@ -266,7 +268,7 @@ export default function UserDirectoryTab({
 								disabled=${page <= 1}
 								style=${{ borderRadius: 0 }}
 							>
-								السابق
+								${ __( 'Previous', 'workpress' ) }
 							</button>
 							<button 
 								className="button is-small wp-header-btn" 
@@ -274,7 +276,7 @@ export default function UserDirectoryTab({
 								disabled=${page >= totalPages}
 								style=${{ borderRadius: 0 }}
 							>
-								التالي
+								${ __( 'Next', 'workpress' ) }
 							</button>
 						</div>
 					</div>

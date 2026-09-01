@@ -1,4 +1,4 @@
-import { html, useState, useEffect, Fragment } from '../../utils/html.js';
+import { html, useState, useEffect, Fragment, __, isRtl } from '../../utils/html.js';
 import { contributionsApi } from '../../api/client.js';
 import { formatDate, formatDateTime, formatRelativeTime } from '../../utils/datetime.js';
 import { toast } from '../../utils/toast.js';
@@ -11,6 +11,7 @@ export default function ContributionComments({ contributionId, initialComments =
 	const [isSubmitting, setIsSubmitting] = useState( false );
 	const [isLoading, setIsLoading] = useState( false );
 	const [confirmDelete, setConfirmDelete] = useState( null );
+	const rtl = isRtl();
 
 	useEffect( () => {
 		if ( Array.isArray( initialComments ) && initialComments.length > 0 ) {
@@ -38,13 +39,13 @@ export default function ContributionComments({ contributionId, initialComments =
 				const updated = [ ...comments, createdComment ];
 				setComments( updated );
 				setNewComment( '' );
-				toast( 'تمت إضافة التعليق بنجاح', 'success' );
+				toast( __( 'Comment added successfully', 'workpress' ), 'success' );
 				if ( onCommentAdded ) {
 					onCommentAdded( contributionId, createdComment );
 				}
 			} )
 			.catch( ( err ) => {
-				toast( err.message || 'فشل إرسال التعليق', 'danger' );
+				toast( err.message || __( 'Failed to post comment', 'workpress' ), 'danger' );
 			} )
 			.finally( () => setIsSubmitting( false ) );
 	};
@@ -54,13 +55,13 @@ export default function ContributionComments({ contributionId, initialComments =
 			.then( () => {
 				const updated = comments.filter( c => c.id !== commentId );
 				setComments( updated );
-				toast( 'تم حذف التعليق', 'info' );
+				toast( __( 'Comment deleted', 'workpress' ), 'info' );
 				if ( onCommentDeleted ) {
 					onCommentDeleted( contributionId, commentId );
 				}
 			} )
 			.catch( ( err ) => {
-				toast( err.message || 'فشل حذف التعليق', 'danger' );
+				toast( err.message || __( 'Failed to delete comment', 'workpress' ), 'danger' );
 			} );
 	};
 
@@ -69,7 +70,7 @@ export default function ContributionComments({ contributionId, initialComments =
 			<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
 				<h5 className="is-size-7 has-text-weight-bold has-text-grey-dark m-0 is-flex is-align-items-center" style=${{ gap: '4px' }}>
 					<i className="dashicons dashicons-admin-comments has-text-info"></i>
-					<span>المناقشة والمراجعة الفنية</span>
+					<span>${ __( 'Technical Discussion & Review', 'workpress' ) }</span>
 					<span className="tag is-rounded is-small is-light is-info ml-1" style=${{ height: '1.5em', padding: '0 0.5em' }}>
 						${ comments.length }
 					</span>
@@ -77,12 +78,12 @@ export default function ContributionComments({ contributionId, initialComments =
 			</div>
 
 			${ isLoading ? html`
-				<${Loader} center=${true} size="small" label="جاري تحميل التعليقات..." />
+				<${Loader} center=${true} size="small" label=${ __( 'Loading comments...', 'workpress' ) } />
 			` : null }
 
 			${ ! isLoading && comments.length === 0 ? html`
 				<div className="p-2 mb-3 has-text-centered is-size-7 has-text-grey" style=${{ backgroundColor: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: '4px' }}>
-					<span>لا توجد ملاحظات أو تعليقات حتى الآن. كن أول من يضيف مراجعة توجيهية.</span>
+					<span>${ __( 'No comments yet. Be the first to leave feedback.', 'workpress' ) }</span>
 				</div>
 			` : null }
 
@@ -94,14 +95,11 @@ export default function ContributionComments({ contributionId, initialComments =
 								<div className="is-flex is-align-items-center" style=${{ gap: '6px' }}>
 									<figure className="image is-24x24 m-0" style=${{ position: 'relative' }}>
 										<img src=${ c.author_avatar || '' } alt=${ c.author_name } style=${{ borderRadius: 0, border: c.is_client ? '1.5px solid #f59e0b' : '1px solid #cbd5e1', backgroundColor: '#cbd5e1' }} />
-										${ c.is_client ? html`
-											<span style=${{ position: 'absolute', bottom: '-4px', left: '-4px', background: '#f59e0b', color: '#fff', fontSize: '8px', padding: '0 2px', fontWeight: '900', lineHeight: 1 }}>⭐</span>
-										` : null }
 									</figure>
 									<span className="has-text-weight-bold is-size-7 has-text-dark">${ c.author_name }</span>
 									${ c.is_client ? html`
 										<span className="tag is-warning is-light" style=${{ borderRadius: 0, fontWeight: '800', border: '1px solid #f59e0b', color: '#b45309', background: '#fffbeb', fontSize: '0.65rem', padding: '1px 4px', height: 'auto' }}>
-											 عميل
+											${ __( 'Client', 'workpress' ) }
 										</span>
 									` : null }
 									<span className="is-size-7 has-text-grey" style=${{ fontSize: '0.75rem', cursor: 'help' }} title=${ formatDateTime( c.created_at ) }>• ${ formatRelativeTime( c.created_at ) }</span>
@@ -110,7 +108,7 @@ export default function ContributionComments({ contributionId, initialComments =
 									<button 
 										className="button is-small is-ghost has-text-danger p-0" 
 										style=${{ height: 'auto', border: 'none' }}
-										title="حذف التعليق"
+										title=${ __( 'Delete comment', 'workpress' ) }
 										onClick=${ ( e ) => {
 											e.stopPropagation();
 											setConfirmDelete( c.id );
@@ -120,7 +118,7 @@ export default function ContributionComments({ contributionId, initialComments =
 									</button>
 								` : null }
 							</div>
-							<div className="is-size-7 has-text-dark pl-5 pr-1" style=${{ wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>
+							<div className="is-size-7 has-text-dark" style=${{ wordBreak: 'break-word', whiteSpace: 'pre-wrap', paddingInlineStart: '1.25rem', paddingInlineEnd: '0.25rem' }}>
 								${ c.content }
 							</div>
 						</div>
@@ -135,7 +133,7 @@ export default function ContributionComments({ contributionId, initialComments =
 						<textarea
 							className="textarea is-small"
 							rows="2"
-							placeholder="اكتب ملاحظة أو توجيهاً أو مراجعة على هذه المساهمة..."
+							placeholder=${ __( 'Write a note, guidance, or review on this contribution...', 'workpress' ) }
 							value=${ newComment }
 							onInput=${ ( e ) => setNewComment( e.target.value ) }
 							style=${{ borderRadius: '4px', resize: 'vertical' }}
@@ -149,8 +147,8 @@ export default function ContributionComments({ contributionId, initialComments =
 						className=${ `button is-small is-primary wp-sharp-button is-flex is-align-items-center ${ isSubmitting ? 'is-loading' : '' }` }
 						disabled=${ ! newComment.trim() || isSubmitting }
 					>
-						<span className="icon is-small"><i className="dashicons dashicons-arrow-left-alt2"></i></span>
-						<span>إرسال التعليق</span>
+						<span className="icon is-small"><i className=${ rtl ? 'dashicons dashicons-arrow-left-alt2' : 'dashicons dashicons-arrow-right-alt2' }></i></span>
+						<span>${ __( 'Post Comment', 'workpress' ) }</span>
 					</button>
 				</div>
 			</form>
@@ -158,11 +156,11 @@ export default function ContributionComments({ contributionId, initialComments =
 			${ confirmDelete && html`
 				<${ConfirmModal}
 					isActive=${ true }
-					title="حذف التعليق"
-					message="هل أنت متأكد من حذف هذا التعليق نهائياً؟"
-					confirmText="حذف"
+					title=${ __( 'Delete comment', 'workpress' ) }
+					message=${ __( 'Are you sure you want to permanently delete this comment?', 'workpress' ) }
+					confirmText=${ __( 'Delete', 'workpress' ) }
 					confirmColor="is-danger"
-					cancelText="إلغاء"
+					cancelText=${ __( 'Cancel', 'workpress' ) }
 					isDangerous=${ true }
 					onConfirm=${ () => {
 						handleDelete( confirmDelete );

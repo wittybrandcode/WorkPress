@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef, __, sprintf, isRtl } from '../../utils/html.js';
 import DatePicker from '../ui/DatePicker.js';
 import GanttScaleBar from './GanttScaleBar.js';
 import GanttTableSidebar from './GanttTableSidebar.js';
@@ -42,6 +42,7 @@ export default function GanttChart({
 	const [ rescheduleTaskId, setRescheduleTaskId ] = useState( null );
 	const [ rescheduleMenuPos, setRescheduleMenuPos ] = useState( { x: 0, y: 0 } );
 	const [ customDueTime ] = useState( '18:00' );
+	const rtl = isRtl();
 
 	const timelineContainerRef = useRef( null );
 	const isMouseDownRef = useRef( false );
@@ -72,7 +73,7 @@ export default function GanttChart({
 	const projectGroups = {};
 	filteredTasks.forEach( task => {
 		const pId = task.project_id || 0;
-		const pName = task.project_name || 'مهام عامة بدون مشروع';
+		const pName = task.project_name || __( 'General tasks without project', 'workpress' );
 		if ( ! projectGroups[ pId ] ) {
 			projectGroups[ pId ] = {
 				id: pId,
@@ -186,7 +187,7 @@ export default function GanttChart({
 
 	const totalDays = Math.max( 20, Math.ceil( ( maxDate - minDate ) / ( 1000 * 60 * 60 * 24 ) ) + 1 );
 
-	// Days Units with FULL Arabic Day Names
+	// Days Units
 	const dayUnits = [];
 	for ( let i = 0; i < totalDays; i++ ) {
 		const d = new Date( minDate );
@@ -243,7 +244,7 @@ export default function GanttChart({
 		wEnd.setDate( wEnd.getDate() + 6 );
 		weekUnits.push( {
 			index: w,
-			title: `أسبوع ${ w + 1 }`,
+			title: sprintf( __( 'Week %d', 'workpress' ), w + 1 ),
 			dateRange: `${ formatDate( wStart, { short: true } ) } - ${ formatDate( wEnd, { short: true } ) }`,
 		} );
 	}
@@ -264,7 +265,7 @@ export default function GanttChart({
 
 	if ( scale === 'day_hours' ) {
 		cellWidth = hourCellWidth;
-		totalTimelineWidth = totalDayHoursWidth;
+		totalDayHoursWidth;
 	} else if ( scale === 'weeks' ) {
 		cellWidth = 180;
 		totalTimelineWidth = totalWeeks * cellWidth;
@@ -273,7 +274,7 @@ export default function GanttChart({
 		totalTimelineWidth = monthsList.length * cellWidth;
 	}
 
-	// Today's offset from the right
+	// Today's offset from the origin
 	const todayIndex = dayUnits.findIndex( d => d.isToday );
 	const todayPixelRight = ( scale === 'days' && todayIndex >= 0 )
 		? ( todayIndex * cellWidth ) + ( cellWidth / 2 )
@@ -394,12 +395,12 @@ export default function GanttChart({
 
 		try {
 			await tasksApi.update( taskId, { due_at: fullDateTimeStr } );
-			toast( `تم تعديل موعد المهمة وتوقيتها إلى: ${ formatDate( parseDate( newDueStr ) ) } في تمام ${ timePart }`, 'success' );
+			toast( sprintf( __( 'Task rescheduled to: %s at %s', 'workpress' ), formatDate( parseDate( newDueStr ) ), timePart ), 'success' );
 			sound.play( 'button' );
 			setRescheduleTaskId( null );
 			if ( onTaskUpdated ) onTaskUpdated();
 		} catch ( err ) {
-			toast( err.message || 'تعذر تعديل الموعد', 'error' );
+			toast( err.message || __( 'Failed to reschedule task', 'workpress' ), 'error' );
 		}
 	};
 
@@ -414,7 +415,7 @@ export default function GanttChart({
 				border: '#059669',
 				text: '#ffffff',
 				progressBg: '#047857',
-				statusLabel: 'مكتملة'
+				statusLabel: __( 'Completed', 'workpress' )
 			};
 		}
 		if ( isInProgress ) {
@@ -423,7 +424,7 @@ export default function GanttChart({
 				border: '#d97706',
 				text: '#ffffff',
 				progressBg: '#b45309',
-				statusLabel: 'قيد الإنجاز'
+				statusLabel: __( 'In Progress', 'workpress' )
 			};
 		}
 		return {
@@ -431,7 +432,7 @@ export default function GanttChart({
 			border: '#2563eb',
 			text: '#ffffff',
 			progressBg: '#1d4ed8',
-			statusLabel: 'مفتوحة'
+			statusLabel: __( 'Open', 'workpress' )
 		};
 	};
 
@@ -439,7 +440,7 @@ export default function GanttChart({
 	const activeRescheduleTask = rescheduleTaskId ? tasks.find( t => t.id === rescheduleTaskId ) : null;
 
 	return html`
-		<div dir="rtl" className="wp-gantt-root">
+		<div dir=${ rtl ? 'rtl' : 'ltr' } className="wp-gantt-root">
 			<!-- Controls Header Bar -->
 			<${GanttScaleBar}
 				projects=${projects}
@@ -462,7 +463,7 @@ export default function GanttChart({
 
 			<!-- Main Gantt Split Layout (Right Tree Table: 380px | Left Scrollable Canvas) -->
 			<div className="wp-gantt-split-layout">
-				<!-- Right Master Table (380px) -->
+				<!-- Master Table (380px) -->
 				<${GanttTableSidebar}
 					projectGroups=${projectGroups}
 					collapsedProjects=${collapsedProjects}
@@ -477,7 +478,7 @@ export default function GanttChart({
 					onTaskClick=${onTaskClick}
 				/>
 
-				<!-- Left Scrollable Timeline Canvas (RTL Flow) -->
+				<!-- Scrollable Timeline Canvas -->
 				<div 
 					ref=${ timelineContainerRef }
 					className="wp-gantt-canvas-container"

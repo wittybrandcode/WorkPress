@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect, __, isRtl } from '../utils/html.js';
 import { tasksApi, projectsApi } from '../api/client.js';
 import GanttChart from '../components/gantt/GanttChart.js';
 import Loader from '../components/ui/Loader.js';
@@ -16,6 +16,7 @@ export default function GanttPage( { refreshKey } ) {
 	const [ projects, setProjects ] = useState( [] );
 	const [ loading, setLoading ] = useState( true );
 	const [ quickPreviewTask, setQuickPreviewTask ] = useState( null );
+	const rtl = isRtl();
 
 	const fetchData = async () => {
 		setLoading( true );
@@ -58,10 +59,10 @@ export default function GanttPage( { refreshKey } ) {
 				<div>
 					<h1 className="title is-4 mb-1" style=${{ color: '#0f172a', fontWeight: '900', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
 						<i className="dashicons dashicons-calendar-alt" style=${{ color: '#3b82f6', fontSize: '26px' }}></i>
-						<span>مخطط جانت والجدول الزمني المؤسسي</span>
+						<span>${ __( 'Gantt Chart & Institutional Timeline', 'workpress' ) }</span>
 					</h1>
 					<p className="subtitle is-7 has-text-grey mb-0">
-						استعراض المسارات الزمنية للمشاريع والمهام، رصد التداخلات والتواريخ المستهدفة ومتابعة نسب الإنجاز.
+						${ __( 'Track project timelines, dependencies, deadlines, and milestone completion percentages.', 'workpress' ) }
 					</p>
 				</div>
 
@@ -71,8 +72,8 @@ export default function GanttPage( { refreshKey } ) {
 						className="button is-small is-light" 
 						style=${{ borderRadius: 0, fontWeight: '700', border: '1px solid #cbd5e1' }}
 					>
-						<i className="dashicons dashicons-columns" style=${{ marginLeft: '0.25rem' }}></i>
-						<span>عرض لوحة الكانبان</span>
+						<i className="dashicons dashicons-columns" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '0.25rem' }}></i>
+						<span>${ __( 'Kanban', 'workpress' ) }</span>
 					</a>
 				</div>
 			</div>
@@ -80,7 +81,7 @@ export default function GanttPage( { refreshKey } ) {
 			<!-- Main Gantt Chart View -->
 			${ loading ? html`
 				<div style=${{ padding: '4rem 0', textAlign: 'center', backgroundColor: '#ffffff', border: '1px solid #e2e8f0' }}>
-					<${Loader} text="جاري بناء وتحميل المخطط الزمني..." />
+					<${Loader} text=${ __( 'Loading...', 'workpress' ) } />
 				</div>
 			` : html`
 				<${GanttChart} 

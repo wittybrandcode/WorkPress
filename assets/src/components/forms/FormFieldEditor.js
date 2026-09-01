@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, isRtl } from '../../utils/html.js';
 import FormPillsSelector from './FormPillsSelector.js';
 
 /**
@@ -18,6 +18,7 @@ export default function FormFieldEditor({
 	onRemoveOption
 }) {
 	const prim = FIELD_PRIMITIVES[spec.type] || FIELD_PRIMITIVES.short_text || { label: spec.type, icon: 'dashicons-admin-generic' };
+	const rtl = isRtl();
 
 	return html`
 		<div className="canvas-spec-card wp-form-spec-card p-4">
@@ -26,7 +27,7 @@ export default function FormFieldEditor({
 				<div className="is-flex is-align-items-center" style=${{ gap: '6px' }}>
 					<span className="tag is-dark is-small" style=${{ borderRadius: 0, fontWeight: '700' }}>#${sIdx + 1}</span>
 					<span className="tag is-light is-small" style=${{ fontWeight: '700' }}>
-						<i className=${`dashicons ${prim.icon} ml-1`}></i>
+						<i className=${`dashicons ${prim.icon} ${ rtl ? 'ml-1' : 'mr-1' }`}></i>
 						${prim.label ? prim.label.split('(')[0] : spec.type}
 					</span>
 				</div>
@@ -34,30 +35,30 @@ export default function FormFieldEditor({
 				<div className="buttons are-small mb-0" style=${{ gap: '4px' }}>
 					<!-- Move Up -->
 					<button 
-						type="button"
+						type="button" 
 						className="button is-small is-light wp-sharp-button" 
 						disabled=${sIdx === 0} 
 						onClick=${() => onMoveSpec(sIdx, -1)}
-						title="تحريك لأعلى"
+						title=${ __( 'Move Up', 'workpress' ) }
 					>
 						▲
 					</button>
 					<!-- Move Down -->
 					<button 
-						type="button"
+						type="button" 
 						className="button is-small is-light wp-sharp-button" 
 						disabled=${sIdx === totalSpecs - 1} 
 						onClick=${() => onMoveSpec(sIdx, 1)}
-						title="تحريك لأسفل"
+						title=${ __( 'Move Down', 'workpress' ) }
 					>
 						▼
 					</button>
 					<!-- Delete -->
 					<button 
-						type="button"
+						type="button" 
 						className="button is-small is-danger is-light wp-sharp-button" 
 						onClick=${() => onDeleteSpec(sIdx)}
-						title="حذف هذه الخانة"
+						title=${ __( 'Delete Field', 'workpress' ) }
 					>
 						<i className="dashicons dashicons-trash"></i>
 					</button>
@@ -67,19 +68,19 @@ export default function FormFieldEditor({
 			<!-- Inline Editable Fields -->
 			<div className="columns is-variable is-2 is-vcentered mb-2">
 				<div className="column is-6">
-					<label className="label is-size-7">مسمى الخانة / السؤال للعميل:</label>
+					<label className="label is-size-7">${ __( 'Field Label / Question for Client:', 'workpress' ) }</label>
 					<input
 						type="text"
 						className="input is-small wp-sharp-input"
 						value=${spec.label || ''}
 						onInput=${(e) => onUpdateSpec(sIdx, 'label', e.target.value)}
 						style=${{ fontWeight: '700', border: '1px solid #cbd5e1' }}
-						placeholder="اكتب اسم الخانة..."
+						placeholder=${ __( 'Field name...', 'workpress' ) }
 					/>
 				</div>
 
 				<div className="column is-4">
-					<label className="label is-size-7">نوع الخانة:</label>
+					<label className="label is-size-7">${ __( 'Field Type:', 'workpress' ) }</label>
 					<div className="select is-small is-fullwidth wp-sharp-input">
 						<select
 							value=${spec.type || 'short_text'}
@@ -99,9 +100,9 @@ export default function FormFieldEditor({
 							type="checkbox"
 							checked=${!!spec.required}
 							onChange=${(e) => onUpdateSpec(sIdx, 'required', e.target.checked)}
-							style=${{ marginLeft: '4px' }}
+							style=${{ [rtl ? 'marginLeft' : 'marginRight']: '4px' }}
 						/>
-						إجباري
+						${ __( 'Required', 'workpress' ) }
 					</label>
 				</div>
 			</div>

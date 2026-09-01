@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __, sprintf, isRtl } from '../../utils/html.js';
 import { projectsApi, tasksApi } from '../../api/client.js';
 import Modal from '../modals/Modal.js';
 import Loader from '../ui/Loader.js';
@@ -10,6 +10,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 	const [ currentAssignees, setCurrentAssignees ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( false );
 	const [ isSaving, setIsSaving ] = useState( false );
+	const rtl = isRtl();
 
 	useEffect( () => {
 		if ( isActive && task ) {
@@ -21,9 +22,8 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 	const fetchMembers = () => {
 		setIsLoading( true );
 		// Ensure task has a project
-		const projectId = task.project_id; // Assume task has project_id
+		const projectId = task.project_id;
 		if ( !projectId ) {
-			// fallback if we need to fetch project id from task
 			tasksApi.get( task.id ).then( fullTask => {
 				const pid = fullTask.project_id || (fullTask.projects && fullTask.projects[0] ? fullTask.projects[0].id : null);
 				if ( pid ) {
@@ -65,22 +65,22 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 		setIsSaving( true );
 		tasksApi.assignment.update( task.id, currentAssignees )
 			.then( () => {
-				toast( 'تم تحديث التكليفات بنجاح', 'success' );
-				onClose(); // Parent should refresh tasks
+				toast( __( 'Task assignments updated successfully', 'workpress' ), 'success' );
+				onClose();
 			} )
 			.catch( err => {
 				console.error( err );
-				toast( 'حدث خطأ. تأكد من أنك تملك صلاحية تعديل هذه المهمة.', 'danger' );
+				toast( __( 'An error occurred while updating assignments.', 'workpress' ), 'danger' );
 			} )
 			.finally( () => setIsSaving( false ) );
 	};
 
 	const footer = html`
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
-			<span className="has-text-grey is-size-7">تم تحديد ${ currentAssignees.length } مكلف</span>
+			<span className="has-text-grey is-size-7">${ sprintf( __( '%d assignees selected', 'workpress' ), currentAssignees.length ) }</span>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
 				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>
-					إلغاء
+					${ __( 'Cancel', 'workpress' ) }
 				</button>
 				<button 
 					className=${ `button wp-btn is-primary wp-sharp-button ${ isSaving ? 'is-loading' : '' }` } 
@@ -88,7 +88,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 					disabled=${ isSaving }
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>حفظ الإسناد</span>
+					<span>${ __( 'Save Assignment', 'workpress' ) }</span>
 				</button>
 			</div>
 		</div>
@@ -98,26 +98,26 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title=${ task ? `إسناد المهمة: ${ task.title }` : 'إسناد المهمة' }
+			title=${ task ? sprintf( __( 'Assign Task: %s', 'workpress' ), task.title ) : __( 'Assign Task', 'workpress' ) }
 			size="wp-mega-modal"
 			footer=${ footer }
 		>
 			<div className="p-2" style=${{ minHeight: '300px' }}>
-				<p className="has-text-grey is-size-7 mb-4">اختر الأعضاء لإسناد هذه المهمة إليهم (يظهر هنا فقط أعضاء المشروع المعتمدين):</p>
+				<p className="has-text-grey is-size-7 mb-4">${ __( 'Select members to assign to this task (only approved project members are shown):', 'workpress' ) }</p>
 				
 				${ isLoading ? html`
 					<div className="py-5">
-						<${Loader} center=${true} size="medium" label="جاري جلب أعضاء المشروع..." />
+						<${Loader} center=${true} size="medium" label=${ __( 'Loading members list...', 'workpress' ) } />
 					</div>
 				` : projectMembers.length === 0 ? html`
 					<div className="has-text-centered py-5 has-text-grey">
-						لا يوجد أعضاء في هذا المشروع.
+						${ __( 'No members added to this project yet.', 'workpress' ) }
 					</div>
 				` : html`
 					<div className="columns is-multiline">
 						${ projectMembers.map( member => {
 							const isAssigned = currentAssignees.includes( member.id );
-							const initial = (member.name || '؟').charAt(0).toUpperCase();
+							const initial = (member.name || '?').charAt(0).toUpperCase();
 							const avatarUrl = member.avatar_url || (member.avatar_urls && member.avatar_urls['48']) || member.avatar || '';
 
 							return html`
@@ -135,7 +135,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 										onClick=${ () => toggleAssignee( member.id ) }
 									>
 										<div className="is-flex is-align-items-center">
-											<div style=${{ marginLeft: '12px', flexShrink: 0 }}>
+											<div style=${{ [rtl ? 'marginLeft' : 'marginRight']: '12px', flexShrink: 0 }}>
 												${avatarUrl ? html`
 													<img 
 														src=${ avatarUrl } 
@@ -152,7 +152,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 												<div className="has-text-weight-bold has-text-dark is-size-6">${ member.name }</div>
 												<div className="is-flex is-align-items-center" style=${{ gap: '6px', marginTop: '2px' }}>
 													<span className="tag is-small" style=${{ fontSize: '0.68rem', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: '4px' }}>
-														${ member.project_role === 'manager' ? 'مدير مشروع' : 'عضو فريق' }
+														${ member.project_role === 'manager' ? __( 'Project Manager', 'workpress' ) : __( 'Team Member', 'workpress' ) }
 													</span>
 													${member.email && html`
 														<span className="has-text-grey is-size-7">${member.email}</span>

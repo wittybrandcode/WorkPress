@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect, __, sprintf } from '../utils/html.js';
 import { hooks } from '../utils/hooks.js';
 import { usersApi, rolesApi, contributionsApi, settingsApi, devApi, exportApi } from '../api/client.js';
 import { CANONICAL_ROLE_LABELS, getUserRoleLabel } from '../utils/userScope.js';
@@ -21,7 +21,7 @@ import sound from '../utils/sound.js';
  *
  * @package WorkPress
  * @subpackage Pages
- * @version 2.2.3
+ * @version 2.3.0
  */
 export default function SettingsPage() {
 	const parseTabFromHash = () => {
@@ -96,19 +96,19 @@ export default function SettingsPage() {
 	const [newRole, setNewRole] = useState({ id: '', display_name: '', clone_from: 'editor' });
 
 	const defaultTabs = [
-		{ id: 'about', label: 'عن WorkPress والفلسفة', icon: 'dashicons-info' },
-		{ id: 'intake_forms', label: 'نماذج استقبال الطلبات', icon: 'dashicons-forms', adminOnly: true },
-		{ id: 'webhooks', label: 'خطافات الويب والتكامل الخارجي', icon: 'dashicons-rest-api', adminOnly: true },
-		{ id: 'roles_permissions', label: 'مصفوفة الصلاحيات', icon: 'dashicons-shield', adminOnly: true },
-		{ id: 'role_management', label: 'إدارة الأدوار والمسميات', icon: 'dashicons-id', adminOnly: true },
-		{ id: 'contribution_types', label: 'أنواع المساهمات', icon: 'dashicons-share-alt2', adminOnly: true },
-		{ id: 'members', label: 'دليل الأعضاء والمنفذين', icon: 'dashicons-groups' },
-		{ id: 'clients', label: 'المستفيدون وأصحاب الطلبات', icon: 'dashicons-id-alt' },
-		{ id: 'localization_time', label: 'الوقت والمنطقة الزمنية', icon: 'dashicons-clock', adminOnly: true },
-		{ id: 'general', label: 'إعدادات النظام', icon: 'dashicons-admin-generic', adminOnly: true },
-		{ id: 'notifications', label: 'الإشعارات والتنبيهات', icon: 'dashicons-bell' },
-		{ id: 'sound_effects', label: 'الأصوات والتأثيرات التفاعلية', icon: 'dashicons-format-audio' },
-		{ id: 'export', label: 'التصدير والأرشفة', icon: 'dashicons-database-export', adminOnly: true },
+		{ id: 'about', label: __( 'About WorkPress & Philosophy', 'workpress' ), icon: 'dashicons-info' },
+		{ id: 'intake_forms', label: __( 'Intake Forms Builder', 'workpress' ), icon: 'dashicons-forms', adminOnly: true },
+		{ id: 'webhooks', label: __( 'Webhooks & External Integrations', 'workpress' ), icon: 'dashicons-rest-api', adminOnly: true },
+		{ id: 'roles_permissions', label: __( 'Permissions Matrix', 'workpress' ), icon: 'dashicons-shield', adminOnly: true },
+		{ id: 'role_management', label: __( 'Role Management & Aliases', 'workpress' ), icon: 'dashicons-id', adminOnly: true },
+		{ id: 'contribution_types', label: __( 'Contribution Types', 'workpress' ), icon: 'dashicons-share-alt2', adminOnly: true },
+		{ id: 'members', label: __( 'Members & Staff Directory', 'workpress' ), icon: 'dashicons-groups' },
+		{ id: 'clients', label: __( 'Clients & Requesters', 'workpress' ), icon: 'dashicons-id-alt' },
+		{ id: 'localization_time', label: __( 'Time & Localization', 'workpress' ), icon: 'dashicons-clock', adminOnly: true },
+		{ id: 'general', label: __( 'System Settings', 'workpress' ), icon: 'dashicons-admin-generic', adminOnly: true },
+		{ id: 'notifications', label: __( 'Notifications & Alerts', 'workpress' ), icon: 'dashicons-bell' },
+		{ id: 'sound_effects', label: __( 'Sound Effects & Audio Feedback', 'workpress' ), icon: 'dashicons-format-audio' },
+		{ id: 'export', label: __( 'Export & Archive', 'workpress' ), icon: 'dashicons-database-export', adminOnly: true },
 	];
 
 	const allTabs = hooks.applyFilters('workpress_settings_tabs', defaultTabs);
@@ -124,11 +124,11 @@ export default function SettingsPage() {
 				window.workpressSettings.dateFormat = dateFormat;
 				window.workpressSettings.relativeTime = relativeTime;
 			}
-			toast('تم حفظ إعدادات الوقت والمنطقة الزمنية بنجاح.', 'success');
+			toast( __( 'Timezone and localization settings saved successfully.', 'workpress' ), 'success' );
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
-			toast('حدث خطأ أثناء حفظ الإعدادات.', 'danger');
+			toast( __( 'An error occurred while saving settings.', 'workpress' ), 'danger' );
 		});
 	};
 
@@ -166,11 +166,11 @@ export default function SettingsPage() {
 			// Fire global event for live header logo re-render
 			window.dispatchEvent(new CustomEvent('workpress_brand_updated', { detail: { logoUrl, faviconUrl } }));
 
-			toast('تم حفظ إعدادات النظام والشعار بنجاح.', 'success');
+			toast( __( 'System and branding settings saved successfully.', 'workpress' ), 'success' );
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
-			toast('حدث خطأ أثناء حفظ الإعدادات.', 'danger');
+			toast( __( 'An error occurred while saving settings.', 'workpress' ), 'danger' );
 		});
 	};
 
@@ -209,12 +209,12 @@ export default function SettingsPage() {
 			sound.setVolume(soundVolume);
 			sound.setKit(soundKit);
 			sound.saveEventsConfig(eventsConfig);
-			toast('تم حفظ إعدادات الأصوات وتخصيص الأحداث بنجاح ', 'success');
+			toast( __( 'Sound effects and events settings saved successfully.', 'workpress' ), 'success' );
 			sound.play('celebration');
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
-			toast('حدث خطأ أثناء حفظ إعدادات الأصوات.', 'danger');
+			toast( __( 'An error occurred while saving settings.', 'workpress' ), 'danger' );
 		});
 	};
 
@@ -222,27 +222,27 @@ export default function SettingsPage() {
 		setIsSeeding(true);
 		devApi.seed().then((res) => {
 			setIsSeeding(false);
-			toast(res.message || 'تم توليد البيانات التجريبية بنجاح!', 'success');
+			toast(res.message || __( 'Demo data generated successfully!', 'workpress' ), 'success');
 		}).catch((err) => {
 			setIsSeeding(false);
-			toast(err.message || 'فشل توليد البيانات التجريبية', 'danger');
+			toast(err.message || __( 'Failed to generate demo data', 'workpress' ), 'danger');
 		});
 	};
 
 	const handlePurgeData = () => {
 		setConfirmConfig({
-			title: 'تطهير وحذف البيانات التجريبية',
-			message: 'هل أنت متأكد من رغبتك في حذف وتطهير كافة المشاريع والمهام والمساهمات التجريبية المولدة؟',
-			confirmText: 'تطهير شامل',
+			title: __( 'Purge Demo Data', 'workpress' ),
+			message: __( 'Are you sure you want to purge all generated demo projects and tasks?', 'workpress' ),
+			confirmText: __( 'Purge All', 'workpress' ),
 			isDanger: true,
 			onConfirm: () => {
 				setIsPurging(true);
 				devApi.purge().then((res) => {
 					setIsPurging(false);
-					toast(res.message || 'تم تطهير البيانات التجريبية بنجاح!', 'info');
+					toast(res.message || __( 'Demo data purged successfully!', 'workpress' ), 'info');
 				}).catch((err) => {
 					setIsPurging(false);
-					toast(err.message || 'فشل تطهير البيانات', 'danger');
+					toast(err.message || __( 'Failed to purge demo data', 'workpress' ), 'danger');
 				});
 			}
 		});
@@ -263,11 +263,11 @@ export default function SettingsPage() {
 			link.click();
 			document.body.removeChild(link);
 			URL.revokeObjectURL(url);
-			toast('تم تصدير وتحميل نسخة البيانات الكاملة بنجاح!', 'success');
+			toast( __( 'Complete workspace JSON exported successfully!', 'workpress' ), 'success' );
 		}).catch((err) => {
 			setIsExporting(false);
 			console.error(err);
-			toast(err.message || 'فشل تصدير البيانات', 'danger');
+			toast(err.message || __( 'Failed to export data', 'workpress' ), 'danger');
 		});
 	};
 
@@ -291,12 +291,12 @@ export default function SettingsPage() {
 	const handleSaveContributionTypes = () => {
 		setIsTypesLoading(true);
 		contributionsApi.types.update(contributionTypes).then(res => {
-			toast('تم حفظ تعديلات أنواع المساهمات بنجاح!', 'success');
+			toast( __( 'Contribution types saved successfully!', 'workpress' ), 'success' );
 			setContributionTypes(Array.isArray(res) ? res : []);
 			setIsTypesLoading(false);
 		}).catch(err => {
 			console.error(err);
-			toast('حدث خطأ أثناء حفظ أنواع المساهمات.', 'danger');
+			toast( __( 'An error occurred while saving settings.', 'workpress' ), 'danger' );
 			setIsTypesLoading(false);
 		});
 	};
@@ -304,37 +304,37 @@ export default function SettingsPage() {
 	const handleAddCustomType = (e) => {
 		e.preventDefault();
 		if (!newType.key.trim() || !newType.label.trim()) {
-			toast('يرجى ملء المعرّف والتسمية للنوع الجديد.', 'warning');
+			toast( __( 'Please fill all required fields.', 'workpress' ), 'warning' );
 			return;
 		}
 		setIsTypesLoading(true);
 		contributionsApi.types.createCustom(newType).then(res => {
-			toast('تمت إضافة نوع المساهمة الجديد بنجاح!', 'success');
+			toast( __( 'New contribution type added successfully!', 'workpress' ), 'success' );
 			setNewType({ key: '', label: '', icon: 'dashicons-admin-comments' });
 			setContributionTypes(Array.isArray(res) ? res : []);
 			setIsTypesLoading(false);
 		}).catch(err => {
 			console.error(err);
-			toast(err.message || 'حدث خطأ أثناء إضافة النوع الجديد.', 'danger');
+			toast(err.message || __( 'An error occurred while processing the request.', 'workpress' ), 'danger');
 			setIsTypesLoading(false);
 		});
 	};
 
 	const handleDeleteCustomType = (typeKey) => {
 		setConfirmConfig({
-			title: 'حذف نوع مساهمة',
-			message: 'هل أنت متأكد من رغبتك في حذف هذا النوع المخصص؟',
-			confirmText: 'حذف',
+			title: __( 'Delete Contribution Type', 'workpress' ),
+			message: __( 'Are you sure you want to delete this custom contribution type?', 'workpress' ),
+			confirmText: __( 'Delete', 'workpress' ),
 			isDanger: true,
 			onConfirm: () => {
 				setIsTypesLoading(true);
 				contributionsApi.types.deleteCustom(typeKey).then(res => {
-					toast('تم حذف نوع المساهمة بنجاح.', 'success');
+					toast( __( 'Contribution type deleted successfully.', 'workpress' ), 'success' );
 					setContributionTypes(res.types || []);
 					setIsTypesLoading(false);
 				}).catch(err => {
 					console.error(err);
-					toast(err.message || 'حدث خطأ أثناء حذف النوع.', 'danger');
+					toast(err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger');
 					setIsTypesLoading(false);
 				});
 			}
@@ -345,7 +345,7 @@ export default function SettingsPage() {
 		try {
 			setIsLoading(true);
 			await usersApi.updateRole(userId, [newRole]);
-			toast(`تم تغيير دور المستخدم بنجاح إلى: ${getUserRoleLabel(newRole)}`, 'success');
+			toast( sprintf( __( 'User role changed successfully to: %s', 'workpress' ), getUserRoleLabel(newRole) ), 'success' );
 			setUsers(prev => prev.map(u => {
 				if (u.id === userId) {
 					return { ...u, roles: [newRole], role: newRole };
@@ -355,7 +355,7 @@ export default function SettingsPage() {
 			setIsLoading(false);
 		} catch (err) {
 			console.error('Role update error:', err);
-			toast(err.message || 'حدث خطأ أثناء تغيير دور المستخدم.', 'danger');
+			toast(err.message || __( 'An error occurred while updating user role.', 'workpress' ), 'danger');
 			setIsLoading(false);
 		}
 	};
@@ -445,12 +445,12 @@ export default function SettingsPage() {
 		if (Object.keys(rolesUpdates).length === 0) return;
 		setIsRolesLoading(true);
 		rolesApi.update(rolesUpdates).then(() => {
-			toast('تم حفظ مصفوفة الصلاحيات بنجاح!', 'success');
+			toast( __( 'Permissions matrix saved successfully!', 'workpress' ), 'success' );
 			setRolesUpdates({});
 			fetchRoles();
 		}).catch(err => {
 			console.error(err);
-			toast('حدث خطأ أثناء الحفظ. تأكد من أنك تملك الصلاحيات الكافية.', 'danger');
+			toast( __( 'An error occurred while saving settings.', 'workpress' ), 'danger' );
 			setIsRolesLoading(false);
 		});
 	};
@@ -458,11 +458,11 @@ export default function SettingsPage() {
 	const saveAliases = () => {
 		setIsRolesLoading(true);
 		rolesApi.updateAliases(aliasesUpdates).then(() => {
-			toast('تم حفظ الأسماء المخصصة بنجاح!', 'success');
+			toast( __( 'Role aliases saved successfully!', 'workpress' ), 'success' );
 			fetchRoles();
 		}).catch(err => {
 			console.error(err);
-			toast('حدث خطأ أثناء حفظ المسميات.', 'danger');
+			toast( __( 'An error occurred while saving settings.', 'workpress' ), 'danger' );
 			setIsRolesLoading(false);
 		});
 	};
@@ -470,7 +470,7 @@ export default function SettingsPage() {
 	const handleCreateCustomRole = (e) => {
 		e.preventDefault();
 		if (!newRole.id || !newRole.display_name) {
-			toast('يرجى ملء جميع الحقول المطلوبة.', 'warning');
+			toast( __( 'Please fill all required fields.', 'workpress' ), 'warning' );
 			return;
 		}
 		setIsRolesLoading(true);
@@ -479,30 +479,30 @@ export default function SettingsPage() {
 			display_name: newRole.display_name,
 			clone_from: newRole.clone_from
 		}).then(() => {
-			toast('تم إنشاء الدور المخصص بنجاح!', 'success');
+			toast( __( 'Custom role created successfully!', 'workpress' ), 'success' );
 			setNewRole({ id: '', display_name: '', clone_from: 'editor' });
 			fetchRoles();
 		}).catch(err => {
 			console.error(err);
-			toast('حدث خطأ أثناء إنشاء الدور. تأكد من أن المعرّف غير مستخدم مسبقاً (حروف إنجليزية فقط).', 'danger');
+			toast(err.message || __( 'An error occurred while creating custom role.', 'workpress' ), 'danger');
 			setIsRolesLoading(false);
 		});
 	};
 
 	const handleDeleteCustomRole = (roleId) => {
 		setConfirmConfig({
-			title: 'حذف دور مخصص',
-			message: 'هل أنت متأكد من رغبتك في حذف هذا الدور المخصص؟ هذا الإجراء لا يمكن التراجع عنه.',
-			confirmText: 'حذف',
+			title: __( 'Delete Custom Role', 'workpress' ),
+			message: __( 'Are you sure you want to delete this custom role? This action cannot be undone.', 'workpress' ),
+			confirmText: __( 'Delete', 'workpress' ),
 			isDanger: true,
 			onConfirm: () => {
 				setIsRolesLoading(true);
 				rolesApi.deleteCustom(roleId).then(() => {
-					toast('تم حذف الدور المخصص بنجاح.', 'success');
+					toast( __( 'Custom role deleted successfully.', 'workpress' ), 'success' );
 					fetchRoles();
 				}).catch(err => {
 					console.error(err);
-					toast('حدث خطأ أثناء حذف الدور.', 'danger');
+					toast(err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger');
 					setIsRolesLoading(false);
 				});
 			}
@@ -525,7 +525,7 @@ export default function SettingsPage() {
 			<!-- القائمة الجانبية للإعدادات (Settings Sidebar) -->
 			<div className="column is-2">
 				<div className="wp-card p-3">
-					<h2 className="title is-6 mb-3 has-text-weight-bold" style=${{ borderBottom: '1px solid #ededed', paddingBottom: '0.5rem', color: '#64748b' }}>الإعدادات</h2>
+					<h2 className="title is-6 mb-3 has-text-weight-bold" style=${{ borderBottom: '1px solid #ededed', paddingBottom: '0.5rem', color: '#64748b' }}>${ __( 'Settings', 'workpress' ) }</h2>
 					<div className="is-flex is-flex-direction-column" style=${{ gap: '4px' }}>
 						${tabs.map(tab => {
 							const isActive = activeTab === tab.id;
@@ -691,7 +691,7 @@ export default function SettingsPage() {
 					title=${ confirmConfig.title }
 					message=${ confirmConfig.message }
 					confirmText=${ confirmConfig.confirmText }
-					cancelText="إلغاء"
+					cancelText=${ __( 'Cancel', 'workpress' ) }
 					isDanger=${ confirmConfig.isDanger }
 					onConfirm=${ () => {
 						confirmConfig.onConfirm();

@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __, sprintf } from '../../utils/html.js';
 import { webhooksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -49,7 +49,7 @@ export default function WebhooksSettingsTab() {
 			setIsLoading(false);
 		}).catch(err => {
 			console.error(err);
-			toast('تعذر جلب إعدادات خطافات الويب.', 'danger');
+			toast( __( 'Failed to load webhooks settings.', 'workpress' ), 'danger' );
 			setIsLoading(false);
 		});
 	};
@@ -62,7 +62,7 @@ export default function WebhooksSettingsTab() {
 		const newItem = {
 			...defaultItem,
 			preset,
-			name: preset === 'discord' ? 'قناة ديسكورد لتنبيهات العمل' : (preset === 'slack' ? 'قناة سلاك للمشاريع' : 'خطاف ويب مؤسسي'),
+			name: preset === 'discord' ? __( 'Discord Work Alerts', 'workpress' ) : (preset === 'slack' ? __( 'Slack Projects Channel', 'workpress' ) : __( 'Enterprise Webhook', 'workpress' )),
 			secret: 'whsec_' + Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12)
 		};
 		setEditingItem(newItem);
@@ -91,12 +91,12 @@ export default function WebhooksSettingsTab() {
 	const handleGenerateSecret = () => {
 		const newSecret = 'whsec_' + Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 12);
 		setEditingItem({ ...editingItem, secret: newSecret });
-		toast('تم توليد مفتاح سري عشوائي جديد.', 'info');
+		toast( __( 'Generated new secret key.', 'workpress' ), 'info' );
 	};
 
 	const handleSave = () => {
 		if (!editingItem.name || !editingItem.url) {
-			toast('يرجى إدخال اسم الخطاف ورابط النهاية (URL).', 'warning');
+			toast( __( 'Please enter webhook name and endpoint URL.', 'workpress' ), 'warning' );
 			return;
 		}
 
@@ -104,27 +104,27 @@ export default function WebhooksSettingsTab() {
 		webhooksApi.save(editingItem).then(res => {
 			setIsSaving(false);
 			setIsModalOpen(false);
-			toast(res.message || 'تم حفظ الخطاف بنجاح.', 'success');
+			toast(res.message || __( 'Webhook saved successfully.', 'workpress' ), 'success');
 			try { sound.play('solution'); } catch (e) {}
 			loadWebhooks();
 		}).catch(err => {
 			setIsSaving(false);
 			console.error(err);
-			toast(err.message || 'حدث خطأ أثناء حفظ الخطاف.', 'danger');
+			toast(err.message || __( 'An error occurred while saving webhook.', 'workpress' ), 'danger');
 		});
 	};
 
 	const handleDelete = (id, name) => {
-		if (!window.confirm(`هل أنت متأكد من حذف الخطاف "${name}" نهائياً؟`)) {
+		if (!window.confirm( sprintf( __( 'Are you sure you want to permanently delete webhook "%s"?', 'workpress' ), name ) )) {
 			return;
 		}
 
 		webhooksApi.delete(id).then(() => {
-			toast('تم حذف الخطاف بنجاح.', 'success');
+			toast( __( 'Webhook deleted successfully.', 'workpress' ), 'success' );
 			loadWebhooks();
 		}).catch(err => {
 			console.error(err);
-			toast('تعذر حذف الخطاف.', 'danger');
+			toast( __( 'Failed to delete webhook.', 'workpress' ), 'danger' );
 		});
 	};
 
@@ -137,22 +137,22 @@ export default function WebhooksSettingsTab() {
 		}).then(res => {
 			setTestingId(null);
 			if (res.success) {
-				toast(`نجح الاتصال! كود الاستجابة: HTTP ${res.status_code} (${res.latency_ms}ms)`, 'success');
+				toast( sprintf( __( 'Connection succeeded! Status: HTTP %s (%sms)', 'workpress' ), res.status_code, res.latency_ms ), 'success' );
 				try { sound.play('task_done'); } catch (e) {}
 			} else {
-				toast(`فشل الاتصال: ${res.error_message || 'رمز الاستجابة: ' + res.status_code}`, 'danger');
+				toast( sprintf( __( 'Connection failed: %s', 'workpress' ), res.error_message || res.status_code ), 'danger' );
 			}
 			loadWebhooks();
 		}).catch(err => {
 			setTestingId(null);
 			console.error(err);
-			toast('تعذر إرسال الفحص التجريبي.', 'danger');
+			toast( __( 'Failed to dispatch test ping.', 'workpress' ), 'danger' );
 		});
 	};
 
 	const handleModalTest = () => {
 		if (!editingItem.url) {
-			toast('يرجى إدخال الرابط أولاً لاختبار الاتصال.', 'warning');
+			toast( __( 'Please enter endpoint URL first.', 'workpress' ), 'warning' );
 			return;
 		}
 
@@ -175,7 +175,7 @@ export default function WebhooksSettingsTab() {
 				success: false,
 				status_code: 0,
 				latency_ms: 0,
-				error_message: err.message || 'خطأ في الشبكة أو تعذر الاتصال.'
+				error_message: err.message || __( 'Network error or unreachable host.', 'workpress' )
 			});
 		});
 	};
@@ -183,11 +183,11 @@ export default function WebhooksSettingsTab() {
 	const handleToggleActive = (item) => {
 		const updated = { ...item, active: !item.active };
 		webhooksApi.save(updated).then(() => {
-			toast(`تم ${updated.active ? 'تفعيل' : 'تعطيل'} الخطاف بنجاح.`, 'info');
+			toast( updated.active ? __( 'Webhook activated.', 'workpress' ) : __( 'Webhook deactivated.', 'workpress' ), 'info' );
 			loadWebhooks();
 		}).catch(err => {
 			console.error(err);
-			toast('تعذر تحديث حالة الخطاف.', 'danger');
+			toast( __( 'Failed to update webhook status.', 'workpress' ), 'danger' );
 		});
 	};
 

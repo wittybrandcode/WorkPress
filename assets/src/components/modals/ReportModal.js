@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __, sprintf, isRtl } from '../../utils/html.js';
 import { reportsApi } from '../../api/client.js';
 import { formatDate } from '../../utils/datetime.js';
 import Loader from '../ui/Loader.js';
@@ -12,6 +12,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 	const [ markdownData, setMarkdownData ] = useState( '' );
 	const [ filename, setFilename ] = useState( 'knowledge-book.md' );
 	const [ isCopied, setIsCopied ] = useState( false );
+	const rtl = isRtl();
 
 	useEffect( () => {
 		if ( ! isActive || ! projectId ) return;
@@ -30,7 +31,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 			} )
 			.catch( ( err ) => {
 				console.error( err );
-				toast( 'تعذر جلب بيانات التقرير التنفيذي', 'danger' );
+				toast( __( 'Failed to load executive report data', 'workpress' ), 'danger' );
 			} )
 			.finally( () => setIsLoading( false ) );
 	}, [ isActive, projectId ] );
@@ -53,14 +54,14 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 		a.click();
 		document.body.removeChild( a );
 		URL.revokeObjectURL( url );
-		toast( 'تم تنزيل كتيب المعرفة بنجاح', 'success' );
+		toast( __( 'Knowledge book downloaded successfully', 'workpress' ), 'success' );
 	};
 
 	const handleCopyMarkdown = () => {
 		if ( ! navigator.clipboard ) return;
 		navigator.clipboard.writeText( markdownData ).then( () => {
 			setIsCopied( true );
-			toast( 'تم نسخ كتيب المعرفة إلى الحافظة بنجاح', 'success' );
+			toast( __( 'Knowledge book copied to clipboard', 'workpress' ), 'success' );
 			setTimeout( () => setIsCopied( false ), 2500 );
 		} );
 	};
@@ -94,9 +95,9 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 							<i className="dashicons dashicons-chart-bar" style=${{ fontSize: '1.4rem' }}></i>
 							<div>
 								<h3 className="has-text-weight-bold is-size-6 mb-0" style=${{ color: '#0f172a' }}>
-									التقرير التنفيذي وكتاب المعرفة
+									${ __( 'Executive Report & Knowledge Book', 'workpress' ) }
 								</h3>
-								<p className="is-size-7 has-text-grey mb-0">${ projectName || 'المشروع' }</p>
+								<p className="is-size-7 has-text-grey mb-0">${ projectName || __( 'Project', 'workpress' ) }</p>
 							</div>
 						</div>
 
@@ -107,14 +108,14 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 								onClick=${ () => { setActiveTab( 'report' ); sound.play( 'click' ); } }
 								style=${{ borderRadius: 0 }}
 							>
-								التقرير التنفيذي (PDF/Print)
+								${ __( 'Executive Report (PDF/Print)', 'workpress' ) }
 							</button>
 							<button 
 								className=${ `button is-small ${ activeTab === 'knowledge_book' ? 'is-dark has-text-weight-bold' : 'is-light' }` }
 								onClick=${ () => { setActiveTab( 'knowledge_book' ); sound.play( 'click' ); } }
 								style=${{ borderRadius: 0 }}
 							>
-								كتاب المعرفة (.md)
+								${ __( 'Knowledge Book (.md)', 'workpress' ) }
 							</button>
 						</div>
 					</div>
@@ -126,10 +127,10 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 								className="button is-small is-primary has-text-weight-bold" 
 								onClick=${ handlePrint }
 								style=${{ borderRadius: 0, backgroundColor: '#0f172a', borderColor: '#0f172a' }}
-								title="طباعة أو تصدير كملف PDF"
+								title=${ __( 'Print or save as PDF', 'workpress' ) }
 							>
-								<span className="dashicons dashicons-printer is-size-6 ml-1"></span>
-								طباعة / حفظ PDF
+								<span className=${ `dashicons dashicons-printer is-size-6 ${ rtl ? 'ml-1' : 'mr-1' }` }></span>
+								${ __( 'Print / Save PDF', 'workpress' ) }
 							</button>
 						` }
 
@@ -138,19 +139,19 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 								className="button is-small is-primary has-text-weight-bold" 
 								onClick=${ handleDownloadMarkdown }
 								style=${{ borderRadius: 0, backgroundColor: '#10b981', borderColor: '#10b981' }}
-								title="تنزيل كملف Markdown"
+								title=${ __( 'Download as Markdown file', 'workpress' ) }
 							>
-								<span className="dashicons dashicons-download is-size-6 ml-1"></span>
-								تنزيل (.md)
+								<span className=${ `dashicons dashicons-download is-size-6 ${ rtl ? 'ml-1' : 'mr-1' }` }></span>
+								${ __( 'Download (.md)', 'workpress' ) }
 							</button>
 							<button 
 								className="button is-small is-light" 
 								onClick=${ handleCopyMarkdown }
 								style=${{ borderRadius: 0 }}
-								title="نسخ إلى الحافظة"
+								title=${ __( 'Copy to clipboard', 'workpress' ) }
 							>
-								<span className=${ `dashicons ${ isCopied ? 'dashicons-yes' : 'dashicons-admin-page' } is-size-6 ml-1` }></span>
-								${ isCopied ? 'تم النسخ!' : 'نسخ النص' }
+								<span className=${ `dashicons ${ isCopied ? 'dashicons-yes' : 'dashicons-admin-page' } is-size-6 ${ rtl ? 'ml-1' : 'mr-1' }` }></span>
+								${ isCopied ? __( 'Copied!', 'workpress' ) : __( 'Copy Text', 'workpress' ) }
 							</button>
 						` }
 
@@ -167,13 +168,13 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 				<section className="modal-card-body p-4" style=${{ overflowY: 'auto', backgroundColor: '#f1f5f9' }}>
 					${ isLoading && html`
 						<div className="py-6 has-text-centered">
-							<${Loader} center=${true} label="جاري استخراج وتجميع التقرير التنفيذي وكتاب المعرفة..." size="large" />
+							<${Loader} center=${true} label=${ __( 'Extracting and compiling executive report and knowledge book...', 'workpress' ) } size="large" />
 						</div>
 					` }
 
 					${ ! isLoading && ! reportData && html`
 						<div className="notification is-danger is-light p-5 has-text-centered" style=${{ borderRadius: 0 }}>
-							تعذر استعراض التقرير. يرجى التأكد من صلاحياتك وحالة المشروع.
+							${ __( 'Unable to load report. Please verify project permissions and status.', 'workpress' ) }
 						</div>
 					` }
 
@@ -183,23 +184,23 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 							<div className="wp-report-header">
 								<div>
 									<div className="wp-report-brand-title">
-										${ reportData.organization?.name || 'منظومة WorkPress' }
+										${ reportData.organization?.name || 'WorkPress' }
 									</div>
 									<div style=${{ fontSize: '0.85rem', color: '#64748b' }}>
-										${ reportData.organization?.description || 'تقرير استلام واعتماد المشروع المكتمل' }
+										${ reportData.organization?.description || __( 'Completed Project Sign-off & Delivery Report', 'workpress' ) }
 									</div>
 									<div className="mt-2" style=${{ fontSize: '0.78rem', color: '#94a3b8' }}>
-										تاريخ إصدار الوثيقة: <strong>${ formatDate( reportData.organization?.generated_at ) }</strong>
+										${ sprintf( __( 'Document Issued: %s', 'workpress' ), formatDate( reportData.organization?.generated_at ) ) }
 									</div>
 								</div>
 
-								<div style=${{ textAlign: 'left' }}>
+								<div style=${{ textAlign: rtl ? 'left' : 'right' }}>
 									<span className="wp-report-badge">
-										<span>المشروع:</span>
+										<span>${ __( 'Project:', 'workpress' ) }</span>
 										<strong>${ reportData.project?.prefix || '#' + reportData.project?.id }</strong>
 									</span>
 									<div className="mt-2" style=${{ fontSize: '0.8rem', fontWeight: 800, color: reportData.metrics?.completion_rate === 100 ? '#10b981' : '#3b82f6' }}>
-										${ reportData.metrics?.completion_rate === 100 ? 'مشروع مكتمل ومعتمد 100%' : `قيد التنفيذ (${reportData.metrics?.completion_rate}%)` }
+										${ reportData.metrics?.completion_rate === 100 ? __( 'Completed & Approved 100%', 'workpress' ) : sprintf( __( 'In Progress (%d%%)', 'workpress' ), reportData.metrics?.completion_rate ) }
 									</div>
 								</div>
 							</div>
@@ -210,7 +211,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 									${ reportData.project?.name }
 								</h2>
 								<p style=${{ fontSize: '0.9rem', color: '#334155' }}>
-									${ reportData.project?.description || 'لا يوجد وصف تفصيلي إضافي مدون.' }
+									${ reportData.project?.description || __( 'No additional details provided.', 'workpress' ) }
 								</p>
 							</div>
 
@@ -220,47 +221,47 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 									<div className="wp-report-metric-val has-text-primary">
 										${ reportData.metrics?.completion_rate }%
 									</div>
-									<div className="wp-report-metric-lbl">نسبة الإنجاز الكلية</div>
+									<div className="wp-report-metric-lbl">${ __( 'Total Completion Rate', 'workpress' ) }</div>
 								</div>
 
 								<div className="wp-report-metric-card">
 									<div className="wp-report-metric-val">
 										${ reportData.metrics?.completed_tasks } / ${ reportData.metrics?.total_tasks }
 									</div>
-									<div className="wp-report-metric-lbl">المهام المنجزة</div>
+									<div className="wp-report-metric-lbl">${ __( 'Completed Tasks', 'workpress' ) }</div>
 								</div>
 
 								<div className="wp-report-metric-card">
 									<div className="wp-report-metric-val has-text-success">
 										${ reportData.metrics?.deliverables_count }
 									</div>
-									<div className="wp-report-metric-lbl">الحلول المعتمدة</div>
+									<div className="wp-report-metric-lbl">${ __( 'Approved Solutions', 'workpress' ) }</div>
 								</div>
 
 								<div className="wp-report-metric-card">
 									<div className="wp-report-metric-val has-text-info">
-										${ reportData.kpis?.avg_cycle_time_days || 0 } يوم
+										${ sprintf( __( '%s days', 'workpress' ), reportData.kpis?.avg_cycle_time_days || 0 ) }
 									</div>
-									<div className="wp-report-metric-lbl">متوسط سرعة الحل</div>
+									<div className="wp-report-metric-lbl">${ __( 'Avg Resolution Speed', 'workpress' ) }</div>
 								</div>
 							</div>
 
 							<!-- 3. Client Specifications Vault (if available) -->
 							${ reportData.project?.specs && Object.keys( reportData.project.specs ).length > 0 && html`
 								<div>
-									<h4 className="wp-report-section-title">مواصفات ومتطلبات الطلب المعتمدة</h4>
+									<h4 className="wp-report-section-title">${ __( 'Approved Client Specifications & Requirements', 'workpress' ) }</h4>
 									<table className="wp-report-table">
 										<thead>
 											<tr>
-												<th style=${{ width: '35%' }}>البند / الخاصية</th>
-												<th>المواصفة المحددة</th>
+												<th style=${{ width: '35%' }}>${ __( 'Item / Property', 'workpress' ) }</th>
+												<th>${ __( 'Specified Requirement', 'workpress' ) }</th>
 											</tr>
 										</thead>
 										<tbody>
 											${ Object.entries( reportData.project.specs ).map( ( [ label, val ] ) => html`
 												<tr key=${ label }>
 													<td><strong>${ label }</strong></td>
-													<td>${ Array.isArray( val ) ? val.join( '، ' ) : String( val ) }</td>
+													<td>${ Array.isArray( val ) ? val.join( ', ' ) : String( val ) }</td>
 												</tr>
 											` ) }
 										</tbody>
@@ -270,11 +271,11 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 
 							<!-- 4. Verified Solutions & Deliverables Catalog -->
 							<div>
-								<h4 className="wp-report-section-title">⭐ خزينة الحلول والمخرجات الفنية المعتمدة</h4>
+								<h4 className="wp-report-section-title">${ __( 'Verified Technical Solutions & Deliverables', 'workpress' ) }</h4>
 								
 								${ ( ! reportData.deliverables || reportData.deliverables.length === 0 ) && html`
 									<div className="p-4 has-text-centered has-text-grey" style=${{ background: '#f8fafc', border: '1px dashed #cbd5e1' }}>
-										لا توجد حلول معتمدة مدونة رسمياً في هذا المشروع حتى تاريخ إصدار التقرير.
+										${ __( 'No verified solutions officially recorded in this project as of document issuance date.', 'workpress' ) }
 									</div>
 								` }
 
@@ -286,7 +287,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 												<span>${ deliv.task_title }</span>
 											</div>
 											<span style=${{ fontSize: '0.78rem', color: '#64748b' }}>
-												تاريخ الاعتماد: ${ formatDate( deliv.accepted_at ) }
+												${ sprintf( __( 'Approved Date: %s', 'workpress' ), formatDate( deliv.accepted_at ) ) }
 											</span>
 										</div>
 
@@ -296,12 +297,12 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 
 										<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontSize: '0.8rem', color: '#475569' }}>
 											<div>
-												<span>المنفذ: <strong>${ deliv.author_name }</strong></span>
-												<span className="mr-3">المعتمد: <strong>${ deliv.accepted_by_name }</strong></span>
+												<span>${ __( 'Author:', 'workpress' ) } <strong>${ deliv.author_name }</strong></span>
+												<span className="mr-3 ml-3">${ __( 'Approved by:', 'workpress' ) } <strong>${ deliv.accepted_by_name }</strong></span>
 											</div>
 											${ deliv.attachments && deliv.attachments.length > 0 && html`
 												<span className="has-text-weight-bold">
-													${ deliv.attachments.length } مرفق فني
+													${ sprintf( __( '%d attachments', 'workpress' ), deliv.attachments.length ) }
 												</span>
 											` }
 										</div>
@@ -311,34 +312,40 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 
 							<!-- 5. Executive Tasks Audit Table -->
 							<div className="mt-5">
-								<h4 className="wp-report-section-title">سجل وجدول مهام المشروع</h4>
+								<h4 className="wp-report-section-title">${ __( 'Project Tasks Schedule & Audit Log', 'workpress' ) }</h4>
 								<table className="wp-report-table">
 									<thead>
 										<tr>
-											<th style=${{ width: '12%' }}>الرمز</th>
-											<th>عنوان المهمة</th>
-											<th style=${{ width: '18%' }}>المسند إليه</th>
-											<th style=${{ width: '15%' }}>الحالة</th>
-											<th style=${{ width: '18%' }}>تاريخ الإنشاء</th>
+											<th style=${{ width: '12%' }}>${ __( 'Prefix', 'workpress' ) }</th>
+											<th>${ __( 'Task Title', 'workpress' ) }</th>
+											<th style=${{ width: '18%' }}>${ __( 'Assignee', 'workpress' ) }</th>
+											<th style=${{ width: '15%' }}>${ __( 'Status', 'workpress' ) }</th>
+											<th style=${{ width: '18%' }}>${ __( 'Created Date', 'workpress' ) }</th>
 										</tr>
 									</thead>
 									<tbody>
-										${ reportData.tasks && reportData.tasks.map( ( t ) => html`
-											<tr key=${ t.id }>
-												<td><code>${ t.ref_key }</code></td>
-												<td><strong>${ t.title }</strong></td>
-												<td>${ t.assignee }</td>
-												<td>
-													<span style=${{ 
-														fontWeight: 700,
-														color: t.status === 'completed' || t.status === 'closed' ? '#10b981' : ( t.status === 'in_progress' ? '#3b82f6' : '#64748b' )
-													}}>
-														${ t.status === 'completed' || t.status === 'closed' ? 'مكتملة' : ( t.status === 'in_progress' ? 'قيد التنفيذ' : 'مفتوحة' ) }
-													</span>
-												</td>
-												<td>${ formatDate( t.created_at ) }</td>
-											</tr>
-										` ) }
+										${ reportData.tasks && reportData.tasks.map( ( t ) => {
+											let tStatusLabel = __( 'Open', 'workpress' );
+											if ( t.status === 'completed' || t.status === 'closed' ) tStatusLabel = __( 'Completed', 'workpress' );
+											else if ( t.status === 'in_progress' ) tStatusLabel = __( 'In Progress', 'workpress' );
+
+											return html`
+												<tr key=${ t.id }>
+													<td><code>${ t.ref_key }</code></td>
+													<td><strong>${ t.title }</strong></td>
+													<td>${ t.assignee }</td>
+													<td>
+														<span style=${{ 
+															fontWeight: 700,
+															color: t.status === 'completed' || t.status === 'closed' ? '#10b981' : ( t.status === 'in_progress' ? '#3b82f6' : '#64748b' )
+														}}>
+															${ tStatusLabel }
+														</span>
+													</td>
+													<td>${ formatDate( t.created_at ) }</td>
+												</tr>
+											`;
+										} ) }
 									</tbody>
 								</table>
 							</div>
@@ -346,27 +353,27 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 							<!-- 6. Official Sign-off Box -->
 							<div className="wp-signoff-grid">
 								<div className="wp-signoff-box">
-									<div className="wp-signoff-role">قائد وموجه المشروع</div>
+									<div className="wp-signoff-role">${ __( 'Project Lead & Director', 'workpress' ) }</div>
 									<div style=${{ fontSize: '0.8rem', color: '#475569' }}>
-										${ reportData.project?.leader?.display_name || 'قائد المشروع' }
+										${ reportData.project?.leader?.display_name || __( 'Project Lead', 'workpress' ) }
 									</div>
-									<div className="wp-signoff-line">التوقيع والختم الرسمي</div>
+									<div className="wp-signoff-line">${ __( 'Signature & Official Stamp', 'workpress' ) }</div>
 								</div>
 
 								<div className="wp-signoff-box">
-									<div className="wp-signoff-role">ممثل العميل / المستفيد</div>
+									<div className="wp-signoff-role">${ __( 'Client Representative', 'workpress' ) }</div>
 									<div style=${{ fontSize: '0.8rem', color: '#475569' }}>
-										${ reportData.project?.client_author?.display_name || 'العميل المعتمد' }
+										${ reportData.project?.client_author?.display_name || __( 'Client', 'workpress' ) }
 									</div>
-									<div className="wp-signoff-line">التوقيع واستلام المخرجات</div>
+									<div className="wp-signoff-line">${ __( 'Signature & Acceptance', 'workpress' ) }</div>
 								</div>
 
 								<div className="wp-signoff-box">
-									<div className="wp-signoff-role">المدير العام / الإدارة التنفيذية</div>
+									<div className="wp-signoff-role">${ __( 'Executive Management', 'workpress' ) }</div>
 									<div style=${{ fontSize: '0.8rem', color: '#475569' }}>
-										${ reportData.organization?.name || 'الإدارة العليا' }
+										${ reportData.organization?.name || __( 'Executive Management', 'workpress' ) }
 									</div>
-									<div className="wp-signoff-line">الاعتماد النهائي والأرشفة</div>
+									<div className="wp-signoff-line">${ __( 'Final Approval & Archival', 'workpress' ) }</div>
 								</div>
 							</div>
 						</div>
@@ -379,7 +386,7 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 									${ filename }
 								</span>
 								<span style=${{ fontSize: '0.8rem', color: '#64748b' }}>
-									صيغة Markdown القياسية المجهزة للتوثيق الداخلي و GitHub Wiki
+									${ __( 'Standard Markdown format for internal documentation & GitHub Wiki', 'workpress' ) }
 								</span>
 							</div>
 							<textarea 

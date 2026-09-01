@@ -1,4 +1,4 @@
-import { html, createPortal } from '../../utils/html.js';
+import { html, createPortal, __, sprintf } from '../../utils/html.js';
 
 /**
  * Dashboard Perspective Selector & Global Metrics Toolbar
@@ -22,7 +22,7 @@ export default function DashboardPerspectiveToolbar({
 			<div className="wp-filter-group is-flex is-align-items-center" style=${{ gap: '8px' }}>
 				<span className="wp-filter-label is-flex is-align-items-center" style=${{ color: '#64748b', fontSize: '0.8rem' }}>
 					<i className="dashicons dashicons-networking ml-1" style=${{ fontSize: '15px', width: '15px', height: '15px' }}></i>
-					<span>المنظور:</span>
+					<span>${ __( 'Perspective:', 'workpress' ) }</span>
 				</span>
 
 				<div className="buttons are-small mb-0" style=${{ gap: '4px' }}>
@@ -34,7 +34,7 @@ export default function DashboardPerspectiveToolbar({
 							style=${{ height: '28px', padding: '0 10px', fontSize: '0.8rem' }}
 						>
 							<span className="icon is-small"><i className="dashicons dashicons-admin-generic"></i></span>
-							<span className="has-text-weight-bold">الإدارة العليا</span>
+							<span className="has-text-weight-bold">${ __( 'Executive Command', 'workpress' ) }</span>
 						</button>
 					` }
 					${ ( isSuperAdmin || userRoles.includes('editor') || myLedProjects.length > 0 ) && html`
@@ -45,7 +45,7 @@ export default function DashboardPerspectiveToolbar({
 							style=${{ height: '28px', padding: '0 10px', fontSize: '0.8rem' }}
 						>
 							<span className="icon is-small"><i className="dashicons dashicons-businessman"></i></span>
-							<span className="has-text-weight-bold">قيادة المشاريع</span>
+							<span className="has-text-weight-bold">${ __( 'Project Lead', 'workpress' ) }</span>
 						</button>
 					` }
 					<button 
@@ -55,7 +55,7 @@ export default function DashboardPerspectiveToolbar({
 						style=${{ height: '28px', padding: '0 10px', fontSize: '0.8rem' }}
 					>
 						<span className="icon is-small"><i className="dashicons dashicons-edit"></i></span>
-						<span className="has-text-weight-bold">مهامي وتنفيذي</span>
+						<span className="has-text-weight-bold">${ __( 'My Tasks & Focus', 'workpress' ) }</span>
 					</button>
 				</div>
 			</div>
@@ -64,7 +64,7 @@ export default function DashboardPerspectiveToolbar({
 			<div className="wp-filter-actions is-flex is-align-items-center">
 				<span className="wp-filter-counter">
 					<i className="dashicons dashicons-chart-pie" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
-					${ totalProjectsCount } مشاريع • ${ globalProgress }% إنجاز (${ completedTasksCount }/${ totalTasksCount } مهمة)
+					${ sprintf( __( '%d Projects • %d%% Progress (%d/%d Tasks)', 'workpress' ), totalProjectsCount, globalProgress, completedTasksCount, totalTasksCount ) }
 				</span>
 			</div>
 		</div>

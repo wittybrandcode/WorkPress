@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { html, useState, useEffect, useRef, __ } from '../utils/html.js';
 import { contributionsApi, projectsApi, tasksApi } from '../api/client.js';
 import { hooks } from '../utils/hooks.js';
 import { toast } from '../utils/toast.js';
@@ -23,7 +23,7 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, []);
 
-	const cleanContent = contribution.content ? contribution.content.replace( /<[^>]*>?/gm, '' ) : 'لا يوجد تفاصيل للمساهمة.';
+	const cleanContent = contribution.content ? contribution.content.replace( /<[^>]*>?/gm, '' ) : __( 'No additional details provided.', 'workpress' );
 	
 	const descriptionStyle = {
 		display: '-webkit-box',
@@ -47,18 +47,18 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 				<div style=${{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255, 56, 96, 0.15)', zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '1.5rem', backdropFilter: 'blur(3px)' }} onClick=${(e) => e.stopPropagation()}>
 					<div className="box has-text-centered p-4" style=${{ width: '100%', backgroundColor: '#ff3860', color: 'white', border: '1px solid #ff1f4b', boxShadow: '0 8px 24px rgba(255,56,96,0.3)', borderRadius: 0 }}>
 						<span className="icon is-large mb-1"><i className="dashicons dashicons-warning" style=${{ fontSize: '36px', width: '36px', height: '36px' }}></i></span>
-						<h4 className="title is-6 has-text-white mb-2">طلب حذف مساهمة</h4>
+						<h4 className="title is-6 has-text-white mb-2">${ __( 'Trash Contribution Request', 'workpress' ) }</h4>
 						<p className="is-size-7 mb-4" style=${{ opacity: 0.9 }}>
-							<strong>السبب:</strong> ${ contribution.trash_reason || 'غير محدد' }
+							<strong>${ __( 'Reason:', 'workpress' ) }</strong> ${ contribution.trash_reason || __( 'Flexible', 'workpress' ) }
 						</p>
 						<div className="buttons is-centered">
 							<button className="button is-small is-white is-outlined wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onRestore && onRestore(contribution); } }>
 								<span className="icon"><i className="dashicons dashicons-undo"></i></span>
-								<span>رفض واستعادة</span>
+								<span>${ __( 'Restore & Reject', 'workpress' ) }</span>
 							</button>
 							<button className="button is-small is-white has-text-danger has-text-weight-bold wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onHardDelete && onHardDelete(contribution); } }>
 								<span className="icon"><i className="dashicons dashicons-trash"></i></span>
-								<span>حذف نهائي</span>
+								<span>${ __( 'Delete Permanently', 'workpress' ) }</span>
 							</button>
 						</div>
 					</div>
@@ -83,7 +83,7 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 				<!-- Badges Row -->
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 					<span className=${`tag ${contribution.is_accepted ? 'is-success' : 'is-light'}`} style=${{ borderRadius: '0', fontWeight: 'bold' }}>
-						${ contribution.is_accepted ? html`<i className="dashicons dashicons-yes-alt ml-1"></i> معتمد كحل` : ( contribution.type_label || 'مساهمة' ) }
+						${ contribution.is_accepted ? html`<i className="dashicons dashicons-yes-alt ml-1"></i> ${ __( 'Approved Solution', 'workpress' ) }` : ( contribution.type_label || __( 'Contribution', 'workpress' ) ) }
 					</span>
 					<span className="is-size-7 has-text-grey" title=${ formatDateTime( contribution.created_at ) } style=${{ cursor: 'help' }}>
 						${ formatDate( contribution.created_at, { hideYear: true } ) }
@@ -103,7 +103,7 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 					<div className="tags mb-3">
 						<span className="tag is-info is-light is-small" style=${{ borderRadius: '0' }}>
 							<span className="icon is-small ml-1"><i className="dashicons dashicons-paperclip"></i></span>
-							<span>${ contribution.attachments.length } مرفقات</span>
+							<span>${ contribution.attachments.length } ${ __( 'Attachments', 'workpress' ) }</span>
 						</span>
 					</div>
 				` : '' }
@@ -116,10 +116,10 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 				<div className="is-flex is-align-items-center">
 					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" style=${{ gap: '4px' }}>
 						<span className="icon is-small ml-1"><i className=${`dashicons ${contribution.is_client ? 'dashicons-star-filled has-text-warning' : 'dashicons-admin-users'}`}></i></span> 
-						<span>${ contribution.author_name || 'النظام' }</span>
+						<span>${ contribution.author_name || __( 'Staff', 'workpress' ) }</span>
 						${ contribution.is_client ? html`
 							<span className="tag is-warning is-light" style=${{ borderRadius: 0, fontWeight: '800', border: '1px solid #f59e0b', color: '#b45309', background: '#fffbeb', fontSize: '0.65rem', padding: '1px 5px', height: 'auto', marginRight: '4px' }}>
-								مستفيد
+								${ __( 'Client', 'workpress' ) }
 							</span>
 						` : null }
 					</span>
@@ -127,36 +127,36 @@ function ContributionCard( { contribution, onRefresh, onPreview, onAccept, onRev
 
 				<!-- Left side: Actions Dropdown -->
 				<div className="is-flex is-align-items-center">
-					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(contribution); } } title="معاينة سريعة">
+					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(contribution); } } title=${ __( 'View', 'workpress' ) }>
 						<span className="icon"><i className="dashicons dashicons-visibility"></i></span>
 					</button>
 					<div ref=${dropdownRef} className=${`dropdown is-up ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
 						<div className="dropdown-trigger">
-							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title="خيارات المساهمة">
+							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title=${ __( 'Settings', 'workpress' ) }>
 								<span className="icon"><i className="dashicons dashicons-admin-generic"></i></span>
 							</button>
 						</div>
 						<div className="dropdown-menu" id="dropdown-menu" role="menu">
 							<div className="dropdown-content p-0" style=${{borderRadius: '0', border: '1px solid #ededed', boxShadow: '0 4px 12px rgba(0,0,0,0.15)'}}>
 								<a href=${`#/tasks/${contribution.task_id}`} className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>الانتقال للمهمة</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>${ __( 'Go to Task', 'workpress' ) }</span>
 								</a>
 							${ contribution.can_accept ? html`
 								<hr className="dropdown-divider m-0" />
 								${ contribution.is_accepted ? html`
 									<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-warning" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onRevoke && onRevoke(contribution); } }>
-										<span className="icon ml-2"><i className="dashicons dashicons-dismiss"></i></span> <span>إلغاء الاعتماد</span>
+										<span className="icon ml-2"><i className="dashicons dashicons-dismiss"></i></span> <span>${ __( 'Revoke Approval', 'workpress' ) }</span>
 									</a>
 								` : html`
 									<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-success" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onAccept && onAccept(contribution); } }>
-										<span className="icon ml-2"><i className="dashicons dashicons-yes-alt"></i></span> <span>اعتماد كحل واكتمال المهمة</span>
+										<span className="icon ml-2"><i className="dashicons dashicons-yes-alt"></i></span> <span>${ __( 'Accept Solution & Complete Task', 'workpress' ) }</span>
 									</a>
 								` }
 							` : null }
 							${ ! contribution.is_accepted ? html`
 								<hr className="dropdown-divider m-0" />
 								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-danger" onClick=${ (e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(false); onTrashRequest && onTrashRequest(contribution); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>حذف المساهمة</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>${ __( 'Delete Contribution', 'workpress' ) }</span>
 								</a>
 							` : null }
 						</div>
@@ -257,9 +257,9 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleAccept = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'اعتماد المساهمة كحل رسمي للمهمة',
-			message: `هل أنت متأكد من اعتماد هذه المساهمة كحل رسمي للمهمة "${contribution.task_title}"؟ سيؤدي ذلك تلقائياً إلى اكتمال وإغلاق المهمة وإضافتها لمكتبة المعرفة.`,
-			confirmText: 'اعتماد واكتمال المهمة',
+			title: __( 'Accept Contribution as Verified Solution', 'workpress' ),
+			message: `${ __( 'Are you sure you want to accept this contribution as verified solution for task', 'workpress' ) } "${contribution.task_title}"?`,
+			confirmText: __( 'Accept Solution & Complete Task', 'workpress' ),
 			confirmColor: 'is-success',
 			isDangerous: false,
 			requiresReason: false,
@@ -269,13 +269,13 @@ export default function ContributionsPage({ refreshKey }) {
 				contributionsApi.accept( contribution.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم اعتماد الحل واكتمال المهمة بنجاح', 'success' );
+						toast( __( 'Solution accepted and task completed successfully', 'workpress' ), 'success' );
 						fetchContributions();
 						hooks.doAction('workpress_refresh_notifications');
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء اعتماد المساهمة', 'danger' );
+						toast( err.message || __( 'An error occurred during restore', 'workpress' ), 'danger' );
 					} );
 			}
 		});
@@ -284,9 +284,9 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleRevoke = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'إلغاء اعتماد الحل',
-			message: `هل أنت متأكد من إلغاء اعتماد هذا الحل؟ ستتم إعادة فتح المهمة "${contribution.task_title}" للمراجعة وسحب المساهمة من مكتبة المعرفة.`,
-			confirmText: 'إلغاء الاعتماد وإعادة الفتح',
+			title: __( 'Revoke Approval', 'workpress' ),
+			message: `${ __( 'Are you sure you want to revoke approval for solution in task', 'workpress' ) } "${contribution.task_title}"?`,
+			confirmText: __( 'Revoke & Reopen', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDangerous: true,
 			requiresReason: false,
@@ -296,13 +296,13 @@ export default function ContributionsPage({ refreshKey }) {
 				contributionsApi.revoke( contribution.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم إلغاء اعتماد الحل وإعادة فتح المهمة للمراجعة', 'info' );
+						toast( __( 'Approval revoked and task reopened successfully', 'workpress' ), 'info' );
 						fetchContributions();
 						hooks.doAction('workpress_refresh_notifications');
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء إلغاء الاعتماد', 'danger' );
+						toast( err.message || __( 'An error occurred during restore', 'workpress' ), 'danger' );
 					} );
 			}
 		});
@@ -311,25 +311,25 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleTrashRequest = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'طلب حذف مساهمة',
-			message: `هل أنت متأكد من رغبتك في طلب حذف هذه المساهمة التابعة لمهمة "${contribution.task_title}"؟`,
-			confirmText: 'إرسال الطلب',
+			title: __( 'Trash Contribution Request', 'workpress' ),
+			message: `${ __( 'Are you sure you want to request trashing contribution for task', 'workpress' ) } "${contribution.task_title}"?`,
+			confirmText: __( 'Submit Request', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'سبب حذف المساهمة',
+			reasonLabel: __( 'Reason for deletion', 'workpress' ),
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
 				contributionsApi.trashRequest( contribution.id, reason )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم إرسال طلب حذف المساهمة بنجاح', 'info' );
+						toast( __( 'Trash request sent successfully.', 'workpress' ), 'info' );
 						fetchContributions();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء طلب الحذف', 'danger' );
+						toast( err.message || __( 'Failed to send feedback, please try again.', 'workpress' ), 'danger' );
 					} );
 			}
 		});
@@ -340,11 +340,11 @@ export default function ContributionsPage({ refreshKey }) {
 		setContributions( prev => prev.map( c => c.id === contribution.id ? { ...c, is_pending_trash: false } : c ) );
 		contributionsApi.update( contribution.id, { is_pending_trash: false } )
 			.then( () => {
-				toast( 'تمت استعادة المساهمة بنجاح', 'success' );
+				toast( __( 'Contribution restored successfully', 'workpress' ), 'success' );
 				fetchContributions();
 			} )
 			.catch( err => {
-				toast( err.message || 'حدث خطأ أثناء استعادة المساهمة', 'danger' );
+				toast( err.message || __( 'An error occurred during restore', 'workpress' ), 'danger' );
 				fetchContributions();
 			} );
 	};
@@ -352,9 +352,9 @@ export default function ContributionsPage({ refreshKey }) {
 	const handleHardDelete = ( contribution ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'تأكيد الحذف النهائي للمساهمة',
-			message: `هل أنت متأكد من حذف هذه المساهمة ونقلها لسلة المهملات؟`,
-			confirmText: 'حذف',
+			title: __( 'Confirm Permanent Deletion', 'workpress' ),
+			message: __( 'Are you sure you want to permanently delete this item? This action cannot be undone.', 'workpress' ),
+			confirmText: __( 'Delete Permanently', 'workpress' ),
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			requiresReason: false,
@@ -366,12 +366,12 @@ export default function ContributionsPage({ refreshKey }) {
 				contributionsApi.delete( contribution.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم حذف المساهمة بنجاح', 'success' );
+						toast( __( 'Contribution permanently deleted', 'workpress' ), 'success' );
 						fetchContributions();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء الحذف', 'danger' );
+						toast( err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger' );
 						fetchContributions();
 					} );
 			}
@@ -380,7 +380,7 @@ export default function ContributionsPage({ refreshKey }) {
 
 	// Options for Dropdowns
 	const projectOptions = [
-		{ value: '', label: '-- جميع المشاريع --' },
+		{ value: '', label: `-- ${ __( 'All Projects', 'workpress' ) } --` },
 		...projects.map( p => ({ value: p.id, label: p.name }) )
 	];
 
@@ -389,27 +389,27 @@ export default function ContributionsPage({ refreshKey }) {
 		: tasks;
 
 	const taskOptions = [
-		{ value: '', label: '-- جميع المهام --' },
+		{ value: '', label: `-- ${ __( 'All Tasks', 'workpress' ) } --` },
 		...filteredTasks.map( t => ({ value: t.id, label: t.title }) )
 	];
 
 	const authorOptions = [
-		{ value: '', label: '-- جميع الأعضاء --' },
+		{ value: '', label: `-- ${ __( 'All Members', 'workpress' ) } --` },
 		...users.map( u => ({ value: u.id, label: u.name }) )
 	];
 
 	const statusOptions = [
-		{ value: 'all', label: 'جميع الحالات' },
-		{ value: 'accepted', label: 'معتمد كحل ومعرفة' },
-		{ value: 'pending', label: 'قيد المراجعة والنقاش' }
+		{ value: 'all', label: __( 'All Statuses', 'workpress' ) },
+		{ value: 'accepted', label: __( 'Approved Solution', 'workpress' ) },
+		{ value: 'pending', label: __( 'Under Review', 'workpress' ) }
 	];
 
 	const typeOptions = [
-		{ value: 'all', label: 'جميع المساهمات والأنشطة' },
-		{ value: 'work', label: 'أعمال الفريق (استبعاد النظام)' },
+		{ value: 'all', label: __( 'All Contributions & Activities', 'workpress' ) },
+		{ value: 'work', label: __( 'Team Contributions (Exclude System)', 'workpress' ) },
 		...availableTypes.map( t => ({
 			value: t.key,
-			label: `${t.label}${t.is_system ? ' (نظام)' : ''}`
+			label: `${t.label}${t.is_system ? ' (system)' : ''}`
 		}) )
 	];
 
@@ -430,12 +430,12 @@ export default function ContributionsPage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'بحث في تفاصيل ونصوص المساهمات...',
+					placeholder: __( 'Search contributions...', 'workpress' ),
 				}}
 				filters=${[
 					{
 						key: 'project',
-						label: 'المشروع',
+						label: __( 'Project', 'workpress' ),
 						icon: 'dashicons-category',
 						value: selectedProject,
 						onChange: (val) => { setSelectedProject(val); setSelectedTask(''); },
@@ -445,7 +445,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'task',
-						label: 'المهمة',
+						label: __( 'Task', 'workpress' ),
 						icon: 'dashicons-clipboard',
 						value: selectedTask,
 						onChange: setSelectedTask,
@@ -455,7 +455,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'type',
-						label: 'النوع',
+						label: __( 'Type', 'workpress' ),
 						icon: 'dashicons-filter',
 						value: selectedType,
 						onChange: setSelectedType,
@@ -465,7 +465,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'status',
-						label: 'الحالة',
+						label: __( 'Status', 'workpress' ),
 						icon: 'dashicons-yes-alt',
 						value: selectedStatus,
 						onChange: setSelectedStatus,
@@ -475,7 +475,7 @@ export default function ContributionsPage({ refreshKey }) {
 					},
 					{
 						key: 'author',
-						label: 'الكاتب',
+						label: __( 'Author', 'workpress' ),
 						icon: 'dashicons-admin-users',
 						value: selectedAuthor,
 						onChange: setSelectedAuthor,
@@ -485,7 +485,7 @@ export default function ContributionsPage({ refreshKey }) {
 					}
 				]}
 				totalCount=${ contributions.length }
-				counterLabel="مساهمة"
+				counterLabel=${ __( 'Contribution', 'workpress' ) }
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
@@ -493,7 +493,7 @@ export default function ContributionsPage({ refreshKey }) {
 			<!-- Contributions Cards Grid -->
 			${ isLoading ? html`
 				<div className="py-6 mt-4">
-					<${Loader} center=${true} label="جاري تحميل سجل المساهمات..." size="large" />
+					<${Loader} center=${true} label=${ __( 'Loading...', 'workpress' ) } size="large" />
 				</div>
 			` : html`
 				<div className="columns is-multiline">
@@ -519,17 +519,17 @@ export default function ContributionsPage({ refreshKey }) {
 									<i className="dashicons dashicons-share-alt2 has-text-info" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i>
 								</div>
 								<h3 className="title is-5 mb-2 has-text-weight-bold has-text-dark">
-									${ isFilterActive ? 'لا توجد مساهمات مطابقة للفلاتر المحددة' : 'سجل المساهمات فارغ حالياً' }
+									${ isFilterActive ? __( 'No contributions matching selected filters', 'workpress' ) : __( 'Contributions stream is currently empty', 'workpress' ) }
 								</h3>
 								<p className="has-text-grey is-size-6 mb-5" style=${{ maxWidth: '480px', margin: '0 auto' }}>
 									${ isFilterActive 
-										? 'جرّب تعديل الفلاتر أو البحث للوصول إلى المساهمات المستهدفة.' 
-										: 'المساهمات هي الأدلة الفنية وحلول المشكلات التي يقدمها أعضاء الفريق للمهام المشتركة.' }
+										? __( 'Try adjusting search terms or active filters to find what you are looking for.', 'workpress' ) 
+										: __( 'Contributions represent technical solutions and work evidence submitted by team members.', 'workpress' ) }
 								</p>
 								${ isFilterActive && html`
 									<button className="button is-light wp-sharp-button" onClick=${ handleResetFilters }>
 										<span className="icon"><i className="dashicons dashicons-image-rotate"></i></span>
-										<span>إعادة ضبط الفلاتر</span>
+										<span>${ __( 'Reset Filters', 'workpress' ) }</span>
 									</button>
 								` }
 							</div>

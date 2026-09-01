@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf, isRtl } from '../../utils/html.js';
 
 export function getPresetBadge(preset) {
 	switch (preset) {
@@ -27,30 +27,32 @@ export default function WebhookEndpointsList({
 	handleOpenCreate,
 	testingId = null
 }) {
+	const rtl = isRtl();
+
 	return html`
 		<div className="card wp-webhook-table-card">
 			<div className="is-flex is-justify-content-space-between is-align-items-center p-4 has-background-white-ter" style=${{ borderBottom: '1px solid #f1f5f9' }}>
 				<div>
 					<h3 style=${{ fontSize: '1.05rem', fontWeight: '800', color: '#0f172a', margin: 0 }}>
-						قائمة خطافات الويب وقنوات الاستماع الخارجية
+						${ __( 'Webhook Endpoints & Outbound Listeners', 'workpress' ) }
 					</h3>
-					<span style=${{ fontSize: '0.8rem', color: '#64748b' }}>يتم إرسال الأحداث بشكل فوري غير معطل للواجهة مع مهلة زمنية مضبوطة</span>
+					<span style=${{ fontSize: '0.8rem', color: '#64748b' }}>${ __( 'Events are dispatched asynchronously with configurable timeouts.', 'workpress' ) }</span>
 				</div>
 				<button 
-					type="button"
+					type="button" 
 					className="button is-small is-light wp-sharp-button" 
 					onClick=${loadWebhooks} 
 					disabled=${isLoading}
 				>
 					<span className="icon is-small"><i className="dashicons dashicons-update"></i></span>
-					<span>تحديث القائمة</span>
+					<span>${ __( 'Refresh List', 'workpress' ) }</span>
 				</button>
 			</div>
 
 			${isLoading ? html`
 				<div style=${{ padding: '60px', textAlign: 'center', color: '#64748b' }}>
 					<div className="loader" style=${{ margin: '0 auto 16px' }}></div>
-					<p>جاري جلب إعدادات وسجلات الخطافات...</p>
+					<p>${ __( 'Loading webhooks and delivery logs...', 'workpress' ) }</p>
 				</div>
 			` : webhooks.length === 0 ? html`
 				<!-- ZERO STATE -->
@@ -59,20 +61,20 @@ export default function WebhookEndpointsList({
 						<i className="dashicons dashicons-admin-links"></i>
 					</div>
 					<h4 style=${{ fontSize: '1.2rem', fontWeight: '800', color: '#0f172a', marginBottom: '8px' }}>
-						لم يتم تسجيل أي خطافات ويب بعد
+						${ __( 'No webhooks registered yet', 'workpress' ) }
 					</h4>
 					<p style=${{ color: '#64748b', fontSize: '0.9rem', lineHeight: '1.6', marginBottom: '24px' }}>
-						يمكنك إضافة رابط استماع خارجي لتصلك إشعارات فورية على هاتفك أو حاسوبك عبر Discord أو Slack بمجرد اعتماد حل أو تقديم طلب مشروع جديد!
+						${ __( 'Add an external listener URL to receive instant notifications on Discord, Slack, or your custom server whenever events occur!', 'workpress' ) }
 					</p>
 					<div style=${{ display: 'flex', justifyContent: 'center', gap: '12px', flexWrap: 'wrap' }}>
 						<button type="button" className="button wp-sharp-button" onClick=${() => handleOpenCreate('discord')} style=${{ background: '#5865F2', color: '#fff', fontWeight: 'bold' }}>
-							<span>إنشاء تكامل Discord</span>
+							<span>${ __( 'Create Discord Webhook', 'workpress' ) }</span>
 						</button>
 						<button type="button" className="button wp-sharp-button" onClick=${() => handleOpenCreate('slack')} style=${{ background: '#4A154B', color: '#fff', fontWeight: 'bold' }}>
-							<span>إنشاء تكامل Slack</span>
+							<span>${ __( 'Create Slack Webhook', 'workpress' ) }</span>
 						</button>
 						<button type="button" className="button is-dark wp-sharp-button" onClick=${() => handleOpenCreate('generic')} style=${{ fontWeight: 'bold' }}>
-							<span>رابط مخصص (Custom JSON)</span>
+							<span>${ __( 'Custom JSON Endpoint', 'workpress' ) }</span>
 						</button>
 					</div>
 				</div>
@@ -81,12 +83,12 @@ export default function WebhookEndpointsList({
 					<table className="table is-fullwidth is-hoverable" style=${{ margin: 0, fontSize: '0.88rem' }}>
 						<thead>
 							<tr style=${{ background: '#f8fafc', color: '#475569' }}>
-								<th style=${{ padding: '14px 20px', width: '70px', textAlign: 'center' }}>الحالة</th>
-								<th style=${{ padding: '14px 20px' }}>اسم الخطاف والنوع</th>
-								<th style=${{ padding: '14px 20px' }}>رابط النهاية (Endpoint URL)</th>
-								<th style=${{ padding: '14px 20px' }}>الأحداث المشترك بها</th>
-								<th style=${{ padding: '14px 20px' }}>آخر إرسال</th>
-								<th style=${{ padding: '14px 20px', textAlign: 'center', width: '220px' }}>الإجراءات</th>
+								<th style=${{ padding: '14px 20px', width: '70px', textAlign: 'center' }}>${ __( 'Status', 'workpress' ) }</th>
+								<th style=${{ padding: '14px 20px' }}>${ __( 'Name & Type', 'workpress' ) }</th>
+								<th style=${{ padding: '14px 20px' }}>${ __( 'Endpoint URL', 'workpress' ) }</th>
+								<th style=${{ padding: '14px 20px' }}>${ __( 'Subscribed Events', 'workpress' ) }</th>
+								<th style=${{ padding: '14px 20px' }}>${ __( 'Last Delivery', 'workpress' ) }</th>
+								<th style=${{ padding: '14px 20px', textAlign: 'center', width: '220px' }}>${ __( 'Actions', 'workpress' ) }</th>
 							</tr>
 						</thead>
 						<tbody>
@@ -98,12 +100,12 @@ export default function WebhookEndpointsList({
 											type="button"
 											className="wp-webhook-switch-btn"
 											onClick=${() => handleToggleActive(item)}
-											title=${item.active ? 'انقر للتعطيل' : 'انقر للتفعيل'}
+											title=${item.active ? __( 'Click to deactivate', 'workpress' ) : __( 'Click to activate', 'workpress' )}
 											style=${{ background: item.active ? '#10b981' : '#cbd5e1' }}
 										>
 											<span 
 												className="wp-webhook-switch-indicator"
-												style=${{ left: item.active ? '15px' : '3px' }}
+												style=${{ [rtl ? 'right' : 'left']: item.active ? '15px' : '3px' }}
 											></span>
 										</button>
 									</td>
@@ -158,7 +160,7 @@ export default function WebhookEndpointsList({
 												` : null}
 											</div>
 										` : html`
-											<span style=${{ fontSize: '0.8rem', color: '#94a3b8' }}>— لم يُرسل بعد —</span>
+											<span style=${{ fontSize: '0.8rem', color: '#94a3b8' }}>— ${ __( 'Not dispatched yet', 'workpress' ) } —</span>
 										`}
 									</td>
 
@@ -169,16 +171,16 @@ export default function WebhookEndpointsList({
 												type="button"
 												className=${`button is-small is-light wp-sharp-button ${testingId === item.id ? 'is-loading' : ''}`}
 												onClick=${() => handleQuickTest(item)}
-												title="إرسال فحص تجريبي لحظي"
+												title=${ __( 'Send test payload', 'workpress' ) }
 												style=${{ fontWeight: 'bold', color: '#3b82f6' }}
 											>
-												<span>اختبار</span>
+												<span>${ __( 'Test', 'workpress' ) }</span>
 											</button>
 											<button 
 												type="button"
 												className="button is-small is-light wp-sharp-button"
 												onClick=${() => handleOpenEdit(item)}
-												title="تعديل الخطاف"
+												title=${ __( 'Edit Webhook', 'workpress' ) }
 											>
 												<span className="icon is-small"><i className="dashicons dashicons-edit"></i></span>
 											</button>
@@ -186,7 +188,7 @@ export default function WebhookEndpointsList({
 												type="button"
 												className="button is-small is-light is-danger wp-sharp-button"
 												onClick=${() => handleDelete(item.id, item.name)}
-												title="حذف الخطاف"
+												title=${ __( 'Delete Webhook', 'workpress' ) }
 											>
 												<span className="icon is-small"><i className="dashicons dashicons-trash"></i></span>
 											</button>

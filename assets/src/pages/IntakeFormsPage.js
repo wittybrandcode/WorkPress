@@ -1,4 +1,4 @@
-import { html, useState } from '../utils/html.js';
+import { html, useState, __, sprintf } from '../utils/html.js';
 import { settingsApi } from '../api/client.js';
 import { toast } from '../utils/toast.js';
 import sound from '../utils/sound.js';
@@ -14,7 +14,7 @@ export { FIELD_PRIMITIVES };
  *
  * @package WorkPress
  * @subpackage Pages/Forms
- * @version 2.2.3
+ * @version 2.3.0
  */
 export default function IntakeFormsPage() {
 	const wpSettings = window.workpressSettings || {};
@@ -37,13 +37,13 @@ export default function IntakeFormsPage() {
 		const newForm = {
 			...DEFAULT_UNIVERSAL_FORM,
 			id: 'form_' + Date.now(),
-			name: `نموذج طلب جديد (${forms.length + 1})`,
+			name: `${ __( 'New Request Form Template', 'workpress' ) } (${forms.length + 1})`,
 			specs: [
 				{
 					id: 'spec_' + Date.now(),
 					type: 'select_custom',
-					label: 'نوع الخدمة أو الطلب:',
-					options: ['الخيار الأول القياسي', 'الخيار الثاني المتقدم'],
+					label: __( 'Service or Request Type:', 'workpress' ),
+					options: [ __( 'Standard Option 1', 'workpress' ), __( 'Advanced Option 2', 'workpress' ) ],
 					required: true
 				}
 			]
@@ -52,12 +52,12 @@ export default function IntakeFormsPage() {
 		setForms(updated);
 		setActiveIdx(updated.length - 1);
 		sound.play('button');
-		toast('تم إنشاء قالب نموذج جديد.', 'info');
+		toast( __( 'New form template created.', 'workpress' ), 'info' );
 	};
 
 	const handleDeleteFormTemplate = (idxToDelete) => {
 		if (forms.length <= 1) {
-			toast('يجب الإبقاء على نموذج طلب واحد على الأقل.', 'warning');
+			toast( __( 'At least one intake form template must remain.', 'workpress' ), 'warning' );
 			sound.play('caution');
 			return;
 		}
@@ -65,7 +65,7 @@ export default function IntakeFormsPage() {
 		setForms(updated);
 		setActiveIdx(Math.max(0, activeIdx - 1));
 		sound.play('button');
-		toast('تم حذف النموذج.', 'info');
+		toast( __( 'Template deleted.', 'workpress' ), 'info' );
 	};
 
 	const updateCurrentForm = (key, val) => {
@@ -95,7 +95,7 @@ export default function IntakeFormsPage() {
 		specs.push(newSpec);
 		updateCurrentForm('specs', specs);
 		sound.play('button');
-		toast(`تمت إضافة خانة: ${prim.label.split('(')[0]}`, 'success');
+		toast( sprintf( __( 'Added field: %s', 'workpress' ), prim.label.split('(')[0] ), 'success' );
 	};
 
 	// Move element up/down on canvas
@@ -116,7 +116,7 @@ export default function IntakeFormsPage() {
 		const specs = currentForm.specs.filter((_, i) => i !== sIdx);
 		updateCurrentForm('specs', specs);
 		sound.play('button');
-		toast('تمت إزالة الخانة من النموذج.', 'info');
+		toast( __( 'Field removed from template.', 'workpress' ), 'info' );
 	};
 
 	const handleUpdateSpec = (sIdx, key, val) => {
@@ -175,12 +175,12 @@ export default function IntakeFormsPage() {
 			if (window.workpressSettings) {
 				window.workpressSettings.intake_forms_schema = forms;
 			}
-			toast('تم حفظ واعتماد كافة نماذج استقبال الطلبات بنجاح', 'success');
+			toast( __( 'All intake forms saved and published successfully', 'workpress' ), 'success' );
 			sound.play('celebration');
 		}).catch((err) => {
 			setIsSaving(false);
 			console.error(err);
-			toast('حدث خطأ أثناء حفظ النماذج.', 'danger');
+			toast( __( 'An error occurred while saving forms.', 'workpress' ), 'danger' );
 			sound.play('caution');
 		});
 	};

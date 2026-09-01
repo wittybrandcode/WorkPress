@@ -1,4 +1,4 @@
-import { html, useState, Fragment } from '../../utils/html.js';
+import { html, useState, Fragment, __, sprintf, isRtl } from '../../utils/html.js';
 import Modal from '../modals/Modal.js';
 import ConfirmModal from '../modals/ConfirmModal.js';
 import ContributionComments from './ContributionComments.js';
@@ -9,6 +9,7 @@ import { contributionsApi } from '../../api/client.js';
 
 export default function ContributionDetailModal({ isActive, onClose, contribution, onStatusChange }) {
 	const [confirmConfig, setConfirmConfig] = useState(null);
+	const rtl = isRtl();
 	
 	if (!contribution) return null;
 
@@ -16,38 +17,38 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 
 	const handleAccept = () => {
 		setConfirmConfig({
-			title: 'اعتماد المساهمة كحل رسمي',
-			message: 'هل أنت متأكد من اعتماد هذه المساهمة كحل رسمي للمهمة؟ سيؤدي ذلك تلقائياً إلى إغلاق واكتمال المهمة، وإضافتها إلى قاعدة المعرفة.',
-			confirmText: 'اعتماد واكتمال المهمة',
+			title: __( 'Approve Contribution as Official Resolution', 'workpress' ),
+			message: __( 'Are you sure you want to approve this contribution as official resolution? This will automatically close and complete the task, archiving it into knowledge base.', 'workpress' ),
+			confirmText: __( 'Approve & Complete', 'workpress' ),
 			confirmColor: 'is-success',
 			isDanger: false,
 			onConfirm: () => {
 				contributionsApi.accept(contribution.id)
 					.then( () => {
-						toast('تم اعتماد الحل واكتمال المهمة بنجاح', 'success');
+						toast( __( 'Solution approved and task completed successfully', 'workpress' ), 'success' );
 						if (onStatusChange) onStatusChange();
 						onClose();
 					} )
-					.catch( err => toast(err.message || 'حدث خطأ أثناء اعتماد الحل', 'danger') );
+					.catch( err => toast(err.message || __( 'An error occurred while approving solution', 'workpress' ), 'danger') );
 			}
 		});
 	};
 
 	const handleRevoke = () => {
 		setConfirmConfig({
-			title: 'إلغاء اعتماد الحل',
-			message: 'هل أنت متأكد من إلغاء اعتماد هذا الحل؟ ستتم إعادة فتح المهمة للمراجعة وسحب المساهمة من قاعدة المعرفة.',
-			confirmText: 'إلغاء الاعتماد وإعادة الفتح',
+			title: __( 'Revoke Solution Approval', 'workpress' ),
+			message: __( 'Are you sure you want to revoke this solution? The task will be reopened for review and removed from knowledge base.', 'workpress' ),
+			confirmText: __( 'Revoke Approval', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDanger: true,
 			onConfirm: () => {
 				contributionsApi.revoke(contribution.id)
 					.then( () => {
-						toast('تم إلغاء اعتماد الحل وإعادة فتح المهمة للمراجعة', 'info');
+						toast( __( 'Solution revoked and task reopened', 'workpress' ), 'info' );
 						if (onStatusChange) onStatusChange();
 						onClose();
 					} )
-					.catch( err => toast(err.message || 'حدث خطأ أثناء إلغاء الاعتماد', 'danger') );
+					.catch( err => toast(err.message || __( 'An error occurred while revoking approval', 'workpress' ), 'danger') );
 			}
 		});
 	};
@@ -59,22 +60,22 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 					${ isAccepted ? html`
 						<button className="button is-warning is-light wp-sharp-button is-flex is-align-items-center" onClick=${handleRevoke}>
 							<span className="icon"><i className="dashicons dashicons-undo"></i></span>
-							<span>إلغاء الاعتماد المعرفي</span>
+							<span>${ __( 'Revoke Approval', 'workpress' ) }</span>
 						</button>
 					` : html`
 						<button className="button is-success wp-sharp-button is-flex is-align-items-center" onClick=${handleAccept}>
 							<span className="icon"><i className="dashicons dashicons-yes-alt"></i></span>
-							<span>اعتماد كحل واكتمال المهمة</span>
+							<span>${ __( 'Approve Solution', 'workpress' ) }</span>
 						</button>
 					` }
 				` : null }
 				<a href=${`#/tasks/${contribution.task_id}`} className="button is-light wp-sharp-button is-flex is-align-items-center" onClick=${onClose}>
 					<span className="icon"><i className="dashicons dashicons-external"></i></span>
-					<span>الانتقال للمهمة</span>
+					<span>${ __( 'Open Workspace', 'workpress' ) }</span>
 				</a>
 			</div>
 			<button className="button is-light wp-sharp-button" onClick=${onClose}>
-				إغلاق
+				${ __( 'Close', 'workpress' ) }
 			</button>
 		</div>
 	`;
@@ -84,7 +85,7 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title="تفاصيل المساهمة المعرفية" 
+			title=${ __( 'Contribution Details', 'workpress' ) } 
 			footer=${ footer }
 			size="wp-mega-modal"
 		>
@@ -95,10 +96,9 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 							<i className="dashicons dashicons-yes-alt" style=${{ fontSize: '24px' }}></i>
 						</span>
 						<div>
-							<strong className="has-text-success-dark">هذه المساهمة معتمدة رسمياً كحل معتمد للمهمة</strong>
+							<strong className="has-text-success-dark">${ __( 'Official resolution approved and archived in knowledge base.', 'workpress' ) }</strong>
 							<p className="is-size-7 has-text-grey-dark mt-1">
-								أدى الاعتماد إلى إغلاق المهمة وإدراج الحل في مكتبة المعرفة الدائمة.
-								${ contribution.accepted_at ? html` (بتاريخ: ${ formatDate(contribution.accepted_at) })` : '' }
+								${ contribution.accepted_at ? sprintf( __( 'Approved date: %s', 'workpress' ), formatDate(contribution.accepted_at) ) : '' }
 							</p>
 						</div>
 					</div>
@@ -114,17 +114,14 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 				<div className="is-flex is-align-items-center mb-4 pb-3 wp-border-bottom">
 					<figure className="image is-48x48 m-0 mr-3" style=${{ position: 'relative' }}>
 						<img src=${ contribution.author_avatar || '' } alt=${ contribution.author_name } style=${{ borderRadius: 0, border: contribution.is_client ? '2px solid #f59e0b' : '1px solid #cbd5e1', backgroundColor: '#e2e8f0' }} />
-						${ contribution.is_client ? html`
-							<span style=${{ position: 'absolute', bottom: '-4px', left: '-4px', background: '#f59e0b', color: '#fff', fontSize: '11px', padding: '1px 4px', fontWeight: '900', lineHeight: 1 }}>⭐</span>
-						` : null }
 					</figure>
 					<div className="is-flex-grow-1">
 						<div className="is-flex is-justify-content-space-between is-align-items-center">
 							<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
-								<h3 className="title is-6 mb-1">${ contribution.author_name || 'مساهم' }</h3>
+								<h3 className="title is-6 mb-1">${ contribution.author_name || __( 'Contributor', 'workpress' ) }</h3>
 								${ contribution.is_client ? html`
 									<span className="tag is-warning is-light" style=${{ borderRadius: 0, fontWeight: '800', border: '1px solid #f59e0b', color: '#b45309', background: '#fffbeb', fontSize: '0.72rem', padding: '1px 6px', height: 'auto' }}>
-										 عميل
+										${ __( 'Client', 'workpress' ) }
 									</span>
 								` : null }
 							</div>
@@ -132,11 +129,11 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 						</div>
 						<div className="tags mb-0">
 							<span className="tag is-info is-light" style=${{ borderRadius: 0 }}>
-								${ contribution.type_label || 'مساهمة' }
+								${ contribution.type_label || __( 'Contribution', 'workpress' ) }
 							</span>
 							${ isAccepted ? html`
 								<span className="tag is-success" style=${{ borderRadius: 0, fontWeight: 'bold' }}>
-									<i className="dashicons dashicons-yes-alt ml-1"></i> معتمد كحل
+									<i className=${`dashicons dashicons-yes-alt ${ rtl ? 'ml-1' : 'mr-1' }`}></i> ${ __( 'Approved as official solution', 'workpress' ) }
 								</span>
 							` : null }
 						</div>
@@ -146,7 +143,7 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 				${ (contribution.cover_url || (contribution.payload && contribution.payload.cover_url)) ? html`
 					<div className="mb-4 box p-1 wp-border">
 						<figure className="image is-2by1 m-0">
-							<img src=${ contribution.cover_url || contribution.payload.cover_url } alt="المرفق" className="has-background-light" style=${{ objectFit: 'contain' }} />
+							<img src=${ contribution.cover_url || contribution.payload.cover_url } alt=${ __( 'Attachment', 'workpress' ) } className="has-background-light" style=${{ objectFit: 'contain' }} />
 						</figure>
 					</div>
 				` : null }
@@ -155,7 +152,7 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 
 				${ contribution.attachments && contribution.attachments.length > 0 ? html`
 					<div className="mt-4 pt-3 wp-border-top">
-						<h4 className="title is-6 mb-2">المرفقات والوثائق (${ contribution.attachments.length })</h4>
+						<h4 className="title is-6 mb-2">${ sprintf( __( 'Attachments (%d)', 'workpress' ), contribution.attachments.length ) }</h4>
 						<${MultiFilePicker} attachments=${ contribution.attachments } readOnly=${ true } />
 					</div>
 				` : null }
@@ -177,7 +174,7 @@ export default function ContributionDetailModal({ isActive, onClose, contributio
 				message=${ confirmConfig.message }
 				confirmText=${ confirmConfig.confirmText }
 				confirmColor=${ confirmConfig.confirmColor }
-				cancelText="إلغاء"
+				cancelText=${ __( 'Cancel', 'workpress' ) }
 				isDangerous=${ confirmConfig.isDanger }
 				onConfirm=${ () => {
 					confirmConfig.onConfirm();

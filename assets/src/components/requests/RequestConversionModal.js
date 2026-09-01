@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf } from '../../utils/html.js';
 import MemberSelect from '../ui/MemberSelect.js';
 
 /**
@@ -25,28 +25,28 @@ export default function RequestConversionModal({
 			<div className="modal-card" style=${{ maxWidth: '560px' }}>
 				<header className="modal-card-head" style=${{ backgroundColor: '#1e293b' }}>
 					<p className="modal-card-title has-text-white is-size-6 has-text-weight-bold">
-						اعتماد وتأسيس المشروع رسميًا في المنظومة
+						${ __( 'Approve & Initialize Project Workspace', 'workpress' ) }
 					</p>
 					<button className="delete" aria-label="close" onClick=${() => setApprovingProject( null )}></button>
 				</header>
 
 				<section className="modal-card-body p-5">
 					<div className="notification is-success is-light p-3 mb-4" style=${{ fontSize: '0.88rem' }}>
-						<strong>المشروع المطلوب اعتماده:</strong> ${approvingProject.name} (${approvingProject.prefix})
+						<strong>${ __( 'Project to approve:', 'workpress' ) }</strong> ${approvingProject.name} (${approvingProject.prefix})
 						<br />
 						<span className="is-size-7 has-text-grey">
-							سيتم تحويل حالة المشروع إلى <strong>نشط (Active)</strong> وتدشينه وإشعار العميل فوراً في بوابته.
+							${ __( 'The project status will be converted to Active and launched, notifying the client in their portal.', 'workpress' ) }
 						</span>
 					</div>
 
 					<div className="field mb-4">
-						<label className="label is-small">تعيين مدير / قائد للمشروع (Project Lead):</label>
+						<label className="label is-small">${ __( 'Assign Project Lead:', 'workpress' ) }</label>
 						<div className="control">
 							<${MemberSelect}
 								users=${users}
 								value=${selectedLeadId}
 								onChange=${(uid) => setSelectedLeadId(uid)}
-								placeholder="-- اختر قائد المشروع من الفريق الفني --"
+								placeholder=${ `-- ${ __( 'Select a team member...', 'workpress' ) } --` }
 							/>
 						</div>
 					</div>
@@ -54,14 +54,14 @@ export default function RequestConversionModal({
 					<div className="columns">
 						<div className="column is-6">
 							<div className="field">
-								<label className="label is-small">الميزانية المعتمدة:</label>
+								<label className="label is-small">${ __( 'Approved Budget:', 'workpress' ) }</label>
 								<div className="control">
 									<input
 										type="text"
 										className="input is-small wp-sharp-input"
 										value=${approvedBudget}
 										onInput=${e => setApprovedBudget( e.target.value )}
-										placeholder="الميزانية المتفق عليها..."
+										placeholder=${ __( 'Agreed budget...', 'workpress' ) }
 									/>
 								</div>
 							</div>
@@ -69,7 +69,7 @@ export default function RequestConversionModal({
 
 						<div className="column is-6">
 							<div className="field">
-								<label className="label is-small">تاريخ التسليم المستهدف:</label>
+								<label className="label is-small">${ __( 'Target Delivery Date:', 'workpress' ) }</label>
 								<div className="control">
 									<input
 										type="date"
@@ -85,7 +85,7 @@ export default function RequestConversionModal({
 
 				<footer className="modal-card-foot is-justify-content-space-between p-4">
 					<button className="button is-light wp-sharp-button" onClick=${() => setApprovingProject( null )} disabled=${isApproving}>
-						إلغاء
+						${ __( 'Cancel', 'workpress' ) }
 					</button>
 					<button 
 						className=${`button is-success wp-sharp-button has-text-weight-bold ${isApproving ? 'is-loading' : ''}`}
@@ -94,7 +94,7 @@ export default function RequestConversionModal({
 						style=${{ backgroundColor: '#10b981', color: '#fff' }}
 					>
 						<span className="icon is-small"><i className="dashicons dashicons-yes-alt"></i></span>
-						<span>تأكيد الاعتماد وبدء التنفيذ</span>
+						<span>${ __( 'Confirm & Launch Project', 'workpress' ) }</span>
 					</button>
 				</footer>
 			</div>

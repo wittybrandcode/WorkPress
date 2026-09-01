@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __, isRtl, sprintf } from '../../utils/html.js';
 import { getMonthName, DAY_NAMES, formatDate, parseDate, formatNumber } from '../../utils/datetime.js';
 import sound from '../../utils/sound.js';
 
@@ -8,7 +8,7 @@ import sound from '../../utils/sound.js';
  * Fully custom zero-build interactive calendar & time engine.
  * Includes:
  * 1. Quick Days Row: +1, +3, +7, +14, +30
- * 2. Quick Hours Row: +1س, +3س, +6س
+ * 2. Quick Hours Row: +1h, +3h, +6h
  * 3. Interactive Full Month Calendar Grid (1 to 31)
  * 4. Time Picker Section with Presets
  * 5. High-Contrast Institutional Confirmation
@@ -18,8 +18,10 @@ export default function DatePicker( {
 	onSelect,
 	onClose,
 	showTime = true,
-	title = 'إعادة جدولة الموعد المستهدف'
+	title = null
 } ) {
+	const defaultTitle = title || __( 'Reschedule Target Deadline', 'workpress' );
+	const rtl = isRtl();
 	const currentInitial = initialDate ? parseDate( initialDate ) : new Date();
 	const [ viewMonth, setViewMonth ] = useState( currentInitial ? currentInitial.getMonth() : new Date().getMonth() );
 	const [ viewYear, setViewYear ] = useState( currentInitial ? currentInitial.getFullYear() : new Date().getFullYear() );
@@ -147,22 +149,23 @@ export default function DatePicker( {
 	};
 
 	const quickTimePresets = [ '09:00', '12:00', '15:00', '18:00', '23:59' ];
+	const weekdayAbbr = rtl ? [ 'ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س' ] : [ 'Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa' ];
 
 	return html`
-		<div dir="rtl" className="workpress-custom-datepicker" style=${{ backgroundColor: '#ffffff', border: '2px solid #0f172a', width: '330px', boxShadow: '0 16px 40px rgba(0,0,0,0.25)', userSelect: 'none', borderRadius: 0 }} onClick=${ ( e ) => e.stopPropagation() }>
+		<div dir=${ rtl ? 'rtl' : 'ltr' } className="workpress-custom-datepicker" style=${{ backgroundColor: '#ffffff', border: '2px solid #0f172a', width: '330px', boxShadow: '0 16px 40px rgba(0,0,0,0.25)', userSelect: 'none', borderRadius: 0 }} onClick=${ ( e ) => e.stopPropagation() }>
 			
 			<!-- Calendar Header Bar -->
 			<div style=${{ backgroundColor: '#0f172a', color: '#ffffff', padding: '0.65rem 0.85rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
 				<div style=${{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.85rem', fontWeight: '900' }}>
 					<i className="dashicons dashicons-calendar-alt" style=${{ color: '#38bdf8', fontSize: '16px' }}></i>
-					<span>${ title }</span>
+					<span>${ defaultTitle }</span>
 				</div>
 
 				${ onClose ? html`
 					<button 
 						type="button" 
 						onClick=${ onClose }
-						title="إغلاق"
+						title=${ __( 'Close', 'workpress' ) }
 						style=${{ background: 'transparent', border: 'none', color: '#ffffff', width: '24px', height: '24px', display: 'flex', alignItems: 'center', justifyContent: 'center', cursor: 'pointer', fontSize: '18px', padding: 0 }}
 					>
 						<i className="dashicons dashicons-no-alt" style=${{ fontSize: '16px' }}></i>
@@ -170,13 +173,13 @@ export default function DatePicker( {
 				` : null }
 			</div>
 
-			<!-- Quick Extensions Toolbar (السطرين السريعين) -->
+			<!-- Quick Extensions Toolbar -->
 			<div style=${{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '0.6rem 0.85rem', display: 'flex', flexDirection: 'column', gap: '6px' }}>
 				
 				<!-- Row 1: Days Extension (+1, +3, +7, +14, +30) -->
 				<div style=${{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
 					<span style=${{ fontSize: '0.72rem', fontWeight: '800', color: '#475569', minWidth: '46px' }}>
-						الأيام:
+						${ __( 'Days:', 'workpress' ) }
 					</span>
 					<div style=${{ display: 'flex', gap: '4px', flex: 1 }}>
 						${ [ 1, 3, 7, 14, 30 ].map( d => html`
@@ -198,7 +201,7 @@ export default function DatePicker( {
 									color: '#0f172a'
 								}}
 								onClick=${ () => handleQuickExtendDays( d ) }
-								title=${ `تمديد +${ d } يوم` }
+								title=${ sprintf( __( '+%d days', 'workpress' ), d ) }
 							>
 								+${ d }
 							</button>
@@ -209,7 +212,7 @@ export default function DatePicker( {
 				<!-- Row 2: Hours Extension (+1, +3, +6) -->
 				<div style=${{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '6px' }}>
 					<span style=${{ fontSize: '0.72rem', fontWeight: '800', color: '#475569', minWidth: '46px' }}>
-						الساعات:
+						${ __( 'Hours:', 'workpress' ) }
 					</span>
 					<div style=${{ display: 'flex', gap: '4px', flex: 1 }}>
 						${ [ 1, 3, 6 ].map( h => html`
@@ -231,9 +234,9 @@ export default function DatePicker( {
 									color: '#2563eb'
 								}}
 								onClick=${ () => handleQuickExtendHours( h ) }
-								title=${ `تمديد +${ h } ساعات` }
+								title=${ sprintf( __( '+%d hours', 'workpress' ), h ) }
 							>
-								+${ h }س
+								+${ h }${ rtl ? 'س' : 'h' }
 							</button>
 						` ) }
 					</div>
@@ -245,10 +248,10 @@ export default function DatePicker( {
 				<button 
 					type="button" 
 					className="wp-icon-btn is-small"
-					onClick=${ handleNextMonth }
-					title="الشهر السابق"
+					onClick=${ rtl ? handleNextMonth : handlePrevMonth }
+					title=${ __( 'Previous Month', 'workpress' ) }
 				>
-					<i className="dashicons dashicons-arrow-right-alt2"></i>
+					<i className=${ rtl ? 'dashicons dashicons-arrow-right-alt2' : 'dashicons dashicons-arrow-left-alt2' }></i>
 				</button>
 
 				<div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -265,26 +268,26 @@ export default function DatePicker( {
 							setViewYear( now.getFullYear() );
 							sound.play( 'button' );
 						} }
-						title="الرجوع الفوري لتاريخ اليوم"
+						title=${ __( 'Jump to today', 'workpress' ) }
 						style=${{ cursor: 'pointer' }}
 					>
-						اليوم
+						${ __( 'Today', 'workpress' ) }
 					</button>
 				</div>
 
 				<button 
 					type="button" 
 					className="wp-icon-btn is-small"
-					onClick=${ handlePrevMonth }
-					title="الشهر التالي"
+					onClick=${ rtl ? handlePrevMonth : handleNextMonth }
+					title=${ __( 'Next Month', 'workpress' ) }
 				>
-					<i className="dashicons dashicons-arrow-left-alt2"></i>
+					<i className=${ rtl ? 'dashicons dashicons-arrow-left-alt2' : 'dashicons dashicons-arrow-right-alt2' }></i>
 				</button>
 			</div>
 
 			<!-- Weekday Names Header -->
 			<div style=${{ display: 'grid', gridTemplateColumns: 'repeat(7, 1fr)', backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0', padding: '6px 4px', textAlign: 'center' }}>
-				${ [ 'ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س' ].map( ( dName, idx ) => html`
+				${ weekdayAbbr.map( ( dName, idx ) => html`
 					<div key=${ idx } style=${{ fontSize: '0.72rem', fontWeight: '800', color: ( idx === 5 || idx === 6 ) ? '#94a3b8' : '#334155' }}>
 						${ dName }
 					</div>
@@ -347,7 +350,7 @@ export default function DatePicker( {
 					<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '6px' }}>
 						<span style=${{ fontSize: '0.74rem', fontWeight: '800', color: '#0f172a', display: 'flex', alignItems: 'center', gap: '4px' }}>
 							<i className="dashicons dashicons-clock" style=${{ color: '#64748b', fontSize: '14px' }}></i>
-							<span>توقيت التسليم:</span>
+							<span>${ __( 'Delivery Time:', 'workpress' ) }</span>
 						</span>
 						
 						<input 
@@ -389,7 +392,7 @@ export default function DatePicker( {
 			<!-- Action Footer -->
 			<div style=${{ padding: '0.65rem 0.85rem', borderTop: '1px solid #e2e8f0', backgroundColor: '#ffffff' }}>
 				<div style=${{ fontSize: '0.72rem', color: '#475569', marginBottom: '6px', display: 'flex', justifyContent: 'space-between' }}>
-					<span>الموعد المختار:</span>
+					<span>${ __( 'Selected Target Date:', 'workpress' ) }</span>
 					<strong style=${{ color: '#0f172a' }}>
 						${ formatDate( selectedDate ) } ${ showTime ? `(${ selectedTime })` : '' }
 					</strong>
@@ -401,7 +404,7 @@ export default function DatePicker( {
 					style=${{ height: '34px', backgroundColor: '#0f172a', color: '#ffffff', fontWeight: '900', fontSize: '0.82rem', border: '1px solid #0f172a' }}
 					onClick=${ handleConfirm }
 				>
-					<span>اعتماد وحفظ الموعد المستهدف</span>
+					<span>${ __( 'Confirm & Save Target Deadline', 'workpress' ) }</span>
 				</button>
 			</div>
 		</div>

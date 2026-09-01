@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __, isRtl } from '../../utils/html.js';
 import { projectsApi } from '../../api/client.js';
 import Modal from '../modals/Modal.js';
 import WpEditor from '../ui/WpEditor.js';
@@ -15,14 +15,15 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 	const [ dueAt, setDueAt ] = useState( '' );
 	const [ featuredImage, setFeaturedImage ] = useState( null );
 	const [ featuredImageUrl, setFeaturedImageUrl ] = useState( '' );
+	const rtl = isRtl();
 	
 	const [ isSaving, setIsSaving ] = useState( false );
 
 	const statusOptions = [
-		{ value: 'active', label: 'نشط (Active)' },
-		{ value: 'on-hold', label: 'قيد الانتظار (On Hold)' },
-		{ value: 'completed', label: 'مكتمل (Completed)' },
-		{ value: 'cancelled', label: 'ملغى (Cancelled)' }
+		{ value: 'active', label: __( 'Active', 'workpress' ) },
+		{ value: 'on-hold', label: __( 'On Hold', 'workpress' ) },
+		{ value: 'completed', label: __( 'Completed', 'workpress' ) },
+		{ value: 'cancelled', label: __( 'Cancelled', 'workpress' ) }
 	];
 
 	useEffect( () => {
@@ -65,23 +66,23 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 			: projectsApi.create( data );
 			
 		request.then( () => {
-			toast( project && project.id ? 'تم تحديث المشروع بنجاح' : 'تم إنشاء المشروع بنجاح', 'success' );
+			toast( project && project.id ? __( 'Project updated successfully', 'workpress' ) : __( 'Project created successfully', 'workpress' ), 'success' );
 			onSave();
 			onClose();
 		} ).catch( err => {
 			console.error( 'Error saving project:', err );
-			toast( 'حدث خطأ أثناء حفظ المشروع', 'danger' );
+			toast( __( 'An error occurred while saving project', 'workpress' ), 'danger' );
 		} ).finally( () => setIsSaving( false ) );
 	};
 
 	const footer = html`
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
 			<div>
-				${ !name.trim() && html`<span className="has-text-grey is-size-7">اسم المشروع مطلوب للمتابعة</span>` }
+				${ !name.trim() && html`<span className="has-text-grey is-size-7">${ __( 'Project name is required', 'workpress' ) }</span>` }
 			</div>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
 				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>
-					إلغاء
+					${ __( 'Cancel', 'workpress' ) }
 				</button>
 				<button 
 					className=${ `button is-primary wp-sharp-button ${isSaving ? 'is-loading' : ''}` } 
@@ -89,7 +90,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 					disabled=${ !name.trim() || isSaving }
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>${ project ? 'حفظ التعديلات' : 'إنشاء المشروع' }</span>
+					<span>${ project ? __( 'Save Changes', 'workpress' ) : __( 'Create Project', 'workpress' ) }</span>
 				</button>
 			</div>
 		</div>
@@ -99,7 +100,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title=${ project ? 'تعديل المشروع' : 'مستند مشروع جديد' }
+			title=${ project ? __( 'Edit Project', 'workpress' ) : __( 'Add New Project', 'workpress' ) }
 			footer=${ footer }
 			size="wp-mega-modal"
 		>
@@ -111,12 +112,12 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 						<input 
 							className="input wp-title-input" 
 							type="text" 
-							placeholder="عنوان المشروع..."
+							placeholder=${ __( 'Project Title...', 'workpress' ) }
 							value=${ name }
 							onChange=${ (e) => setName( e.target.value ) }
 							style=${{ 
-								direction: 'rtl', 
-								textAlign: 'right', 
+								direction: rtl ? 'rtl' : 'ltr', 
+								textAlign: rtl ? 'right' : 'left', 
 								borderRadius: 0, 
 								border: '1px solid #e2e8f0', 
 								boxShadow: 'none',
@@ -138,11 +139,11 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 						/>
 					</div>
 
-					<!-- Row 2: Metadata Toolbar (Equal distribution across 100% width) -->
+					<!-- Row 2: Metadata Toolbar -->
 					<div className="wp-metadata-toolbar">
 						<!-- Prefix Field -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">البادئة:</span>
+							<span className="wp-metadata-label">${ __( 'Prefix:', 'workpress' ) }</span>
 							<input 
 								className="input" 
 								type="text" 
@@ -161,7 +162,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 
 						<!-- Custom Status Dropdown -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">الحالة:</span>
+							<span className="wp-metadata-label">${ __( 'Status:', 'workpress' ) }</span>
 							<${CustomSelect}
 								value=${ status }
 								onChange=${ setStatus }
@@ -171,7 +172,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 
 						<!-- Start Date -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">تاريخ البدء:</span>
+							<span className="wp-metadata-label">${ __( 'Start Date:', 'workpress' ) }</span>
 							<input 
 								className="input" 
 								type="date" 
@@ -183,7 +184,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 
 						<!-- Due Date -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">موعد التسليم:</span>
+							<span className="wp-metadata-label">${ __( 'Due Date:', 'workpress' ) }</span>
 							<input 
 								className="input" 
 								type="date" 
@@ -201,7 +202,7 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 						id="project-description-editor"
 						value=${ description }
 						onChange=${ setDescription }
-						placeholder="ابدأ بكتابة تفاصيل المشروع..."
+						placeholder=${ __( 'Write project details...', 'workpress' ) }
 					/>
 				</div>
 			</div>

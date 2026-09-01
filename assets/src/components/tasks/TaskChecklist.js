@@ -1,4 +1,4 @@
-import { html, useState } from '../../utils/html.js';
+import { html, useState, __, isRtl } from '../../utils/html.js';
 import { tasksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -14,6 +14,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 	const [ isAdding, setIsAdding ] = useState( false );
 	const [ editingItemId, setEditingItemId ] = useState( null );
 	const [ editingTitle, setEditingTitle ] = useState( '' );
+	const rtl = isRtl();
 
 	const totalItems = checklists.length;
 	const completedItems = checklists.filter( item => item.is_completed ).length;
@@ -33,7 +34,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'click' );
 		} catch ( err ) {
-			toast( err.message || 'تعذر إضافة عنصر قائمة الفحص', 'error' );
+			toast( err.message || __( 'Could not add checklist item', 'workpress' ), 'error' );
 		} finally {
 			setIsAdding( false );
 		}
@@ -56,7 +57,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'toggle' );
 		} catch ( err ) {
-			toast( err.message || 'تعذر تغيير حالة العنصر', 'error' );
+			toast( err.message || __( 'Could not update checklist item state', 'workpress' ), 'error' );
 		}
 	};
 
@@ -71,7 +72,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'trash' );
 		} catch ( err ) {
-			toast( err.message || 'تعذر حذف العنصر', 'error' );
+			toast( err.message || __( 'Could not delete item', 'workpress' ), 'error' );
 		}
 	};
 
@@ -90,7 +91,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			}
 			sound.play( 'click' );
 		} catch ( err ) {
-			toast( err.message || 'تعذر تحديث العنصر', 'error' );
+			toast( err.message || __( 'Could not update checklist item', 'workpress' ), 'error' );
 		}
 	};
 
@@ -100,9 +101,9 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 			<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
 				<h4 className="title is-6" style=${{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#0f172a', fontWeight: '700' }}>
 					<i className="dashicons dashicons-editor-ul" style=${{ color: '#3b82f6' }}></i>
-					<span>قائمة الفحص والخطوات الإجرائية</span>
+					<span>${ __( 'Checklist & Procedural Steps', 'workpress' ) }</span>
 					${ totalItems > 0 ? html`
-						<span style=${{ fontSize: '0.8rem', fontWeight: '600', color: '#64748b', marginRight: '0.25rem' }}>
+						<span style=${{ fontSize: '0.8rem', fontWeight: '600', color: '#64748b', [rtl ? 'marginRight' : 'marginLeft']: '0.25rem' }}>
 							(${ completedItems }/${ totalItems })
 						</span>
 					` : '' }
@@ -161,21 +162,21 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 											setEditingItemId( item.id );
 											setEditingTitle( item.title );
 										} }
-										title="انقر لتعديل نص العنصر"
+										title=${ __( 'Click to edit item', 'workpress' ) }
 									>
 										${ item.title }
 									</span>
 								` }
 							</div>
 
-							<div style=${{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginRight: '0.5rem' }}>
+							<div style=${{ display: 'flex', alignItems: 'center', gap: '0.25rem', [rtl ? 'marginRight' : 'marginLeft']: '0.5rem' }}>
 								${ isEditing ? html`
 									<button 
 										type="button"
 										className="button is-small is-primary is-light"
 										style=${{ borderRadius: 0, padding: '0 0.5rem', height: '24px' }}
 										onClick=${ () => handleSaveEdit( item.id ) }
-										title="حفظ التعديل"
+										title=${ __( 'Save Edit', 'workpress' ) }
 									>
 										<i className="dashicons dashicons-yes"></i>
 									</button>
@@ -184,7 +185,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 										className="button is-small is-light"
 										style=${{ borderRadius: 0, padding: '0 0.5rem', height: '24px' }}
 										onClick=${ () => setEditingItemId( null ) }
-										title="إلغاء"
+										title=${ __( 'Cancel', 'workpress' ) }
 									>
 										<i className="dashicons dashicons-no-alt"></i>
 									</button>
@@ -194,7 +195,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 										className="button is-small is-ghost"
 										style=${{ padding: '0 0.25rem', height: '24px', color: '#94a3b8', border: 'none' }}
 										onClick=${ () => handleDelete( item.id ) }
-										title="حذف هذا العنصر"
+										title=${ __( 'Delete Item', 'workpress' ) }
 									>
 										<i className="dashicons dashicons-trash" style=${{ fontSize: '16px' }}></i>
 									</button>
@@ -210,7 +211,7 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 				<input 
 					type="text"
 					className="input is-small"
-					placeholder="أضف خطوة فحص إجرائية جديدة... (اضغط Enter للإضافة)"
+					placeholder=${ __( 'Add new checklist step... (Press Enter to add)', 'workpress' ) }
 					value=${ newTitle }
 					onInput=${ ( e ) => setNewTitle( e.target.value ) }
 					disabled=${ isAdding }
@@ -222,8 +223,8 @@ export default function TaskChecklist( { taskId, checklists = [], onUpdate } ) {
 					disabled=${ ! newTitle.trim() || isAdding }
 					style=${{ borderRadius: 0, fontWeight: '600', whiteSpace: 'nowrap' }}
 				>
-					<i className="dashicons dashicons-plus" style=${{ marginLeft: '0.25rem' }}></i>
-					<span>إضافة</span>
+					<i className="dashicons dashicons-plus" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '0.25rem' }}></i>
+					<span>${ __( 'Add', 'workpress' ) }</span>
 				</button>
 			</form>
 		</div>

@@ -1,4 +1,5 @@
 import htm from '../vendor/htm.module.js';
+import { __, _x, _n, sprintf, isRtl, getLocale, getSupportedLanguages } from './i18n.js';
 
 // Universal Element Provider: Supports window.wp.element (Admin React) and window.preact (Standalone Portal)
 const elementProvider = window.wp?.element || window.preact || {};
@@ -18,5 +19,20 @@ export const html = (htm && typeof htm.bind === 'function')
         ? window.htm.bind(createElement) 
         : (strings, ...values) => strings[0];
 
-// Export React / Preact hooks and Component for convenience
-export { createElement, useState, useEffect, useRef, Fragment, Component, createPortal };
+// Export React / Preact hooks, Component, and i18n helpers for convenience
+export { 
+    createElement, 
+    useState, 
+    useEffect, 
+    useRef, 
+    Fragment, 
+    Component, 
+    createPortal,
+    __,
+    _x,
+    _n,
+    sprintf,
+    isRtl,
+    getLocale,
+    getSupportedLanguages
+};

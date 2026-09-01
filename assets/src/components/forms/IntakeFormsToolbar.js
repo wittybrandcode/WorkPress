@@ -1,4 +1,4 @@
-import { html, createPortal } from '../../utils/html.js';
+import { html, createPortal, __, sprintf } from '../../utils/html.js';
 import sound from '../../utils/sound.js';
 
 /**
@@ -20,7 +20,7 @@ export default function IntakeFormsToolbar({
 			<div className="wp-filter-group">
 				<span className="wp-filter-label">
 					<i className="dashicons dashicons-forms"></i>
-					النماذج المتاحة:
+					${ __( 'Available Templates:', 'workpress' ) }
 				</span>
 
 				<div className="buttons are-small mb-0" style=${{ gap: '6px', flexWrap: 'wrap' }}>
@@ -35,7 +35,7 @@ export default function IntakeFormsToolbar({
 							}}
 							style=${{ fontWeight: '700' }}
 						>
-							<span>${f.name || `نموذج ${i + 1}`}</span>
+							<span>${f.name || sprintf( __( 'Form %d', 'workpress' ), i + 1 )}</span>
 						</button>
 					`)}
 
@@ -43,10 +43,10 @@ export default function IntakeFormsToolbar({
 						type="button"
 						className="button is-small is-success is-outlined wp-sharp-button"
 						onClick=${handleAddFormTemplate}
-						title="إضافة قالب نموذج طلب جديد"
+						title=${ __( 'Add new form template', 'workpress' ) }
 					>
 						<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-						<span>نموذج جديد</span>
+						<span>${ __( 'New Template', 'workpress' ) }</span>
 					</button>
 				</div>
 			</div>
@@ -58,7 +58,7 @@ export default function IntakeFormsToolbar({
 					onClick=${() => setShowPreviewModal(true)}
 				>
 					<span className="icon"><i className="dashicons dashicons-visibility"></i></span>
-					<span>معاينة واجهة العميل</span>
+					<span>${ __( 'Preview Client Portal', 'workpress' ) }</span>
 				</button>
 
 				<button
@@ -69,7 +69,7 @@ export default function IntakeFormsToolbar({
 					style=${{ fontWeight: '800', minWidth: '140px' }}
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>حفظ واعتماد النماذج</span>
+					<span>${ __( 'Save & Sync Forms', 'workpress' ) }</span>
 				</button>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf, isRtl } from '../../utils/html.js';
 
 /**
  * Request Detailed Cards Matrix View with Specifications Vault Summary
@@ -9,6 +9,8 @@ export default function RequestCardsView({
 	handleOpenReviewModal,
 	handleOpenRejectModal
 }) {
+	const rtl = isRtl();
+
 	return html`
 		<div className="columns is-multiline">
 			${ filteredRequests.map( p => {
@@ -46,14 +48,14 @@ export default function RequestCardsView({
 									<div>
 										<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
 											<span className="has-text-weight-bold has-text-dark" style=${{ fontSize: '0.98rem' }}>
-												${ p.client ? p.client.display_name : 'عميل مسجل' }
+												${ p.client ? p.client.display_name : __( 'Client', 'workpress' ) }
 											</span>
 											${ p.client && p.client.email ? html`
 												<span className="is-size-7 has-text-grey">(${p.client.email})</span>
 											` : null }
 										</div>
 										<span className="is-size-7 has-text-grey">
-											قالب النموذج: <strong>${p.request_form_id || 'نموذج قياسي'}</strong>
+											${ __( 'Form Template:', 'workpress' ) } <strong>${p.request_form_id || __( 'Default Form', 'workpress' )}</strong>
 										</span>
 									</div>
 								</div>
@@ -61,23 +63,23 @@ export default function RequestCardsView({
 								<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
 									${ isPending ? html`
 										<span className="tag is-warning has-text-weight-bold" style=${{ padding: '0.4rem 0.85rem', backgroundColor: '#fef3c7', color: '#92400e', border: '1px solid #fde68a' }}>
-											بانتظار الفرز
+											${ __( 'Pending Triage', 'workpress' ) }
 										</span>
 									` : ( isUnderReview ? html`
 										<span className="tag is-info has-text-weight-bold" style=${{ padding: '0.4rem 0.85rem', backgroundColor: '#e0f2fe', color: '#0369a1', border: '1px solid #bae6fd' }}>
-											قيد الدراسة الفنية
+											${ __( 'Under Review', 'workpress' ) }
 										</span>
 									` : ( isRejected ? html`
 										<span className="tag is-danger has-text-weight-bold" style=${{ padding: '0.4rem 0.85rem', backgroundColor: '#fee2e2', color: '#991b1b', border: '1px solid #fecaca' }}>
-											غير معتمد (مرفوض)
+											${ __( 'Rejected', 'workpress' ) }
 										</span>
 									` : ( isCompleted ? html`
 										<span className="tag is-success has-text-weight-bold" style=${{ padding: '0.4rem 0.85rem' }}>
-											مكتمل ومسلّم
+											${ __( 'Completed', 'workpress' ) }
 										</span>
 									` : html`
 										<span className="tag is-success is-light has-text-weight-bold" style=${{ padding: '0.4rem 0.85rem', border: '1px solid #a7f3d0' }}>
-											معتمد وقيد التنفيذ
+											${ __( 'Approved / In Progress', 'workpress' ) }
 										</span>
 									` ) ) ) }
 								</div>
@@ -86,15 +88,15 @@ export default function RequestCardsView({
 							<!-- Card Content Body -->
 							<div className="p-5">
 								${ isUnderReview && p.review_notes ? html`
-									<div className="notification is-info is-light p-3 mb-4" style=${{ borderRadius: 0, fontSize: '0.88rem', borderRight: '4px solid #0284c7' }}>
-										<strong>توضيح وملاحظات دراسة الطلب (مرئي للعميل في بوابته):</strong>
+									<div className="notification is-info is-light p-3 mb-4" style=${{ borderRadius: 0, fontSize: '0.88rem', [rtl ? 'borderRight' : 'borderLeft']: '4px solid #0284c7' }}>
+										<strong>${ __( 'Review Notes (Visible to client in portal):', 'workpress' ) }</strong>
 										<p className="mt-1" style=${{ whiteSpace: 'pre-wrap' }}>${p.review_notes}</p>
 									</div>
 								` : null }
 
 								${ isRejected && p.rejection_reason ? html`
-									<div className="notification is-danger is-light p-3 mb-4" style=${{ borderRadius: 0, fontSize: '0.88rem', borderRight: '4px solid #ef4444' }}>
-										<strong>سبب ومبررات عدم الاعتماد (مرئي للعميل في بوابته):</strong>
+									<div className="notification is-danger is-light p-3 mb-4" style=${{ borderRadius: 0, fontSize: '0.88rem', [rtl ? 'borderRight' : 'borderLeft']: '4px solid #ef4444' }}>
+										<strong>${ __( 'Rejection Reason (Visible to client in portal):', 'workpress' ) }</strong>
 										<p className="mt-1" style=${{ whiteSpace: 'pre-wrap' }}>${p.rejection_reason}</p>
 									</div>
 								` : null }
@@ -110,21 +112,21 @@ export default function RequestCardsView({
 										</div>
 
 										<div className="content has-text-grey-dark mb-4" style=${{ fontSize: '0.92rem', lineHeight: '1.6' }}>
-											${ p.description || 'لم يقم العميل بكتابة تفاصيل إضافية في حقل الشرح.' }
+											${ p.description || __( 'No additional details provided.', 'workpress' ) }
 										</div>
 
 										<!-- Key Project Badges -->
 										<div className="is-flex is-flex-wrap-wrap" style=${{ gap: '1rem' }}>
 											${ p.requested_budget ? html`
 												<div className="is-flex is-align-items-center" style=${{ gap: '4px', fontSize: '0.85rem' }}>
-													<span className="has-text-grey">الميزانية المقترحة:</span>
+													<span className="has-text-grey">${ __( 'Proposed Budget:', 'workpress' ) }</span>
 													<strong className="has-text-success">${p.requested_budget}</strong>
 												</div>
 											` : null }
 
 											${ ( p.requested_due_date || p.due_at ) ? html`
 												<div className="is-flex is-align-items-center" style=${{ gap: '4px', fontSize: '0.85rem' }}>
-													<span className="has-text-grey">الموعد النهائي:</span>
+													<span className="has-text-grey">${ __( 'Deadline:', 'workpress' ) }</span>
 													<strong className="has-text-warning-dark">${( p.requested_due_date || p.due_at ).substring( 0, 10 )}</strong>
 												</div>
 											` : null }
@@ -137,13 +139,13 @@ export default function RequestCardsView({
 											<div className="is-flex is-justify-content-space-between is-align-items-center mb-2 pb-1" style=${{ borderBottom: '1px solid #e2e8f0' }}>
 												<span className="is-size-7 has-text-weight-bold has-text-primary is-flex is-align-items-center" style=${{ gap: '4px' }}>
 													<span className="icon is-small"><i className="dashicons dashicons-list-view"></i></span>
-													<span>المواصفات المستلمة (${specsEntries.length})</span>
+													<span>${ sprintf( __( 'Received Specs (%d)', 'workpress' ), specsEntries.length ) }</span>
 												</span>
 												<span className="tag is-white is-small has-text-grey">Client Specs</span>
 											</div>
 
 											${ specsEntries.length === 0 ? html`
-												<p className="is-size-7 has-text-grey-light">لا توجد مواصفات تفصيلية مسجلة.</p>
+												<p className="is-size-7 has-text-grey-light">${ __( 'No detailed specifications submitted.', 'workpress' ) }</p>
 											` : html`
 												<div className="wp-request-specs-list">
 													${ specsEntries.map( ([sKey, sVal]) => {
@@ -154,7 +156,7 @@ export default function RequestCardsView({
 																	return html`
 																		<a key=${vi} href=${v.url} target="_blank" download className="button is-small is-light p-1 ml-1" style=${{ height: '22px', fontSize: '0.75rem' }}>
 																			<span className="icon is-small"><i className="dashicons dashicons-paperclip"></i></span>
-																			<span>${v.name || 'ملف'}</span>
+																			<span>${v.name || __( 'File', 'workpress' )}</span>
 																		</a>
 																	`;
 																}
@@ -181,7 +183,7 @@ export default function RequestCardsView({
 								<div>
 									<a href=${`#/projects/${p.id}`} className="button is-small wp-sharp-button is-light" style=${{ fontWeight: '700' }}>
 										<span className="icon"><i className="dashicons dashicons-portfolio"></i></span>
-										<span>فتح مساحة المشروع</span>
+										<span>${ __( 'Open Workspace', 'workpress' ) }</span>
 									</a>
 								</div>
 
@@ -191,10 +193,10 @@ export default function RequestCardsView({
 											className="button is-small is-success wp-sharp-button has-text-weight-bold"
 											onClick=${() => handleOpenApproveModal( p )}
 											style=${{ backgroundColor: '#10b981', color: '#ffffff', boxShadow: '0 2px 8px rgba(16,185,129,0.2)' }}
-											title="اعتماد وتأسيس المشروع"
+											title=${ __( 'Approve & initialize project workspace', 'workpress' ) }
 										>
 											<span className="icon"><i className="dashicons dashicons-yes-alt"></i></span>
-											<span>اعتماد</span>
+											<span>${ __( 'Approve', 'workpress' ) }</span>
 										</button>
 
 										${ ! isUnderReview ? html`
@@ -202,10 +204,10 @@ export default function RequestCardsView({
 												className="button is-small is-info is-light wp-sharp-button has-text-weight-bold"
 												onClick=${() => handleOpenReviewModal( p )}
 												style=${{ color: '#0369a1', borderColor: '#bae6fd' }}
-												title="وضع الطلب قيد الدراسة مع تبرير للعميل"
+												title=${ __( 'Mark as under review with note to client', 'workpress' ) }
 											>
 												<span className="icon"><i className="dashicons dashicons-search"></i></span>
-												<span>قيد الدراسة</span>
+												<span>${ __( 'Under Review', 'workpress' ) }</span>
 											</button>
 										` : null }
 
@@ -214,16 +216,16 @@ export default function RequestCardsView({
 												className="button is-small is-danger is-light wp-sharp-button has-text-weight-bold"
 												onClick=${() => handleOpenRejectModal( p )}
 												style=${{ color: '#dc2626', borderColor: '#fca5a5' }}
-												title="رفض الطلب مع ذكر التبرير للعميل"
+												title=${ __( 'Reject request with explanation to client', 'workpress' ) }
 											>
 												<span className="icon"><i className="dashicons dashicons-dismiss"></i></span>
-												<span>رفض</span>
+												<span>${ __( 'Reject', 'workpress' ) }</span>
 											</button>
 										` : null }
 									` : html`
 										<a href=${`#/projects/${p.id}`} className="button is-small is-primary is-outlined wp-sharp-button" style=${{ fontWeight: '700' }}>
 											<span className="icon"><i className="dashicons dashicons-admin-tools"></i></span>
-											<span>إدارة المهام والمراحل</span>
+											<span>${ __( 'Tasks', 'workpress' ) }</span>
 										</a>
 									` }
 								</div>

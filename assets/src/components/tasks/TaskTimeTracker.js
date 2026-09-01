@@ -1,4 +1,4 @@
-import { html, useState } from '../../utils/html.js';
+import { html, useState, __, sprintf, isRtl } from '../../utils/html.js';
 import { tasksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -14,6 +14,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 	const [ note, setNote ] = useState( '' );
 	const [ date, setDate ] = useState( new Date().toISOString().substring( 0, 10 ) );
 	const [ isLogging, setIsLogging ] = useState( false );
+	const rtl = isRtl();
 
 	const [ isEditingEstimate, setIsEditingEstimate ] = useState( false );
 	const [ editEstimateValue, setEditEstimateValue ] = useState( task.estimated_hours || 0 );
@@ -46,9 +47,9 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				onUpdate( res.task );
 			}
 			sound.play( 'click' );
-			toast( 'تم تسجيل وقت العمل بنجاح', 'success' );
+			toast( __( 'Worklog recorded successfully', 'workpress' ), 'success' );
 		} catch ( err ) {
-			toast( err.message || 'تعذر تسجيل وقت العمل', 'error' );
+			toast( err.message || __( 'Could not log work hours', 'workpress' ), 'error' );
 		} finally {
 			setIsLogging( false );
 		}
@@ -61,9 +62,9 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				onUpdate( res.task );
 			}
 			sound.play( 'trash' );
-			toast( 'تم حذف سجل العمل', 'info' );
+			toast( __( 'Worklog deleted', 'workpress' ), 'info' );
 		} catch ( err ) {
-			toast( err.message || 'تعذر حذف سجل العمل', 'error' );
+			toast( err.message || __( 'Could not delete worklog', 'workpress' ), 'error' );
 		}
 	};
 
@@ -79,9 +80,9 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				onUpdate( updatedTask );
 			}
 			sound.play( 'button' );
-			toast( 'تم تحديث الساعات المقدرة للمهمة', 'success' );
+			toast( __( 'Estimated hours updated successfully', 'workpress' ), 'success' );
 		} catch ( err ) {
-			toast( err.message || 'تعذر تحديث الساعات المقدرة', 'error' );
+			toast( err.message || __( 'Could not update estimated hours', 'workpress' ), 'error' );
 		} finally {
 			setIsSavingEstimate( false );
 		}
@@ -93,12 +94,12 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
 				<h4 className="title is-6" style=${{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#0f172a', fontWeight: '700' }}>
 					<i className="dashicons dashicons-clock" style=${{ color: '#3b82f6' }}></i>
-					<span>تتبع وتقدير ساعات العمل</span>
+					<span>${ __( 'Track & Estimate Working Hours', 'workpress' ) }</span>
 				</h4>
 				
 				${ isOverBudget ? html`
 					<span style=${{ fontSize: '0.78rem', fontWeight: '700', backgroundColor: '#fef2f2', color: '#dc2626', padding: '2px 8px', border: '1px solid #fecaca' }}>
-						تجاوز التقدير بـ ${ overBudgetHours } ساعة
+						${ sprintf( __( 'Over budget by %sh', 'workpress' ), overBudgetHours ) }
 					</span>
 				` : null }
 			</div>
@@ -108,13 +109,13 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				<!-- Estimated Card -->
 				<div style=${{ padding: '0.75rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 					<div style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', marginBottom: '0.25rem', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-						<span>الساعات المقدرة</span>
+						<span>${ __( 'Estimated Hours', 'workpress' ) }</span>
 						<button 
 							type="button" 
 							className="button is-small is-ghost" 
 							style=${{ height: '18px', padding: 0, color: '#3b82f6' }}
 							onClick=${ () => { setIsEditingEstimate( ! isEditingEstimate ); setEditEstimateValue( estimatedHours ); } }
-							title="تعديل الساعات المقدرة"
+							title=${ __( 'Edit estimated hours', 'workpress' ) }
 						>
 							<i className="dashicons dashicons-edit" style=${{ fontSize: '14px' }}></i>
 						</button>
@@ -125,7 +126,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 							<input 
 								type="number" 
 								step="0.5" 
-								min="0"
+								min="0" 
 								className="input is-small" 
 								value=${ editEstimateValue }
 								onInput=${ ( e ) => setEditEstimateValue( e.target.value ) }
@@ -144,7 +145,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 						</div>
 					` : html`
 						<div style=${{ fontSize: '1.25rem', fontWeight: '800', color: '#0f172a' }}>
-							${ estimatedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>ساعة</span>
+							${ estimatedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>${ __( 'hours', 'workpress' ) }</span>
 						</div>
 					` }
 				</div>
@@ -152,20 +153,20 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 				<!-- Logged Card -->
 				<div style=${{ padding: '0.75rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 					<div style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', marginBottom: '0.25rem' }}>
-						الساعات المسجلة
+						${ __( 'Logged Hours', 'workpress' ) }
 					</div>
 					<div style=${{ fontSize: '1.25rem', fontWeight: '800', color: isOverBudget ? '#dc2626' : '#10b981' }}>
-						${ loggedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>ساعة</span>
+						${ loggedHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>${ __( 'hours', 'workpress' ) }</span>
 					</div>
 				</div>
 
 				<!-- Remaining / Budget Card -->
 				<div style=${{ padding: '0.75rem', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 					<div style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b', marginBottom: '0.25rem' }}>
-						${ isOverBudget ? 'الزيادة عن الخطة' : 'الساعات المتبقية' }
+						${ isOverBudget ? __( 'Over Budget', 'workpress' ) : __( 'Remaining Hours', 'workpress' ) }
 					</div>
 					<div style=${{ fontSize: '1.25rem', fontWeight: '800', color: isOverBudget ? '#dc2626' : '#3b82f6' }}>
-						${ isOverBudget ? `+${ overBudgetHours }` : remainingHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>ساعة</span>
+						${ isOverBudget ? `+${ overBudgetHours }` : remainingHours } <span style=${{ fontSize: '0.8rem', fontWeight: '500', color: '#64748b' }}>${ __( 'hours', 'workpress' ) }</span>
 					</div>
 				</div>
 			</div>
@@ -174,7 +175,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			${ estimatedHours > 0 ? html`
 				<div style=${{ marginBottom: '1.25rem' }}>
 					<div style=${{ display: 'flex', justifyContent: 'space-between', fontSize: '0.78rem', fontWeight: '600', color: '#64748b', marginBottom: '0.3rem' }}>
-						<span>نسبة استهلاك الوقت المقدر</span>
+						<span>${ __( 'Time Consumption Progress', 'workpress' ) }</span>
 						<span style=${{ color: isOverBudget ? '#dc2626' : ( progressPct === 100 ? '#10b981' : '#3b82f6' ) }}>
 							${ progressPct }%
 						</span>
@@ -196,18 +197,18 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			<form onSubmit=${ handleAddWorklog } style=${{ borderTop: '1px dashed #cbd5e1', paddingTop: '1rem', marginBottom: '1rem' }}>
 				<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.6rem', flexWrap: 'wrap', gap: '6px' }}>
 					<div style=${{ fontSize: '0.85rem', fontWeight: '700', color: '#0f172a' }}>
-						تسجيل جلسة / وقت عمل جديد
+						${ __( 'Log New Working Session / Hours', 'workpress' ) }
 					</div>
 
 					<!-- Quick Preset Increment Chips -->
 					<div style=${{ display: 'flex', alignItems: 'center', gap: '4px' }}>
-						<span style=${{ fontSize: '0.72rem', color: '#64748b', fontWeight: '600' }}>إضافة سريعة:</span>
+						<span style=${{ fontSize: '0.72rem', color: '#64748b', fontWeight: '600' }}>${ __( 'Quick Add:', 'workpress' ) }</span>
 						${ [
-							{ label: '+15د', val: 0.25 },
-							{ label: '+30د', val: 0.5 },
-							{ label: '+1س', val: 1.0 },
-							{ label: '+2س', val: 2.0 },
-							{ label: '+4س', val: 4.0 },
+							{ label: rtl ? '+15د' : '+15m', val: 0.25 },
+							{ label: rtl ? '+30د' : '+30m', val: 0.5 },
+							{ label: rtl ? '+1س' : '+1h', val: 1.0 },
+							{ label: rtl ? '+2س' : '+2h', val: 2.0 },
+							{ label: rtl ? '+4س' : '+4h', val: 4.0 },
 						].map( preset => html`
 							<button
 								key=${ preset.label }
@@ -219,7 +220,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 									sound.play( 'click' );
 								}}
 								style=${{ cursor: 'pointer', borderColor: '#cbd5e1', backgroundColor: '#f8fafc', fontWeight: '800' }}
-								title=${ `إضافة ${ preset.val } ساعة إلى حقل الساعات` }
+								title=${ sprintf( __( 'Add %s hours to input', 'workpress' ), preset.val ) }
 							>
 								${ preset.label }
 							</button>
@@ -233,7 +234,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 							step="0.25"
 							min="0.25"
 							className="input is-small"
-							placeholder="الساعات (مثال: 1.5)"
+							placeholder=${ __( 'Hours (e.g. 1.5)', 'workpress' ) }
 							value=${ hours }
 							onInput=${ ( e ) => setHours( e.target.value ) }
 							disabled=${ isLogging }
@@ -255,7 +256,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 						<input 
 							type="text"
 							className="input is-small"
-							placeholder="بيان وملاحظة العمل المنجز..."
+							placeholder=${ __( 'Work description & notes...', 'workpress' ) }
 							value=${ note }
 							onInput=${ ( e ) => setNote( e.target.value ) }
 							disabled=${ isLogging }
@@ -269,8 +270,8 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 							disabled=${ ! hours || isLogging }
 							style=${{ borderRadius: 0, fontWeight: '700', whiteSpace: 'nowrap' }}
 						>
-							<i className="dashicons dashicons-plus" style=${{ marginLeft: '0.25rem' }}></i>
-							<span>تسجيل</span>
+							<i className="dashicons dashicons-plus" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '0.25rem' }}></i>
+							<span>${ __( 'Log Time', 'workpress' ) }</span>
 						</button>
 					</div>
 				</div>
@@ -280,7 +281,7 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 			${ worklogs.length > 0 ? html`
 				<div style=${{ borderTop: '1px solid #e2e8f0', paddingTop: '0.75rem' }}>
 					<div style=${{ fontSize: '0.8rem', fontWeight: '700', color: '#64748b', marginBottom: '0.5rem' }}>
-						سجلات العمل السابقة (${ worklogs.length })
+						${ sprintf( __( 'Previous Worklogs (%d)', 'workpress' ), worklogs.length ) }
 					</div>
 					<div style=${{ display: 'flex', flexDirection: 'column', gap: '0.35rem', maxHeight: '220px', overflowY: 'auto' }}>
 						${ worklogs.map( ( log ) => html`
@@ -300,21 +301,21 @@ export default function TaskTimeTracker( { taskId, task = {}, onUpdate } ) {
 									<span style=${{ color: '#64748b', fontSize: '0.78rem', whiteSpace: 'nowrap' }}>
 										${ log.date }
 									</span>
-									<span style=${{ color: '#334155', wordBreak: 'break-word', flex: 1, marginRight: '0.5rem' }}>
-										${ log.note || 'عمل بدون ملاحظة' }
+									<span style=${{ color: '#334155', wordBreak: 'break-word', flex: 1, [rtl ? 'marginRight' : 'marginLeft']: '0.5rem' }}>
+										${ log.note || __( 'Work completed without notes', 'workpress' ) }
 									</span>
 								</div>
 
-								<div style=${{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginRight: '0.5rem' }}>
+								<div style=${{ display: 'flex', alignItems: 'center', gap: '0.5rem', [rtl ? 'marginRight' : 'marginLeft']: '0.5rem' }}>
 									<span style=${{ fontWeight: '800', color: '#10b981', backgroundColor: '#ecfdf5', padding: '1px 6px', border: '1px solid #a7f3d0', fontSize: '0.8rem' }}>
-										${ log.hours } س
+										${ log.hours } ${ rtl ? 'س' : 'h' }
 									</span>
 									<button 
 										type="button"
 										className="button is-small is-ghost"
 										style=${{ height: '20px', padding: '0 2px', color: '#94a3b8', border: 'none' }}
 										onClick=${ () => handleDeleteWorklog( log.id ) }
-										title="حذف سجل العمل"
+										title=${ __( 'Delete worklog', 'workpress' ) }
 									>
 										<i className="dashicons dashicons-trash" style=${{ fontSize: '15px' }}></i>
 									</button>

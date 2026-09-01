@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf, isRtl } from '../../utils/html.js';
 import { formatDate } from '../../utils/datetime.js';
 
 /**
@@ -19,6 +19,8 @@ export default function GanttGridCanvas({
 	currentHourPixelRight = null,
 	now = new Date()
 }) {
+	const rtl = isRtl();
+
 	return html`
 		<div>
 			<!-- Timeline Header (Height 58px) -->
@@ -27,7 +29,7 @@ export default function GanttGridCanvas({
 				${ scale === 'day_hours' ? html`
 					<!-- Top Row: Full Day Title Banner -->
 					<div style=${{ height: '28px', display: 'flex', alignItems: 'center', padding: '0 0.75rem', backgroundColor: '#f1f5f9', borderBottom: '1px solid #e2e8f0', fontWeight: '800', fontSize: '0.78rem', color: '#0f172a' }}>
-						<span>الجدول الزمني ليوم ${ selectedDayOfWeek } (${ formatDate( selectedDay ) }) — تقسيم 24 ساعة</span>
+						<span>${ sprintf( __( 'Schedule for %s (%s) — 24 Hours View', 'workpress' ), selectedDayOfWeek, formatDate( selectedDay ) ) }</span>
 					</div>
 
 					<!-- Bottom Row: 24 Hours Columns -->
@@ -79,7 +81,7 @@ export default function GanttGridCanvas({
 						` ) }
 					</div>
 
-					<!-- Bottom Row: Full Arabic Day Name + Number -->
+					<!-- Bottom Row: Full Day Name + Number -->
 					<div style=${{ height: '30px', display: 'flex' }}>
 						${ dayUnits.map( du => html`
 							<div 
@@ -230,10 +232,10 @@ export default function GanttGridCanvas({
 				${ ( scale === 'days' && todayPixelRight !== null ) ? html`
 					<div 
 						className="wp-gantt-needle-today"
-						style=${{ right: `${ todayPixelRight }px` }}
+						style=${{ [rtl ? 'right' : 'left']: `${ todayPixelRight }px` }}
 					>
 						<div className="wp-gantt-needle-today-flag">
-							اليوم
+							${ __( 'Today', 'workpress' ) }
 						</div>
 					</div>
 				` : null }
@@ -242,10 +244,10 @@ export default function GanttGridCanvas({
 				${ ( scale === 'day_hours' && currentHourPixelRight !== null ) ? html`
 					<div 
 						className="wp-gantt-needle-now"
-						style=${{ right: `${ currentHourPixelRight }px` }}
+						style=${{ [rtl ? 'right' : 'left']: `${ currentHourPixelRight }px` }}
 					>
 						<div className="wp-gantt-needle-now-flag">
-							الآن (${ String( now.getHours() ).padStart( 2, '0' ) }:${ String( now.getMinutes() ).padStart( 2, '0' ) })
+							${ sprintf( __( 'Now (%s:%s)', 'workpress' ), String( now.getHours() ).padStart( 2, '0' ), String( now.getMinutes() ).padStart( 2, '0' ) ) }
 						</div>
 					</div>
 				` : null }

@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __ } from '../../utils/html.js';
 
 /**
  * Client Portal Live Form Simulation Modal
@@ -16,17 +16,17 @@ export default function FormSchemaPreview({
 			<div className="modal-card" style=${{ maxWidth: '780px', width: '90%' }}>
 				<header className="modal-card-head" style=${{ backgroundColor: '#0f172a', color: '#ffffff' }}>
 					<p className="modal-card-title has-text-white is-size-6 has-text-weight-bold">
-						معاينة فورية: كيف يظهر هذا النموذج للزبون في بوابة العميل (/portal/#/new-request)
+						${ __( 'Live Preview: How this form looks to clients in the portal (/portal/#/new-request)', 'workpress' ) }
 					</p>
 					<button className="delete" aria-label="close" onClick=${onClose}></button>
 				</header>
 				<section className="modal-card-body" style=${{ backgroundColor: '#0a0e17', color: '#f8fafc', padding: '2rem' }}>
 					<div style=${{ border: '1px solid rgba(255,255,255,0.1)', padding: '1.5rem', backgroundColor: 'rgba(15,23,42,0.8)' }}>
 						<h3 style=${{ fontSize: '1.2rem', fontWeight: '900', color: '#fff', marginBottom: '0.4rem' }}>
-							${form.name || 'طلب مشروع جديد'}
+							${form.name || __( 'New Project Request', 'workpress' )}
 						</h3>
 						<p style=${{ fontSize: '0.85rem', color: '#94a3b8', marginBottom: '1.5rem' }}>
-							حدد متطلباتك وسيصل طلبك مباشرة للإدارة العامة كمشروع رسمي للمراجعة والتسعير والاعتماد.
+							${ __( 'Specify your requirements and your request will be delivered directly for review and estimation.', 'workpress' ) }
 						</p>
 
 						<!-- Smart Title Preview -->
@@ -36,7 +36,7 @@ export default function FormSchemaPreview({
 							</label>
 							<select style=${{ width: '100%', padding: '0.65rem 0.85rem', backgroundColor: '#0f172a', border: '1px solid rgba(255,255,255,0.2)', color: '#fff', borderRadius: 0 }}>
 								${(form.title_suggestions || []).map((s, i) => html`<option key=${i}>${s}</option>`)}
-								<option>أخرى: كتابة عنوان مخصص...</option>
+								<option>${ __( 'Other: Write custom title...', 'workpress' ) }</option>
 							</select>
 						</div>
 
@@ -73,12 +73,12 @@ export default function FormSchemaPreview({
 						`)}
 
 						<button type="button" style=${{ width: '100%', padding: '0.85rem', marginTop: '1.5rem', backgroundColor: '#6366f1', color: '#fff', border: 'none', borderRadius: 0, fontWeight: '800', cursor: 'pointer' }}>
-							إرسال طلب المشروع واعتماد البيانات
+							${ __( 'Submit Project Request', 'workpress' ) }
 						</button>
 					</div>
 				</section>
 				<footer className="modal-card-foot is-justify-content-flex-end">
-					<button className="button is-primary wp-sharp-button" onClick=${onClose}>إغلاق المعاينة</button>
+					<button className="button is-primary wp-sharp-button" onClick=${onClose}>${ __( 'Close Preview', 'workpress' ) }</button>
 				</footer>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-import { html, Component } from '../../utils/html.js';
+import { html, Component, __ } from '../../utils/html.js';
 
 /**
  * WorkPress UI Error Boundary.
@@ -26,9 +26,9 @@ export default class ErrorBoundary extends Component {
 					<span className="icon is-large has-text-danger mb-3">
 						<i className="dashicons dashicons-warning" style=${{ fontSize: '48px', width: '48px', height: '48px' }}></i>
 					</span>
-					<h2 className="title is-4 has-text-danger mb-2">عذراً، حدث خطأ غير متوقع في واجهة العرض</h2>
+					<h2 className="title is-4 has-text-danger mb-2">${ __( 'Sorry, an unexpected error occurred in the view', 'workpress' ) }</h2>
 					<p className="subtitle is-6 has-text-grey mt-2 mb-4">
-						${ this.state.error && this.state.error.message ? this.state.error.message : 'تعذر تحميل هذا المكون بشكل سليم.' }
+						${ this.state.error && this.state.error.message ? this.state.error.message : __( 'Failed to render component properly.', 'workpress' ) }
 					</p>
 					<div className="buttons is-centered">
 						<button 
@@ -39,14 +39,14 @@ export default class ErrorBoundary extends Component {
 							} }
 						>
 							<span className="icon"><i className="dashicons dashicons-dashboard"></i></span>
-							<span>العودة للرئيسية CoWorkPress</span>
+							<span>${ __( 'Back to CoWorkPress Plaza', 'workpress' ) }</span>
 						</button>
 						<button 
 							className="button is-white wp-border wp-sharp-button" 
 							onClick=${ () => window.location.reload() }
 						>
 							<span className="icon"><i className="dashicons dashicons-update"></i></span>
-							<span>إعادة تحميل الصفحة</span>
+							<span>${ __( 'Reload Page', 'workpress' ) }</span>
 						</button>
 					</div>
 				</div>

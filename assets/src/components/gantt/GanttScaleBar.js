@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf, isRtl } from '../../utils/html.js';
 import { formatDate } from '../../utils/datetime.js';
 
 /**
@@ -22,6 +22,8 @@ export default function GanttScaleBar({
 	handleJumpToToday,
 	today = new Date()
 }) {
+	const rtl = isRtl();
+
 	return html`
 		<div className="wp-gantt-controls-bar">
 			<!-- Left Filters: Project & Status & Search -->
@@ -32,7 +34,7 @@ export default function GanttScaleBar({
 						onChange=${ ( e ) => setSelectedProjectFilter( e.target.value ) }
 						style=${{ borderRadius: 0, border: '1px solid #cbd5e1', fontWeight: '700', minWidth: '180px' }}
 					>
-						<option value="">جميع المشاريع (${ projects.length })</option>
+						<option value="">${ sprintf( __( 'All Projects (%d)', 'workpress' ), projects.length ) }</option>
 						${ projects.map( p => html`
 							<option key=${ p.id } value=${ p.id }>${ p.name }</option>
 						` ) }
@@ -45,10 +47,10 @@ export default function GanttScaleBar({
 						onChange=${ ( e ) => setSelectedStatusFilter( e.target.value ) }
 						style=${{ borderRadius: 0, border: '1px solid #cbd5e1', fontWeight: '700' }}
 					>
-						<option value="">جميع الحالات</option>
-						<option value="in_progress">قيد التنفيذ والمراجعة</option>
-						<option value="open">مفتوحة ومسندة</option>
-						<option value="completed">مكتملة ومعتمدة</option>
+						<option value="">${ __( 'All Statuses', 'workpress' ) }</option>
+						<option value="in_progress">${ __( 'In Progress', 'workpress' ) }</option>
+						<option value="open">${ __( 'Open / Assigned', 'workpress' ) }</option>
+						<option value="completed">${ __( 'Completed', 'workpress' ) }</option>
 					</select>
 				</div>
 
@@ -56,12 +58,12 @@ export default function GanttScaleBar({
 					<input 
 						type="text" 
 						className="input is-small" 
-						placeholder="بحث في أسماء المهام والمكلفين..." 
+						placeholder=${ __( 'Search tasks & assignees...', 'workpress' ) } 
 						value=${ searchQuery }
 						onInput=${ ( e ) => setSearchQuery( e.target.value ) }
-						style=${{ borderRadius: 0, border: '1px solid #cbd5e1', paddingRight: '26px', width: '220px' }}
+						style=${{ borderRadius: 0, border: '1px solid #cbd5e1', [rtl ? 'paddingRight' : 'paddingLeft']: '26px', width: '220px' }}
 					/>
-					<i className="dashicons dashicons-search" style=${{ position: 'absolute', right: '6px', top: '6px', color: '#94a3b8', fontSize: '15px' }}></i>
+					<i className="dashicons dashicons-search" style=${{ position: 'absolute', [rtl ? 'right' : 'left']: '6px', top: '6px', color: '#94a3b8', fontSize: '15px' }}></i>
 				</div>
 			</div>
 
@@ -73,11 +75,11 @@ export default function GanttScaleBar({
 						<button 
 							type="button" 
 							className="button is-small is-white p-1" 
-							onClick=${ handleNextDay }
-							title="اليوم السابق (يمين)"
+							onClick=${ rtl ? handleNextDay : handlePrevDay }
+							title=${ __( 'Previous Day', 'workpress' ) }
 							style=${{ height: '26px', border: 'none' }}
 						>
-							<i className="dashicons dashicons-arrow-right-alt2" style=${{ fontSize: '18px' }}></i>
+							<i className=${ rtl ? 'dashicons dashicons-arrow-right-alt2' : 'dashicons dashicons-arrow-left-alt2' } style=${{ fontSize: '18px' }}></i>
 						</button>
 
 						<span style=${{ fontSize: '0.82rem', fontWeight: '800', color: '#0f172a', padding: '0 4px' }}>
@@ -87,11 +89,11 @@ export default function GanttScaleBar({
 						<button 
 							type="button" 
 							className="button is-small is-white p-1" 
-							onClick=${ handlePrevDay }
-							title="اليوم التالي (يسار)"
+							onClick=${ rtl ? handlePrevDay : handleNextDay }
+							title=${ __( 'Next Day', 'workpress' ) }
 							style=${{ height: '26px', border: 'none' }}
 						>
-							<i className="dashicons dashicons-arrow-left-alt2" style=${{ fontSize: '18px' }}></i>
+							<i className=${ rtl ? 'dashicons dashicons-arrow-left-alt2' : 'dashicons dashicons-arrow-right-alt2' } style=${{ fontSize: '18px' }}></i>
 						</button>
 
 						<button 
@@ -100,7 +102,7 @@ export default function GanttScaleBar({
 							onClick=${ handleTodayDay }
 							style=${{ height: '24px', borderRadius: 0, fontSize: '11px', fontWeight: '800' }}
 						>
-							اليوم
+							${ __( 'Today', 'workpress' ) }
 						</button>
 					</div>
 				` : html`
@@ -109,10 +111,10 @@ export default function GanttScaleBar({
 						className="button is-small is-danger is-light" 
 						onClick=${ handleJumpToToday }
 						style=${{ borderRadius: 0, border: '1px solid #fca5a5', fontWeight: '800', color: '#dc2626' }}
-						title="التركيز والتمرير الفوري لتاريخ اليوم"
+						title=${ __( 'Jump to Today', 'workpress' ) }
 					>
-						<i className="dashicons dashicons-location" style=${{ marginLeft: '4px' }}></i>
-						<span>اليوم (${ formatDate( today, { short: true } ) })</span>
+						<i className="dashicons dashicons-location" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '4px' }}></i>
+						<span>${ sprintf( __( 'Today (%s)', 'workpress' ), formatDate( today, { short: true } ) ) }</span>
 					</button>
 				` }
 
@@ -122,33 +124,33 @@ export default function GanttScaleBar({
 						type="button" 
 						className=${ `button ${ scale === 'day_hours' ? 'is-active' : '' }` }
 						onClick=${ () => setScale( 'day_hours' ) }
-						title="عرض مفصل لـ 24 ساعة لليوم المحدد"
+						title=${ __( '24 Hours detailed view', 'workpress' ) }
 					>
-						24س
+						${ __( '24h', 'workpress' ) }
 					</button>
 					<button 
 						type="button" 
 						className=${ `button ${ scale === 'days' ? 'is-active' : '' }` }
 						onClick=${ () => setScale( 'days' ) }
-						title="عرض الأيام بأسمائها الكاملة"
+						title=${ __( 'Days view', 'workpress' ) }
 					>
-						أيام
+						${ __( 'Days', 'workpress' ) }
 					</button>
 					<button 
 						type="button" 
 						className=${ `button ${ scale === 'weeks' ? 'is-active' : '' }` }
 						onClick=${ () => setScale( 'weeks' ) }
-						title="عرض مقسم بالأسابيع"
+						title=${ __( 'Weeks view', 'workpress' ) }
 					>
-						أسابيع
+						${ __( 'Weeks', 'workpress' ) }
 					</button>
 					<button 
 						type="button" 
 						className=${ `button ${ scale === 'months' ? 'is-active' : '' }` }
 						onClick=${ () => setScale( 'months' ) }
-						title="عرض سنوي مقسم بالشهور"
+						title=${ __( 'Months view', 'workpress' ) }
 					>
-						شهور
+						${ __( 'Months', 'workpress' ) }
 					</button>
 				</div>
 			</div>

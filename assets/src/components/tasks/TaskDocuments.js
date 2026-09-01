@@ -1,4 +1,4 @@
-import { html, useState } from '../../utils/html.js';
+import { html, useState, __, isRtl } from '../../utils/html.js';
 import { tasksApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -12,6 +12,7 @@ import MultiFilePicker from '../ui/MultiFilePicker.js';
  */
 export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) {
 	const [ isUploading, setIsUploading ] = useState( false );
+	const rtl = isRtl();
 
 	const handleAttachmentsChange = async ( newAttachmentsList ) => {
 		// Detect newly added items vs removed items
@@ -28,9 +29,9 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 					if ( res && res.task && onUpdate ) {
 						onUpdate( res.task );
 					}
-					toast( 'تم إرفاق المستند بنجاح', 'success' );
+					toast( __( 'Document attached successfully', 'workpress' ), 'success' );
 				} catch ( err ) {
-					toast( err.message || 'تعذر إرفاق الملف', 'error' );
+					toast( err.message || __( 'Could not attach file', 'workpress' ), 'error' );
 				} finally {
 					setIsUploading( false );
 				}
@@ -46,9 +47,9 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 					if ( res && res.task && onUpdate ) {
 						onUpdate( res.task );
 					}
-					toast( 'تم حذف المرفق من المهمة', 'info' );
+					toast( __( 'Attachment removed from task', 'workpress' ), 'info' );
 				} catch ( err ) {
-					toast( err.message || 'تعذر حذف المرفق', 'error' );
+					toast( err.message || __( 'Could not delete attachment', 'workpress' ), 'error' );
 				}
 			}
 		}
@@ -59,9 +60,9 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 			<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
 				<h4 className="title is-6" style=${{ margin: 0, display: 'flex', alignItems: 'center', gap: '0.5rem', color: '#0f172a', fontWeight: '700' }}>
 					<i className="dashicons dashicons-media-document" style=${{ color: '#3b82f6' }}></i>
-					<span>المستندات والمرفقات الرسمية للمهمة</span>
+					<span>${ __( 'Official Task Documents & Attachments', 'workpress' ) }</span>
 					${ attachments.length > 0 ? html`
-						<span style=${{ fontSize: '0.8rem', fontWeight: '600', color: '#64748b', marginRight: '0.25rem' }}>
+						<span style=${{ fontSize: '0.8rem', fontWeight: '600', color: '#64748b', [rtl ? 'marginRight' : 'marginLeft']: '0.25rem' }}>
 							(${ attachments.length })
 						</span>
 					` : null }
@@ -71,7 +72,7 @@ export default function TaskDocuments( { taskId, attachments = [], onUpdate } ) 
 			<${MultiFilePicker} 
 				attachments=${ attachments } 
 				onChange=${ handleAttachmentsChange } 
-				buttonText="إرفاق وثائق / ملفات للمهمة (PDF, ZIP, DOCX, صور)"
+				buttonText=${ __( 'Attach task files (PDF, ZIP, DOCX, Images)', 'workpress' ) }
 			/>
 		</div>
 	`;

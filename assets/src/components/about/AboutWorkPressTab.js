@@ -1,6 +1,6 @@
-import { html, useState } from '../../utils/html.js';
+import { html, useState, __, isRtl } from '../../utils/html.js';
 import WorkPressLogo from '../ui/WorkPressLogo.js';
-import { SECTIONS } from './aboutData.js';
+import { getSections } from './aboutData.js';
 import PhilosophySection from './PhilosophySection.js';
 import CitizenshipSection from './CitizenshipSection.js';
 import CapabilitiesSection from './CapabilitiesSection.js';
@@ -17,6 +17,8 @@ import ServicesSection from './ServicesSection.js';
  */
 export default function AboutWorkPressTab() {
 	const [activeSection, setActiveSection] = useState('all');
+	const sections = getSections();
+	const rtl = isRtl();
 
 	// Dynamic Version Binding from Server Config (SSOT)
 	const version = window.workpressSettings?.version || '2.2.1';
@@ -33,7 +35,7 @@ export default function AboutWorkPressTab() {
 				</div>
 
 				<p className="is-size-6 has-text-grey mb-3 has-text-weight-semibold">
-					الموسوعة الهندسية والمعمارية الشاملة لمنظومة إدارة وتوثيق العمل الأصلية في ووردبريس
+					${ __( 'Master Architectural Encyclopedia & Institutional Operating Guide for WorkPress', 'workpress' ) }
 				</p>
 
 				<div className="is-flex is-justify-content-center is-align-items-center" style=${{ gap: '10px', flexWrap: 'wrap' }}>
@@ -51,7 +53,7 @@ export default function AboutWorkPressTab() {
 
 			<!-- Dynamic Navigation Chips Bar -->
 			<div className="wp-about-nav-menu">
-				${SECTIONS.map(sec => html`
+				${sections.map(sec => html`
 					<button
 						key=${sec.id}
 						className=${`button wp-about-nav-btn ${activeSection === sec.id ? 'is-active' : ''}`}
@@ -74,8 +76,8 @@ export default function AboutWorkPressTab() {
 			<!-- Footer Meta -->
 			<div className="wp-about-footer mt-5">
 				<div className="is-flex is-align-items-center">
-					<span className="icon is-small ml-1" style=${{ marginLeft: '6px' }}><i className="dashicons dashicons-yes-alt has-text-success"></i></span>
-					<span>منظومة إدارة وتوثيق العمل والذاكرة المؤسسية الأصلية في ووردبريس</span>
+					<span className="icon is-small" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '6px' }}><i className="dashicons dashicons-yes-alt has-text-success"></i></span>
+					<span>${ __( 'Native WordPress Work & Institutional Memory Operating System', 'workpress' ) }</span>
 				</div>
 				<div>
 					<strong className="has-text-dark">WorkPress Engine v${version} Stable — Production Certified</strong>

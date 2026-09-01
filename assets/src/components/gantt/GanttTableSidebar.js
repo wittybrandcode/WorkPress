@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf, isRtl } from '../../utils/html.js';
 import AvatarStack from '../ui/AvatarStack.js';
 import { formatDate } from '../../utils/datetime.js';
 
@@ -18,34 +18,36 @@ export default function GanttTableSidebar({
 	setTooltipTargetRect,
 	onTaskClick
 }) {
+	const rtl = isRtl();
+
 	return html`
 		<div className="wp-gantt-master-table">
 			<!-- Table Header (Height 58px) -->
 			<div className="wp-gantt-table-header">
 				<div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-					<span>المشروع والمهمة</span>
+					<span>${ __( 'Project & Task', 'workpress' ) }</span>
 					<div className="wp-btn-group-tight" style=${{ height: '22px' }}>
 						<button 
 							type="button" 
 							className="button is-small" 
 							onClick=${ expandAllProjects }
-							title="توسيع كافة شجرة المشاريع"
+							title=${ __( 'Expand all projects', 'workpress' ) }
 							style=${{ height: '22px', fontSize: '10px', padding: '0 5px', fontWeight: '800' }}
 						>
-							توسيع
+							${ __( 'Expand', 'workpress' ) }
 						</button>
 						<button 
 							type="button" 
 							className="button is-small" 
 							onClick=${ collapseAllProjects }
-							title="طي كافة شجرة المشاريع"
+							title=${ __( 'Collapse all projects', 'workpress' ) }
 							style=${{ height: '22px', fontSize: '10px', padding: '0 5px', fontWeight: '800' }}
 						>
-							طي
+							${ __( 'Collapse', 'workpress' ) }
 						</button>
 					</div>
 				</div>
-				<span style=${{ fontSize: '0.72rem', color: '#64748b' }}>المدة والإسناد</span>
+				<span style=${{ fontSize: '0.72rem', color: '#64748b' }}>${ __( 'Duration & Assignee', 'workpress' ) }</span>
 			</div>
 
 			<!-- Table Rows List -->
@@ -64,7 +66,7 @@ export default function GanttTableSidebar({
 								onClick=${ () => toggleProjectCollapse && toggleProjectCollapse( group.id ) }
 							>
 								<div style=${{ display: 'flex', alignItems: 'center', gap: '0.4rem', flex: 1, minWidth: 0 }}>
-									<i className=${ `dashicons ${ isCollapsed ? 'dashicons-arrow-left-alt2' : 'dashicons-arrow-down-alt2' }` } style=${{ fontSize: '14px', color: '#64748b' }}></i>
+									<i className=${ `dashicons ${ isCollapsed ? ( rtl ? 'dashicons-arrow-left-alt2' : 'dashicons-arrow-right-alt2' ) : 'dashicons-arrow-down-alt2' }` } style=${{ fontSize: '14px', color: '#64748b' }}></i>
 									<span style=${{ fontWeight: '800', fontSize: '0.82rem', color: '#0f172a', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 										${ group.name }
 									</span>
@@ -101,7 +103,7 @@ export default function GanttTableSidebar({
 										<div 
 											style=${{ display: 'flex', alignItems: 'center', gap: '0.45rem', flex: 1, minWidth: 0, cursor: 'pointer' }}
 											onClick=${ () => onTaskClick && onTaskClick( task.id ) }
-											title="انقر لفتح تفاصيل المهمة والمعاينة السريعة"
+											title=${ __( 'Click to view task details and quick preview', 'workpress' ) }
 										>
 											<span style=${{ width: '6px', height: '6px', flexShrink: 0, backgroundColor: [ 'completed', 'closed' ].includes( task.status ) ? '#10b981' : ( [ 'in_progress', 'in_review' ].includes( task.status ) ? '#f59e0b' : '#3b82f6' ) }}></span>
 											<div style=${{ flex: 1, minWidth: 0 }}>
@@ -110,8 +112,8 @@ export default function GanttTableSidebar({
 												</div>
 												<div style=${{ fontSize: '0.67rem', color: isOverdue ? '#dc2626' : '#64748b', display: 'flex', alignItems: 'center', gap: '4px' }}>
 													<span>${ formatDate( metrics.createdDate, { short: true } ) } - ${ formatDate( metrics.dueDate, { short: true } ) }</span>
-													<span>(${ metrics.durationDays } يوم)</span>
-													${ isOverdue ? html`<span style=${{ fontWeight: '800', color: '#dc2626' }}>[متأخرة]</span>` : null }
+													<span>(${ sprintf( __( '%d days', 'workpress' ), metrics.durationDays ) })</span>
+													${ isOverdue ? html`<span style=${{ fontWeight: '800', color: '#dc2626' }}>[${ __( 'Overdue', 'workpress' ) }]</span>` : null }
 												</div>
 											</div>
 										</div>

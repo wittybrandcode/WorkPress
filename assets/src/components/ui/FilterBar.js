@@ -1,4 +1,4 @@
-import { html, createPortal } from '../../utils/html.js';
+import { html, createPortal, __, sprintf, isRtl } from '../../utils/html.js';
 import CustomSelect from './CustomSelect.js';
 import MemberSelect from './MemberSelect.js';
 import { formatNumber } from '../../utils/datetime.js';
@@ -21,12 +21,14 @@ export default function FilterBar({
 	filters = [],
 	totalCount = null,
 	totalUnfiltered = null,
-	counterLabel = 'عنصر',
+	counterLabel = null,
 	isFilterActive = false,
 	onReset = null,
 	extraActions = null,
 }) {
 	const portalRoot = typeof document !== 'undefined' ? document.getElementById( 'wp-filterbar-portal-root' ) : null;
+	const label = counterLabel || __( 'Item', 'workpress' );
+	const rtl = isRtl();
 
 	const content = html`
 		<div className="wp-filter-toolbar">
@@ -41,7 +43,7 @@ export default function FilterBar({
 						<input 
 							type="text"
 							className="input wp-filter-input"
-							placeholder=${ search.placeholder || 'بحث سريع...' }
+							placeholder=${ search.placeholder || __( 'Quick search...', 'workpress' ) }
 							value=${ search.value || '' }
 							onInput=${ (e) => search.onChange( e.target.value ) }
 						/>
@@ -49,7 +51,7 @@ export default function FilterBar({
 							<button 
 								type="button" 
 								className="wp-filter-search-clear" 
-								title="مسح البحث"
+								title=${ __( 'Clear search', 'workpress' ) }
 								onClick=${ () => search.onChange('') }
 							>
 								<i className="dashicons dashicons-no-alt"></i>
@@ -76,7 +78,7 @@ export default function FilterBar({
 										value=${ f.value }
 										onChange=${ f.onChange }
 										users=${ f.users || [] }
-										placeholder=${ f.placeholder || '-- كل المكلفين --' }
+										placeholder=${ f.placeholder || `-- ${ __( 'All Assignees', 'workpress' ) } --` }
 										size="small"
 									/>
 								` : f.isCustomSelect ? html`
@@ -84,7 +86,7 @@ export default function FilterBar({
 										value=${ f.value }
 										onChange=${ f.onChange }
 										options=${ f.options || [] }
-										placeholder=${ f.placeholder || '-- الكل --' }
+										placeholder=${ f.placeholder || `-- ${ __( 'All', 'workpress' ) } --` }
 									/>
 								` : html`
 									<div className="select is-small" style=${{ width: '100%' }}>
@@ -114,8 +116,8 @@ export default function FilterBar({
 					<span className="wp-filter-counter">
 						<i className="dashicons dashicons-filter" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
 						${ ( totalUnfiltered !== null && totalCount !== null && totalCount !== totalUnfiltered )
-							? `عرض ${ formatNumber( totalCount ) } من ${ formatNumber( totalUnfiltered ) } ${ counterLabel }`
-							: `${ formatNumber( totalCount !== null ? totalCount : totalUnfiltered ) } ${ counterLabel }`
+							? sprintf( __( 'Showing %s of %s %s', 'workpress' ), formatNumber( totalCount ), formatNumber( totalUnfiltered ), label )
+							: `${ formatNumber( totalCount !== null ? totalCount : totalUnfiltered ) } ${ label }`
 						}
 					</span>
 				` }
@@ -123,9 +125,9 @@ export default function FilterBar({
 				${ isFilterActive && onReset && html`
 					<button 
 						type="button" 
-						className="wp-icon-btn is-dense is-danger ml-2" 
+						className=${ `wp-icon-btn is-dense is-danger ${ rtl ? 'ml-2' : 'mr-2' }` } 
 						onClick=${ onReset }
-						title="إعادة تعيين كافة الفلاتر والبحث"
+						title=${ __( 'Reset Filters', 'workpress' ) }
 					>
 						<i className="dashicons dashicons-undo"></i>
 					</button>

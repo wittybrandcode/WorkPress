@@ -1,4 +1,4 @@
-import { html, useState } from '../../utils/html.js';
+import { html, useState, __, sprintf, isRtl } from '../../utils/html.js';
 import { settingsApi } from '../../api/client.js';
 import { toast } from '../../utils/toast.js';
 import sound from '../../utils/sound.js';
@@ -19,6 +19,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 	const [isSaving, setIsSaving] = useState(false);
 	const [newSuggestionText, setNewSuggestionText] = useState('');
 	const [newOptionTexts, setNewOptionTexts] = useState({});
+	const rtl = isRtl();
 
 	const currentForm = forms[activeIdx] || forms[0] || DEFAULT_UNIVERSAL_FORM;
 
@@ -26,13 +27,13 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		const newForm = {
 			...DEFAULT_UNIVERSAL_FORM,
 			id: 'form_' + Date.now(),
-			name: `نموذج طلب جديد (${forms.length + 1})`,
+			name: sprintf( __( 'New Intake Form (%d)', 'workpress' ), forms.length + 1 ),
 			specs: [
 				{
 					id: 'spec_' + Date.now(),
 					type: 'select_custom',
-					label: 'نوع الخدمة:',
-					options: ['الخيار الأول', 'الخيار الثاني'],
+					label: __( 'Service Type:', 'workpress' ),
+					options: [ __( 'Option 1', 'workpress' ), __( 'Option 2', 'workpress' ) ],
 					required: true
 				}
 			]
@@ -41,12 +42,12 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		setForms(updated);
 		setActiveIdx(updated.length - 1);
 		sound.play('button');
-		toast('تم إنشاء قالب نموذج جديد.', 'info');
+		toast( __( 'New form template created.', 'workpress' ), 'info' );
 	};
 
 	const handleDeleteForm = (idxToDelete) => {
 		if (forms.length <= 1) {
-			toast('يجب الإبقاء على نموذج طلب واحد على الأقل.', 'warning');
+			toast( __( 'You must keep at least one intake form template.', 'workpress' ), 'warning' );
 			sound.play('caution');
 			return;
 		}
@@ -54,7 +55,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		setForms(updated);
 		setActiveIdx(Math.max(0, activeIdx - 1));
 		sound.play('button');
-		toast('تم حذف قالب النموذج.', 'info');
+		toast( __( 'Form template deleted.', 'workpress' ), 'info' );
 	};
 
 	const updateCurrentForm = (key, val) => {
@@ -72,7 +73,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		const newSpec = {
 			id: 'spec_' + Date.now() + '_' + Math.floor(Math.random() * 1000),
 			type: type || 'short_text',
-			label: prim.defaultLabel || 'مواصفة جديدة:',
+			label: prim.defaultLabel || __( 'New Specification:', 'workpress' ),
 			placeholder: prim.defaultPlaceholder || '',
 			options: prim.defaultOptions ? [...prim.defaultOptions] : [],
 			required: false
@@ -80,7 +81,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		specs.push(newSpec);
 		updateCurrentForm('specs', specs);
 		sound.play('button');
-		toast('تمت إضافة مواصفة جديدة إلى النموذج.', 'success');
+		toast( __( 'New specification field added.', 'workpress' ), 'success' );
 	};
 
 	const handleMoveSpec = (sIdx, direction) => {
@@ -100,7 +101,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 		const specs = currentForm.specs.filter((_, i) => i !== sIdx);
 		updateCurrentForm('specs', specs);
 		sound.play('button');
-		toast('تم حذف المواصفة.', 'info');
+		toast( __( 'Specification field deleted.', 'workpress' ), 'info' );
 	};
 
 	const handleUpdateSpec = (sIdx, key, val) => {
@@ -156,13 +157,13 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			if (window.workpressSettings) {
 				window.workpressSettings.intake_forms_schema = forms;
 			}
-			toast('تم حفظ نماذج استقبال طلبات العملاء بنجاح', 'success');
+			toast( __( 'Client intake forms saved successfully', 'workpress' ), 'success' );
 			sound.play('celebration');
 			if (typeof onSaved === 'function') onSaved(forms);
 		}).catch((err) => {
 			setIsSaving(false);
 			console.error(err);
-			toast('حدث خطأ أثناء حفظ النماذج', 'danger');
+			toast( __( 'Failed to save forms', 'workpress' ), 'danger' );
 			sound.play('caution');
 		});
 	};
@@ -172,18 +173,18 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			<!-- Header / Info Bar -->
 			<div className="notification is-light p-4 mb-4" style=${{ border: '1px solid #e2e8f0', borderRadius: 0 }}>
 				<h4 className="title is-6 mb-1 has-text-weight-bold">
-					<i className="dashicons dashicons-forms ml-1"></i>
-					استوديو تصميم نماذج واستمارات استقبال الطلبات (Intake Forms Studio)
+					<i className=${`dashicons dashicons-forms ${ rtl ? 'ml-1' : 'mr-1' }`}></i>
+					${ __( 'Client Intake Forms Studio', 'workpress' ) }
 				</h4>
 				<p className="is-size-7 has-text-grey">
-					يمكنك هنا إنشاء وتخصيص نماذج متعددة للخدمات، وتحديد الخانات والخيارات التي تظهر للعملاء في بوابتهم عند تقديم طلب مشروع جديد.
+					${ __( 'Create and customize intake forms, defining fields and options clients see when requesting projects in the portal.', 'workpress' ) }
 				</p>
 			</div>
 
 			<!-- Template Selector Bar -->
 			<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 p-3 has-background-white" style=${{ border: '1px solid #e2e8f0' }}>
 				<div className="is-flex is-align-items-center" style=${{ gap: '6px', flexWrap: 'wrap' }}>
-					<span className="is-size-7 has-text-weight-bold has-text-dark ml-2">القوالب المتاحة:</span>
+					<span className="is-size-7 has-text-weight-bold has-text-dark" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '0.5rem' }}>${ __( 'Available Templates:', 'workpress' ) }</span>
 					${forms.map((f, i) => html`
 						<button
 							key=${f.id || i}
@@ -192,17 +193,17 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							onClick=${() => { setActiveIdx(i); sound.play('button'); }}
 							style=${{ fontWeight: '700' }}
 						>
-							${f.name || `نموذج ${i + 1}`}
+							${f.name || sprintf( __( 'Form %d', 'workpress' ), i + 1 )}
 						</button>
 					`)}
 					<button
 						type="button"
 						className="button is-small is-success is-outlined wp-sharp-button"
 						onClick=${handleAddForm}
-						title="إضافة قالب نموذج طلب جديد"
+						title=${ __( 'Add new form template', 'workpress' ) }
 					>
 						<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-						<span>+ نموذج جديد</span>
+						<span>+ ${ __( 'New Template', 'workpress' ) }</span>
 					</button>
 				</div>
 
@@ -211,10 +212,10 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 						href="/portal/#/new-request" 
 						target="_blank" 
 						className="button is-info is-outlined wp-sharp-button"
-						title="معاينة البوابة"
+						title=${ __( 'Preview in portal', 'workpress' ) }
 					>
 						<span className="icon"><i className="dashicons dashicons-external"></i></span>
-						<span>معاينة في البوابة</span>
+						<span>${ __( 'Preview in Portal', 'workpress' ) }</span>
 					</a>
 				</div>
 			</div>
@@ -223,7 +224,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			<div className="box wp-card p-5 mb-4" style=${{ border: '1px solid #cbd5e1', borderRadius: 0 }}>
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 pb-3" style=${{ borderBottom: '1px solid #f1f5f9' }}>
 					<div className="is-flex is-align-items-center" style=${{ gap: '10px', flex: 1, maxWidth: '600px' }}>
-						<label className="label is-size-7 mb-0 has-text-weight-bold" style=${{ whiteSpace: 'nowrap' }}>اسم القالب:</label>
+						<label className="label is-size-7 mb-0 has-text-weight-bold" style=${{ whiteSpace: 'nowrap' }}>${ __( 'Template Name:', 'workpress' ) }</label>
 						<input
 							type="text"
 							className="input is-small wp-sharp-input"
@@ -239,7 +240,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							onClick=${() => handleDeleteForm(activeIdx)}
 						>
 							<span className="icon"><i className="dashicons dashicons-trash"></i></span>
-							<span>حذف هذا النموذج</span>
+							<span>${ __( 'Delete Template', 'workpress' ) }</span>
 						</button>
 					` : null}
 				</div>
@@ -247,12 +248,12 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 				<!-- Section 1: Title Field Config -->
 				<div className="wp-form-core-field-card p-4 mb-4">
 					<h5 className="title is-7 mb-3 has-text-primary has-text-weight-bold">
-						<i className="dashicons dashicons-tag ml-1"></i>
-						1. حقل العنوان والمعرف الذكي للطلب (Smart Title)
+						<i className=${`dashicons dashicons-tag ${ rtl ? 'ml-1' : 'mr-1' }`}></i>
+						1. ${ __( 'Smart Title Field', 'workpress' ) }
 					</h5>
 					<div className="columns is-variable is-2 mb-2">
 						<div className="column is-6">
-							<label className="label is-size-7">مسمى الحقل:</label>
+							<label className="label is-size-7">${ __( 'Field Label:', 'workpress' ) }</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -261,7 +262,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							/>
 						</div>
 						<div className="column is-6">
-							<label className="label is-size-7">نص التلميح (Placeholder):</label>
+							<label className="label is-size-7">${ __( 'Placeholder Text:', 'workpress' ) }</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -273,7 +274,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 
 					<!-- Suggestions Manager -->
 					<div className="p-3" style=${{ backgroundColor: '#ffffff', border: '1px dashed #cbd5e1', borderRadius: 0 }}>
-						<label className="label is-size-7 mb-1">اقتراحات العناوين السريعة الجاهزة:</label>
+						<label className="label is-size-7 mb-1">${ __( 'Quick Suggestions List:', 'workpress' ) }</label>
 						<div className="tags mb-2">
 							${(currentForm.title_suggestions || []).map((sug, sIdx) => html`
 								<span key=${sIdx} className="tag is-info is-light" style=${{ borderRadius: 0 }}>
@@ -289,10 +290,10 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 								value=${newSuggestionText}
 								onInput=${(e) => setNewSuggestionText(e.target.value)}
 								onKeyDown=${(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddSuggestion(); } }}
-								placeholder="اكتب عنواناً مقترحاً واضغط إضافة..."
+								placeholder=${ __( 'Type suggestion and click add...', 'workpress' ) }
 							/>
 							<button type="button" className="button is-small is-info is-light wp-sharp-button" onClick=${handleAddSuggestion}>
-								+ إضافة
+								+ ${ __( 'Add', 'workpress' ) }
 							</button>
 						</div>
 					</div>
@@ -301,12 +302,12 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 				<!-- Section 2: Description Field Config -->
 				<div className="wp-form-core-field-card p-4 mb-4">
 					<h5 className="title is-7 mb-3 has-text-primary has-text-weight-bold">
-						<i className="dashicons dashicons-editor-paragraph ml-1"></i>
-						2. حقل شرح وتفاصيل الطلب (Scope Description)
+						<i className=${`dashicons dashicons-editor-paragraph ${ rtl ? 'ml-1' : 'mr-1' }`}></i>
+						2. ${ __( 'Scope Description Field', 'workpress' ) }
 					</h5>
 					<div className="columns is-variable is-2">
 						<div className="column is-6">
-							<label className="label is-size-7">مسمى الحقل:</label>
+							<label className="label is-size-7">${ __( 'Field Label:', 'workpress' ) }</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -315,7 +316,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 							/>
 						</div>
 						<div className="column is-6">
-							<label className="label is-size-7">نص التلميح والتوجيه:</label>
+							<label className="label is-size-7">${ __( 'Placeholder Guidance Text:', 'workpress' ) }</label>
 							<input
 								type="text"
 								className="input is-small wp-sharp-input"
@@ -330,34 +331,34 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 				<div className="p-4" style=${{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', borderRadius: 0 }}>
 					<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
 						<h5 className="title is-7 mb-0 has-text-primary has-text-weight-bold">
-							<i className="dashicons dashicons-list-view ml-1"></i>
-							3. خانات ومواصفات الطلب التخصصية (Specs Matrix)
+							<i className=${`dashicons dashicons-list-view ${ rtl ? 'ml-1' : 'mr-1' }`}></i>
+							3. ${ __( 'Custom Specifications Matrix', 'workpress' ) }
 						</h5>
 						<div className="buttons are-small mb-0">
 							<button type="button" className="button is-small is-primary is-light wp-sharp-button" onClick=${() => handleAddSpec('select_custom')}>
-								+ قائمة منسدلة
+								+ ${ __( 'Dropdown', 'workpress' ) }
 							</button>
 							<button type="button" className="button is-small is-info is-light wp-sharp-button" onClick=${() => handleAddSpec('pills')}>
-								+ وسوم متعددة
+								+ ${ __( 'Multi-Pills', 'workpress' ) }
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('short_text')}>
-								+ نص قصير
+								+ ${ __( 'Short Text', 'workpress' ) }
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('numeric')}>
-								+ رقم/ميزانية
+								+ ${ __( 'Numeric', 'workpress' ) }
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('date')}>
-								+ تاريخ
+								+ ${ __( 'Date', 'workpress' ) }
 							</button>
 							<button type="button" className="button is-small is-light wp-sharp-button" onClick=${() => handleAddSpec('upload')}>
-								+ ملفات
+								+ ${ __( 'Files', 'workpress' ) }
 							</button>
 						</div>
 					</div>
 
 					${(!currentForm.specs || currentForm.specs.length === 0) ? html`
 						<div className="has-text-centered py-4 has-text-grey is-size-7" style=${{ border: '1px dashed #cbd5e1' }}>
-							لا توجد مواصفات إضافية في هذا النموذج. استخدم الأزرار أعلاه لإضافة خانات.
+							${ __( 'No specification fields added yet. Use buttons above to add fields.', 'workpress' ) }
 						</div>
 					` : html`
 						<div style=${{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
@@ -385,8 +386,8 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 			<!-- Footer Action -->
 			<div className="is-flex is-justify-content-space-between is-align-items-center pt-3" style=${{ borderTop: '1px solid #ededed' }}>
 				<p className="is-size-7 has-text-grey">
-					<i className="dashicons dashicons-yes-alt ml-1 has-text-success"></i>
-					يتم تخزين كافة المواصفات التي يملؤها الزبون كـ JSON مهيكل داخل كيان المشروع CPT_PROJECT بمسمياتها التي وضعتها أعلاه.
+					<i className=${`dashicons dashicons-yes-alt ${ rtl ? 'ml-1' : 'mr-1' } has-text-success`}></i>
+					${ __( 'All specs are stored as structured JSON in the project workspace.', 'workpress' ) }
 				</p>
 				<button 
 					type="button"
@@ -396,7 +397,7 @@ export default function IntakeFormsBuilderTab({ initialForms, onSaved }) {
 					style=${{ fontWeight: '800' }}
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>حفظ واعتماد النماذج</span>
+					<span>${ __( 'Save & Sync Forms', 'workpress' ) }</span>
 				</button>
 			</div>
 		</div>

@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __, isRtl } from '../../utils/html.js';
 import Modal from '../modals/Modal.js';
 import { tasksApi, projectsApi } from '../../api/client.js';
 import WpEditor from '../ui/WpEditor.js';
@@ -14,15 +14,16 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 	const [ estimatedHours, setEstimatedHours ] = useState( '' );
 	const [ featuredImage, setFeaturedImage ] = useState( null );
 	const [ featuredImageUrl, setFeaturedImageUrl ] = useState( '' );
+	const rtl = isRtl();
 	
 	const [ projects, setProjects ] = useState( [] );
 	const [ isSaving, setIsSaving ] = useState( false );
 	const [ error, setError ] = useState( '' );
 
 	const priorityOptions = [
-		{ value: 'low', label: 'منخفضة' },
-		{ value: 'medium', label: 'متوسطة' },
-		{ value: 'high', label: 'عالية (حرجة)' }
+		{ value: 'low', label: __( 'Low', 'workpress' ) },
+		{ value: 'medium', label: __( 'Medium', 'workpress' ) },
+		{ value: 'high', label: __( 'High', 'workpress' ) }
 	];
 
 	useEffect( () => {
@@ -53,11 +54,11 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 	const handleSubmit = () => {
 		setError( '' );
 		if ( !title || title.trim() === '' ) {
-			setError( 'عنوان المهمة مطلوب' );
+			setError( __( 'Task title is required', 'workpress' ) );
 			return;
 		}
 		if ( !projectId ) {
-			setError( 'المشروع مطلوب' );
+			setError( __( 'Project is required', 'workpress' ) );
 			return;
 		}
 
@@ -77,17 +78,17 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 			: tasksApi.create( data );
 			
 		request.then( () => {
-			toast( task && task.id ? 'تم تحديث المهمة بنجاح' : 'تم إنشاء المهمة بنجاح', 'success' );
+			toast( task && task.id ? __( 'Task updated successfully', 'workpress' ) : __( 'Task created successfully', 'workpress' ), 'success' );
 			onSave();
 			onClose();
 		} ).catch( err => {
 			console.error( 'Error saving task:', err );
-			toast( 'حدث خطأ أثناء حفظ المهمة', 'danger' );
+			toast( __( 'An error occurred while saving task', 'workpress' ), 'danger' );
 		} ).finally( () => setIsSaving( false ) );
 	};
 
 	const projectOptions = [
-		{ value: '', label: '-- اختر المشروع --' },
+		{ value: '', label: `-- ${ __( 'Select Project', 'workpress' ) } --` },
 		...projects.map( p => ( { value: p.id, label: p.name } ) )
 	];
 
@@ -95,14 +96,14 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
 			<div className="has-text-danger is-size-7">${ error }</div>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
-				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>إلغاء</button>
+				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>${ __( 'Cancel', 'workpress' ) }</button>
 				<button 
 					className=${ `button is-primary wp-sharp-button ${ isSaving ? 'is-loading' : '' }` }
 					onClick=${ handleSubmit }
 					disabled=${ isSaving }
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>${ task ? 'حفظ التعديلات' : 'إنشاء المهمة' }</span>
+					<span>${ task ? __( 'Save Changes', 'workpress' ) : __( 'Create Task', 'workpress' ) }</span>
 				</button>
 			</div>
 		</div>
@@ -112,7 +113,7 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title=${ task ? 'تعديل المهمة' : 'مستند مهمة جديدة' }
+			title=${ task ? __( 'Edit Task', 'workpress' ) : __( 'Add Work Item', 'workpress' ) }
 			footer=${ footer }
 			size="wp-mega-modal"
 		>
@@ -124,12 +125,12 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 						<input 
 							className="input wp-title-input" 
 							type="text" 
-							placeholder="عنوان المهمة..." 
+							placeholder=${ __( 'Task Title...', 'workpress' ) }
 							value=${ title }
 							onChange=${ (e) => setTitle( e.target.value ) }
 							style=${{ 
-								direction: 'rtl', 
-								textAlign: 'right', 
+								direction: rtl ? 'rtl' : 'ltr', 
+								textAlign: rtl ? 'right' : 'left', 
 								borderRadius: 0, 
 								border: '1px solid #e2e8f0', 
 								boxShadow: 'none',
@@ -156,18 +157,18 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 					<div className="wp-metadata-toolbar">
 						<!-- Project CustomSelect -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">المشروع:</span>
+							<span className="wp-metadata-label">${ __( 'Project:', 'workpress' ) }</span>
 							<${CustomSelect}
 								value=${ projectId }
 								onChange=${ setProjectId }
 								options=${ projectOptions }
-								placeholder="-- اختر المشروع --"
+								placeholder=${ `-- ${ __( 'Select Project', 'workpress' ) } --` }
 							/>
 						</div>
 
 						<!-- Priority CustomSelect -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">الأولوية:</span>
+							<span className="wp-metadata-label">${ __( 'Priority:', 'workpress' ) }</span>
 							<${CustomSelect}
 								value=${ priority }
 								onChange=${ setPriority }
@@ -177,7 +178,7 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 
 						<!-- Estimated Hours Input -->
 						<div className="wp-metadata-item">
-							<span className="wp-metadata-label">الساعات المقدرة:</span>
+							<span className="wp-metadata-label">${ __( 'Estimated Hours:', 'workpress' ) }</span>
 							<input 
 								type="number"
 								step="0.5"
@@ -198,7 +199,7 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 						id="task-content-editor"
 						value=${ content }
 						onChange=${ setContent }
-						placeholder="اكتب تفاصيل المهمة هنا..."
+						placeholder=${ __( 'Write task details here...', 'workpress' ) }
 					/>
 				</div>
 			</div>

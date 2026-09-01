@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf } from '../../utils/html.js';
 
 /**
  * Webhook Add/Edit Modal Dialog Component
@@ -27,7 +27,7 @@ export default function WebhookModal({
 				<!-- MODAL HEADER -->
 				<header className="modal-card-head" style=${{ background: '#0f172a', borderBottom: 'none', padding: '18px 24px', borderRadius: 0 }}>
 					<p className="modal-card-title" style=${{ color: '#fff', fontSize: '1.1rem', fontWeight: '800' }}>
-						${editingItem.id ? 'تعديل إعدادات خطاف الويب' : 'إنشاء خطاف ويب جديد'}
+						${editingItem.id ? __( 'Edit Webhook Settings', 'workpress' ) : __( 'Create New Webhook', 'workpress' )}
 					</p>
 					<button className="delete" aria-label="close" onClick=${onClose}></button>
 				</header>
@@ -37,7 +37,7 @@ export default function WebhookModal({
 					
 					<!-- PRESET SELECTOR -->
 					<div className="field" style=${{ marginBottom: '20px' }}>
-						<label className="label is-size-7 has-text-weight-bold">نوع قالب الإرسال والمنصة المستهدفة (Preset):</label>
+						<label className="label is-size-7 has-text-weight-bold">${ __( 'Payload Preset & Target Platform:', 'workpress' ) }</label>
 						<div style=${{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '8px' }}>
 							<button 
 								type="button" 
@@ -79,28 +79,28 @@ export default function WebhookModal({
 
 					<!-- NAME -->
 					<div className="field" style=${{ marginBottom: '16px' }}>
-						<label className="label is-size-7 has-text-weight-bold">اسم الخطاف / القناة:</label>
+						<label className="label is-size-7 has-text-weight-bold">${ __( 'Webhook / Channel Name:', 'workpress' ) }</label>
 						<div className="control">
 							<input 
 								className="input wp-sharp-input" 
 								type="text" 
 								value=${editingItem.name} 
 								onInput=${(e) => setEditingItem({ ...editingItem, name: e.target.value })}
-								placeholder="مثال: تنبيهات ديسكورد للإدارة العامة"
+								placeholder=${ __( 'e.g., Discord Management Alerts', 'workpress' ) }
 							/>
 						</div>
 					</div>
 
 					<!-- URL -->
 					<div className="field" style=${{ marginBottom: '16px' }}>
-						<label className="label is-size-7 has-text-weight-bold">رابط الاستماع الخارجي (Webhook Endpoint URL):</label>
+						<label className="label is-size-7 has-text-weight-bold">${ __( 'External Webhook Endpoint URL:', 'workpress' ) }</label>
 						<div className="control">
 							<input 
 								className="input wp-sharp-input" 
 								type="url" 
 								value=${editingItem.url} 
 								onInput=${(e) => setEditingItem({ ...editingItem, url: e.target.value })}
-								placeholder="https://discord.com/api/webhooks/... أو https://hooks.slack.com/..."
+								placeholder="https://discord.com/api/webhooks/... or https://hooks.slack.com/..."
 								style=${{ direction: 'ltr', fontFamily: 'monospace', fontSize: '0.85rem' }}
 							/>
 						</div>
@@ -108,7 +108,7 @@ export default function WebhookModal({
 
 					<!-- SECRET -->
 					<div className="field" style=${{ marginBottom: '20px' }}>
-						<label className="label is-size-7 has-text-weight-bold">المفتاح السري للتوقيع المشفر (Secret Key for HMAC):</label>
+						<label className="label is-size-7 has-text-weight-bold">${ __( 'HMAC Secret Key (Signature):', 'workpress' ) }</label>
 						<div className="field has-addons" style=${{ direction: 'ltr' }}>
 							<div className="control is-expanded">
 								<input 
@@ -126,19 +126,19 @@ export default function WebhookModal({
 									className="button is-light wp-sharp-button" 
 									onClick=${handleGenerateSecret}
 									style=${{ fontWeight: 'bold' }}
-									title="توليد مفتاح عشوائي"
+									title=${ __( 'Generate random secret', 'workpress' ) }
 								>
 									<span className="icon is-small"><i className="dashicons dashicons-randomize"></i></span>
-									<span>توليد</span>
+									<span>${ __( 'Generate', 'workpress' ) }</span>
 								</button>
 							</div>
 						</div>
-						<p className="help" style=${{ color: '#64748b' }}>يتم استخدام هذا المفتاح لتوقيع الحزم عبر رأس X-WorkPress-Signature لمنع التلاعب.</p>
+						<p className="help" style=${{ color: '#64748b' }}>${ __( 'Used to sign payloads via X-WorkPress-Signature header.', 'workpress' ) }</p>
 					</div>
 
 					<!-- EVENTS CHECKLIST -->
 					<div className="field" style=${{ marginBottom: '20px' }}>
-						<label className="label is-size-7 has-text-weight-bold">الأحداث المراد الاشتراك بها وإرسالها:</label>
+						<label className="label is-size-7 has-text-weight-bold">${ __( 'Subscribed Events to Dispatch:', 'workpress' ) }</label>
 						<div style=${{ display: 'flex', flexDirection: 'column', gap: '8px', background: '#f8fafc', padding: '12px 16px', borderRadius: 0, border: '1px solid #e2e8f0' }}>
 							${Object.entries(supportedEvents).map(([key, ev]) => html`
 								<label key=${key} style=${{ display: 'flex', alignItems: 'flex-start', gap: '10px', cursor: 'pointer', padding: '6px 0' }}>
@@ -165,8 +165,8 @@ export default function WebhookModal({
 					<div style=${{ background: '#eff6ff', padding: '14px 18px', borderRadius: 0, border: '1px solid #bfdbfe', marginBottom: '16px' }}>
 						<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '10px' }}>
 							<div>
-								<strong style=${{ fontSize: '0.85rem', color: '#1e40af' }}>اختبار الاتصال اللحظي (Test Ping)</strong>
-								<div style=${{ fontSize: '0.75rem', color: '#3b82f6' }}>أرسل حزمة تجريبية الآن وتأكد من عمل الرابط قبل الحفظ</div>
+								<strong style=${{ fontSize: '0.85rem', color: '#1e40af' }}>${ __( 'Live Test Ping', 'workpress' ) }</strong>
+								<div style=${{ fontSize: '0.75rem', color: '#3b82f6' }}>${ __( 'Send a test payload to verify endpoint connectivity before saving.', 'workpress' ) }</div>
 							</div>
 							<button 
 								type="button" 
@@ -174,7 +174,7 @@ export default function WebhookModal({
 								onClick=${handleModalTest}
 								style=${{ fontWeight: 'bold' }}
 							>
-								<span>إرسال فحص تجريبي</span>
+								<span>${ __( 'Send Test Ping', 'workpress' ) }</span>
 							</button>
 						</div>
 
@@ -190,11 +190,11 @@ export default function WebhookModal({
 							}}>
 								${modalTestResult.success ? html`
 									<div>
-										<strong>تم الاتصال بنجاح!</strong> كود الاستجابة: HTTP ${modalTestResult.status_code} — سرعة الوصول: ${modalTestResult.latency_ms}ms
+										<strong>${ __( 'Connected successfully!', 'workpress' ) }</strong> HTTP ${modalTestResult.status_code} — ${ sprintf( __( 'Latency: %sms', 'workpress' ), modalTestResult.latency_ms ) }
 									</div>
 								` : html`
 									<div>
-										<strong>تعذر الاتصال:</strong> ${modalTestResult.error_message || 'رمز الخطأ: ' + modalTestResult.status_code}
+										<strong>${ __( 'Connection failed:', 'workpress' ) }</strong> ${modalTestResult.error_message || sprintf( __( 'Status code: %s', 'workpress' ), modalTestResult.status_code )}
 									</div>
 								`}
 							</div>
@@ -206,7 +206,7 @@ export default function WebhookModal({
 				<!-- MODAL FOOTER -->
 				<footer className="modal-card-foot" style=${{ justifyContent: 'flex-end', gap: '10px', background: '#f8fafc', padding: '14px 24px', borderRadius: 0 }}>
 					<button type="button" className="button wp-sharp-button" onClick=${onClose}>
-						إلغاء
+						${ __( 'Cancel', 'workpress' ) }
 					</button>
 					<button 
 						type="button"
@@ -215,7 +215,7 @@ export default function WebhookModal({
 						style=${{ fontWeight: 'bold', background: '#0f172a', borderColor: '#0f172a' }}
 					>
 						<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-						<span>حفظ إعدادات الخطاف</span>
+						<span>${ __( 'Save Webhook', 'workpress' ) }</span>
 					</button>
 				</footer>
 

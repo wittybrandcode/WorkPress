@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf } from '../../utils/html.js';
 import sound from '../../utils/sound.js';
 
 /**
@@ -35,11 +35,11 @@ export default function AdminPerspectiveView({
 					<div 
 						className="box wp-card wp-dashboard-kpi-card"
 						onClick=${ () => { sound.play( 'click' ); window.location.hash = '#/projects'; } }
-						title="انتقال إلى صفحة المشاريع"
+						title=${ __( 'View Projects', 'workpress' ) }
 					>
 						<div>
-							<p className="heading has-text-grey mb-1">المشاريع الكلية</p>
-							<p className="title is-4 m-0 has-text-dark">${ totalProjectsCount } <span className="is-size-7 has-text-grey">(${ activeProjectsCount } نشط | ${ completedProjectsCount } مكتمل)</span></p>
+							<p className="heading has-text-grey mb-1">${ __( 'Total Projects', 'workpress' ) }</p>
+							<p className="title is-4 m-0 has-text-dark">${ totalProjectsCount } <span className="is-size-7 has-text-grey">(${ activeProjectsCount } ${ __( 'Active', 'workpress' ) } | ${ completedProjectsCount } ${ __( 'Completed', 'workpress' ) })</span></p>
 						</div>
 						<span className="icon is-large has-text-link"><i className="dashicons dashicons-portfolio is-size-3"></i></span>
 					</div>
@@ -48,11 +48,11 @@ export default function AdminPerspectiveView({
 					<div 
 						className="box wp-card wp-dashboard-kpi-card"
 						onClick=${ () => { sound.play( 'click' ); window.location.hash = '#/kanban'; } }
-						title="انتقال إلى لوحة الكانبان"
+						title=${ __( 'Kanban', 'workpress' ) }
 					>
 						<div>
-							<p className="heading has-text-grey mb-1">نسبة الإنجاز العامة</p>
-							<p className="title is-4 m-0 has-text-info">${ globalProgress }% <span className="is-size-7 has-text-grey">(${ completedTasksCount }/${ totalTasksCount } مهمة)</span></p>
+							<p className="heading has-text-grey mb-1">${ __( 'Average Progress', 'workpress' ) }</p>
+							<p className="title is-4 m-0 has-text-info">${ globalProgress }% <span className="is-size-7 has-text-grey">(${ completedTasksCount }/${ totalTasksCount } ${ __( 'Tasks', 'workpress' ) })</span></p>
 						</div>
 						<span className="icon is-large has-text-info"><i className="dashicons dashicons-chart-pie is-size-3"></i></span>
 					</div>
@@ -61,11 +61,11 @@ export default function AdminPerspectiveView({
 					<div 
 						className="box wp-card wp-dashboard-kpi-card"
 						onClick=${ () => { sound.play( 'click' ); window.location.hash = '#/knowledge'; } }
-						title="انتقال إلى قاعدة المعرفة المعتمدة"
+						title=${ __( 'Knowledge Base', 'workpress' ) }
 					>
 						<div>
-							<p className="heading has-text-grey mb-1">رصيد المعرفة المعتمدة</p>
-							<p className="title is-4 m-0 has-text-success">${ knowledge.length } <span className="is-size-7 has-text-grey">حل موثق</span></p>
+							<p className="heading has-text-grey mb-1">${ __( 'Verified Knowledge Assets', 'workpress' ) }</p>
+							<p className="title is-4 m-0 has-text-success">${ knowledge.length } <span className="is-size-7 has-text-grey">${ __( 'verified solutions', 'workpress' ) }</span></p>
 						</div>
 						<span className="icon is-large has-text-success"><i className="dashicons dashicons-awards is-size-3"></i></span>
 					</div>
@@ -74,12 +74,12 @@ export default function AdminPerspectiveView({
 					<div 
 						className=${ `box wp-card wp-dashboard-kpi-card ${ totalPendingTrash > 0 ? 'has-background-danger-light' : '' }` }
 						onClick=${ () => { sound.play( 'click' ); window.location.hash = '#/settings'; } }
-						title="انتقال إلى إدارة المحذوفات والإعدادات"
+						title=${ __( 'Settings', 'workpress' ) }
 					>
 						<div>
-							<p className="heading has-text-grey mb-1">طلبات الحذف العالقة</p>
+							<p className="heading has-text-grey mb-1">${ __( 'Pending Trash Requests', 'workpress' ) }</p>
 							<p className=${ `title is-4 m-0 ${ totalPendingTrash > 0 ? 'has-text-danger has-text-weight-bold' : 'has-text-grey' }` }>
-								${ totalPendingTrash } <span className="is-size-7">طلب معلق</span>
+								${ totalPendingTrash } <span className="is-size-7">${ __( 'pending requests', 'workpress' ) }</span>
 							</p>
 						</div>
 						<span className=${ `icon is-large ${ totalPendingTrash > 0 ? 'has-text-danger' : 'has-text-grey-light' }` }>
@@ -95,26 +95,26 @@ export default function AdminPerspectiveView({
 					<div className="p-3 has-background-light is-flex is-justify-content-space-between is-align-items-center wp-border-bottom">
 						<h3 className="title is-6 mb-0 has-text-danger is-flex is-align-items-center">
 							<span className="icon ml-1"><i className="dashicons dashicons-warning"></i></span>
-							<span>صندوق التدخلات والقرارات الإدارية العليا العاجلة</span>
+							<span>${ __( 'Executive Urgent Action Center', 'workpress' ) }</span>
 						</h3>
-						<span className="tag is-danger is-light has-text-weight-bold" style=${{ borderRadius: 0 }}>يتطلب قرارك</span>
+						<span className="tag is-danger is-light has-text-weight-bold" style=${{ borderRadius: 0 }}>${ __( 'Action Required', 'workpress' ) }</span>
 					</div>
 					<div className="p-4">
 						<div className="columns is-multiline">
 							<!-- Pending Trash Tasks/Projects/Contribs -->
 							${ pendingTrashTasks.length > 0 && html`
 								<div className="column is-12">
-									<h4 className="title is-7 mb-2 has-text-grey">مهام بانتظار الموافقة على الحذف:</h4>
+									<h4 className="title is-7 mb-2 has-text-grey">${ __( 'Tasks awaiting trash approval:', 'workpress' ) }</h4>
 									${ pendingTrashTasks.map( t => html`
 										<div key=${ t.id } className="p-3 mb-2 wp-border is-flex is-justify-content-space-between is-align-items-center has-background-white">
 											<div>
 												<strong>${ t.title }</strong>
-												<span className="is-size-7 has-text-grey mr-2">(المشروع: ${ t.project_name || 'عام' })</span>
-												<p className="is-size-7 has-text-danger mt-1">السبب: ${ t.trash_reason || 'غير محدد' }</p>
+												<span className="is-size-7 has-text-grey mr-2">(${ __( 'Project:', 'workpress' ) } ${ t.project_name || __( 'Project', 'workpress' ) })</span>
+												<p className="is-size-7 has-text-danger mt-1">${ __( 'Reason:', 'workpress' ) } ${ t.trash_reason || __( 'Flexible', 'workpress' ) }</p>
 											</div>
 											<div className="buttons are-small mb-0">
-												<button className="button is-white wp-border" onClick=${ () => handleRestoreItem( 'task', t.id ) }>رفض واستعادة</button>
-												<button className="button is-danger" onClick=${ () => handleDeleteItem( 'task', t.id ) }>موافقة وحذف</button>
+												<button className="button is-white wp-border" onClick=${ () => handleRestoreItem( 'task', t.id ) }>${ __( 'Restore & Reject', 'workpress' ) }</button>
+												<button className="button is-danger" onClick=${ () => handleDeleteItem( 'task', t.id ) }>${ __( 'Approve & Delete', 'workpress' ) }</button>
 											</div>
 										</div>
 									` ) }
@@ -124,21 +124,21 @@ export default function AdminPerspectiveView({
 							<!-- Projects without Lead -->
 							${ unassignedLeadProjects.length > 0 && html`
 								<div className="column is-12">
-									<h4 className="title is-7 mb-2 has-text-grey">مشاريع جديدة لم يُعين لها قائد مشروع:</h4>
+									<h4 className="title is-7 mb-2 has-text-grey">${ __( 'New projects without assigned lead:', 'workpress' ) }</h4>
 									<div className="columns is-multiline">
 										${ unassignedLeadProjects.map( p => html`
 											<div key=${ p.id } className="column is-6">
 												<div className="p-3 wp-border is-flex is-justify-content-space-between is-align-items-center has-background-white">
 													<div>
 														<strong>${ p.name }</strong>
-														<span className="tag is-warning is-light is-small ml-2" style=${{ borderRadius: 0 }}>بلا قائد</span>
+														<span className="tag is-warning is-light is-small ml-2" style=${{ borderRadius: 0 }}>${ __( 'No Lead', 'workpress' ) }</span>
 													</div>
 													<button 
 														className="button is-small is-primary wp-sharp-button"
 														onClick=${ () => { setMembersProject( p ); setIsMembersModalOpen( true ); } }
 													>
 														<span className="icon"><i className="dashicons dashicons-businessman"></i></span>
-														<span>تعيين قائد</span>
+														<span>${ __( 'Assign Lead', 'workpress' ) }</span>
 													</button>
 												</div>
 											</div>
@@ -155,16 +155,16 @@ export default function AdminPerspectiveView({
 			<div className="box wp-card p-0 mb-5 wp-border">
 				<div className="p-3 is-flex is-justify-content-space-between is-align-items-center wp-border-bottom has-background-light">
 					<div className="is-flex is-align-items-center">
-						<h3 className="title is-6 mb-0 ml-3 has-text-dark has-text-weight-bold">رادار كافة المشاريع (All Projects Radar)</h3>
+						<h3 className="title is-6 mb-0 ml-3 has-text-dark has-text-weight-bold">${ __( 'All Projects Radar', 'workpress' ) }</h3>
 						<div className="buttons are-small mb-0">
-							<button className=${ `button wp-sharp-button ${ projectFilter === 'all' ? 'is-dark' : 'is-white wp-border' }` } onClick=${ () => setProjectFilter('all') }>الكل (${ projects.length })</button>
-							<button className=${ `button wp-sharp-button ${ projectFilter === 'active' ? 'is-info' : 'is-white wp-border' }` } onClick=${ () => setProjectFilter('active') }>النشطة (${ activeProjectsCount })</button>
-							<button className=${ `button wp-sharp-button ${ projectFilter === 'completed' ? 'is-success' : 'is-white wp-border' }` } onClick=${ () => setProjectFilter('completed') }>المكتملة (${ completedProjectsCount })</button>
+							<button className=${ `button wp-sharp-button ${ projectFilter === 'all' ? 'is-dark' : 'is-white wp-border' }` } onClick=${ () => setProjectFilter('all') }>${ __( 'All', 'workpress' ) } (${ projects.length })</button>
+							<button className=${ `button wp-sharp-button ${ projectFilter === 'active' ? 'is-info' : 'is-white wp-border' }` } onClick=${ () => setProjectFilter('active') }>${ __( 'Active', 'workpress' ) } (${ activeProjectsCount })</button>
+							<button className=${ `button wp-sharp-button ${ projectFilter === 'completed' ? 'is-success' : 'is-white wp-border' }` } onClick=${ () => setProjectFilter('completed') }>${ __( 'Completed', 'workpress' ) } (${ completedProjectsCount })</button>
 						</div>
 					</div>
 					<button className="button is-primary is-small wp-sharp-button" onClick=${ () => { setSelectedProject(null); setIsProjectModalOpen(true); } }>
 						<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-						<span>مشروع جديد</span>
+						<span>${ __( 'New Project', 'workpress' ) }</span>
 					</button>
 				</div>
 
@@ -172,7 +172,7 @@ export default function AdminPerspectiveView({
 					<div className="columns is-multiline">
 						${ filteredProjects.length === 0 ? html`
 							<div className="column is-12 has-text-centered py-5 has-text-grey">
-								لا توجد مشاريع مطابقة للفلتر المحدد.
+								${ __( 'No projects matching the selected filter.', 'workpress' ) }
 							</div>
 						` : filteredProjects.map( p => html`
 							<div key=${ p.id } className="column is-4">
@@ -180,24 +180,24 @@ export default function AdminPerspectiveView({
 									<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 										<span className="tag is-dark is-light is-small" style=${{ borderRadius: 0 }}>${ p.prefix }</span>
 										${ p.is_completed ? html`
-											<span className="tag is-success is-small has-text-weight-bold" style=${{ borderRadius: 0 }}><i className="dashicons dashicons-awards ml-1"></i> مكتمل (${ p.progress }%)</span>
+											<span className="tag is-success is-small has-text-weight-bold" style=${{ borderRadius: 0 }}><i className="dashicons dashicons-awards ml-1"></i> ${ __( 'Completed', 'workpress' ) } (${ p.progress }%)</span>
 										` : html`
-											<span className="tag is-info is-light is-small" style=${{ borderRadius: 0 }}>نشط (${ p.progress }%)</span>
+											<span className="tag is-info is-light is-small" style=${{ borderRadius: 0 }}>${ __( 'Active', 'workpress' ) } (${ p.progress }%)</span>
 										` }
 									</div>
 									<h4 className="title is-6 mb-2 wp-text-truncate" title=${ p.name }>
 										<a href=${ `#/projects` } className="has-text-dark">${ p.name }</a>
 									</h4>
 									<div className="mt-auto pt-3 wp-border-top is-flex is-justify-content-space-between is-align-items-center is-size-7 has-text-grey">
-										<span>المهام: ${ p.completed_count || 0 }/${ p.count || 0 }</span>
+										<span>${ __( 'Tasks:', 'workpress' ) } ${ p.completed_count || 0 }/${ p.count || 0 }</span>
 										<div className="buttons are-small mb-0">
-											<button className="button is-dark wp-border is-small" onClick=${ () => setReportModalProject(p) } title="استخراج التقرير التنفيذي وكتاب المعرفة">
+											<button className="button is-dark wp-border is-small" onClick=${ () => setReportModalProject(p) } title=${ __( 'Official Delivery Certificate', 'workpress' ) }>
 												<i className="dashicons dashicons-media-document"></i>
 											</button>
-											<button className="button is-white wp-border is-small" onClick=${ () => { setMembersProject(p); setIsMembersModalOpen(true); } } title="إدارة الأعضاء">
+											<button className="button is-white wp-border is-small" onClick=${ () => { setMembersProject(p); setIsMembersModalOpen(true); } } title=${ __( 'Assignees', 'workpress' ) }>
 												<i className="dashicons dashicons-admin-users"></i>
 											</button>
-											<button className="button is-white wp-border is-small" onClick=${ () => { setSelectedProject(p); setIsProjectModalOpen(true); } } title="تعديل المشروع">
+											<button className="button is-white wp-border is-small" onClick=${ () => { setSelectedProject(p); setIsProjectModalOpen(true); } } title=${ __( 'Edit Project', 'workpress' ) }>
 												<i className="dashicons dashicons-edit"></i>
 											</button>
 										</div>

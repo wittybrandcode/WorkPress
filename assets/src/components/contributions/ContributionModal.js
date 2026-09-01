@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __ } from '../../utils/html.js';
 import Modal from '../modals/Modal.js';
 import { tasksApi, contributionsApi } from '../../api/client.js';
 import WpEditor from '../ui/WpEditor.js';
@@ -46,10 +46,10 @@ export default function ContributionModal({ isActive, onClose, onSave, defaultTa
 	const typeOptions = availableTypes.length > 0
 		? availableTypes.map( t => ({ value: t.key, label: t.label }) )
 		: [
-			{ value: 'implementation', label: 'تنفيذ فني' },
-			{ value: 'solution', label: 'حل مقترح' },
-			{ value: 'review', label: 'مراجعة وتدقيق' },
-			{ value: 'comment', label: 'تعليق وملاحظة' }
+			{ value: 'implementation', label: __( 'Technical Implementation', 'workpress' ) },
+			{ value: 'solution', label: __( 'Propose Solution', 'workpress' ) },
+			{ value: 'review', label: __( 'Review & Audit', 'workpress' ) },
+			{ value: 'comment', label: __( 'Comment & Note', 'workpress' ) }
 		];
 
 	const handleSubmit = () => {
@@ -69,35 +69,35 @@ export default function ContributionModal({ isActive, onClose, onSave, defaultTa
 
 		tasksApi.contributions.create( taskId, data )
 			.then( () => {
-				toast( 'تمت إضافة المساهمة بنجاح', 'success' );
+				toast( __( 'Contribution added successfully', 'workpress' ), 'success' );
 				onSave();
 				onClose();
 			} )
 			.catch( err => {
 				console.error( 'Error creating contribution:', err );
-				toast( 'حدث خطأ أثناء إضافة المساهمة', 'danger' );
+				toast( __( 'An error occurred while adding contribution.', 'workpress' ), 'danger' );
 			} )
 			.finally( () => setIsSaving( false ) );
 	};
 
 	const taskOptions = [
-		{ value: '', label: '-- اختر المهمة المستهدفة --' },
+		{ value: '', label: `-- ${ __( 'Select Target Task', 'workpress' ) } --` },
 		...tasks.map( t => ( { value: t.id, label: t.title } ) )
 	];
 
 	const scopeOptions = [
-		{ value: 'client_review', label: 'متاح للعميل ' },
-		{ value: 'internal', label: 'داخلي للفريق ' }
+		{ value: 'client_review', label: __( 'Client Review', 'workpress' ) },
+		{ value: 'internal', label: __( 'Internal Team Only', 'workpress' ) }
 	];
 
 	const footer = html`
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
 			<div>
-				${ (!taskId || !content.trim()) && html`<span className="has-text-grey is-size-7">يرجى اختيار المهمة وكتابة محتوى المساهمة</span>` }
+				${ (!taskId || !content.trim()) && html`<span className="has-text-grey is-size-7">${ __( 'Please select a task and write contribution content', 'workpress' ) }</span>` }
 			</div>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
 				<button className="button is-light wp-sharp-button" onClick=${ onClose } disabled=${ isSaving }>
-					إلغاء
+					${ __( 'Cancel', 'workpress' ) }
 				</button>
 				<button 
 					className=${ `button is-primary wp-sharp-button ${isSaving ? 'is-loading' : ''}` } 
@@ -105,7 +105,7 @@ export default function ContributionModal({ isActive, onClose, onSave, defaultTa
 					disabled=${ !taskId || !content.trim() || isSaving }
 				>
 					<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-					<span>إضافة المساهمة</span>
+					<span>${ __( 'Add Contribution', 'workpress' ) }</span>
 				</button>
 			</div>
 		</div>
@@ -115,7 +115,7 @@ export default function ContributionModal({ isActive, onClose, onSave, defaultTa
 		<${Modal} 
 			isActive=${ isActive } 
 			onClose=${ onClose } 
-			title="إضافة مساهمة جديدة" 
+			title=${ __( 'Add New Contribution', 'workpress' ) } 
 			footer=${ footer }
 			size="wp-mega-modal"
 		>
@@ -123,22 +123,22 @@ export default function ContributionModal({ isActive, onClose, onSave, defaultTa
 				<!-- Fixed Sticky Top Container (Metadata Toolbar + ImagePicker) -->
 				<div className="wp-modal-sticky-header">
 					<div className="is-flex is-align-items-center mb-0" style=${{ gap: '10px', width: '100%' }}>
-						<!-- Row 1: Metadata Toolbar (Equal distribution across width) -->
+						<!-- Row 1: Metadata Toolbar -->
 						<div className="wp-metadata-toolbar mb-0 is-flex-grow-1">
 							<!-- Target Task Select -->
 							<div className="wp-metadata-item">
-								<span className="wp-metadata-label">المهمة:</span>
+								<span className="wp-metadata-label">${ __( 'Task:', 'workpress' ) }</span>
 								<${CustomSelect}
 									value=${ taskId }
 									onChange=${ setTaskId }
 									options=${ taskOptions }
-									placeholder="-- اختر المهمة --"
+									placeholder=${ `-- ${ __( 'Select Task', 'workpress' ) } --` }
 								/>
 							</div>
 
 							<!-- Contribution Type Select -->
 							<div className="wp-metadata-item">
-								<span className="wp-metadata-label">النوع:</span>
+								<span className="wp-metadata-label">${ __( 'Type:', 'workpress' ) }</span>
 								<${CustomSelect}
 									value=${ type }
 									onChange=${ setType }
@@ -148,7 +148,7 @@ export default function ContributionModal({ isActive, onClose, onSave, defaultTa
 
 							<!-- Visibility Scope Select -->
 							<div className="wp-metadata-item">
-								<span className="wp-metadata-label">النطاق:</span>
+								<span className="wp-metadata-label">${ __( 'Scope:', 'workpress' ) }</span>
 								<${CustomSelect}
 									value=${ visibilityScope }
 									onChange=${ setVisibilityScope }
@@ -175,7 +175,7 @@ export default function ContributionModal({ isActive, onClose, onSave, defaultTa
 						id="contribution-content-editor"
 						value=${ content }
 						onChange=${ setContent }
-						placeholder="اكتب تفاصيل المساهمة أو الكود أو الحل الفني هنا..."
+						placeholder=${ __( 'Write contribution details, technical solution, or notes...', 'workpress' ) }
 					/>
 				</div>
 			</div>

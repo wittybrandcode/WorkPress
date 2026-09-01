@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { html, useState, useEffect, useRef, __ } from '../utils/html.js';
 import { projectsApi } from '../api/client.js';
 import ProjectCard from '../components/projects/ProjectCard.js';
 import ProjectModal from '../components/projects/ProjectModal.js';
@@ -95,10 +95,10 @@ export default function ProjectsPage({ refreshKey }) {
 		setProjects(prev => prev.map(p => p.id === project.id ? { ...p, status: 'active', is_pending_trash: false } : p));
 		
 		projectsApi.update( project.id, { status: 'active' } ).then( () => {
-			toast('تم استعادة المشروع بنجاح', 'success');
+			toast( __( 'Project restored successfully', 'workpress' ), 'success' );
 			fetchProjects();
 		} ).catch( err => {
-			toast( err.message || 'فشل استعادة المشروع', 'danger' );
+			toast( err.message || __( 'Failed to restore project', 'workpress' ), 'danger' );
 			fetchProjects(); // Revert on error
 		});
 	};
@@ -108,9 +108,9 @@ export default function ProjectsPage({ refreshKey }) {
 			// Hard delete for pending trash projects (Admin only)
 			setConfirmModalConfig({
 				isActive: true,
-				title: 'تأكيد الحذف النهائي',
-				message: `هل أنت متأكد من الموافقة على طلب الحذف ومسح مشروع "${project.name}" نهائياً؟`,
-				confirmText: 'موافقة وحذف',
+				title: __( 'Confirm Permanent Deletion', 'workpress' ),
+				message: `${ __( 'Are you sure you want to permanently delete this project?', 'workpress' ) } ("${project.name}")`,
+				confirmText: __( 'Approve & Delete', 'workpress' ),
 				confirmColor: 'is-danger',
 				isDangerous: true,
 				requiresReason: false,
@@ -123,11 +123,11 @@ export default function ProjectsPage({ refreshKey }) {
 					
 					projectsApi.delete( project.id ).then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast('تم حذف المشروع نهائياً', 'success');
+						toast( __( 'Project permanently deleted', 'workpress' ), 'success' );
 						fetchProjects();
 					} ).catch( err => {
 						setConfirmModalConfig({ isActive: false });
-						toast( err.message || 'فشل الحذف النهائي.', 'danger' );
+						toast( err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger' );
 						fetchProjects(); // Revert on error
 					} );
 				}
@@ -137,13 +137,13 @@ export default function ProjectsPage({ refreshKey }) {
 
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'طلب حذف / أرشفة',
-			message: `أنت على وشك طلب أرشفة/إخفاء مشروع "${project.name}". الرجاء توضيح السبب ليتم اعتماده من الإدارة.`,
-			confirmText: 'إرسال الطلب',
+			title: __( 'Trash / Archive Request', 'workpress' ),
+			message: `${ __( 'You are about to request archiving/trashing project', 'workpress' ) } "${project.name}". ${ __( 'Please state the reason for executive review.', 'workpress' ) }`,
+			confirmText: __( 'Submit Request', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'سبب الأرشفة/الحذف',
+			reasonLabel: __( 'Reason for trash / archive', 'workpress' ),
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
@@ -153,11 +153,11 @@ export default function ProjectsPage({ refreshKey }) {
 				
 				projectsApi.trashRequest( project.id, reason ).then( () => {
 					setConfirmModalConfig({ isActive: false });
-					toast('تم إرسال طلب الحذف/الأرشفة بنجاح.', 'info');
+					toast( __( 'Trash request sent successfully.', 'workpress' ), 'info' );
 					fetchProjects();
 				} ).catch( err => {
 					setConfirmModalConfig({ isActive: false });
-					toast( err.message || 'فشل إرسال الطلب.', 'danger' );
+					toast( err.message || __( 'Failed to send feedback, please try again.', 'workpress' ), 'danger' );
 					fetchProjects(); // Revert on error
 				} );
 			}
@@ -170,12 +170,12 @@ export default function ProjectsPage({ refreshKey }) {
 	};
 
 	const statusOptions = [
-		{ value: 'all', label: 'جميع الحالات' },
-		{ value: 'active', label: 'نشطة' },
-		{ value: 'pending', label: 'طلبات المستفيدين المعلقة' },
-		{ value: 'frozen', label: 'في الثلاجة (مجمدة)' },
-		{ value: 'completed', label: 'مكتملة' },
-		{ value: 'archived', label: 'مؤرشفة' }
+		{ value: 'all', label: __( 'All Projects', 'workpress' ) },
+		{ value: 'active', label: __( 'Active', 'workpress' ) },
+		{ value: 'pending', label: __( 'Under Review / Pending', 'workpress' ) },
+		{ value: 'frozen', label: __( 'Frozen / Paused', 'workpress' ) },
+		{ value: 'completed', label: __( 'Completed', 'workpress' ) },
+		{ value: 'archived', label: __( 'Archived', 'workpress' ) }
 	];
 
 	const isFilterActive = Boolean( searchQuery || selectedStatus !== 'all' );
@@ -188,7 +188,7 @@ export default function ProjectsPage({ refreshKey }) {
 	if ( projects === null ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحميل شبكة المشاريع..." size="large" />
+				<${Loader} center=${true} label=${ __( 'Loading...', 'workpress' ) } size="large" />
 			</div>
 		`;
 	}
@@ -226,7 +226,7 @@ export default function ProjectsPage({ refreshKey }) {
 						style=${{ fontWeight: '800', backgroundColor: '#fef3c7', color: '#92400e', border: '1px solid #fde68a' }}
 					>
 						<span className="icon"><i className="dashicons dashicons-email-alt"></i></span>
-						<span>وارد طلبات العملاء</span>
+						<span>${ __( 'Project Requests', 'workpress' ) }</span>
 					</a>
 					<a 
 						href="#/forms"
@@ -234,7 +234,7 @@ export default function ProjectsPage({ refreshKey }) {
 						style=${{ fontWeight: '700' }}
 					>
 						<span className="icon"><i className="dashicons dashicons-forms"></i></span>
-						<span>إدارة نماذج استقبال الطلبات</span>
+						<span>${ __( 'Intake Forms Builder', 'workpress' ) }</span>
 					</a>
 				</div>
 			</div>
@@ -243,12 +243,12 @@ export default function ProjectsPage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'بحث في المشاريع (الاسم، الرمز، الوصف)...',
+					placeholder: __( 'Search projects (name, code, description)...', 'workpress' ),
 				}}
 				filters=${[
 					{
 						key: 'status',
-						label: 'الحالة',
+						label: __( 'Status', 'workpress' ),
 						icon: 'dashicons-tag',
 						value: selectedStatus,
 						onChange: setSelectedStatus,
@@ -258,7 +258,7 @@ export default function ProjectsPage({ refreshKey }) {
 				]}
 				totalCount=${ filteredProjects.length }
 				totalUnfiltered=${ projects.length }
-				counterLabel="مشروع"
+				counterLabel=${ __( 'Project', 'workpress' ) }
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
@@ -285,22 +285,22 @@ export default function ProjectsPage({ refreshKey }) {
 								<i className="dashicons dashicons-category has-text-primary" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i>
 							</div>
 							<h3 className="title is-5 mb-2 has-text-weight-bold has-text-dark">
-								${ isFilterActive ? 'لا توجد مشاريع مطابقة للبحث' : 'لا توجد مشاريع في مساحة العمل بعد' }
+								${ isFilterActive ? __( 'No projects matching search', 'workpress' ) : __( 'No active projects matching this filter.', 'workpress' ) }
 							</h3>
 							<p className="has-text-grey is-size-6 mb-5" style=${{ maxWidth: '460px', margin: '0 auto' }}>
 								${ isFilterActive 
-									? 'جرب تعديل شروط البحث أو الفلاتر المختارة للعثور على المشاريع المطلوبة.' 
-									: 'المشاريع هي الحاوية الكبرى للمهام والمساهمات الفنية. ابدأ الآن بإنشاء أول مشروع لفريقك.' }
+									? __( 'Try adjusting search terms or active filters to find what you are looking for.', 'workpress' ) 
+									: __( 'Projects are the primary containers for tasks and solutions. Start by creating your first project.', 'workpress' ) }
 							</p>
 							${ isFilterActive ? html`
 								<button className="button is-light wp-sharp-button" onClick=${ handleResetFilters }>
 									<span className="icon"><i className="dashicons dashicons-image-rotate"></i></span>
-									<span>إعادة ضبط الفلاتر</span>
+									<span>${ __( 'Reset Filters', 'workpress' ) }</span>
 								</button>
 							` : html`
 								<button className="button is-primary wp-sharp-button" onClick=${ handleCreateClick }>
 									<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-									<span>إنشاء أول مشروع</span>
+									<span>${ __( 'Add New Project', 'workpress' ) }</span>
 								</button>
 							` }
 						</div>
@@ -315,7 +315,7 @@ export default function ProjectsPage({ refreshKey }) {
 						onClick=${ () => fetchProjects( page + 1, true ) }
 						style=${{ border: '2px solid #0f172a' }}
 					>
-						تحميل المزيد
+						${ __( 'Load More', 'workpress' ) }
 					</button>
 				</div>
 			` : null }

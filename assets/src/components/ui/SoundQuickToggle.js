@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../../utils/html.js';
+import { html, useState, useEffect, __ } from '../../utils/html.js';
 import { hooks } from '../../utils/hooks.js';
 import sound from '../../utils/sound.js';
 import { toast } from '../../utils/toast.js';
@@ -26,14 +26,14 @@ export default function SoundQuickToggle() {
 	const handleToggle = () => {
 		const nextState = sound.toggle();
 		setEnabled(nextState);
-		toast(nextState ? 'تم تفعيل المؤثرات الصوتية ' : 'تم كتم المؤثرات الصوتية ', 'info', 1500);
+		toast(nextState ? __( 'Sound effects enabled', 'workpress' ) : __( 'Sound effects muted', 'workpress' ), 'info', 1500);
 	};
 
 	return html`
 		<button 
 			className=${`button wp-header-btn ${enabled ? 'is-active' : ''}`}
 			onClick=${handleToggle}
-			title=${enabled ? 'كتم المؤثرات الصوتية (Mute)' : 'تشغيل المؤثرات الصوتية (Unmute)'}
+			title=${enabled ? __( 'Mute sound effects', 'workpress' ) : __( 'Enable sound effects', 'workpress' )}
 			style=${{ 
 				width: '32px', 
 				height: '32px', 

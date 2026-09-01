@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef, __, isRtl } from '../../utils/html.js';
 import { getUserRoleBadgeInfo, getUserRoleLabel } from '../../utils/userScope.js';
 
 /**
@@ -19,15 +19,17 @@ export default function MemberSelect({
 	users = [],
 	value = '',
 	onChange = () => {},
-	placeholder = 'اختر عضواً من الفريق...',
+	placeholder = null,
 	disabled = false,
 	allowClear = true,
 	size = 'normal'
 }) {
+	const defaultPlaceholder = placeholder || __( 'Select a team member...', 'workpress' );
 	const [isOpen, setIsOpen] = useState(false);
 	const [searchQuery, setSearchQuery] = useState('');
 	const containerRef = useRef(null);
 	const searchInputRef = useRef(null);
+	const rtl = isRtl();
 
 	useEffect(() => {
 		const handleClickOutside = (e) => {
@@ -62,7 +64,7 @@ export default function MemberSelect({
 
 	// Format role label & color theme
 	const getRoleInfo = (user) => {
-		if (!user) return { label: 'عضو', bg: '#f1f5f9', color: '#475569', border: '#e2e8f0' };
+		if (!user) return { label: __( 'Member', 'workpress' ), bg: '#f1f5f9', color: '#475569', border: '#e2e8f0' };
 
 		// Explicit role label if provided
 		if (user.role_label) {
@@ -80,14 +82,14 @@ export default function MemberSelect({
 	// Safe name extractor
 	const getUserName = (user) => {
 		if (!user) return '';
-		return user.display_name || user.name || user.user_login || 'مستخدم';
+		return user.display_name || user.name || user.user_login || __( 'User', 'workpress' );
 	};
 
 	// Fallback initials avatar
 	const renderAvatar = (user, avatarSize = 26) => {
 		const url = getAvatarUrl(user);
 		const name = getUserName(user);
-		const initial = name.charAt(0).toUpperCase() || '؟';
+		const initial = name.charAt(0).toUpperCase() || '?';
 
 		if (url) {
 			return html`
@@ -223,7 +225,7 @@ export default function MemberSelect({
 							<i className="dashicons dashicons-admin-users" style=${{ fontSize: '16px', width: '16px', height: '16px' }}></i>
 						</span>
 						<span style=${{ color: '#94a3b8', fontSize: isSmall ? '0.78rem' : '0.85rem' }}>
-							${placeholder}
+							${defaultPlaceholder}
 						</span>
 					`}
 				</div>
@@ -233,7 +235,7 @@ export default function MemberSelect({
 						<button 
 							type="button"
 							onClick=${handleClear}
-							title="إلغاء التحديد"
+							title=${ __( 'Clear selection', 'workpress' ) }
 							style=${{
 								background: 'none',
 								border: 'none',
@@ -277,7 +279,7 @@ export default function MemberSelect({
 					<!-- Search Field -->
 					<div style=${{ padding: '8px', borderBottom: '1px solid #f1f5f9', backgroundColor: '#f8fafc' }}>
 						<div style=${{ position: 'relative', display: 'flex', alignItems: 'center' }}>
-							<span className="icon is-small" style=${{ position: 'absolute', right: '8px', color: '#94a3b8' }}>
+							<span className="icon is-small" style=${{ position: 'absolute', [rtl ? 'right' : 'left']: '8px', color: '#94a3b8' }}>
 								<i className="dashicons dashicons-search" style=${{ fontSize: '14px', width: '14px', height: '14px' }}></i>
 							</span>
 							<input 
@@ -285,11 +287,11 @@ export default function MemberSelect({
 								type="text"
 								value=${searchQuery}
 								onInput=${e => setSearchQuery(e.target.value)}
-								placeholder="بحث بالاسم أو الدور أو البريد..."
+								placeholder=${ __( 'Search by name, role or email...', 'workpress' ) }
 								style=${{
 									width: '100%',
 									height: '30px',
-									padding: '0 28px 0 8px',
+									padding: rtl ? '0 28px 0 8px' : '0 8px 0 28px',
 									fontSize: '0.8rem',
 									border: '1px solid #cbd5e1',
 									borderRadius: '4px',
@@ -305,7 +307,7 @@ export default function MemberSelect({
 						${filteredUsers.length === 0 ? html`
 							<div style=${{ padding: '16px', textAlign: 'center', color: '#94a3b8', fontSize: '0.8rem' }}>
 								<span className="icon"><i className="dashicons dashicons-warning"></i></span>
-								<p className="mt-1">لم يتم العثور على أعضاء مطابقين</p>
+								<p className="mt-1">${ __( 'No members match search query', 'workpress' ) }</p>
 							</div>
 						` : filteredUsers.map(u => {
 							const isSelected = String(u.id) === String(value);
@@ -331,7 +333,7 @@ export default function MemberSelect({
 								>
 									<div style=${{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden' }}>
 										${renderAvatar(u, 28)}
-										<div style=${{ display: 'flex', flexDirection: 'column', textAlign: 'right', overflow: 'hidden' }}>
+										<div style=${{ display: 'flex', flexDirection: 'column', textAlign: rtl ? 'right' : 'left', overflow: 'hidden' }}>
 											<div style=${{ display: 'flex', alignItems: 'center', gap: '6px' }}>
 												<span style=${{ fontWeight: '700', fontSize: '0.84rem', color: '#0f172a' }}>
 													${getUserName(u)}

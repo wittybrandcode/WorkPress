@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect, __, isRtl } from '../utils/html.js';
 import { projectsApi, tasksApi } from '../api/client.js';
 import { formatDate } from '../utils/datetime.js';
 import FilterBar from '../components/ui/FilterBar.js';
@@ -12,6 +12,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 	const [ members, setMembers ] = useState( [] );
 	const [ tasks, setTasks ] = useState( [] );
 	const [ isLoading, setIsLoading ] = useState( true );
+	const rtl = isRtl();
 
 	// Tasks Filtering
 	const [ taskSearch, setTaskSearch ] = useState( '' );
@@ -37,7 +38,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 			setTasks( tasksData );
 		}).catch( err => {
 			console.error( err );
-			toast( 'حدث خطأ أثناء جلب بيانات المشروع', 'danger' );
+			toast( __( 'Failed to load workspace data', 'workpress' ), 'danger' );
 		}).finally( () => setIsLoading( false ) );
 	};
 
@@ -48,13 +49,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 	if ( isLoading ) {
 		return html`
 			<div className="py-6 mt-4">
-				<${Loader} center=${true} label="جاري استعراض تفاصيل المشروع..." size="large" />
+				<${Loader} center=${true} label=${ __( 'Loading...', 'workpress' ) } size="large" />
 			</div>
 		`;
 	}
 
 	if ( ! project ) {
-		return html`<div className="has-text-centered py-6"><p className="has-text-danger">المشروع غير موجود أو ليس لديك صلاحية للوصول إليه.</p></div>`;
+		return html`<div className="has-text-centered py-6"><p className="has-text-danger">${ __( 'Project not found or you do not have permission to view it.', 'workpress' ) }</p></div>`;
 	}
 
 	// Calculate stats
@@ -67,11 +68,11 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 	const inProgressTasks = tasks.filter( t => t.status === 'in_progress' || t.status === 'in_review' ).length;
 
 	const taskStatusOptions = [
-		{ value: 'all', label: 'جميع الحالات' },
-		{ value: 'open', label: 'مفتوحة / جديدة' },
-		{ value: 'assigned', label: 'مسندة' },
-		{ value: 'in_progress', label: 'قيد الإنجاز' },
-		{ value: 'completed', label: 'مكتملة' }
+		{ value: 'all', label: __( 'All Statuses', 'workpress' ) },
+		{ value: 'open', label: __( 'New / Unassigned', 'workpress' ) },
+		{ value: 'assigned', label: __( 'Assigned & Targeted', 'workpress' ) },
+		{ value: 'in_progress', label: __( 'In Progress', 'workpress' ) },
+		{ value: 'completed', label: __( 'Completed', 'workpress' ) }
 	];
 
 	const isTaskFilterActive = Boolean( taskSearch || taskStatus !== 'all' );
@@ -99,13 +100,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 		setIsApproving(true);
 		projectsApi.update(project.id, { status: 'active' }).then(() => {
 			setIsApproving(false);
-			toast('تم اعتماد وتأسيس المشروع بنجاح! أصبح المشروع نشطاً الآن', 'success');
+			toast( __( 'Project approved and established successfully! It is now active.', 'workpress' ), 'success' );
 			sound.play('celebration');
 			fetchProjectData();
 		}).catch(err => {
 			setIsApproving(false);
 			console.error(err);
-			toast(err.message || 'حدث خطأ أثناء اعتماد المشروع', 'danger');
+			toast(err.message || __( 'An error occurred while processing the request.', 'workpress' ), 'danger');
 			sound.play('caution');
 		});
 	};
@@ -114,18 +115,18 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 		<div className="mt-4">
 			<div className="mb-4 is-flex is-justify-content-space-between is-align-items-center">
 				<div style=${{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-					<a href="#/projects" className="button is-small is-light wp-icon-button" style=${{ borderRadius: 0, border: '2px solid #0f172a' }} title="العودة للمشاريع">
-						<span className="icon"><i className="dashicons dashicons-arrow-right-alt2"></i></span>
+					<a href="#/projects" className="button is-small is-light wp-icon-button" style=${{ borderRadius: 0, border: '2px solid #0f172a' }} title=${ __( 'Back to Projects', 'workpress' ) }>
+						<span className="icon"><i className=${ rtl ? 'dashicons dashicons-arrow-right-alt2' : 'dashicons dashicons-arrow-left-alt2' }></i></span>
 					</a>
 
 					<button
 						className="button is-small is-dark wp-sharp-button"
 						onClick=${ () => { setIsReportModalOpen( true ); sound.play( 'pop' ); } }
 						style=${{ fontWeight: '700', backgroundColor: '#0f172a', borderColor: '#0f172a' }}
-						title="استخراج التقرير التنفيذي الرسمي وكتاب المعرفة"
+						title=${ __( 'Executive Report & Knowledge Book', 'workpress' ) }
 					>
 						<span className="icon"><i className="dashicons dashicons-media-document"></i></span>
-						<span>التقرير التنفيذي وكتاب المعرفة</span>
+						<span>${ __( 'Executive Report & Knowledge Book', 'workpress' ) }</span>
 					</button>
 				</div>
 
@@ -137,7 +138,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						style=${{ fontWeight: '800' }}
 					>
 						<span className="icon"><i className="dashicons dashicons-yes-alt"></i></span>
-						<span>اعتماد وتأسيس المشروع رسمياً</span>
+						<span>${ __( 'Approve & Establish Project Officially', 'workpress' ) }</span>
 					</button>
 				` : null }
 			</div>
@@ -165,38 +166,38 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								
 								${ project.is_client_request ? html`
 									<span className="tag is-warning has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#fef3c7', color: '#b45309', border: '1px solid #fde68a' }}>
-										طلب جديد من عميل
+										${ __( 'New Client Request', 'workpress' ) }
 									</span>
 								` : null }
 
 								${ isProjectCompleted ? html`
 									<span className="tag is-success has-text-weight-bold" style=${{ borderRadius: 0 }}>
-										<i className="dashicons dashicons-awards ml-1"></i> مكتمل (${ project.progress || 100 }%)
+										<i className="dashicons dashicons-awards ml-1"></i> ${ __( 'Completed', 'workpress' ) } (${ project.progress || 100 }%)
 									</span>
 								` : null }
 							</div>
 							
-							<div className="content has-text-grey-dark" dangerouslySetInnerHTML=${{ __html: project.description || 'لا يوجد وصف متاح.' }}></div>
+							<div className="content has-text-grey-dark" dangerouslySetInnerHTML=${{ __html: project.description || __( 'No additional details provided.', 'workpress' ) }}></div>
 							
 							<div className="is-flex is-flex-wrap-wrap mt-5 pt-4" style=${{ borderTop: '1px solid #ededed', gap: '2rem' }}>
 								<div>
-									<span className="heading has-text-grey mb-1">تاريخ البدء</span>
-									<span className="has-text-weight-bold">${ project.start_at ? formatDate(project.start_at) : 'غير محدد' }</span>
+									<span className="heading has-text-grey mb-1">${ __( 'Start Date', 'workpress' ) }</span>
+									<span className="has-text-weight-bold">${ project.start_at ? formatDate(project.start_at) : __( 'Flexible', 'workpress' ) }</span>
 								</div>
 								<div>
-									<span className="heading has-text-grey mb-1">تاريخ التسليم</span>
-									<span className="has-text-weight-bold">${ project.due_at ? formatDate(project.due_at) : (project.requested_due_date ? formatDate(project.requested_due_date) : 'غير محدد') }</span>
+									<span className="heading has-text-grey mb-1">${ __( 'Delivery Date', 'workpress' ) }</span>
+									<span className="has-text-weight-bold">${ project.due_at ? formatDate(project.due_at) : (project.requested_due_date ? formatDate(project.requested_due_date) : __( 'Flexible', 'workpress' )) }</span>
 								</div>
 								${ project.requested_budget ? html`
 									<div>
-										<span className="heading has-text-grey mb-1">الميزانية المقترحة</span>
+										<span className="heading has-text-grey mb-1">${ __( 'Proposed Budget', 'workpress' ) }</span>
 										<span className="has-text-weight-bold has-text-success">${ project.requested_budget }</span>
 									</div>
 								` : null }
 								<div>
-									<span className="heading has-text-grey mb-1">الحالة</span>
+									<span className="heading has-text-grey mb-1">${ __( 'Status', 'workpress' ) }</span>
 									<span className=${`tag ${ isProjectCompleted ? 'is-success' : (project.status === 'active' ? 'is-info' : (project.status === 'pending' ? 'is-warning' : (project.status === 'archived' ? 'is-dark' : project.status))) }`} style=${{ borderRadius: 0 }}>
-										${ isProjectCompleted ? 'مكتمل' : (project.status === 'active' ? 'نشط' : (project.status === 'pending' ? 'طلب قيد المراجعة' : (project.status === 'archived' ? 'مؤرشف' : project.status))) }
+										${ isProjectCompleted ? __( 'Completed', 'workpress' ) : (project.status === 'active' ? __( 'Active', 'workpress' ) : (project.status === 'pending' ? __( 'Under Review', 'workpress' ) : (project.status === 'archived' ? __( 'Archived', 'workpress' ) : project.status))) }
 									</span>
 								</div>
 							</div>
@@ -209,10 +210,10 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 							<div className="is-flex is-justify-content-space-between is-align-items-center mb-3 pb-2" style=${{ borderBottom: '1px solid #e2e8f0' }}>
 								<h3 className="title is-5 mb-0 has-text-primary is-flex is-align-items-center" style=${{ gap: '8px' }}>
 									<span className="icon is-small"><i className="dashicons dashicons-portfolio"></i></span>
-									<span>خزينة المواصفات والمرفقات المستلمة من العميل (Client Specs Vault)</span>
+									<span>${ __( 'Client Specifications & Attachments Vault', 'workpress' ) }</span>
 								</h3>
 								<span className="tag is-primary is-light" style=${{ fontWeight: '800' }}>
-									${ project.request_form_id ? `قالب: ${project.request_form_id}` : 'طلب مهيكل' }
+									${ project.request_form_id ? `Form: ${project.request_form_id}` : __( 'Project Requests', 'workpress' ) }
 								</span>
 							</div>
 
@@ -221,7 +222,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 									${ Object.entries(project.request_specs).map(([specKey, specVal]) => {
 										let displayVal = specVal;
 										if (Array.isArray(specVal)) {
-											displayVal = specVal.join(' ، ');
+											displayVal = specVal.join(' , ');
 										}
 										return html`
 											<div key=${specKey} className="column is-6">
@@ -243,7 +244,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								<div className="mt-3 pt-3" style=${{ borderTop: '1px dashed #cbd5e1' }}>
 									<h4 className="is-size-7 has-text-weight-bold has-text-grey mb-2 is-flex is-align-items-center" style=${{ gap: '6px' }}>
 										<span className="icon is-small"><i className="dashicons dashicons-paperclip"></i></span>
-										<span>الملفات والمرفقات الفنية المرفوعة من العميل:</span>
+										<span>${ __( 'Attachments', 'workpress' ) }:</span>
 									</h4>
 									<div className="is-flex is-flex-wrap-wrap" style=${{ gap: '8px' }}>
 										${ project.request_attachments.map((att, idx) => html`
@@ -257,7 +258,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 												download
 											>
 												<span className="icon is-small has-text-info"><i className="dashicons dashicons-media-default"></i></span>
-												<span>${att.name || `مرفق #${idx + 1}`}</span>
+												<span>${att.name || `${ __( 'Attachment', 'workpress' ) } #${idx + 1}`}</span>
 												${ att.size ? html`<span className="is-size-7 has-text-grey">(${att.size})</span>` : null }
 											</a>
 										`) }
@@ -270,10 +271,10 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 					<!-- المهام التابعة للمشروع -->
 					<div className="box wp-card p-5">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-4">
-							<h3 className="title is-4 mb-0">مهام المشروع</h3>
+							<h3 className="title is-4 mb-0">${ __( 'Project Tasks', 'workpress' ) }</h3>
 							<a href="#/kanban" className="button is-small is-primary wp-card">
 								<span className="icon"><i className="dashicons dashicons-columns"></i></span>
-								<span>الكانبان</span>
+								<span>${ __( 'Kanban', 'workpress' ) }</span>
 							</a>
 						</div>
 
@@ -281,12 +282,12 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 							search=${{
 								value: taskSearch,
 								onChange: setTaskSearch,
-								placeholder: 'بحث في مهام المشروع...',
+								placeholder: __( 'Search tasks...', 'workpress' ),
 							}}
 							filters=${[
 								{
 									key: 'status',
-									label: 'الحالة',
+									label: __( 'Status', 'workpress' ),
 									icon: 'dashicons-tag',
 									value: taskStatus,
 									onChange: setTaskStatus,
@@ -296,7 +297,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 							]}
 							totalCount=${ filteredProjectTasks.length }
 							totalUnfiltered=${ tasks.length }
-							counterLabel="مهمة"
+							counterLabel=${ __( 'Task', 'workpress' ) }
 							isFilterActive=${ isTaskFilterActive }
 							onReset=${ () => { setTaskSearch(''); setTaskStatus('all'); } }
 						/>
@@ -306,21 +307,21 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								<div className="mb-2" style=${{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '48px', height: '48px', backgroundColor: '#f8fafc', border: '1px solid #e2e8f0' }}>
 									<i className="dashicons dashicons-clipboard has-text-grey" style=${{ fontSize: '24px' }}></i>
 								</div>
-								<p className="has-text-grey-dark has-text-weight-bold mb-1">${ isTaskFilterActive ? 'لا توجد مهام مطابقة للفلتر المحدد' : 'لا توجد مهام مسجلة في هذا المشروع بعد' }</p>
-								<p className="is-size-7 has-text-grey mb-3">${ isTaskFilterActive ? 'جرب تعديل شروط البحث أو الفلاتر' : 'يمكنك البدء بإضافة مهام لتوزيع العمل على أعضاء الفريق' }</p>
+								<p className="has-text-grey-dark has-text-weight-bold mb-1">${ isTaskFilterActive ? __( 'No tasks match current filter', 'workpress' ) : __( 'No tasks recorded in this project yet', 'workpress' ) }</p>
+								<p className="is-size-7 has-text-grey mb-3">${ isTaskFilterActive ? __( 'Try adjusting search terms or active filters to find what you are looking for.', 'workpress' ) : __( 'Start adding tasks to assign work to team members.', 'workpress' ) }</p>
 								<a href="#/kanban" className="button is-small is-primary wp-sharp-button">
 									<span className="icon is-small"><i className="dashicons dashicons-plus"></i></span>
-									<span>إدارة مهام الكانبان</span>
+									<span>${ __( 'Manage Kanban Tasks', 'workpress' ) }</span>
 								</a>
 							</div>
 						` : html`
 							<table className="table is-fullwidth is-hoverable wp-table" style=${{ borderRadius: 0, border: '1px solid #e2e8f0' }}>
 								<thead>
 									<tr style=${{ backgroundColor: '#f8fafc' }}>
-										<th>المرجع</th>
-										<th>المهمة</th>
-										<th>الحالة</th>
-										<th>الأولوية</th>
+										<th>${ __( 'Reference', 'workpress' ) }</th>
+										<th>${ __( 'Task', 'workpress' ) }</th>
+										<th>${ __( 'Status', 'workpress' ) }</th>
+										<th>${ __( 'Priority', 'workpress' ) }</th>
 									</tr>
 								</thead>
 								<tbody>
@@ -330,7 +331,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 											<td className="has-text-weight-bold">${ task.title }</td>
 											<td>
 												<span className=${`tag is-light ${ task.status === 'completed' || task.status === 'closed' ? 'is-success' : (task.status === 'open' ? 'is-info' : 'is-warning') }`} style=${{ borderRadius: 0 }}>
-													${ task.status === 'completed' || task.status === 'closed' ? 'مكتملة' : task.status === 'open' ? 'مفتوحة' : 'قيد التنفيذ' }
+													${ task.status === 'completed' || task.status === 'closed' ? __( 'Completed', 'workpress' ) : task.status === 'open' ? __( 'Open', 'workpress' ) : __( 'In Progress', 'workpress' ) }
 												</span>
 											</td>
 											<td>
@@ -350,11 +351,11 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 				<div className="column is-4">
 					<!-- إحصائيات الإنجاز -->
 					<div className="box wp-card p-5 mb-5">
-						<h3 className="title is-5 mb-4 has-text-weight-bold">تقدم العمل</h3>
+						<h3 className="title is-5 mb-4 has-text-weight-bold">${ __( 'Project Progress', 'workpress' ) }</h3>
 						
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 							<span className="has-text-weight-bold is-size-3 has-text-primary">${ completionRate }%</span>
-							<span className="has-text-grey">مكتمل</span>
+							<span className="has-text-grey">${ __( 'Completed', 'workpress' ) }</span>
 						</div>
 						
 						<progress className="progress is-primary mb-5" value=${ completionRate } max="100" style=${{ borderRadius: 0, height: '8px' }}>${ completionRate }%</progress>
@@ -362,19 +363,19 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						<div className="columns is-mobile is-multiline">
 							<div className="column is-6">
 								<div className="has-background-light p-3" style=${{ border: '1px solid #e2e8f0' }}>
-									<p className="heading has-text-grey mb-1">المهام الكلية</p>
+									<p className="heading has-text-grey mb-1">${ __( 'Total Tasks', 'workpress' ) }</p>
 									<p className="title is-4 mb-0">${ totalTasks }</p>
 								</div>
 							</div>
 							<div className="column is-6">
 								<div className="has-background-light p-3" style=${{ border: '1px solid #e2e8f0' }}>
-									<p className="heading has-text-grey mb-1">مفتوحة</p>
+									<p className="heading has-text-grey mb-1">${ __( 'Open', 'workpress' ) }</p>
 									<p className="title is-4 mb-0">${ openTasks }</p>
 								</div>
 							</div>
 							<div className="column is-12">
 								<div className="has-background-light p-3" style=${{ border: '1px solid #e2e8f0' }}>
-									<p className="heading has-text-grey mb-1">قيد التنفيذ والمراجعة</p>
+									<p className="heading has-text-grey mb-1">${ __( 'In Progress & Review', 'workpress' ) }</p>
 									<p className="title is-4 mb-0">${ inProgressTasks }</p>
 								</div>
 							</div>
@@ -386,11 +387,11 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						<div className="box wp-card p-5 mb-5" style=${{ border: '1.5px solid #f59e0b', backgroundColor: '#fffbeb', boxShadow: '0 4px 12px rgba(245,158,11,0.08)' }}>
 							<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
 								<h3 className="title is-6 mb-0 has-text-warning-dark has-text-weight-bold is-flex is-align-items-center" style=${{ gap: '6px' }}>
-									<i class="dashicons dashicons-businessman"></i>
-									<span>صاحب الطلب / العميل المعتمد</span>
+									<i className="dashicons dashicons-businessman"></i>
+									<span>${ __( 'Requester / Verified Client', 'workpress' ) }</span>
 								</h3>
 								<span className="tag is-warning has-text-weight-bold" style=${{ borderRadius: 0, fontSize: '0.72rem' }}>
-									⭐ عميل
+									⭐ ${ __( 'Client', 'workpress' ) }
 								</span>
 							</div>
 
@@ -398,13 +399,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								<figure className="image is-40x40 m-0">
 									<img
 										src=${ (project.client && project.client.avatar) || '' }
-										alt=${ (project.client && project.client.display_name) || 'العميل' }
+										alt=${ (project.client && project.client.display_name) || __( 'Client', 'workpress' ) }
 										style=${{ borderRadius: 0, border: '2px solid #f59e0b', backgroundColor: '#fef3c7' }}
 									/>
 								</figure>
 								<div style=${{ overflow: 'hidden' }}>
 									<p className="has-text-weight-bold is-size-6 mb-0" style=${{ lineHeight: '1.3' }}>
-										${ (project.client && project.client.display_name) || 'عميل مسجل' }
+										${ (project.client && project.client.display_name) || __( 'Client', 'workpress' ) }
 									</p>
 									<p className="has-text-grey is-size-7 mb-0" style=${{ wordBreak: 'break-all' }}>
 										${ (project.client && project.client.email) || '' }
@@ -417,22 +418,22 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 					<!-- فريق العمل -->
 					<div className="box wp-card p-5">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-4">
-							<h3 className="title is-5 mb-0 has-text-weight-bold">أعضاء المشروع</h3>
+							<h3 className="title is-5 mb-0 has-text-weight-bold">${ __( 'Project Members', 'workpress' ) }</h3>
 							<span className="tag is-dark" style=${{ borderRadius: 0 }}>${ members.length }</span>
 						</div>
 						
 						${ members.length === 0 ? html`
-							<p className="has-text-grey is-size-7">لا يوجد أعضاء مضافين لهذا المشروع.</p>
+							<p className="has-text-grey is-size-7">${ __( 'No members added to this project yet.', 'workpress' ) }</p>
 						` : html`
 							<div className="is-flex is-flex-direction-column" style=${{ gap: '12px' }}>
 								${ members.map( member => html`
-									<div key=${member.id} className="is-flex is-align-items-center p-2 has-background-light" style=${{ borderRight: '3px solid #10b981', gap: '10px' }}>
+									<div key=${member.id} className="is-flex is-align-items-center p-2 has-background-light" style=${{ [rtl ? 'borderRight' : 'borderLeft']: '3px solid #10b981', gap: '10px' }}>
 										<figure className="image is-32x32 m-0">
 											<img src=${ member.avatar_url || (member.avatar_urls && member.avatar_urls['48']) || '' } alt=${ member.display_name || member.name } style=${{ borderRadius: 0, border: '1px solid #cbd5e1', backgroundColor: '#e2e8f0' }} />
 										</figure>
 										<div>
 											<p className="has-text-weight-bold is-size-6 mb-0" style=${{ lineHeight: '1.2' }}>${ member.display_name || member.name }</p>
-											<p className="has-text-grey is-size-7 mb-0">${ (member.role === 'manager' || member.project_role === 'manager') ? 'مدير' : ((member.role === 'lead' || member.project_role === 'lead') ? 'قائد' : ((member.role === 'viewer' || member.project_role === 'viewer' || member.project_role === 'client') ? 'متابع/عميل' : 'عضو منفذ')) }</p>
+											<p className="has-text-grey is-size-7 mb-0">${ (member.role === 'manager' || member.project_role === 'manager') ? __( 'Manager', 'workpress' ) : ((member.role === 'lead' || member.project_role === 'lead') ? __( 'Project Lead', 'workpress' ) : ((member.role === 'viewer' || member.project_role === 'viewer' || member.project_role === 'client') ? __( 'Client', 'workpress' ) : __( 'Team Member', 'workpress' ))) }</p>
 										</div>
 									</div>
 								`)}

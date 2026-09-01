@@ -1,42 +1,38 @@
-import { html } from '../../utils/html.js';
+import { html, __ } from '../../utils/html.js';
 
 export default function PriorityBadge( { priority } ) {
 	let level = 1;
 	let label = priority;
 	let color = '#3b82f6';
-	let tooltipText = 'أولوية المهمة';
+	let tooltipText = __( 'Task Priority', 'workpress' );
 
 	switch ( priority ) {
 		case 'critical':
+		case 'urgent':
 			level = 3;
-			label = 'حرجة';
+			label = __( 'Critical', 'workpress' );
 			color = '#dc2626';
-			tooltipText = 'أولوية حرجة — تتطلب تدخلاً فورياً';
+			tooltipText = __( 'Critical Priority — requires immediate action', 'workpress' );
 			break;
 		case 'high':
 			level = 3;
-			label = 'عالية';
+			label = __( 'High', 'workpress' );
 			color = '#ef4444';
-			tooltipText = 'أولوية عالية — يجب الإنجاز في أقرب وقت';
+			tooltipText = __( 'High Priority — complete as soon as possible', 'workpress' );
 			break;
 		case 'medium':
 			level = 2;
-			label = 'متوسطة';
+			label = __( 'Medium', 'workpress' );
 			color = '#f59e0b';
-			tooltipText = 'أولوية متوسطة — وفق الجدول الزمني';
+			tooltipText = __( 'Medium Priority — according to timeline', 'workpress' );
 			break;
 		case 'low':
 			level = 1;
-			label = 'منخفضة';
+			label = __( 'Low', 'workpress' );
 			color = '#3b82f6';
-			tooltipText = 'أولوية منخفضة — عند توفر الوقت';
+			tooltipText = __( 'Low Priority — when time allows', 'workpress' );
 			break;
 	}
-
-	// §2.6 Constitution: High-Density Compact UI — use wp-dense-chip
-	// §2.4 Constitution: Zero Emojis — use dashicons-flag
-	// §2.1 Constitution: 0px Sharp Geometry — borderRadius: 0 enforced by wp-dense-chip
-	// §2.5 Constitution: High-Contrast Institutional Palette — colored icon
 
 	// Build network signal bars (3 bars, ascending height)
 	const bars = [1, 2, 3].map( i => {
@@ -68,4 +64,3 @@ export default function PriorityBadge( { priority } ) {
 		</div>
 	`;
 }
-

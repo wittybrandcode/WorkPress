@@ -1,7 +1,9 @@
-import { html, useState } from '../../utils/html.js';
+import { html, useState, __ } from '../../utils/html.js';
 import Modal from './Modal.js';
 
-export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, title, message, confirmText = 'تأكيد', confirmColor = 'is-primary', isDangerous = false, requiresReason = false, reasonLabel = 'السبب', isSubmitting = false }) {
+export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, title, message, confirmText = null, confirmColor = 'is-primary', isDangerous = false, requiresReason = false, reasonLabel = null, isSubmitting = false }) {
+	const defaultConfirmText = confirmText || __( 'Confirm', 'workpress' );
+	const defaultReasonLabel = reasonLabel || __( 'Reason', 'workpress' );
 	const [reason, setReason] = useState('');
 	const handleClose = () => {
 		if (onClose) onClose();
@@ -15,10 +17,11 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 		}
 	};
 	const footer = html`
-		<div className="is-flex is-justify-content-flex-end" style=${{ width: '100%' }}>
+		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
+			<div></div>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
 				<button className="button is-light wp-sharp-button" onClick=${ handleClose } disabled=${ isSubmitting }>
-					إلغاء
+					${ __( 'Cancel', 'workpress' ) }
 				</button>
 				<button 
 					className=${ `button wp-sharp-button ${ confirmColor } ${ isSubmitting ? 'is-loading' : '' }` }
@@ -26,7 +29,7 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 					disabled=${ (requiresReason && !reason.trim()) || isSubmitting }
 				>
 					<span className="icon"><i className=${ isDangerous ? "dashicons dashicons-warning" : "dashicons dashicons-yes" }></i></span>
-					<span>${ confirmText }</span>
+					<span>${ defaultConfirmText }</span>
 				</button>
 			</div>
 		</div>
@@ -38,17 +41,17 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 				${ isDangerous ? html`
 					<div className="has-text-danger mb-4 is-flex is-align-items-center">
 						<span className="icon is-large mr-2"><i className="dashicons dashicons-warning" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i></span>
-						<span className="has-text-weight-bold">تحذير: هذا الإجراء لا يمكن التراجع عنه.</span>
+						<span className="has-text-weight-bold">${ __( 'Warning: This action cannot be undone.', 'workpress' ) }</span>
 					</div>
 				` : null }
 				<p className="is-size-5 mb-4">${ message }</p>
 				${ requiresReason ? html`
 					<div className="field mt-4">
-						<label className="label">${ reasonLabel } <span className="has-text-danger">*</span></label>
+						<label className="label">${ defaultReasonLabel } <span className="has-text-danger">*</span></label>
 						<div className="control">
 							<textarea 
 								className="textarea wp-input" 
-								placeholder="الرجاء توضيح السبب هنا..."
+								placeholder=${ __( 'Please specify the reason here...', 'workpress' ) }
 								value=${ reason }
 								onInput=${ e => setReason(e.target.value) }
 								disabled=${ isSubmitting }

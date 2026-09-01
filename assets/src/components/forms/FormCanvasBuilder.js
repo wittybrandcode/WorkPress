@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf, isRtl } from '../../utils/html.js';
 import FormFieldEditor from './FormFieldEditor.js';
 
 /**
@@ -27,6 +27,7 @@ export default function FormCanvasBuilder({
 	isSaving = false
 }) {
 	if (!currentForm) return null;
+	const rtl = isRtl();
 
 	return html`
 		<div className="columns is-variable is-4 mt-2 mb-6" style=${{ width: '100%' }}>
@@ -36,9 +37,9 @@ export default function FormCanvasBuilder({
 					<div className="mb-3 pb-2" style=${{ borderBottom: '1px solid #e2e8f0' }}>
 						<h3 className="title is-6 mb-1 has-text-weight-bold is-flex is-align-items-center" style=${{ gap: '6px' }}>
 							<span className="icon is-small"><i className="dashicons dashicons-layout"></i></span>
-							<span>لوحة الخانات واللبنات العامة</span>
+							<span>${ __( 'Field Elements Palette', 'workpress' ) }</span>
 						</h3>
-						<p className="is-size-7 has-text-grey">انقر لإضافة أي خانة مباشرة إلى لوحة البناء:</p>
+						<p className="is-size-7 has-text-grey">${ __( 'Click to add any field primitive directly to the canvas:', 'workpress' ) }</p>
 					</div>
 
 					<div style=${{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
@@ -53,7 +54,7 @@ export default function FormCanvasBuilder({
 										backgroundColor: '#ffffff', 
 										border: '1px solid #e2e8f0', 
 										height: 'auto',
-										textAlign: 'right'
+										textAlign: rtl ? 'right' : 'left'
 									}}
 									onClick=${() => handleAddPrimitive(key)}
 								>
@@ -62,7 +63,7 @@ export default function FormCanvasBuilder({
 										<span className="has-text-weight-bold is-size-7">${prim.label.split('(')[0]}</span>
 									</div>
 									<span className="tag is-light is-size-7" style=${{ fontSize: '0.68rem', padding: '0.1rem 0.4rem', borderRadius: 0 }}>
-										+ إضافة
+										+ ${ __( 'Add', 'workpress' ) }
 									</span>
 								</button>
 							`;
@@ -71,7 +72,7 @@ export default function FormCanvasBuilder({
 
 					<div className="notification is-light p-3 mt-4" style=${{ border: '1px dashed #cbd5e1', backgroundColor: '#ffffff', borderRadius: 0 }}>
 						<p className="is-size-7 has-text-grey-dark">
-							<strong>فلسفة العموم والتجريد:</strong> كافة الخانات عامة بنسبة 100%، وتملك الحرية الكاملة لتسمية كل خانة بحسب تخصصك.
+							<strong>${ __( 'Philosophy of Universal Abstraction:', 'workpress' ) }</strong> ${ __( 'All fields are 100% generic primitives; tailor labels to your domain.', 'workpress' ) }
 						</p>
 					</div>
 				</div>
@@ -84,7 +85,7 @@ export default function FormCanvasBuilder({
 					<div className="mb-5 pb-4" style=${{ borderBottom: '2px solid #f1f5f9' }}>
 						<div className="is-flex is-justify-content-space-between is-align-items-center is-flex-wrap-wrap mb-2" style=${{ gap: '8px' }}>
 							<div className="is-flex is-align-items-center" style=${{ gap: '8px', flexGrow: 1 }}>
-								<span className="tag is-primary is-light has-text-weight-bold" style=${{ borderRadius: 0 }}>اسم النموذج في البوابة:</span>
+								<span className="tag is-primary is-light has-text-weight-bold" style=${{ borderRadius: 0 }}>${ __( 'Form Name in Portal:', 'workpress' ) }</span>
 								<input
 									type="text"
 									className="input is-small wp-sharp-input"
@@ -101,25 +102,25 @@ export default function FormCanvasBuilder({
 									onClick=${() => handleDeleteFormTemplate(activeIdx)}
 								>
 									<span className="icon"><i className="dashicons dashicons-trash"></i></span>
-									<span>حذف النموذج</span>
+									<span>${ __( 'Delete Template', 'workpress' ) }</span>
 								</button>
 							` : null}
 						</div>
-						<p className="is-size-7 has-text-grey">هكذا تظهر خانات واستمارة الطلب للعميل داخل البوابة، يمكنك تعديل النصوص والمسميات مباشرة:</p>
+						<p className="is-size-7 has-text-grey">${ __( 'Live preview of how the form looks to clients in the portal:', 'workpress' ) }</p>
 					</div>
 
 					<!-- Core Field 1: Smart Title -->
 					<div className="canvas-field-card wp-form-core-field-card p-4 mb-4">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 							<span className="tag is-info is-light has-text-weight-bold" style=${{ borderRadius: 0 }}>
-								<i className="dashicons dashicons-tag ml-1"></i> 1. حقل العنوان والمعرف الذكي (Smart Title)
+								<i className=${`dashicons dashicons-tag ${ rtl ? 'ml-1' : 'mr-1' }`}></i> 1. ${ __( 'Smart Title Field', 'workpress' ) }
 							</span>
-							<span className="is-size-7 has-text-grey">ثابت وأساسي</span>
+							<span className="is-size-7 has-text-grey">${ __( 'Core & Required', 'workpress' ) }</span>
 						</div>
 
 						<div className="columns is-variable is-2 mb-2">
 							<div className="column is-6">
-								<label className="label is-size-7">مسمى الحقل للعميل:</label>
+								<label className="label is-size-7">${ __( 'Field Label for Client:', 'workpress' ) }</label>
 								<input
 									type="text"
 									className="input is-small wp-sharp-input"
@@ -129,7 +130,7 @@ export default function FormCanvasBuilder({
 								/>
 							</div>
 							<div className="column is-6">
-								<label className="label is-size-7">نص التلميح (Placeholder):</label>
+								<label className="label is-size-7">${ __( 'Placeholder Text:', 'workpress' ) }</label>
 								<input
 									type="text"
 									className="input is-small wp-sharp-input"
@@ -142,7 +143,7 @@ export default function FormCanvasBuilder({
 
 						<!-- Title Suggestions -->
 						<div className="p-3" style=${{ backgroundColor: '#ffffff', border: '1px dashed #cbd5e1', borderRadius: 0 }}>
-							<label className="label is-size-7 mb-1">قائمة الاقتراحات السريعة (تظهر كخيارات منسدلة سريعة + خيار كتابة حرة دائماً):</label>
+							<label className="label is-size-7 mb-1">${ __( 'Quick Suggestions List (Dropdown presets + free text option):', 'workpress' ) }</label>
 							<div className="tags mb-2">
 								${(currentForm.title_suggestions || []).map((sug, sIdx) => html`
 									<span key=${sIdx} className="tag is-info is-light" style=${{ fontWeight: '600', borderRadius: 0 }}>
@@ -158,14 +159,14 @@ export default function FormCanvasBuilder({
 									value=${newSuggestionInput}
 									onInput=${(e) => setNewSuggestionInput(e.target.value)}
 									onKeyDown=${(e) => { if (e.key === 'Enter') { e.preventDefault(); handleAddSuggestion(); } }}
-									placeholder="أدخل اقتراحاً واضغط إضافة..."
+									placeholder=${ __( 'Enter suggestion and click add...', 'workpress' ) }
 								/>
 								<button 
-									type="button"
+									type="button" 
 									className="button is-small is-info is-light wp-sharp-button" 
 									onClick=${handleAddSuggestion}
 								>
-									+ إضافة
+									+ ${ __( 'Add', 'workpress' ) }
 								</button>
 							</div>
 						</div>
@@ -175,14 +176,14 @@ export default function FormCanvasBuilder({
 					<div className="canvas-field-card wp-form-core-field-card p-4 mb-4">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 							<span className="tag is-info is-light has-text-weight-bold" style=${{ borderRadius: 0 }}>
-								<i className="dashicons dashicons-editor-paragraph ml-1"></i> 2. حقل الشرح وتفاصيل الطلب (Scope Description)
+								<i className=${`dashicons dashicons-editor-paragraph ${ rtl ? 'ml-1' : 'mr-1' }`}></i> 2. ${ __( 'Scope Description Field', 'workpress' ) }
 							</span>
-							<span className="is-size-7 has-text-grey">ثابت وأساسي</span>
+							<span className="is-size-7 has-text-grey">${ __( 'Core & Required', 'workpress' ) }</span>
 						</div>
 
 						<div className="columns is-variable is-2">
 							<div className="column is-6">
-								<label className="label is-size-7">مسمى الحقل للعميل:</label>
+								<label className="label is-size-7">${ __( 'Field Label for Client:', 'workpress' ) }</label>
 								<input
 									type="text"
 									className="input is-small wp-sharp-input"
@@ -192,7 +193,7 @@ export default function FormCanvasBuilder({
 								/>
 							</div>
 							<div className="column is-6">
-								<label className="label is-size-7">نص التوجيه الداخلي (Placeholder):</label>
+								<label className="label is-size-7">${ __( 'Placeholder Guidance Text:', 'workpress' ) }</label>
 								<input
 									type="text"
 									className="input is-small wp-sharp-input"
@@ -207,14 +208,14 @@ export default function FormCanvasBuilder({
 					<!-- Custom Specifications Stack -->
 					<div className="mb-4">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
-							<span className="has-text-weight-bold is-size-7 has-text-primary">3. مصفوفة المواصفات والمدخلات التخصصية:</span>
-							<span className="is-size-7 has-text-grey">${(currentForm.specs || []).length} خانات مضافة</span>
+							<span className="has-text-weight-bold is-size-7 has-text-primary">3. ${ __( 'Custom Specifications Matrix:', 'workpress' ) }</span>
+							<span className="is-size-7 has-text-grey">${ sprintf( __( '%d fields added', 'workpress' ), (currentForm.specs || []).length ) }</span>
 						</div>
 
 						${(!currentForm.specs || currentForm.specs.length === 0) ? html`
 							<div className="p-5 has-text-centered" style=${{ border: '2px dashed #cbd5e1', backgroundColor: '#f8fafc', borderRadius: 0 }}>
-								<p className="has-text-grey is-size-7 mb-2">لا توجد خانات مواصفات مضافة حالياً.</p>
-								<p className="is-size-7 has-text-grey-light">اختر أي خانة من القائمة اليمنى للبدء بإضافتها هنا في النموذج.</p>
+								<p className="has-text-grey is-size-7 mb-2">${ __( 'No specification fields added yet.', 'workpress' ) }</p>
+								<p className="is-size-7 has-text-grey-light">${ __( 'Choose a field primitive from the palette to add here.', 'workpress' ) }</p>
 							</div>
 						` : html`
 							<div style=${{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
@@ -241,8 +242,8 @@ export default function FormCanvasBuilder({
 					<!-- Canvas Bottom Actions -->
 					<div className="is-flex is-justify-content-space-between is-align-items-center pt-4" style=${{ borderTop: '2px solid #f1f5f9' }}>
 						<p className="is-size-7 has-text-grey">
-							<i className="dashicons dashicons-yes-alt ml-1 has-text-success"></i>
-							يتم حفظ وتوليد الخانات تلقائياً في بوابة العميل المستقلة فور نقر زر الحفظ.
+							<i className=${`dashicons dashicons-yes-alt ${ rtl ? 'ml-1' : 'mr-1' } has-text-success`}></i>
+							${ __( 'Saved and synced live to client portal forms upon saving.', 'workpress' ) }
 						</p>
 						<button 
 							type="button"
@@ -252,7 +253,7 @@ export default function FormCanvasBuilder({
 							style=${{ fontWeight: '800' }}
 						>
 							<span className="icon"><i className="dashicons dashicons-saved"></i></span>
-							<span>حفظ واعتماد النماذج</span>
+							<span>${ __( 'Save & Sync Forms', 'workpress' ) }</span>
 						</button>
 					</div>
 				</div>

@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect, __ } from '../utils/html.js';
 import { projectsApi, tasksApi, knowledgeApi, contributionsApi } from '../api/client.js';
 import { toast } from '../utils/toast.js';
 import Loader from '../components/ui/Loader.js';
@@ -13,7 +13,7 @@ import DashboardModals from '../components/dashboard/DashboardModals.js';
  *
  * @package WorkPress
  * @subpackage Pages/Dashboard
- * @version 2.2.3
+ * @version 2.3.0
  */
 export default function DashboardPage() {
 	const settings = window.workpressSettings || {};
@@ -87,7 +87,7 @@ export default function DashboardPage() {
 			}
 		} ).catch( err => {
 			console.error( 'CoWorkPress data error:', err );
-			toast( 'تعذر تحميل بيانات مساحة العمل', 'danger' );
+			toast( __( 'Failed to load workspace data', 'workpress' ), 'danger' );
 		} ).finally( () => setIsLoading( false ) );
 	};
 
@@ -164,18 +164,18 @@ export default function DashboardPage() {
 
 		if ( apiCall ) {
 			apiCall.then( () => {
-				toast( 'تم رفض طلب الحذف واستعادة العنصر بنجاح', 'success' );
+				toast( __( 'Trash request rejected and item restored successfully', 'workpress' ), 'success' );
 				fetchData();
-			} ).catch( () => toast( 'حدث خطأ أثناء الاستعادة', 'danger' ) );
+			} ).catch( () => toast( __( 'An error occurred during restore', 'workpress' ), 'danger' ) );
 		}
 	};
 
 	const handleDeleteItem = ( entityType, id ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'تأكيد الحذف النهائي',
-			message: 'هل أنت متأكد من حذف هذا العنصر نهائياً؟ هذا الإجراء لا يمكن التراجع عنه.',
-			confirmText: 'حذف نهائي',
+			title: __( 'Confirm Permanent Deletion', 'workpress' ),
+			message: __( 'Are you sure you want to permanently delete this item? This action cannot be undone.', 'workpress' ),
+			confirmText: __( 'Delete Permanently', 'workpress' ),
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			onConfirm: () => {
@@ -186,11 +186,11 @@ export default function DashboardPage() {
 
 				if ( apiCall ) {
 					apiCall.then( () => {
-						toast( 'تم الحذف النهائي بنجاح', 'success' );
+						toast( __( 'Permanently deleted successfully', 'workpress' ), 'success' );
 						setConfirmModalConfig( { isActive: false } );
 						fetchData();
 					} ).catch( () => {
-						toast( 'حدث خطأ أثناء الحذف', 'danger' );
+						toast( __( 'An error occurred during deletion', 'workpress' ), 'danger' );
 						setConfirmModalConfig( { isActive: false } );
 					} );
 				}
@@ -201,7 +201,7 @@ export default function DashboardPage() {
 	if ( isLoading ) {
 		return html`
 			<div className="admin-workspace py-6 mt-4">
-				<${Loader} center=${true} label="جاري تحضير مساحة العمل CoWorkPress..." size="large" />
+				<${Loader} center=${true} label=${ __( 'Loading Workspace...', 'workpress' ) } size="large" />
 			</div>
 		`;
 	}

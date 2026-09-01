@@ -1,6 +1,7 @@
-import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef, __ } from '../../utils/html.js';
 
-export default function CustomSelect({ value, onChange, options, placeholder = 'اختر...' }) {
+export default function CustomSelect({ value, onChange, options, placeholder = null }) {
+    const defaultPlaceholder = placeholder || __( 'Select...', 'workpress' );
     const [isOpen, setIsOpen] = useState(false);
     const containerRef = useRef(null);
 
@@ -52,7 +53,7 @@ export default function CustomSelect({ value, onChange, options, placeholder = '
                 role="combobox"
                 aria-expanded=${isOpen}
                 aria-haspopup="listbox"
-                aria-label=${placeholder}
+                aria-label=${defaultPlaceholder}
                 tabIndex="0"
                 onKeyDown=${handleKeyDown}
                 onClick=${() => setIsOpen(!isOpen)}
@@ -74,15 +75,15 @@ export default function CustomSelect({ value, onChange, options, placeholder = '
                     boxSizing: 'border-box'
                 }}
             >
-                <span>${selectedOption ? selectedOption.label : placeholder}</span>
-                <span className="icon is-small" style=${{ marginRight: '8px' }}>
+                <span>${selectedOption ? selectedOption.label : defaultPlaceholder}</span>
+                <span className="icon is-small" style=${{ marginInlineStart: '8px' }}>
                     <i className="dashicons dashicons-arrow-down-alt2" style=${{ fontSize: '14px', height: '14px', lineHeight: '14px', color: '#0f172a' }}></i>
                 </span>
             </div>
             ${isOpen && html`
                 <div 
                     role="listbox"
-                    aria-label="الخيارات"
+                    aria-label=${ __( 'Options', 'workpress' ) }
                     style=${{
                         position: 'absolute',
                         top: '100%',

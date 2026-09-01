@@ -1,4 +1,4 @@
-import { html, useState, useEffect } from '../utils/html.js';
+import { html, useState, useEffect, __, isRtl } from '../utils/html.js';
 import { projectsApi, reportsApi } from '../api/client.js';
 import { formatDate } from '../utils/datetime.js';
 import Loader from '../components/ui/Loader.js';
@@ -13,6 +13,7 @@ export default function ReportsPage( { refreshKey } ) {
 	const [ isLoading, setIsLoading ] = useState( true );
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const [ statusFilter, setStatusFilter ] = useState( 'all' ); // 'all' | 'completed' | 'active'
+	const rtl = isRtl();
 
 	// Report Modal state
 	const [ selectedProject, setSelectedProject ] = useState( null );
@@ -33,7 +34,7 @@ export default function ReportsPage( { refreshKey } ) {
 			} )
 			.catch( ( err ) => {
 				console.error( err );
-				toast( 'تعذر تحميل بيانات التقارير', 'danger' );
+				toast( __( 'Failed to load workspace data', 'workpress' ), 'danger' );
 			} )
 			.finally( () => setIsLoading( false ) );
 	}, [ refreshKey ] );
@@ -65,7 +66,7 @@ export default function ReportsPage( { refreshKey } ) {
 						<input
 							className="input is-small is-rounded"
 							type="text"
-							placeholder="بحث في تقارير المشاريع..."
+							placeholder=${ __( 'Search projects (name, code, description)...', 'workpress' ) }
 							value=${ searchQuery }
 							onInput=${ ( e ) => setSearchQuery( e.target.value ) }
 						/>
@@ -79,19 +80,19 @@ export default function ReportsPage( { refreshKey } ) {
 							className=${ `button is-small ${ statusFilter === 'all' ? 'is-primary is-selected' : '' }` }
 							onClick=${ () => { setStatusFilter( 'all' ); sound.play( 'select' ); } }
 						>
-							كافة المشاريع (${ projects.length })
+							${ __( 'All Projects', 'workpress' ) } (${ projects.length })
 						</button>
 						<button
 							className=${ `button is-small ${ statusFilter === 'completed' ? 'is-primary is-selected' : '' }` }
 							onClick=${ () => { setStatusFilter( 'completed' ); sound.play( 'select' ); } }
 						>
-							المكتملة 100%
+							${ __( 'Completed', 'workpress' ) }
 						</button>
 						<button
 							className=${ `button is-small ${ statusFilter === 'active' ? 'is-primary is-selected' : '' }` }
 							onClick=${ () => { setStatusFilter( 'active' ); sound.play( 'select' ); } }
 						>
-							قيد التنفيذ
+							${ __( 'In Progress', 'workpress' ) }
 						</button>
 					</div>
 				</div>
@@ -103,20 +104,20 @@ export default function ReportsPage( { refreshKey } ) {
 					<div className="column is-7">
 						<div className="is-flex is-align-items-center mb-2" style=${{ gap: '10px' }}>
 							<span className="tag is-primary is-light has-text-weight-bold">WorkPress Analytics & Reporting</span>
-							<span className="tag is-dark has-text-weight-bold" style=${{ background: '#334155' }}>v1.4.0</span>
+							<span className="tag is-dark has-text-weight-bold" style=${{ background: '#334155' }}>v2.3.0</span>
 						</div>
 						<h1 className="title is-3 has-text-white mb-2" style=${{ fontWeight: 800 }}>
-							مركز التقارير التنفيذية والتحليلات المعرفية
+							${ __( 'Executive Reports & Knowledge Intelligence Center', 'workpress' ) }
 						</h1>
 						<p className="subtitle is-6 has-text-grey-light mb-0" style=${{ lineHeight: '1.6' }}>
-							استخراج وثائق التسليم والاعتماد الرسمي للمشاريع المكتملة (Executive Sign-off PDF)، وتصدير كتيبات المعرفة المؤسسية المجمّعة (.md)، وتحليل كفاءة الإنجاز وجودة المخرجات.
+							${ __( 'The comprehensive project delivery certificate aggregates verified solutions, milestones index, and cryptographic sign-off metadata.', 'workpress' ) }
 						</p>
 					</div>
 					<div className="column is-5">
 						<div className="columns is-mobile is-multiline has-text-centered">
 							<div className="column is-6">
 								<div className="p-3" style=${{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-									<div className="has-text-grey-light is-size-7 mb-1">إجمالي المشاريع</div>
+									<div className="has-text-grey-light is-size-7 mb-1">${ __( 'Total Projects', 'workpress' ) }</div>
 									<div className="title is-4 has-text-white mb-0" style=${{ fontWeight: 800 }}>
 										${ analytics ? analytics.total_projects : projects.length }
 									</div>
@@ -124,7 +125,7 @@ export default function ReportsPage( { refreshKey } ) {
 							</div>
 							<div className="column is-6">
 								<div className="p-3" style=${{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-									<div className="has-text-grey-light is-size-7 mb-1">نسبة الإنجاز الكلية</div>
+									<div className="has-text-grey-light is-size-7 mb-1">${ __( 'Average Progress', 'workpress' ) }</div>
 									<div className="title is-4 has-text-success mb-0" style=${{ fontWeight: 800 }}>
 										${ analytics ? analytics.completion_rate : 0 }%
 									</div>
@@ -132,7 +133,7 @@ export default function ReportsPage( { refreshKey } ) {
 							</div>
 							<div className="column is-6">
 								<div className="p-3" style=${{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-									<div className="has-text-grey-light is-size-7 mb-1">المشاريع المكتملة</div>
+									<div className="has-text-grey-light is-size-7 mb-1">${ __( 'Completed', 'workpress' ) }</div>
 									<div className="title is-4 has-text-info mb-0" style=${{ fontWeight: 800 }}>
 										${ analytics ? analytics.completed_projects : 0 }
 									</div>
@@ -140,7 +141,7 @@ export default function ReportsPage( { refreshKey } ) {
 							</div>
 							<div className="column is-6">
 								<div className="p-3" style=${{ background: 'rgba(255,255,255,0.05)', borderRadius: '12px', border: '1px solid rgba(255,255,255,0.1)' }}>
-									<div className="has-text-grey-light is-size-7 mb-1">حلول معرفية معتمدة</div>
+									<div className="has-text-grey-light is-size-7 mb-1">${ __( 'Verified Knowledge Assets', 'workpress' ) }</div>
 									<div className="title is-4 has-text-warning mb-0" style=${{ fontWeight: 800 }}>
 										${ analytics ? analytics.total_solutions : 0 } ⭐
 									</div>
@@ -154,15 +155,15 @@ export default function ReportsPage( { refreshKey } ) {
 			<!-- قائمة تقارير المشاريع -->
 			${ isLoading ? html`
 				<div className="py-6 has-text-centered">
-					<${Loader} text="جاري إعداد وتحميل سجلات وتقارير المشاريع..." />
+					<${Loader} text=${ __( 'Loading...', 'workpress' ) } />
 				</div>
 			` : filteredProjects.length === 0 ? html`
 				<div className="box wp-card has-text-centered py-6">
 					<span className="icon is-large has-text-grey-light mb-3">
 						<i className="dashicons dashicons-analytics" style=${{ fontSize: '48px', width: '48px', height: '48px' }}></i>
 					</span>
-					<h3 className="title is-5 has-text-grey mb-1">لا توجد مشاريع مطابقة للبحث</h3>
-					<p className="subtitle is-6 has-text-grey-light">جرب تغيير شروط الفلترة أو البحث عن مشروع آخر.</p>
+					<h3 className="title is-5 has-text-grey mb-1">${ __( 'No projects matching search', 'workpress' ) }</h3>
+					<p className="subtitle is-6 has-text-grey-light">${ __( 'Try adjusting search terms or active filters to find what you are looking for.', 'workpress' ) }</p>
 				</div>
 			` : html`
 				<div className="columns is-multiline">
@@ -176,16 +177,16 @@ export default function ReportsPage( { refreshKey } ) {
 									<div>
 										<div className="is-flex is-justify-content-space-between is-align-items-flex-start mb-3">
 											<div>
-												<span className="tag is-dark is-rounded is-small has-text-weight-bold ml-2">
+												<span className=${ `tag is-dark is-rounded is-small has-text-weight-bold ${ rtl ? 'ml-2' : 'mr-2' }` }>
 													${ project.prefix || 'PRJ' }
 												</span>
 												${ isComplete ? html`
 													<span className="tag is-success is-light is-rounded is-small has-text-weight-bold">
-														مكتمل وجاهز للتسليم
+														${ __( 'Completed & Ready for Delivery', 'workpress' ) }
 													</span>
 												` : html`
 													<span className="tag is-info is-light is-rounded is-small has-text-weight-bold">
-														قيد التنفيذ (${ completionRate }%)
+														${ __( 'In Progress', 'workpress' ) } (${ completionRate }%)
 													</span>
 												` }
 											</div>
@@ -201,13 +202,13 @@ export default function ReportsPage( { refreshKey } ) {
 										</h3>
 
 										<p className="is-size-7 has-text-grey mb-4" style=${{ lineClamp: 2, display: '-webkit-box', WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-											${ project.description || 'لا يوجد وصف مدون للمشروع.' }
+											${ project.description || __( 'No additional details provided.', 'workpress' ) }
 										</p>
 
 										<!-- شريط التقدم والمؤشرات السريعة -->
 										<div className="mb-4">
 											<div className="is-flex is-justify-content-space-between is-size-7 mb-1">
-												<span className="has-text-weight-semibold">معدل الإنجاز</span>
+												<span className="has-text-weight-semibold">${ __( 'Progress', 'workpress' ) }</span>
 												<span className="has-text-weight-bold has-text-dark">${ completionRate }%</span>
 											</div>
 											<progress
@@ -222,11 +223,11 @@ export default function ReportsPage( { refreshKey } ) {
 
 										<div className="columns is-mobile is-multiline is-variable is-1 is-size-7 has-text-grey mb-3">
 											<div className="column is-6">
-												<span>قائد المشروع: </span>
-												<strong className="has-text-dark">${ project.lead ? project.lead.display_name : 'غير محدد' }</strong>
+												<span>${ __( 'Lead:', 'workpress' ) } </span>
+												<strong className="has-text-dark">${ project.lead ? project.lead.display_name : __( 'Flexible', 'workpress' ) }</strong>
 											</div>
 											<div className="column is-6">
-												<span>المهام: </span>
+												<span>${ __( 'Tasks:', 'workpress' ) } </span>
 												<strong className="has-text-dark">${ project.completed_tasks_count || 0 } / ${ project.tasks_count || 0 }</strong>
 											</div>
 										</div>
@@ -239,28 +240,28 @@ export default function ReportsPage( { refreshKey } ) {
 												<button
 													className="button is-primary is-small wp-btn"
 													onClick=${ () => openReport( project, 'report' ) }
-													title="استعراض التقرير التنفيذي الرسمي وطباعة PDF"
+													title=${ __( 'Official Delivery Certificate', 'workpress' ) }
 												>
 													<span className="icon is-small"><i className="dashicons dashicons-media-document"></i></span>
-													<span className="has-text-weight-bold">التقرير التنفيذي (A4)</span>
+													<span className="has-text-weight-bold">${ __( 'Executive Report (A4 / PDF)', 'workpress' ) }</span>
 												</button>
 
 												<button
 													className="button is-dark is-small wp-btn"
 													onClick=${ () => openReport( project, 'knowledge_book' ) }
-													title="تصدير كتيب المعرفة المجمع بتنسيق Markdown"
+													title=${ __( 'Knowledge Book (.md)', 'workpress' ) }
 												>
 													<span className="icon is-small"><i className="dashicons dashicons-book"></i></span>
-													<span>كتيب المعرفة (.md)</span>
+													<span>${ __( 'Knowledge Book (.md)', 'workpress' ) }</span>
 												</button>
 											</div>
 
 											<a
 												href=${ `#/projects/${ project.id }` }
 												className="button is-light is-small"
-												title="الانتقال لغرفة تفاصيل المشروع"
+												title=${ __( 'Open Workspace', 'workpress' ) }
 											>
-												<span className="icon is-small"><i className="dashicons dashicons-arrow-left-alt"></i></span>
+												<span className="icon is-small"><i className=${ rtl ? 'dashicons dashicons-arrow-left-alt' : 'dashicons dashicons-arrow-right-alt' }></i></span>
 											</a>
 										</div>
 									</div>

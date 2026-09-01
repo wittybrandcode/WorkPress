@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __ } from '../../utils/html.js';
 
 /**
  * Option Tags & Multi-Select Pills Manager Component
@@ -13,7 +13,7 @@ export default function FormPillsSelector({
 }) {
 	return html`
 		<div className="p-3 mt-2" style=${{ backgroundColor: '#f8fafc', border: '1px dashed #cbd5e1', borderRadius: 0 }}>
-			<label className="label is-size-7 mb-1">الخيارات المتاحة للاختيار:</label>
+			<label className="label is-size-7 mb-1">${ __( 'Available Options for Selection:', 'workpress' ) }</label>
 			<div className="tags mb-2">
 				${options.map((opt, optIdx) => html`
 					<span key=${optIdx} className="tag is-primary is-light" style=${{ borderRadius: 0 }}>
@@ -29,14 +29,14 @@ export default function FormPillsSelector({
 					value=${newOptionValue}
 					onInput=${(e) => setNewOptionValue(e.target.value)}
 					onKeyDown=${(e) => { if (e.key === 'Enter') { e.preventDefault(); onAddOption(sIdx); } }}
-					placeholder="اكتب خياراً واضغط إضافة..."
+					placeholder=${ __( 'Type an option and press add...', 'workpress' ) }
 				/>
 				<button 
-					type="button"
+					type="button" 
 					className="button is-small is-primary is-light wp-sharp-button" 
 					onClick=${() => onAddOption(sIdx)}
 				>
-					+ إضافة خيار
+					+ ${ __( 'Add Option', 'workpress' ) }
 				</button>
 			</div>
 		</div>

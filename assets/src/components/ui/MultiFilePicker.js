@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, isRtl } from '../../utils/html.js';
 import sound from '../../utils/sound.js';
 
 /**
@@ -10,17 +10,20 @@ import sound from '../../utils/sound.js';
 export default function MultiFilePicker( { 
 	attachments = [], 
 	onChange, 
-	buttonText = 'إرفاق ملفات / وثائق',
+	buttonText = null,
 	readOnly = false 
 } ) {
+	const defaultButtonText = buttonText || __( 'Attach files / documents', 'workpress' );
+	const rtl = isRtl();
+
 	const handleOpenMedia = () => {
 		if ( readOnly ) return;
 
 		if ( typeof window.wp !== 'undefined' && window.wp.media ) {
 			const frame = window.wp.media( {
-				title: 'اختر أو ارفع ملفات المرفقات',
+				title: __( 'Select or upload attachment files', 'workpress' ),
 				button: {
-					text: 'إرفاق الملفات المحددة',
+					text: __( 'Attach selected files', 'workpress' ),
 				},
 				multiple: true,
 			} );
@@ -33,7 +36,7 @@ export default function MultiFilePicker( {
 					const att = attachment.toJSON();
 					newItems.push( {
 						id: att.id,
-						name: att.filename || att.title || 'ملف مرفق',
+						name: att.filename || att.title || __( 'Attachment', 'workpress' ),
 						url: att.url,
 						mime_type: att.mime || '',
 						size: att.filesizeHumanReadable || '',
@@ -58,7 +61,7 @@ export default function MultiFilePicker( {
 
 			frame.open();
 		} else {
-			alert( 'مكتبة وسائط ووردبريس غير متوفرة حالياً.' );
+			alert( __( 'WordPress Media Library is not available.', 'workpress' ) );
 		}
 	};
 
@@ -103,12 +106,12 @@ export default function MultiFilePicker( {
 						onClick=${ handleOpenMedia }
 						style=${{ borderRadius: 0, border: '1px solid #cbd5e1', fontWeight: '700', fontSize: '0.8rem', height: '30px' }}
 					>
-						<i className="dashicons dashicons-paperclip" style=${{ marginLeft: '0.25rem' }}></i>
-						<span>${ buttonText }</span>
+						<i className="dashicons dashicons-paperclip" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '0.25rem' }}></i>
+						<span>${ defaultButtonText }</span>
 					</button>
 					${ attachments.length > 0 ? html`
 						<span style=${{ fontSize: '0.75rem', fontWeight: '600', color: '#64748b' }}>
-							(${ attachments.length } ملفات مرفقة)
+							(${ attachments.length } ${ __( 'Attachments', 'workpress' ) })
 						</span>
 					` : null }
 				</div>
@@ -118,7 +121,7 @@ export default function MultiFilePicker( {
 				<div style=${{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '0.5rem' }}>
 					${ attachments.map( ( file ) => {
 						const fileId = typeof file === 'object' ? file.id : file;
-						const fileName = typeof file === 'object' ? ( file.name || 'ملف مرفق' ) : `ملف #${ fileId }`;
+						const fileName = typeof file === 'object' ? ( file.name || __( 'Attachment', 'workpress' ) ) : `${ __( 'Attachment', 'workpress' ) } #${ fileId }`;
 						const fileUrl = typeof file === 'object' ? file.url : '';
 						const fileSize = typeof file === 'object' ? file.size : '';
 
@@ -152,7 +155,7 @@ export default function MultiFilePicker( {
 												textOverflow: 'ellipsis', 
 												display: 'block' 
 											}}
-											title="فتح أو تحميل الملف"
+											title=${ __( 'Open or download file', 'workpress' ) }
 										>
 											${ fileName }
 										</a>
@@ -168,7 +171,7 @@ export default function MultiFilePicker( {
 										className="button is-small is-ghost" 
 										onClick=${ () => handleRemove( fileId ) }
 										style=${{ height: '22px', padding: '0 2px', color: '#94a3b8', border: 'none' }}
-										title="إزالة هذا المرفق"
+										title=${ __( 'Remove this attachment', 'workpress' ) }
 									>
 										<i className="dashicons dashicons-no-alt" style=${{ fontSize: '15px' }}></i>
 									</button>

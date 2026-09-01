@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, isRtl } from '../../utils/html.js';
 import sound from '../../utils/sound.js';
 
 /**
@@ -17,6 +17,8 @@ export default function GanttTaskRow({
 	setRescheduleMenuPos,
 	onTaskClick
 }) {
+	const rtl = isRtl();
+
 	if ( ! metrics.isVisible ) {
 		return html`
 			<div key=${ `bar_row_${ task.id }` } style=${{ height: '38px', borderBottom: '1px solid #f1f5f9' }}></div>
@@ -39,7 +41,7 @@ export default function GanttTaskRow({
 			<div 
 				className=${ `wp-gantt-bar-wrapper ${ isHovered ? 'is-hovered' : '' }` }
 				style=${{ 
-					right: `${ Math.max( 2, metrics.rightOffset - 28 ) }px`
+					[rtl ? 'right' : 'left']: `${ Math.max( 2, metrics.rightOffset - 28 ) }px`
 				}}
 				onMouseEnter=${ ( e ) => {
 					const rect = e.currentTarget.getBoundingClientRect();
@@ -63,7 +65,7 @@ export default function GanttTaskRow({
 							setRescheduleTaskId( rescheduleTaskId === task.id ? null : task.id );
 							sound.play( 'click' );
 						} }
-						title="إعادة جدولة وتمديد الموعد بالتقويم التفاعلي"
+						title=${ __( 'Reschedule date and time', 'workpress' ) }
 					>
 						<i className="dashicons dashicons-calendar-alt" style=${{ fontSize: '13px', color: '#38bdf8' }}></i>
 					</button>
@@ -85,7 +87,7 @@ export default function GanttTaskRow({
 						<div 
 							style=${{ 
 								position: 'absolute', 
-								right: 0, 
+								[rtl ? 'right' : 'left']: 0, 
 								top: 0, 
 								bottom: 0, 
 								width: `${ progressPct }%`, 
@@ -105,7 +107,7 @@ export default function GanttTaskRow({
 
 					<div style=${{ position: 'relative', zIndex: 2, display: 'flex', alignItems: 'center', gap: '4px', flexShrink: 0 }}>
 						<span style=${{ fontSize: '0.7rem', fontWeight: '800', opacity: 0.9 }}>
-							${ metrics.durationDays }ي
+							${ metrics.durationDays }${ __( 'd', 'workpress' ) }
 						</span>
 					</div>
 				</div>

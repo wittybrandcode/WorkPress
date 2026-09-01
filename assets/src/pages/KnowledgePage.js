@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../utils/html.js';
+import { html, useState, useEffect, useRef, __ } from '../utils/html.js';
 import { knowledgeApi, contributionsApi, projectsApi } from '../api/client.js';
 import ContributionDetailModal from '../components/contributions/ContributionDetailModal.js';
 import ConfirmModal from '../components/modals/ConfirmModal.js';
@@ -21,7 +21,7 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 		return () => document.removeEventListener('mousedown', handleClickOutside);
 	}, []);
 
-	const cleanContent = item.content ? item.content.replace( /<[^>]*>?/gm, '' ) : 'لا يوجد محتوى معرفة.';
+	const cleanContent = item.content ? item.content.replace( /<[^>]*>?/gm, '' ) : __( 'No additional details provided.', 'workpress' );
 	
 	const descriptionStyle = {
 		display: '-webkit-box',
@@ -44,9 +44,9 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 		setIsMenuOpen( false );
 		const url = `${window.location.origin}${window.location.pathname}#/tasks/${item.task_id}`;
 		navigator.clipboard.writeText( url ).then( () => {
-			toast( 'تم نسخ رابط الحل المعرفي بنجاح!', 'success' );
+			toast( __( 'Link copied successfully!', 'workpress' ), 'success' );
 		} ).catch( () => {
-			toast( 'تعذر نسخ الرابط إلى الحافظة', 'danger' );
+			toast( __( 'An error occurred while processing the request.', 'workpress' ), 'danger' );
 		} );
 	};
 
@@ -56,18 +56,18 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 				<div style=${{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, backgroundColor: 'rgba(255, 56, 96, 0.15)', zIndex: 10, display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', padding: '1.5rem', backdropFilter: 'blur(3px)' }} onClick=${(e) => e.stopPropagation()}>
 					<div className="box has-text-centered p-4" style=${{ width: '100%', backgroundColor: '#ff3860', color: 'white', border: '1px solid #ff1f4b', boxShadow: '0 8px 24px rgba(255,56,96,0.3)', borderRadius: 0 }}>
 						<span className="icon is-large mb-1"><i className="dashicons dashicons-warning" style=${{ fontSize: '36px', width: '36px', height: '36px' }}></i></span>
-						<h4 className="title is-6 has-text-white mb-2">طلب حذف معرفة</h4>
+						<h4 className="title is-6 has-text-white mb-2">${ __( 'Trash Knowledge Request', 'workpress' ) }</h4>
 						<p className="is-size-7 mb-4" style=${{ opacity: 0.9 }}>
-							<strong>السبب:</strong> ${ item.trash_reason || 'غير محدد' }
+							<strong>${ __( 'Reason:', 'workpress' ) }</strong> ${ item.trash_reason || __( 'Flexible', 'workpress' ) }
 						</p>
 						<div className="buttons is-centered">
 							<button className="button is-small is-white is-outlined wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onRestore && onRestore(item); } }>
 								<span className="icon"><i className="dashicons dashicons-undo"></i></span>
-								<span>رفض واستعادة</span>
+								<span>${ __( 'Restore & Reject', 'workpress' ) }</span>
 							</button>
 							<button className="button is-small is-white has-text-danger has-text-weight-bold wp-sharp-button" onClick=${ (e) => { e.stopPropagation(); onHardDelete && onHardDelete(item); } }>
 								<span className="icon"><i className="dashicons dashicons-trash"></i></span>
-								<span>حذف نهائي</span>
+								<span>${ __( 'Delete Permanently', 'workpress' ) }</span>
 							</button>
 						</div>
 					</div>
@@ -91,10 +91,10 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 				<!-- Badges Row -->
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
 					<span className="tag is-success" style=${{ borderRadius: '0', fontWeight: 'bold' }}>
-						<i className="dashicons dashicons-yes-alt ml-1"></i> معرفة معتمدة
+						<i className="dashicons dashicons-yes-alt ml-1"></i> ${ __( 'Verified Knowledge', 'workpress' ) }
 					</span>
 					<span className="tag is-light" style=${{ borderRadius: '0', border: '1px solid #e2e8f0', fontSize: '0.75rem', fontWeight: 'bold' }}>
-						${ item.type_label || 'حل معتمد' }
+						${ item.type_label || __( 'Approved Solution', 'workpress' ) }
 					</span>
 				</div>
 
@@ -113,45 +113,45 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 				
 				<!-- Right side: Stats & Author -->
 				<div className="is-flex is-align-items-center" style=${{ gap: '16px' }}>
-					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title="صاحب الحل">
+					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title=${ __( 'Staff', 'workpress' ) }>
 						<span className="icon is-small ml-1"><i className="dashicons dashicons-admin-users"></i></span> 
-						<span>${ item.author_name || 'النظام' }</span>
+						<span>${ item.author_name || __( 'Staff', 'workpress' ) }</span>
 					</span>
-					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title="الحالة">
+					<span className="is-size-7 has-text-weight-bold has-text-grey is-flex is-align-items-center" title=${ __( 'Status', 'workpress' ) }>
 						<span className="icon is-small ml-1"><i className="dashicons dashicons-awards"></i></span> 
-						<span>معتمد</span>
+						<span>${ __( 'Approved', 'workpress' ) }</span>
 					</span>
 				</div>
 
 				<!-- Left side: Actions Dropdown -->
 				<div className="is-flex is-align-items-center">
-					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(item); } } title="معاينة سريعة">
+					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(item); } } title=${ __( 'View', 'workpress' ) }>
 						<span className="icon"><i className="dashicons dashicons-visibility"></i></span>
 					</button>
 					<div ref=${dropdownRef} className=${`dropdown is-up ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
 						<div className="dropdown-trigger">
-							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title="خيارات المعرفة">
+							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title=${ __( 'Settings', 'workpress' ) }>
 								<span className="icon"><i className="dashicons dashicons-admin-generic"></i></span>
 							</button>
 						</div>
 						<div className="dropdown-menu" id="dropdown-menu" role="menu">
 							<div className="dropdown-content p-0" style=${{borderRadius: '0', border: '1px solid #ededed', boxShadow: '0 4px 12px rgba(0,0,0,0.15)'}}>
 								<a href=${`#/tasks/${item.task_id}`} className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>عرض الحل بالمهمة</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>${ __( 'View Solution in Task', 'workpress' ) }</span>
 								</a>
 							<hr className="dropdown-divider m-0" />
 								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); copyLink(e); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-admin-links"></i></span> <span>نسخ رابط الحل</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-admin-links"></i></span> <span>${ __( 'Copy Solution Link', 'workpress' ) }</span>
 								</a>
 							${ item.can_accept ? html`
 								<hr className="dropdown-divider m-0" />
 								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-warning" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onRevoke && onRevoke(item); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-undo"></i></span> <span>إلغاء الاعتماد المعرفي</span>
+									<span className="icon ml-2"><i className="dashicons dashicons-undo"></i></span> <span>${ __( 'Revoke Approval', 'workpress' ) }</span>
 								</a>
 							` : null }
 							<hr className="dropdown-divider m-0" />
 							<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-danger" onClick=${ (e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(false); onTrashRequest && onTrashRequest(item); } }>
-								<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>حذف المعرفة (المساهمة)</span>
+								<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>${ __( 'Delete Knowledge Asset', 'workpress' ) }</span>
 							</a>
 						</div>
 					</div>
@@ -204,9 +204,9 @@ export default function KnowledgePage({ refreshKey }) {
 	const handleRevoke = ( item ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'إلغاء اعتماد الحل وسحبه من المعرفة',
-			message: `هل أنت متأكد من إلغاء اعتماد هذا الحل التابع للمهمة "${item.task_title}"؟ ستتم إعادة فتح المهمة للمراجعة وسحب المساهمة من مكتبة المعرفة.`,
-			confirmText: 'إلغاء الاعتماد وإعادة الفتح',
+			title: __( 'Revoke Approval', 'workpress' ),
+			message: `${ __( 'Are you sure you want to revoke approval for solution in task', 'workpress' ) } "${item.task_title}"?`,
+			confirmText: __( 'Revoke & Reopen', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDangerous: true,
 			requiresReason: false,
@@ -216,13 +216,13 @@ export default function KnowledgePage({ refreshKey }) {
 				contributionsApi.revoke( item.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم إلغاء الاعتماد وسحب الحل من المعرفة بنجاح', 'info' );
+						toast( __( 'Approval revoked and task reopened successfully', 'workpress' ), 'info' );
 						fetchKnowledge();
 						hooks.doAction('workpress_refresh_notifications');
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء إلغاء الاعتماد', 'danger' );
+						toast( err.message || __( 'An error occurred during restore', 'workpress' ), 'danger' );
 					} );
 			}
 		});
@@ -231,25 +231,25 @@ export default function KnowledgePage({ refreshKey }) {
 	const handleTrashRequest = ( item ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'طلب حذف معرفة معتمدة',
-			message: `هل أنت متأكد من رغبتك في طلب حذف المعرفة الخاصة بمهمة "${item.task_title}"؟`,
-			confirmText: 'إرسال الطلب',
+			title: __( 'Trash Knowledge Request', 'workpress' ),
+			message: `${ __( 'Are you sure you want to request deleting knowledge for task', 'workpress' ) } "${item.task_title}"?`,
+			confirmText: __( 'Submit Request', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDangerous: false,
 			requiresReason: true,
-			reasonLabel: 'سبب حذف المعرفة',
+			reasonLabel: __( 'Reason for deletion', 'workpress' ),
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
 				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
 				contributionsApi.trashRequest( item.id, reason )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم إرسال طلب حذف المعرفة بنجاح', 'info' );
+						toast( __( 'Trash request sent successfully.', 'workpress' ), 'info' );
 						fetchKnowledge();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء طلب الحذف', 'danger' );
+						toast( err.message || __( 'Failed to send feedback, please try again.', 'workpress' ), 'danger' );
 					} );
 			}
 		});
@@ -260,11 +260,11 @@ export default function KnowledgePage({ refreshKey }) {
 		setKnowledgeItems( prev => prev.map( k => k.id === item.id ? { ...k, is_pending_trash: false } : k ) );
 		contributionsApi.update( item.id, { is_pending_trash: false } )
 			.then( () => {
-				toast( 'تمت استعادة المعرفة بنجاح', 'success' );
+				toast( __( 'Knowledge asset restored successfully', 'workpress' ), 'success' );
 				fetchKnowledge();
 			} )
 			.catch( err => {
-				toast( err.message || 'حدث خطأ أثناء استعادة المعرفة', 'danger' );
+				toast( err.message || __( 'An error occurred during restore', 'workpress' ), 'danger' );
 				fetchKnowledge();
 			} );
 	};
@@ -272,9 +272,9 @@ export default function KnowledgePage({ refreshKey }) {
 	const handleHardDelete = ( item ) => {
 		setConfirmModalConfig({
 			isActive: true,
-			title: 'تأكيد الحذف النهائي للمعرفة',
-			message: `هل أنت متأكد من حذف هذه المعرفة ونقلها لسلة المهملات؟`,
-			confirmText: 'حذف',
+			title: __( 'Confirm Permanent Deletion', 'workpress' ),
+			message: __( 'Are you sure you want to permanently delete this item? This action cannot be undone.', 'workpress' ),
+			confirmText: __( 'Delete Permanently', 'workpress' ),
 			confirmColor: 'is-danger',
 			isDangerous: true,
 			requiresReason: false,
@@ -286,12 +286,12 @@ export default function KnowledgePage({ refreshKey }) {
 				contributionsApi.delete( item.id )
 					.then( () => {
 						setConfirmModalConfig({ isActive: false });
-						toast( 'تم حذف المعرفة بنجاح', 'success' );
+						toast( __( 'Permanently deleted successfully', 'workpress' ), 'success' );
 						fetchKnowledge();
 					} )
 					.catch( err => {
 						setConfirmModalConfig( prev => ({ ...prev, isSubmitting: false }) );
-						toast( err.message || 'حدث خطأ أثناء الحذف', 'danger' );
+						toast( err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger' );
 						fetchKnowledge();
 					} );
 			}
@@ -299,12 +299,12 @@ export default function KnowledgePage({ refreshKey }) {
 	};
 
 	const projectOptions = [
-		{ value: '', label: '-- جميع المشاريع --' },
+		{ value: '', label: `-- ${ __( 'All Projects', 'workpress' ) } --` },
 		...projects.map( p => ({ value: p.id, label: p.name }) )
 	];
 
 	const typeOptions = [
-		{ value: 'all', label: '-- جميع الأنواع --' },
+		{ value: 'all', label: `-- ${ __( 'All Types', 'workpress' ) } --` },
 		...availableTypes.map( t => ({ value: t.key, label: t.label }) )
 	];
 
@@ -340,12 +340,12 @@ export default function KnowledgePage({ refreshKey }) {
 				search=${{
 					value: searchQuery,
 					onChange: setSearchQuery,
-					placeholder: 'بحث في قواعد المعرفة والحلول المعتمدة...',
+					placeholder: __( 'Search knowledge base and approved solutions...', 'workpress' ),
 				}}
 				filters=${[
 					{
 						key: 'project',
-						label: 'المشروع',
+						label: __( 'Project', 'workpress' ),
 						icon: 'dashicons-category',
 						value: selectedProject,
 						onChange: setSelectedProject,
@@ -355,7 +355,7 @@ export default function KnowledgePage({ refreshKey }) {
 					},
 					{
 						key: 'type',
-						label: 'نوع الحل',
+						label: __( 'Solution Type', 'workpress' ),
 						icon: 'dashicons-star-filled',
 						value: selectedType,
 						onChange: setSelectedType,
@@ -365,14 +365,14 @@ export default function KnowledgePage({ refreshKey }) {
 				]}
 				totalCount=${ filteredKnowledgeItems.length }
 				totalUnfiltered=${ knowledgeItems.length }
-				counterLabel="حل معتمد"
+				counterLabel=${ __( 'Approved Solution', 'workpress' ) }
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>
 
 			${ isLoading ? html`
 				<div className="py-6 mt-4">
-					<${Loader} center=${true} label="جاري تحميل مكتبة المعرفة..." size="large" />
+					<${Loader} center=${true} label=${ __( 'Loading...', 'workpress' ) } size="large" />
 				</div>
 			` : html`
 				<div className="columns is-multiline">
@@ -396,22 +396,22 @@ export default function KnowledgePage({ refreshKey }) {
 									<i className="dashicons dashicons-book has-text-success" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i>
 								</div>
 								<h3 className="title is-5 mb-2 has-text-weight-bold has-text-dark">
-									${ isFilterActive ? 'لا توجد حلول معرفية مطابقة لمعايير البحث' : 'مكتبة المعرفة المؤسسية خالية حالياً' }
+									${ isFilterActive ? __( 'No matching results found in knowledge base.', 'workpress' ) : __( 'Verified Knowledge Assets', 'workpress' ) }
 								</h3>
 								<p className="has-text-grey is-size-6 mb-5" style=${{ maxWidth: '480px', margin: '0 auto' }}>
 									${ isFilterActive 
-										? 'جرّب تغيير كلمات البحث أو إعادة ضبط الفلاتر للعثور على الحلول المعرفية.' 
-										: 'يتم بناء الذاكرة المعرفية تلقائياً عندما يعتمد قائد المشروع حلاً مقدماً لأي مهمة، ليصبح مرجعاً دائماً لكافة أعضاء الفريق.' }
+										? __( 'Try adjusting search terms or active filters to find what you are looking for.', 'workpress' ) 
+										: __( 'Organizational memory is built automatically when the project lead approves solutions, creating permanent assets for the team.', 'workpress' ) }
 								</p>
 								${ isFilterActive ? html`
 									<button className="button is-light wp-sharp-button" onClick=${ handleResetFilters }>
 										<span className="icon"><i className="dashicons dashicons-image-rotate"></i></span>
-										<span>إعادة ضبط الفلاتر</span>
+										<span>${ __( 'Reset Filters', 'workpress' ) }</span>
 									</button>
 								` : html`
-									<a href="#/tasks" className="button is-primary wp-sharp-button">
+									<a href="#/kanban" className="button is-primary wp-sharp-button">
 										<span className="icon"><i className="dashicons dashicons-clipboard"></i></span>
-										<span>استعراض المهام المفتوحة للمساهمة</span>
+										<span>${ __( 'Explore Open Tasks for Contributions', 'workpress' ) }</span>
 									</a>
 								` }
 							</div>

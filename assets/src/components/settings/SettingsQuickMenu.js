@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef, __, isRtl } from '../../utils/html.js';
 
 /**
  * SettingsQuickMenu Component
@@ -11,6 +11,7 @@ export default function SettingsQuickMenu({ route }) {
 	const dropdownRef = useRef(null);
 	const settings = window.workpressSettings || {};
 	const isAdmin = !!settings.isAdmin;
+	const rtl = isRtl();
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -25,19 +26,19 @@ export default function SettingsQuickMenu({ route }) {
 	const isSettingsActive = route.startsWith('#/settings');
 
 	const quickLinks = [
-		{ id: 'about', label: 'عن WorkPress والفلسفة', icon: 'dashicons-info' },
-		{ id: 'intake_forms', label: 'نماذج استقبال الطلبات', icon: 'dashicons-forms', adminOnly: true },
-		{ id: 'webhooks', label: 'خطافات الويب والتكامل الخارجي', icon: 'dashicons-rest-api', adminOnly: true },
-		{ id: 'roles_permissions', label: 'مصفوفة الصلاحيات', icon: 'dashicons-shield', adminOnly: true },
-		{ id: 'role_management', label: 'إدارة الأدوار والمسميات', icon: 'dashicons-id', adminOnly: true },
-		{ id: 'contribution_types', label: 'أنواع المساهمات', icon: 'dashicons-share-alt2', adminOnly: true },
-		{ id: 'members', label: 'دليل الأعضاء والمنفذين', icon: 'dashicons-groups' },
-		{ id: 'clients', label: 'المستفيدون وأصحاب الطلبات', icon: 'dashicons-id-alt' },
-		{ id: 'localization_time', label: 'الوقت والمنطقة الزمنية', icon: 'dashicons-clock', adminOnly: true },
-		{ id: 'general', label: 'إعدادات النظام', icon: 'dashicons-admin-generic', adminOnly: true },
-		{ id: 'notifications', label: 'الإشعارات والتنبيهات', icon: 'dashicons-bell' },
-		{ id: 'sound_effects', label: 'الأصوات والتأثيرات التفاعلية', icon: 'dashicons-format-audio' },
-		{ id: 'export', label: 'التصدير والأرشفة', icon: 'dashicons-database-export', adminOnly: true },
+		{ id: 'about', label: __( 'About WorkPress & Philosophy', 'workpress' ), icon: 'dashicons-info' },
+		{ id: 'intake_forms', label: __( 'Client Intake Forms', 'workpress' ), icon: 'dashicons-forms', adminOnly: true },
+		{ id: 'webhooks', label: __( 'Enterprise Webhooks', 'workpress' ), icon: 'dashicons-rest-api', adminOnly: true },
+		{ id: 'roles_permissions', label: __( 'Capability Matrix', 'workpress' ), icon: 'dashicons-shield', adminOnly: true },
+		{ id: 'role_management', label: __( 'Role Aliases & Custom Roles', 'workpress' ), icon: 'dashicons-id', adminOnly: true },
+		{ id: 'contribution_types', label: __( 'Contribution Types', 'workpress' ), icon: 'dashicons-share-alt2', adminOnly: true },
+		{ id: 'members', label: __( 'Team Members Directory', 'workpress' ), icon: 'dashicons-groups' },
+		{ id: 'clients', label: __( 'Clients & Stakeholders', 'workpress' ), icon: 'dashicons-id-alt' },
+		{ id: 'localization_time', label: __( 'Timezone & Localization', 'workpress' ), icon: 'dashicons-clock', adminOnly: true },
+		{ id: 'general', label: __( 'General System Settings', 'workpress' ), icon: 'dashicons-admin-generic', adminOnly: true },
+		{ id: 'notifications', label: __( 'Notifications & Alerts', 'workpress' ), icon: 'dashicons-bell' },
+		{ id: 'sound_effects', label: __( 'Sound Effects & Audio Cues', 'workpress' ), icon: 'dashicons-format-audio' },
+		{ id: 'export', label: __( 'Export & Archiving', 'workpress' ), icon: 'dashicons-database-export', adminOnly: true },
 	].filter(item => !item.adminOnly || isAdmin);
 
 	return html`
@@ -50,7 +51,7 @@ export default function SettingsQuickMenu({ route }) {
 				<button 
 					className=${`button wp-header-btn ${isSettingsActive || isOpen ? 'is-active' : ''}`}
 					onClick=${() => setIsOpen(!isOpen)}
-					title="الإعدادات والروابط السريعة"
+					title=${ __( 'Settings & Quick Navigation', 'workpress' ) }
 					aria-haspopup="true"
 					style=${{ 
 						width: '32px', 
@@ -73,8 +74,8 @@ export default function SettingsQuickMenu({ route }) {
 				role="menu" 
 				style=${{ 
 					minWidth: '240px',
-					left: 0,
-					right: 'auto',
+					[rtl ? 'right' : 'left']: 0,
+					[rtl ? 'left' : 'right']: 'auto',
 					top: '100%',
 					paddingTop: '6px'
 				}}
@@ -91,7 +92,7 @@ export default function SettingsQuickMenu({ route }) {
 					<div className="px-3 py-2" style=${{ borderBottom: '1px solid #f1f5f9', backgroundColor: '#f8fafc' }}>
 						<p className="is-size-7 has-text-weight-bold has-text-dark mb-0 is-flex is-align-items-center" style=${{ gap: '6px' }}>
 							<i className="dashicons dashicons-admin-settings has-text-primary" style=${{ fontSize: '15px' }}></i>
-							<span>إعدادات WorkPress</span>
+							<span>${ __( 'WorkPress Settings', 'workpress' ) }</span>
 						</p>
 					</div>
 
@@ -128,7 +129,7 @@ export default function SettingsQuickMenu({ route }) {
 							style=${{ border: '1px solid #cbd5e1' }}
 						>
 							<span className="icon is-small"><i className="dashicons dashicons-external"></i></span>
-							<span>فتح صفحة الإعدادات</span>
+							<span>${ __( 'Open Settings Studio', 'workpress' ) }</span>
 						</a>
 					</div>
 				</div>

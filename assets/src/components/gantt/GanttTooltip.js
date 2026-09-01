@@ -1,4 +1,4 @@
-import { html } from '../../utils/html.js';
+import { html, __, sprintf } from '../../utils/html.js';
 import { formatDate } from '../../utils/datetime.js';
 
 /**
@@ -61,22 +61,22 @@ export default function GanttTooltip({
 
 			<!-- Project Name -->
 			<div style=${{ fontSize: '0.75rem', color: '#38bdf8', fontWeight: '700', marginBottom: '0.6rem' }}>
-				${ activeTask.project_name || 'بدون مشروع' }
+				${ activeTask.project_name || __( 'No Project', 'workpress' ) }
 			</div>
 
 			<!-- Dates & Time Grid -->
 			<div style=${{ backgroundColor: '#1e293b', padding: '0.5rem 0.6rem', border: '1px solid #334155', marginBottom: '0.5rem', display: 'flex', flexDirection: 'column', gap: '4px' }}>
 				<div style=${{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-					<span style=${{ color: '#94a3b8' }}>تاريخ البداية:</span>
+					<span style=${{ color: '#94a3b8' }}>${ __( 'Start Date:', 'workpress' ) }</span>
 					<strong style=${{ color: '#ffffff' }}>${ formatDate( metrics.createdDate ) }</strong>
 				</div>
 				<div style=${{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-					<span style=${{ color: '#94a3b8' }}>الموعد المستهدف:</span>
+					<span style=${{ color: '#94a3b8' }}>${ __( 'Target Due Date:', 'workpress' ) }</span>
 					<strong style=${{ color: '#38bdf8' }}>${ formatDate( metrics.dueDate ) }</strong>
 				</div>
 				<div style=${{ display: 'flex', justifyContent: 'space-between', fontSize: '0.75rem' }}>
-					<span style=${{ color: '#94a3b8' }}>المدة الزمنية:</span>
-					<strong style=${{ color: '#facc15' }}>${ metrics.durationDays } يوم</strong>
+					<span style=${{ color: '#94a3b8' }}>${ __( 'Duration:', 'workpress' ) }</span>
+					<strong style=${{ color: '#facc15' }}>${ sprintf( __( '%d days', 'workpress' ), metrics.durationDays ) }</strong>
 				</div>
 			</div>
 
@@ -84,22 +84,22 @@ export default function GanttTooltip({
 			<div style=${{ display: 'flex', flexDirection: 'column', gap: '4px', fontSize: '0.74rem' }}>
 				${ activeTask.checklists_count > 0 ? html`
 					<div style=${{ display: 'flex', justifyContent: 'space-between', color: '#67e8f9' }}>
-						<span>قوائم الفحص:</span>
-						<strong>${ activeTask.checklists_completed_count || 0 }/${ activeTask.checklists_count } مكتملة (${ activeTask.checklists_progress || 0 }%)</strong>
+						<span>${ __( 'Checklists:', 'workpress' ) }</span>
+						<strong>${ sprintf( __( '%d/%d completed (%d%%)', 'workpress' ), activeTask.checklists_completed_count || 0, activeTask.checklists_count, activeTask.checklists_progress || 0 ) }</strong>
 					</div>
 				` : null }
 
 				${ ( activeTask.estimated_hours > 0 || activeTask.logged_hours > 0 ) ? html`
 					<div style=${{ display: 'flex', justifyContent: 'space-between', color: '#a7f3d0' }}>
-						<span>ساعات العمل:</span>
-						<strong>${ activeTask.logged_hours || 0 }س مسجلة / ${ activeTask.estimated_hours || 0 }س مقدرة</strong>
+						<span>${ __( 'Work Hours:', 'workpress' ) }</span>
+						<strong>${ sprintf( __( '%sh logged / %sh estimated', 'workpress' ), activeTask.logged_hours || 0, activeTask.estimated_hours || 0 ) }</strong>
 					</div>
 				` : null }
 
 				${ ( activeTask.assignees && activeTask.assignees.length > 0 ) ? html`
 					<div style=${{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', color: '#e2e8f0', marginTop: '2px' }}>
-						<span>المكلفين:</span>
-						<span style=${{ fontWeight: '700' }}>${ activeTask.assignees.map( a => a.name || a.display_name ).join( '، ' ) }</span>
+						<span>${ __( 'Assignees:', 'workpress' ) }</span>
+						<span style=${{ fontWeight: '700' }}>${ activeTask.assignees.map( a => a.name || a.display_name ).join( ', ' ) }</span>
 					</div>
 				` : null }
 			</div>

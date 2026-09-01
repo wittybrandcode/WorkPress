@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WorkPress 2.3.0\n"
 "Report-Msgid-Bugs-To: https://workpress.local/support\n"
-"POT-Creation-Date: 2026-09-01T13:50:31.828Z\n"
-"PO-Revision-Date: 2026-09-01T13:50:31.828Z\n"
+"POT-Creation-Date: 2026-09-01T15:12:44.068Z\n"
+"PO-Revision-Date: 2026-09-01T15:12:44.068Z\n"
 "Last-Translator: WorkPress Localization Team <ar@workpress.local>\n"
 "Language-Team: Arabic <ar@li.org>\n"
 "Language: ar\n"
@@ -16,17 +16,4493 @@ msgstr ""
 "X-Generator: WorkPress Native i18n Suite\n"
 "X-Domain: workpress\n"
 
-#: assets/src/portal/portal-app.js assets/src/portal/portal-radar.js includes/api/portal/class-workpress-portal-auth-handler.php
+#: assets/src/App.js assets/src/components/requests/RequestFilterBar.js
+msgid "Projects"
+msgstr "Projects"
+
+#: assets/src/App.js
+msgid "Requests"
+msgstr "Requests"
+
+#: assets/src/App.js
+msgid "Project Details"
+msgstr "Project Details"
+
+#: assets/src/App.js assets/src/pages/ProjectsPage.js assets/src/pages/RequestsPage.js
+msgid "Intake Forms Builder"
+msgstr "Intake Forms Builder"
+
+#: assets/src/App.js assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "Kanban"
+msgstr "Kanban"
+
+#: assets/src/App.js
+msgid "Gantt Chart"
+msgstr "Gantt Chart"
+
+#: assets/src/App.js
+msgid "Task Details"
+msgstr "Task Details"
+
+#: assets/src/App.js assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "Knowledge Base"
+msgstr "Knowledge Base"
+
+#: assets/src/App.js
+msgid "Contributions"
+msgstr "Contributions"
+
+#: assets/src/App.js
+msgid "Reports"
+msgstr "Reports"
+
+#: assets/src/App.js assets/src/components/dashboard/AdminPerspectiveView.js assets/src/pages/ContributionsPage.js
+msgid "Settings"
+msgstr "Settings"
+
+#: assets/src/App.js
+msgid "Insufficient Permissions"
+msgstr "Insufficient Permissions"
+
+#: assets/src/App.js
+msgid "You do not have permission to access the settings page."
+msgstr "You do not have permission to access the settings page."
+
+#: assets/src/App.js assets/src/portal/portal-gateway.js assets/src/portal/portal-header.js
+msgid "Back to Main Site"
+msgstr "Back to Main Site"
+
+#: assets/src/App.js
+msgid "404 - Page Not Found"
+msgstr "404 - Page Not Found"
+
+#: assets/src/App.js
+msgid "The requested path does not exist in workspace."
+msgstr "The requested path does not exist in workspace."
+
+#: assets/src/App.js assets/src/components/projects/ProjectCard.js assets/src/pages/ProjectDetailPage.js
+msgid "Project Requests"
+msgstr "سجل الطلبات والمقترحات"
+
+#: assets/src/App.js assets/src/components/requests/RequestFilterBar.js
+msgid "Intake Forms"
+msgstr "Intake Forms"
+
+#: assets/src/App.js assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "Project"
+msgstr "Project"
+
+#: assets/src/App.js assets/src/components/dashboard/LeadPerspectiveView.js assets/src/pages/ContributionsPage.js
+msgid "Task"
+msgstr "Task"
+
+#: assets/src/App.js assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Contribution"
+msgstr "Contribution"
+
+#: assets/src/components/about/aboutData.js
+msgid "Comprehensive Encyclopedia (All)"
+msgstr "الموسوعة الشاملة (الكل)"
+
+#: assets/src/components/about/aboutData.js
+msgid "Philosophy & The 6 Pillars"
+msgstr "الفلسفة والركائز الست"
+
+#: assets/src/components/about/aboutData.js
+msgid "Roles & The 3 Workspaces"
+msgstr "الأدوار والمساحات الثلاث"
+
+#: assets/src/components/about/aboutData.js
+msgid "8-Domain Capability Matrix"
+msgstr "مصفوفة الصلاحيات الذرية الـ 8"
+
+#: assets/src/components/about/aboutData.js
+msgid "Authorization Formula & Security"
+msgstr "معادلة التفويض وقواعد الأمان"
+
+#: assets/src/components/about/aboutData.js
+msgid "Comprehensive Work Lifecycle"
+msgstr "دورة حياة العمل الشاملة"
+
+#: assets/src/components/about/aboutData.js
+msgid "The 17 Architectural Services"
+msgstr "الخدمات المعمارية الـ 17"
+
+#: assets/src/components/about/aboutData.js
+msgid "Data Layer & Infrastructure"
+msgstr "البنية التحتية للبيانات"
+
+#: assets/src/components/about/aboutData.js
+msgid "Integrated Productivity Engines"
+msgstr "المحركات الإنتاجية المدمجة"
+
+#: assets/src/components/about/aboutData.js
+msgid "Native WordPress Ontology"
+msgstr "الأنطولوجيا الأصلية في ووردبريس"
+
+#: assets/src/components/about/aboutData.js
+msgid "Leverages native WordPress tables (wp_terms for projects, wp_posts for tasks, wp_comments for contributions) without custom SQL tables, ensuring permanence and caching speed."
+msgstr "استخدام جداول ووردبريس الأساسية (wp_terms للمشاريع، wp_posts للمهام، wp_comments للمساهمات) دون جداول SQL مخصصة، لضمان التوافق الأبدي وسرعة الكاش."
+
+#: assets/src/components/about/aboutData.js
+msgid "Work First & Artifact Protection"
+msgstr "العمل أولاً وحماية الأثر"
+
+#: assets/src/components/about/aboutData.js
+msgid "Specialists focus on delivering solutions and evidence, while the system automates task completions, progress updates, and institutional archiving."
+msgstr "المنفذ يركز على تقديم الحل ورفع الدليل، بينما تتولى المنظومة تلقائياً إكمال المهام وتحديث التقدم وأرشفة الحل في المعرفة فور اعتماد القائد."
+
+#: assets/src/components/about/aboutData.js
+msgid "Citizenship Hierarchy & Portal Isolation"
+msgstr "هرم المواطنة وعزل البوابات"
+
+#: assets/src/components/about/aboutData.js
+msgid "Total visual and operational separation between technical specialists and clients, with an isolated /portal/ environment."
+msgstr "فصل تام بين الفريق الفني وعملاء المنشأة، مع بوابة مستقلة /portal/ خالية من أي تسريب بصري وتمنع التكليف العشوائي."
+
+#: assets/src/components/about/aboutData.js
+msgid "Tri-Partite Authorization Formula"
+msgstr "معادلة التفويض الثلاثي"
+
+#: assets/src/components/about/aboutData.js
+msgid "Rigorous 3-layer authorization checks: Global Capability + Project Membership + Entity Relationship to eliminate sensitive data leakage."
+msgstr "التحقق الصارم من 3 طبقات: الصلاحية العامة + عضوية المشروع + العلاقة المباشرة بالكيان لمنع أي تسريب للمعلومات الحساسة."
+
+#: assets/src/components/about/aboutData.js
+msgid "Living Institutional Memory"
+msgstr "المعرفة التراكمية السيادية"
+
+#: assets/src/components/about/aboutData.js
+msgid "Formally approved solutions instantly become living knowledge records, exportable as printable Markdown documentation books."
+msgstr "الحلول المعتمدة رسمياً تتحول لحظياً إلى ذاكرة معرفية تراكمية للمنشأة، قابلة للتصدير ككتيبات Markdown قابلة للطباعة."
+
+#: assets/src/components/about/aboutData.js
+msgid "Live Outbound Webhooks & Automation"
+msgstr "خطافات الويب والأتمتة الحية"
+
+#: assets/src/components/about/aboutData.js
+msgid "Instant event broadcasting to Discord, Slack, Microsoft Teams, and Zapier signed with HMAC-SHA256."
+msgstr "بث لحظي لأحداث العمليات والمشاريع إلى Discord و Slack و Teams و Make.com مع توقيع مشفر بـ HMAC-SHA256."
+
+#: assets/src/components/about/aboutData.js
+msgid "Project management, progress metrics, and project leadership validation."
+msgstr "إدارة المشاريع، حساب مؤشرات الإنجاز، وفحص قيادة المشروع."
+
+#: assets/src/components/about/aboutData.js
+msgid "Task governance, status validation, and interactive checklist tracking."
+msgstr "إدارة المهام، التحقق من الحالات، وقوائم الفحص التفاعلية."
+
+#: assets/src/components/about/aboutData.js
+msgid "Specialist assignment governance and stakeholder assignment protection."
+msgstr "حوكمة تكليف المنفذين وحظر تكليف العملاء والمشاهدين."
+
+#: assets/src/components/about/aboutData.js
+msgid "Contribution audit log, evidence attachments, and solution approvals."
+msgstr "تسجيل المساهمات والأدلة واعتماد الحلول الناجزة."
+
+#: assets/src/components/about/aboutData.js
+msgid "Client portal standalone workspace management and authentication."
+msgstr "إدارة فضاء وبوابة العميل المستقلة والتوقيع الرقمي."
+
+#: assets/src/components/about/aboutData.js
+msgid "Knowledge bank aggregation and Markdown document exporter."
+msgstr "بناء بنك المعرفة واستخلاص كتب التوثيق .md."
+
+#: assets/src/components/about/aboutData.js
+msgid "Event dispatcher with Discord, Slack, and Teams payload formatters."
+msgstr "بث الأحداث وتوليد حمولات Discord و Slack و Teams."
+
+#: assets/src/components/about/aboutData.js
+msgid "Soft trash vault and unauthorized deletion prevention."
+msgstr "تأمين سلة المهملات ومنع الحذف العشوائي للكيانات."
+
+#: assets/src/components/about/aboutData.js
+msgid "Project membership registry and role tier matching."
+msgstr "إدارة عضويات المشاريع ومطابقة رتب الأعضاء."
+
+#: assets/src/components/about/aboutData.js
+msgid "Automatic project hibernation and thaw on role changes."
+msgstr "تجميد وإذابة مشاريع العملاء تلقائياً عند تغيير رتبهم."
+
+#: assets/src/components/about/aboutData.js
+msgid "Time tracking, estimate burn rates, and execution hours."
+msgstr "تتبع الساعات الفعلية وتقديرات الإنجاز ومعدل الحرق."
+
+#: assets/src/components/about/aboutData.js
+msgid "Executive report compilation and KPI metrics aggregation."
+msgstr "تجميع التقارير التنفيذية ومؤشرات الأداء KPI."
+
+#: assets/src/components/about/aboutData.js
+msgid "Dynamic intake schema manager and triage studio engine."
+msgstr "إدارة مخطط نماذج الاستقبال الديناميكية واستوديو الفرز."
+
+#: assets/src/components/about/aboutData.js
+msgid "Immutable audit log and activity stream coordinator."
+msgstr "تسجيل سجل الأنشطة والتدقيق غير القابل للتعديل."
+
+#: assets/src/components/about/aboutData.js
+msgid "Registration and mapping of all 34 atomic capabilities."
+msgstr "تسجيل وإدارة الصلاحيات الذرية الـ 34."
+
+#: assets/src/components/about/aboutData.js
+msgid "WordPress role customization, aliases, and permission cloning."
+msgstr "إدارة وتخصيص الأدوار والرتب في ووردبريس."
+
+#: assets/src/components/about/aboutData.js
+msgid "System settings management, audio kits, and localization configs."
+msgstr "إدارة إعدادات المنظومة وحزم المؤثرات الصوتية."
+
+#: assets/src/components/about/AboutWorkPressTab.js
+msgid "Master Architectural Encyclopedia & Institutional Operating Guide for WorkPress"
+msgstr "الموسوعة الهندسية والمعمارية الشاملة لمنظومة إدارة وتوثيق العمل الأصلية في ووردبريس"
+
+#: assets/src/components/about/AboutWorkPressTab.js
+msgid "Native WordPress Work & Institutional Memory Operating System"
+msgstr "منظومة إدارة وتوثيق العمل والذاكرة المؤسسية الأصلية في ووردبريس"
+
+#: assets/src/components/about/CapabilitiesSection.js
+msgid "8-Domain Capability Matrix (34 Atomic Capabilities)"
+msgstr "8-Domain Capability Matrix (34 Atomic Capabilities)"
+
+#: assets/src/components/about/CapabilitiesSection.js
+msgid "Projects Package (Projects)"
+msgstr "1. إدارة المشاريع (Projects Package)"
+
+#: assets/src/components/about/CapabilitiesSection.js
+msgid "Kanban & Tasks Package (Tasks)"
+msgstr "2. الكانبان والمهام (Tasks Package)"
+
+#: assets/src/components/about/CapabilitiesSection.js
+msgid "Contributions & Solutions Package (Contributions)"
+msgstr "3. المساهمات والحلول (Contributions Package)"
+
+#: assets/src/components/about/CapabilitiesSection.js
+msgid "Portal & Webhooks Package (Integrations)"
+msgstr "4. البوابة والتكامل (Portal & Webhooks Package)"
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "4-Tier Citizenship Hierarchy & The 3 Workspaces"
+msgstr "هرم المواطنة الرباعي والمساحات الثلاث"
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Tier 1: Executive"
+msgstr "الطبقة 1: الإدارة العليا"
+
+#: assets/src/components/about/CitizenshipSection.js assets/src/portal/portal-app.js assets/src/portal/portal-radar.js
 msgid "Administrator"
 msgstr "مدير عام"
 
-#: assets/src/portal/portal-app.js assets/src/portal/portal-dashboard.js assets/src/portal/portal-gateway.js
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Full sovereign governance across all projects, triage studio, and system settings."
+msgstr "صلاحية شاملة على كافة المشاريع، الإعدادات، استوديو الفرز، والتحكم المطلق."
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Tier 2: Leadership"
+msgstr "الطبقة 2: قيادة المشاريع"
+
+#: assets/src/components/about/CitizenshipSection.js assets/src/components/dashboard/DashboardPerspectiveToolbar.js assets/src/components/modals/ReportModal.js
+msgid "Project Lead"
+msgstr "قائد مشروع"
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Project task coordinator, solution approver, and specialist assigner within their project scope."
+msgstr "إدارة مهام المشروع، اعتماد المساهمات والحلول، وتعيين المنفذين داخل سياق مشروعه."
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Tier 3: Operations"
+msgstr "الطبقة 3: الكادر الفني"
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Specialist"
+msgstr "متخصص ومنفذ"
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Task implementer, solution contributor, evidence provider, and time tracker."
+msgstr "تنفيذ المهام الموكلة، إيداع الحلول والأدلة، تسجيل الساعات، وقوائم الفحص."
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Tier 4: Stakeholders"
+msgstr "الطبقة 4: المستفيد الخارجي"
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "WorkPress Client"
+msgstr "العميل (WorkPress Client)"
+
+#: assets/src/components/about/CitizenshipSection.js
+msgid "Access strictly bounded to /portal/, request submissions, spec reviews, and digital signoffs."
+msgstr "فضاء البوابة المستقلة فقط /portal/، تقديم الطلبات، مراجعة المخرجات، والتوقيع الرقمي."
+
+#: assets/src/components/about/PhilosophySection.js
+msgid "System Philosophy: Focus on Pure Execution (Just Work)"
+msgstr "فلسفة المنظومة: التركيز على العمل نفسه (Just Work)"
+
+#: assets/src/components/about/PhilosophySection.js
+msgid "is not merely a task tracker; it is a sovereign institutional memory infrastructure within native WordPress. Specialists focus on actual execution, providing tangible evidence and solutions, while the platform coordinates workflow lifecycles automatically."
+msgstr "ليست مجرد أداة لإدارة المهام؛ بل هي بنية تحتية سيادية للذاكرة المؤسسية داخل ووردبريس. يقوم المنفذ بعمله الفعلي، يرفع الدليل والحل المعتمد، وتتولى المنظومة بقية السلسلة تلقائياً دون الحاجة لتحديث يدوي مجهد."
+
+#: assets/src/components/about/PhilosophySection.js
+msgid "The 6 Architectural Pillars of WorkPress v%s"
+msgstr "الركائز الهندسية الست لمنظومة WorkPress v%s"
+
+#: assets/src/components/about/ServicesSection.js
+msgid "The 17 Architectural Services in Core (Core Services Layer)"
+msgstr "الخدمات المعمارية الـ 17 في النواة (Core Services Layer)"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Comment added successfully"
+msgstr "Comment added successfully"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Failed to post comment"
+msgstr "Failed to post comment"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Comment deleted"
+msgstr "Comment deleted"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Failed to delete comment"
+msgstr "Failed to delete comment"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Technical Discussion & Review"
+msgstr "Technical Discussion & Review"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Loading comments..."
+msgstr "Loading comments..."
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "No comments yet. Be the first to leave feedback."
+msgstr "No comments yet. Be the first to leave feedback."
+
+#: assets/src/components/contributions/ContributionComments.js assets/src/components/contributions/ContributionDetailModal.js assets/src/components/modals/ReportModal.js
 msgid "Client"
 msgstr "مستفيد"
 
-#: assets/src/portal/portal-app.js assets/src/portal/portal-gateway.js includes/services/class-workpress-portal-service.php
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Delete comment"
+msgstr "Delete comment"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Write a note, guidance, or review on this contribution..."
+msgstr "Write a note, guidance, or review on this contribution..."
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Post Comment"
+msgstr "Post Comment"
+
+#: assets/src/components/contributions/ContributionComments.js
+msgid "Are you sure you want to permanently delete this comment?"
+msgstr "Are you sure you want to permanently delete this comment?"
+
+#: assets/src/components/contributions/ContributionComments.js assets/src/pages/SettingsPage.js
+msgid "Delete"
+msgstr "Delete"
+
+#: assets/src/components/contributions/ContributionComments.js assets/src/components/contributions/ContributionDetailModal.js assets/src/components/contributions/ContributionModal.js
+msgid "Cancel"
+msgstr "إلغاء"
+
+#: assets/src/components/contributions/ContributionDetailModal.js
+msgid "Approve Contribution as Official Resolution"
+msgstr "Approve Contribution as Official Resolution"
+
+#: assets/src/components/contributions/ContributionDetailModal.js
+msgid "Are you sure you want to approve this contribution as official resolution? This will automatically close and complete the task, archiving it into knowledge base."
+msgstr "Are you sure you want to approve this contribution as official resolution? This will automatically close and complete the task, archiving it into knowledge base."
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Approve & Complete"
+msgstr "Approve & Complete"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Solution approved and task completed successfully"
+msgstr "Solution approved and task completed successfully"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "An error occurred while approving solution"
+msgstr "An error occurred while approving solution"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Revoke Solution Approval"
+msgstr "Revoke Solution Approval"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Are you sure you want to revoke this solution? The task will be reopened for review and removed from knowledge base."
+msgstr "Are you sure you want to revoke this solution? The task will be reopened for review and removed from knowledge base."
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js assets/src/pages/ContributionsPage.js
+msgid "Revoke Approval"
+msgstr "Revoke Approval"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Solution revoked and task reopened"
+msgstr "Solution revoked and task reopened"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "An error occurred while revoking approval"
+msgstr "An error occurred while revoking approval"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Approve Solution"
+msgstr "Approve Solution"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/projects/ProjectQuickPreviewModal.js assets/src/components/requests/RequestCardsView.js
+msgid "Open Workspace"
+msgstr "Open Workspace"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/projects/ProjectMembersModal.js assets/src/components/projects/ProjectQuickPreviewModal.js
+msgid "Close"
+msgstr "إغلاق"
+
+#: assets/src/components/contributions/ContributionDetailModal.js
+msgid "Contribution Details"
+msgstr "Contribution Details"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/tasks/TaskQuickPreviewModal.js
+msgid "Official resolution approved and archived in knowledge base."
+msgstr "Official resolution approved and archived in knowledge base."
+
+#: assets/src/components/contributions/ContributionDetailModal.js
+msgid "Approved date: %s"
+msgstr "Approved date: %s"
+
+#: assets/src/components/contributions/ContributionDetailModal.js
+msgid "Contributor"
+msgstr "Contributor"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Approved as official solution"
+msgstr "Approved as official solution"
+
+#: assets/src/components/contributions/ContributionDetailModal.js assets/src/components/task-detail/TaskContributionsStream.js assets/src/components/ui/MultiFilePicker.js
+msgid "Attachment"
+msgstr "Attachment"
+
+#: assets/src/components/contributions/ContributionDetailModal.js
+msgid "Attachments (%d)"
+msgstr "Attachments (%d)"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Technical Implementation"
+msgstr "Technical Implementation"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Propose Solution"
+msgstr "Propose Solution"
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Review & Audit"
+msgstr "Review & Audit"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Comment & Note"
+msgstr "Comment & Note"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/pages/TaskDetailPage.js
+msgid "Contribution added successfully"
+msgstr "Contribution added successfully"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/pages/TaskDetailPage.js
+msgid "An error occurred while adding contribution."
+msgstr "An error occurred while adding contribution."
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Select Target Task"
+msgstr "Select Target Task"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Client Review"
+msgstr "Client Review"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Internal Team Only"
+msgstr "Internal Team Only"
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Please select a task and write contribution content"
+msgstr "Please select a task and write contribution content"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/components/tasks/TaskCard.js
+msgid "Add Contribution"
+msgstr "Add Contribution"
+
+#: assets/src/components/contributions/ContributionModal.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Add New Contribution"
+msgstr "Add New Contribution"
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Task:"
+msgstr "Task:"
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Select Task"
+msgstr "Select Task"
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Type:"
+msgstr "Type:"
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Scope:"
+msgstr "Scope:"
+
+#: assets/src/components/contributions/ContributionModal.js
+msgid "Write contribution details, technical solution, or notes..."
+msgstr "Write contribution details, technical solution, or notes..."
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "View Projects"
+msgstr "View Projects"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/pages/ReportsPage.js
+msgid "Total Projects"
+msgstr "Total Projects"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/projects/ProjectModal.js assets/src/pages/ProjectDetailPage.js
+msgid "Active"
+msgstr "نشط"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/dashboard/LeadPerspectiveView.js assets/src/components/gantt/GanttChart.js
+msgid "Completed"
+msgstr "المكتملة والمنجزة"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/pages/ReportsPage.js assets/src/portal/portal-dashboard.js
+msgid "Average Progress"
+msgstr "Average Progress"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/dashboard/LeadPerspectiveView.js assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "Tasks"
+msgstr "المهام"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/pages/KnowledgePage.js assets/src/pages/ReportsPage.js
+msgid "Verified Knowledge Assets"
+msgstr "Verified Knowledge Assets"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "verified solutions"
+msgstr "verified solutions"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "Pending Trash Requests"
+msgstr "Pending Trash Requests"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "pending requests"
+msgstr "pending requests"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "Executive Urgent Action Center"
+msgstr "Executive Urgent Action Center"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "Action Required"
+msgstr "Action Required"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "Tasks awaiting trash approval:"
+msgstr "Tasks awaiting trash approval:"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/modals/ReportModal.js assets/src/components/tasks/TaskModal.js
+msgid "Project:"
+msgstr "Project:"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/projects/ProjectCard.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Reason:"
+msgstr "Reason:"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/projects/ProjectCard.js assets/src/pages/ContributionsPage.js
+msgid "Flexible"
+msgstr "مرن"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/projects/ProjectCard.js assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Restore & Reject"
+msgstr "Restore & Reject"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/pages/ProjectsPage.js
+msgid "Approve & Delete"
+msgstr "Approve & Delete"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "New projects without assigned lead:"
+msgstr "New projects without assigned lead:"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "No Lead"
+msgstr "No Lead"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "Assign Lead"
+msgstr "Assign Lead"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "All Projects Radar"
+msgstr "All Projects Radar"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/ui/FilterBar.js
+msgid "All"
+msgstr "All"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "New Project"
+msgstr "New Project"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js
+msgid "No projects matching the selected filter."
+msgstr "No projects matching the selected filter."
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/dashboard/LeadPerspectiveView.js assets/src/pages/ReportsPage.js
+msgid "Tasks:"
+msgstr "Tasks:"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/pages/ReportsPage.js assets/src/portal/portal-modals.js
+msgid "Official Delivery Certificate"
+msgstr "وثيقة الاستلام الرسمية للمشروع"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/dashboard/LeadPerspectiveView.js assets/src/components/projects/ProjectCard.js
+msgid "Assignees"
+msgstr "المكلفون"
+
+#: assets/src/components/dashboard/AdminPerspectiveView.js assets/src/components/projects/ProjectCard.js assets/src/components/projects/ProjectModal.js
+msgid "Edit Project"
+msgstr "Edit Project"
+
+#: assets/src/components/dashboard/DashboardPerspectiveToolbar.js
+msgid "Perspective:"
+msgstr "Perspective:"
+
+#: assets/src/components/dashboard/DashboardPerspectiveToolbar.js
+msgid "Executive Command"
+msgstr "Executive Command"
+
+#: assets/src/components/dashboard/DashboardPerspectiveToolbar.js
+msgid "My Tasks & Focus"
+msgstr "My Tasks & Focus"
+
+#: assets/src/components/dashboard/DashboardPerspectiveToolbar.js
+msgid "%d Projects • %d%% Progress (%d/%d Tasks)"
+msgstr "%d Projects • %d%% Progress (%d/%d Tasks)"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "Solutions awaiting your review and milestone sign-off"
+msgstr "Solutions awaiting your review and milestone sign-off"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js
+msgid "Deliverables"
+msgstr "المخرجات"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "No pending solutions awaiting review. All solutions verified!"
+msgstr "No pending solutions awaiting review. All solutions verified!"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js assets/src/components/dashboard/MemberPerspectiveView.js assets/src/pages/ReportsPage.js
+msgid "Lead:"
+msgstr "Lead:"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js assets/src/components/dashboard/MemberPerspectiveView.js assets/src/pages/ContributionsPage.js
+msgid "Staff"
+msgstr "فريق العمل"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js assets/src/portal/portal-dashboard.js
+msgid "Review & Sign-off"
+msgstr "Review & Sign-off"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "New tasks awaiting assignment"
+msgstr "New tasks awaiting assignment"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "All tasks are assigned to team members!"
+msgstr "All tasks are assigned to team members!"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js assets/src/components/dashboard/MemberPerspectiveView.js assets/src/components/requests/RequestTableView.js
+msgid "Pending"
+msgstr "معلق"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "My Led Projects"
+msgstr "My Led Projects"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "Add New Work Item"
+msgstr "Add New Work Item"
+
+#: assets/src/components/dashboard/LeadPerspectiveView.js
+msgid "You have not been assigned as lead to any projects yet."
+msgstr "You have not been assigned as lead to any projects yet."
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "Tasks assigned to you awaiting your first action"
+msgstr "Tasks assigned to you awaiting your first action"
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "Great! You have started work on all tasks assigned to you."
+msgstr "Great! You have started work on all tasks assigned to you."
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "Start Contribution"
+msgstr "Start Contribution"
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "My in-progress tasks"
+msgstr "My in-progress tasks"
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "No active tasks currently."
+msgstr "No active tasks currently."
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js assets/src/components/gantt/GanttChart.js assets/src/components/gantt/GanttScaleBar.js
+msgid "In Progress"
+msgstr "قيد التنفيذ والإنجاز"
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "View Work Item"
+msgstr "View Work Item"
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "Knowledge Explorer"
+msgstr "Knowledge Explorer"
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js
+msgid "Search knowledge base..."
+msgstr "Search knowledge base..."
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js assets/src/pages/KnowledgePage.js assets/src/pages/RequestsPage.js
+msgid "No matching results found in knowledge base."
+msgstr "No matching results found in knowledge base."
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js assets/src/components/requests/RequestTableView.js assets/src/pages/KnowledgePage.js
+msgid "Approved"
+msgstr "المعتمدة حديثاً"
+
+#: assets/src/components/dashboard/MemberPerspectiveView.js assets/src/pages/ContributionsPage.js assets/src/pages/KnowledgePage.js
+msgid "View"
+msgstr "معاينة"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Field Elements Palette"
+msgstr "لوحة العناصر واللبنات"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Click to add any field primitive directly to the canvas:"
+msgstr "انقر لإضافة أي لبنة حقل مباشرة إلى الاستمارة:"
+
+#: assets/src/components/forms/FormCanvasBuilder.js assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/components/tasks/TaskChecklist.js
+msgid "Add"
+msgstr "إضافة"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Philosophy of Universal Abstraction:"
+msgstr "فلسفة التجريد الشاملة:"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "All fields are 100% generic primitives; tailor labels to your domain."
+msgstr "كافة اللبنات مجردة تماماً؛ يمكنك تخصيص مسمياتها لتناسب مجالك."
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Form Name in Portal:"
+msgstr "اسم النموذج في البوابة:"
+
+#: assets/src/components/forms/FormCanvasBuilder.js assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Delete Template"
+msgstr "حذف القالب"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Live preview of how the form looks to clients in the portal:"
+msgstr "معاينة حية لكيفية ظهور النموذج للعملاء في البوابة:"
+
+#: assets/src/components/forms/FormCanvasBuilder.js assets/src/components/forms/FormFieldPrimitives.js assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Smart Title Field"
+msgstr "حقل العنوان والمعرف الذكي"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Core & Required"
+msgstr "رئيسي وإجباري"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Field Label for Client:"
+msgstr "مسمى الخانة / السؤال للعميل:"
+
+#: assets/src/components/forms/FormCanvasBuilder.js assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Placeholder Text:"
+msgstr "نص التلميح (Placeholder):"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Quick Suggestions List (Dropdown presets + free text option):"
+msgstr "قائمة اقتراحات سريعة جاهزة (مع كتابة حرة دائماً):"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Enter suggestion and click add..."
+msgstr "اكتب عنواناً مقترحاً واضغط إضافة..."
+
+#: assets/src/components/forms/FormCanvasBuilder.js assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Scope Description Field"
+msgstr "حقل شرح وبيان تفاصيل الطلب"
+
+#: assets/src/components/forms/FormCanvasBuilder.js assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Placeholder Guidance Text:"
+msgstr "نص التلميح والتوجيه:"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Custom Specifications Matrix:"
+msgstr "مصفوفة المواصفات والشروط المخصصة:"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "%d fields added"
+msgstr "%d fields added"
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "No specification fields added yet."
+msgstr "لا توجد خانات مواصفات مضافة بعد."
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Choose a field primitive from the palette to add here."
+msgstr "اختر لبنة من لوحة العناصر لإضافتها هنا."
+
+#: assets/src/components/forms/FormCanvasBuilder.js
+msgid "Saved and synced live to client portal forms upon saving."
+msgstr "يتم حفظ ومزامنة النماذج فورياً مع بوابة العملاء."
+
+#: assets/src/components/forms/FormCanvasBuilder.js assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/components/forms/IntakeFormsToolbar.js
+msgid "Save & Sync Forms"
+msgstr "حفظ واعتماد النماذج"
+
+#: assets/src/components/forms/FormFieldEditor.js
+msgid "Move Up"
+msgstr "تحريك لأعلى"
+
+#: assets/src/components/forms/FormFieldEditor.js
+msgid "Move Down"
+msgstr "تحريك لأسفل"
+
+#: assets/src/components/forms/FormFieldEditor.js
+msgid "Delete Field"
+msgstr "حذف الخانة"
+
+#: assets/src/components/forms/FormFieldEditor.js
+msgid "Field Label / Question for Client:"
+msgstr "مسمى الخانة / السؤال للعميل:"
+
+#: assets/src/components/forms/FormFieldEditor.js
+msgid "Field name..."
+msgstr "اسم الخانة..."
+
+#: assets/src/components/forms/FormFieldEditor.js
+msgid "Field Type:"
+msgstr "نوع الخانة:"
+
+#: assets/src/components/forms/FormFieldEditor.js
+msgid "Required"
+msgstr "إجباري"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Core"
+msgstr "Core"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Request Title / Project Name:"
+msgstr "عنوان الطلب / اسم المشروع:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Enter request title or project name..."
+msgstr "اكتب اسم أو عنوان طلبك..."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Preset quick suggestions list with always-available free text input."
+msgstr "يقبل قائمة اقتراحات سريعة مسبقة مع خيار كتابة حرة دائماً للعميل."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Scope & Details Description"
+msgstr "Scope & Details Description"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Project Scope & Details:"
+msgstr "بيان وشرح تفاصيل الطلب:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Describe in detail what is required from the team, target deliverables, and requirements..."
+msgstr "وضح بالتفصيل ما تريده من فريق العمل، المخرجات المستهدفة، وأي متطلبات خاصة..."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Expanded text area for project scope and specifications."
+msgstr "مساحة نصية موسعة لكتابة تفاصيل ونطاق المشروع."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Single Select Dropdown (Single Select)"
+msgstr "قائمة خيارات منسدلة (Single Select)"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Select"
+msgstr "Select"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Service Type / Classification:"
+msgstr "نوع أو تصنيف الخدمة:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Standard Option"
+msgstr "الخيار الأول القياسي"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Advanced Option"
+msgstr "الخيار الثاني المتقدم"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Predefined single-choice dropdown with custom write-in capability."
+msgstr "قائمة خيارات يحددها المدير مع إتاحة كتابة خيار مخصص."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Multiple Tags & Categories (Multi-select)"
+msgstr "وسوم وتصنيفات متعددة (Multi-select)"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Multi"
+msgstr "Multi"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Specifications & Requirements:"
+msgstr "المواصفات والشروط المحددة:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Fast delivery"
+msgstr "تسليم سريع ومستعجل"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Official documentation"
+msgstr "توثيق وتدريب مفصل"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Support & follow-up"
+msgstr "دعم ومتابعة مستمرة"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Selectable pill badges where client can pick multiple tags."
+msgstr "أزرار وسوم يختار العميل منها خياراً واحداً أو أكثر."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Short Text (Short Text)"
+msgstr "نص قصير (Short Text)"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Text"
+msgstr "Text"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Additional Note or Reference:"
+msgstr "معلومة أو شرط إضافي:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Type here..."
+msgstr "اكتب هنا..."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Brief single-line text input for URLs, references, or IDs."
+msgstr "خانة نصية موجزة لمعلومة محددة مثل رابط أو مرجع."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Detailed Textarea (Detailed Textarea)"
+msgstr "نص موسع (Detailed Textarea)"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Special Notes or Conditions:"
+msgstr "ملاحظات أو شروط خاصة:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Enter any detailed conditions..."
+msgstr "أدخل أي شروط تفصيلية..."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Multi-line text area for instructions or stipulations."
+msgstr "مساحة نصية لكتابة تعليمات أو بنود خاصة."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Numeric / Budget / Quantity (Numeric)"
+msgstr "رقم / ميزانية / كمية (Numeric)"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Number"
+msgstr "Number"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Estimated Budget or Quantity:"
+msgstr "الميزانية أو الكمية التقديرية:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Number field for amounts, hours, or financial estimations."
+msgstr "خانة أرقام للكميات، الساعات، أو التقديرات المالية."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Target Delivery Date (Target Date)"
+msgstr "موعد وتاريخ تسليم (Target Date)"
+
+#: assets/src/components/forms/FormFieldPrimitives.js assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/portal/portal-modals.js
+msgid "Date"
+msgstr "تاريخ"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Required Completion Date:"
+msgstr "تاريخ الإنجاز المطلوب:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Date picker for target deadline or start date."
+msgstr "محدد تاريخ لموعد التسليم المأمول أو تاريخ البدء."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "File Upload & Attachments (Attachments)"
+msgstr "رفع ملفات ومستندات (Attachments)"
+
+#: assets/src/components/forms/FormFieldPrimitives.js assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Files"
+msgstr "ملفات ومستندات"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Supporting Documents & Reference Files:"
+msgstr "ملفات ومستندات مرجعية داعمة:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Upload zone for documents, designs, ZIP files, and briefs."
+msgstr "منطقة رفع لسحب وإرفاق العقود والمستندات والتصاميم."
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Standard Work / Service Intake Form"
+msgstr "نموذج طلب خدمة / عمل قياسي"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "New Project & Complete Service Delivery"
+msgstr "New Project & Complete Service Delivery"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Modification & Enhancement on Existing Work"
+msgstr "Modification & Enhancement on Existing Work"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Technical Consultation & Requirements Audit"
+msgstr "Technical Consultation & Requirements Audit"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Periodic Maintenance & Executive Oversight"
+msgstr "Periodic Maintenance & Executive Oversight"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Service Classification / Tier:"
+msgstr "Service Classification / Tier:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Standard Tier"
+msgstr "Standard Tier"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Comprehensive Tier"
+msgstr "Comprehensive Tier"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Custom Agreed Package"
+msgstr "Custom Agreed Package"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Options & Deliverables:"
+msgstr "Options & Deliverables:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Detailed documentation"
+msgstr "Detailed documentation"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Official sign-off"
+msgstr "Official sign-off"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Continuous support"
+msgstr "Continuous support"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Estimated Budget / Quantity (Optional):"
+msgstr "Estimated Budget / Quantity (Optional):"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Target Completion Deadline:"
+msgstr "Target Completion Deadline:"
+
+#: assets/src/components/forms/FormFieldPrimitives.js
+msgid "Supporting Documents & Attachments:"
+msgstr "Supporting Documents & Attachments:"
+
+#: assets/src/components/forms/FormPillsSelector.js
+msgid "Available Options for Selection:"
+msgstr "الخيارات المتاحة للاختيار:"
+
+#: assets/src/components/forms/FormPillsSelector.js
+msgid "Type an option and press add..."
+msgstr "اكتب خياراً واضغط إضافة..."
+
+#: assets/src/components/forms/FormPillsSelector.js
+msgid "Add Option"
+msgstr "إضافة خيار"
+
+#: assets/src/components/forms/FormSchemaPreview.js
+msgid "Live Preview: How this form looks to clients in the portal (/portal/#/new-request)"
+msgstr "معاينة فورية: كيف يظهر هذا النموذج للزبون في بوابة العميل (/portal/#/new-request)"
+
+#: assets/src/components/forms/FormSchemaPreview.js
+msgid "New Project Request"
+msgstr "طلب مشروع جديد"
+
+#: assets/src/components/forms/FormSchemaPreview.js
+msgid "Specify your requirements and your request will be delivered directly for review and estimation."
+msgstr "حدد متطلباتك وسيصل طلبك مباشرة للإدارة العامة كمشروع رسمي للمراجعة والتسعير والاعتماد."
+
+#: assets/src/components/forms/FormSchemaPreview.js
+msgid "Other: Write custom title..."
+msgstr "أخرى: كتابة عنوان مخصص..."
+
+#: assets/src/components/forms/FormSchemaPreview.js assets/src/portal/portal-request.js
+msgid "Submit Project Request"
+msgstr "إرسال طلب المشروع واعتماد البيانات"
+
+#: assets/src/components/forms/FormSchemaPreview.js
+msgid "Close Preview"
+msgstr "إغلاق المعاينة"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "New Intake Form (%d)"
+msgstr "New Intake Form (%d)"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Service Type:"
+msgstr "Service Type:"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Option 1"
+msgstr "Option 1"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Option 2"
+msgstr "Option 2"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/pages/IntakeFormsPage.js
+msgid "New form template created."
+msgstr "تم إنشاء قالب نموذج جديد."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "You must keep at least one intake form template."
+msgstr "يجب الإبقاء على نموذج طلب واحد على الأقل."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Form template deleted."
+msgstr "تم حذف قالب النموذج."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "New Specification:"
+msgstr "New Specification:"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "New specification field added."
+msgstr "تمت إضافة مواصفة جديدة إلى النموذج."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Specification field deleted."
+msgstr "تم حذف المواصفة."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Client intake forms saved successfully"
+msgstr "تم حفظ نماذج استقبال طلبات العملاء بنجاح"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Failed to save forms"
+msgstr "حدث خطأ أثناء حفظ النماذج"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Client Intake Forms Studio"
+msgstr "استوديو تصميم نماذج واستمارات استقبال الطلبات (Intake Forms Studio)"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Create and customize intake forms, defining fields and options clients see when requesting projects in the portal."
+msgstr "يمكنك هنا إنشاء وتخصيص نماذج متعددة للخدمات، وتحديد الخانات والخيارات التي تظهر للعملاء في بوابتهم عند تقديم طلب مشروع جديد."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/components/forms/IntakeFormsToolbar.js
+msgid "Available Templates:"
+msgstr "النماذج والقوالب المتاحة:"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/components/forms/IntakeFormsToolbar.js
+msgid "Form %d"
+msgstr "Form %d"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/components/forms/IntakeFormsToolbar.js
+msgid "Add new form template"
+msgstr "Add new form template"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js assets/src/components/forms/IntakeFormsToolbar.js
+msgid "New Template"
+msgstr "نموذج جديد"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Preview in portal"
+msgstr "Preview in portal"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Preview in Portal"
+msgstr "معاينة في البوابة"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Template Name:"
+msgstr "اسم القالب:"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Field Label:"
+msgstr "Field Label:"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Quick Suggestions List:"
+msgstr "اقتراحات العناوين السريعة الجاهزة:"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Type suggestion and click add..."
+msgstr "اكتب عنواناً مقترحاً واضغط إضافة..."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Custom Specifications Matrix"
+msgstr "خانات ومواصفات الطلب التخصصية (Specs Matrix)"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Dropdown"
+msgstr "قائمة منسدلة"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Multi-Pills"
+msgstr "وسوم متعددة"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Short Text"
+msgstr "نص قصير"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "Numeric"
+msgstr "رقم/ميزانية"
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "No specification fields added yet. Use buttons above to add fields."
+msgstr "No specification fields added yet. Use buttons above to add fields."
+
+#: assets/src/components/forms/IntakeFormsBuilderTab.js
+msgid "All specs are stored as structured JSON in the project workspace."
+msgstr "يتم تخزين كافة المواصفات التي يملؤها الزبون كـ JSON مهيكل داخل كيان المشروع."
+
+#: assets/src/components/forms/IntakeFormsToolbar.js
+msgid "Preview Client Portal"
+msgstr "معاينة واجهة العميل"
+
+#: assets/src/components/gantt/GanttChart.js
+msgid "General tasks without project"
+msgstr "General tasks without project"
+
+#: assets/src/components/gantt/GanttChart.js
+msgid "Week %d"
+msgstr "Week %d"
+
+#: assets/src/components/gantt/GanttChart.js
+msgid "Task rescheduled to: %s at %s"
+msgstr "Task rescheduled to: %s at %s"
+
+#: assets/src/components/gantt/GanttChart.js
+msgid "Failed to reschedule task"
+msgstr "Failed to reschedule task"
+
+#: assets/src/components/gantt/GanttChart.js assets/src/components/modals/ReportModal.js assets/src/pages/ProjectDetailPage.js
+msgid "Open"
+msgstr "Open"
+
+#: assets/src/components/gantt/GanttGridCanvas.js
+msgid "Schedule for %s (%s) — 24 Hours View"
+msgstr "Schedule for %s (%s) — 24 Hours View"
+
+#: assets/src/components/gantt/GanttGridCanvas.js assets/src/components/gantt/GanttScaleBar.js assets/src/components/ui/DatePicker.js
+msgid "Today"
+msgstr "Today"
+
+#: assets/src/components/gantt/GanttGridCanvas.js
+msgid "Now (%s:%s)"
+msgstr "Now (%s:%s)"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "All Projects (%d)"
+msgstr "All Projects (%d)"
+
+#: assets/src/components/gantt/GanttScaleBar.js assets/src/pages/ContributionsPage.js assets/src/pages/ProjectDetailPage.js
+msgid "All Statuses"
+msgstr "All Statuses"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Open / Assigned"
+msgstr "Open / Assigned"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Search tasks & assignees..."
+msgstr "Search tasks & assignees..."
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Previous Day"
+msgstr "Previous Day"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Next Day"
+msgstr "Next Day"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Jump to Today"
+msgstr "Jump to Today"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Today (%s)"
+msgstr "Today (%s)"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "24 Hours detailed view"
+msgstr "24 Hours detailed view"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "24h"
+msgstr "24h"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Days view"
+msgstr "Days view"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Days"
+msgstr "Days"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Weeks view"
+msgstr "Weeks view"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Weeks"
+msgstr "Weeks"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Months view"
+msgstr "Months view"
+
+#: assets/src/components/gantt/GanttScaleBar.js
+msgid "Months"
+msgstr "Months"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Project & Task"
+msgstr "Project & Task"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Expand all projects"
+msgstr "Expand all projects"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Expand"
+msgstr "Expand"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Collapse all projects"
+msgstr "Collapse all projects"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Collapse"
+msgstr "Collapse"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Duration & Assignee"
+msgstr "Duration & Assignee"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Click to view task details and quick preview"
+msgstr "Click to view task details and quick preview"
+
+#: assets/src/components/gantt/GanttTableSidebar.js assets/src/components/gantt/GanttTooltip.js
+msgid "%d days"
+msgstr "%d days"
+
+#: assets/src/components/gantt/GanttTableSidebar.js
+msgid "Overdue"
+msgstr "Overdue"
+
+#: assets/src/components/gantt/GanttTaskRow.js
+msgid "Reschedule date and time"
+msgstr "Reschedule date and time"
+
+#: assets/src/components/gantt/GanttTaskRow.js
+msgid "d"
+msgstr "d"
+
+#: assets/src/components/gantt/GanttTooltip.js assets/src/components/tasks/TaskCard.js
+msgid "No Project"
+msgstr "No Project"
+
+#: assets/src/components/gantt/GanttTooltip.js assets/src/components/projects/ProjectModal.js
+msgid "Start Date:"
+msgstr "Start Date:"
+
+#: assets/src/components/gantt/GanttTooltip.js
+msgid "Target Due Date:"
+msgstr "Target Due Date:"
+
+#: assets/src/components/gantt/GanttTooltip.js
+msgid "Duration:"
+msgstr "Duration:"
+
+#: assets/src/components/gantt/GanttTooltip.js
+msgid "Checklists:"
+msgstr "Checklists:"
+
+#: assets/src/components/gantt/GanttTooltip.js
+msgid "%d/%d completed (%d%%)"
+msgstr "%d/%d completed (%d%%)"
+
+#: assets/src/components/gantt/GanttTooltip.js
+msgid "Work Hours:"
+msgstr "Work Hours:"
+
+#: assets/src/components/gantt/GanttTooltip.js
+msgid "%sh logged / %sh estimated"
+msgstr "%sh logged / %sh estimated"
+
+#: assets/src/components/gantt/GanttTooltip.js assets/src/components/tasks/TaskQuickPreviewModal.js
+msgid "Assignees:"
+msgstr "Assignees:"
+
+#: assets/src/components/modals/ConfirmModal.js assets/src/pages/KanbanPage.js
+msgid "Confirm"
+msgstr "تأكيد"
+
+#: assets/src/components/modals/ConfirmModal.js
+msgid "Reason"
+msgstr "Reason"
+
+#: assets/src/components/modals/ConfirmModal.js
+msgid "Warning: This action cannot be undone."
+msgstr "Warning: This action cannot be undone."
+
+#: assets/src/components/modals/ConfirmModal.js
+msgid "Please specify the reason here..."
+msgstr "Please specify the reason here..."
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Failed to load executive report data"
+msgstr "Failed to load executive report data"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Knowledge book downloaded successfully"
+msgstr "Knowledge book downloaded successfully"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Knowledge book copied to clipboard"
+msgstr "Knowledge book copied to clipboard"
+
+#: assets/src/components/modals/ReportModal.js assets/src/pages/ProjectDetailPage.js
+msgid "Executive Report & Knowledge Book"
+msgstr "Executive Report & Knowledge Book"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Executive Report (PDF/Print)"
+msgstr "Executive Report (PDF/Print)"
+
+#: assets/src/components/modals/ReportModal.js assets/src/pages/ReportsPage.js
+msgid "Knowledge Book (.md)"
+msgstr "Knowledge Book (.md)"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Print or save as PDF"
+msgstr "Print or save as PDF"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Print / Save PDF"
+msgstr "Print / Save PDF"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Download as Markdown file"
+msgstr "Download as Markdown file"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Download (.md)"
+msgstr "Download (.md)"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Copy to clipboard"
+msgstr "Copy to clipboard"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Copied!"
+msgstr "Copied!"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Copy Text"
+msgstr "Copy Text"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Extracting and compiling executive report and knowledge book..."
+msgstr "Extracting and compiling executive report and knowledge book..."
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Unable to load report. Please verify project permissions and status."
+msgstr "Unable to load report. Please verify project permissions and status."
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Completed Project Sign-off & Delivery Report"
+msgstr "Completed Project Sign-off & Delivery Report"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Document Issued: %s"
+msgstr "Document Issued: %s"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Completed & Approved 100%"
+msgstr "Completed & Approved 100%"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "In Progress (%d%%)"
+msgstr "In Progress (%d%%)"
+
+#: assets/src/components/modals/ReportModal.js assets/src/components/projects/ProjectCard.js assets/src/components/projects/ProjectQuickPreviewModal.js
+msgid "No additional details provided."
+msgstr "لا يوجد بيان إضافي مرفق مع الطلب."
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Total Completion Rate"
+msgstr "Total Completion Rate"
+
+#: assets/src/components/modals/ReportModal.js assets/src/components/projects/ProjectCard.js
+msgid "Completed Tasks"
+msgstr "Completed Tasks"
+
+#: assets/src/components/modals/ReportModal.js assets/src/portal/portal-workspace.js
+msgid "Approved Solutions"
+msgstr "Approved Solutions"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "%s days"
+msgstr "%s days"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Avg Resolution Speed"
+msgstr "Avg Resolution Speed"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Approved Client Specifications & Requirements"
+msgstr "Approved Client Specifications & Requirements"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Item / Property"
+msgstr "Item / Property"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Specified Requirement"
+msgstr "Specified Requirement"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Verified Technical Solutions & Deliverables"
+msgstr "Verified Technical Solutions & Deliverables"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "No verified solutions officially recorded in this project as of document issuance date."
+msgstr "No verified solutions officially recorded in this project as of document issuance date."
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Approved Date: %s"
+msgstr "Approved Date: %s"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Author:"
+msgstr "Author:"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Approved by:"
+msgstr "Approved by:"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "%d attachments"
+msgstr "%d attachments"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Project Tasks Schedule & Audit Log"
+msgstr "Project Tasks Schedule & Audit Log"
+
+#: assets/src/components/modals/ReportModal.js assets/src/components/requests/RequestTableView.js
+msgid "Prefix"
+msgstr "Prefix"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Task Title"
+msgstr "Task Title"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Assignee"
+msgstr "Assignee"
+
+#: assets/src/components/modals/ReportModal.js assets/src/components/requests/RequestTableView.js assets/src/components/settings/SoundEffectsTab.js
+msgid "Status"
+msgstr "الحالة"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Created Date"
+msgstr "Created Date"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Project Lead & Director"
+msgstr "Project Lead & Director"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Signature & Official Stamp"
+msgstr "Signature & Official Stamp"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Client Representative"
+msgstr "Client Representative"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Signature & Acceptance"
+msgstr "Signature & Acceptance"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Executive Management"
+msgstr "Executive Management"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Final Approval & Archival"
+msgstr "Final Approval & Archival"
+
+#: assets/src/components/modals/ReportModal.js
+msgid "Standard Markdown format for internal documentation & GitHub Wiki"
+msgstr "Standard Markdown format for internal documentation & GitHub Wiki"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/components/task-detail/TaskContributionsStream.js assets/src/components/tasks/TaskCard.js
+msgid "Trash / Archive Request"
+msgstr "Trash / Archive Request"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/components/task-detail/TaskContributionsStream.js assets/src/components/tasks/TaskCard.js
+msgid "Delete Permanently"
+msgstr "Delete Permanently"
+
+#: assets/src/components/projects/ProjectCard.js
+msgid "Project paused in deep freezer"
+msgstr "Project paused in deep freezer"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/pages/ProjectsPage.js assets/src/portal/portal-workspace.js
+msgid "Frozen / Paused"
+msgstr "مجمد مؤقتاً"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/pages/ProjectDetailPage.js
+msgid "New Client Request"
+msgstr "New Client Request"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/pages/ProjectDetailPage.js
+msgid "Total Tasks"
+msgstr "Total Tasks"
+
+#: assets/src/components/projects/ProjectCard.js
+msgid "Done"
+msgstr "Done"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/pages/ReportsPage.js assets/src/portal/portal-dashboard.js
+msgid "Progress"
+msgstr "نسبة الإنجاز"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/components/projects/ProjectQuickPreviewModal.js assets/src/components/tasks/TaskCard.js
+msgid "Quick Preview"
+msgstr "Quick Preview"
+
+#: assets/src/components/projects/ProjectCard.js
+msgid "Project Options"
+msgstr "Project Options"
+
+#: assets/src/components/projects/ProjectCard.js
+msgid "Project pending deletion"
+msgstr "Project pending deletion"
+
+#: assets/src/components/projects/ProjectCard.js assets/src/components/tasks/TaskModal.js
+msgid "Add Work Item"
+msgstr "Add Work Item"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Member added successfully"
+msgstr "Member added successfully"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Failed to add member"
+msgstr "Failed to add member"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Member role updated successfully"
+msgstr "Member role updated successfully"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Failed to update member role"
+msgstr "Failed to update member role"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Remove Member"
+msgstr "Remove Member"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Are you sure you want to remove this member from the project?"
+msgstr "Are you sure you want to remove this member from the project?"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Yes, Remove"
+msgstr "Yes, Remove"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Member removed successfully"
+msgstr "Member removed successfully"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Failed to remove member"
+msgstr "Failed to remove member"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Manage Project Members: %s"
+msgstr "Manage Project Members: %s"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Manage Members"
+msgstr "Manage Members"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Add New Member to Project"
+msgstr "Add New Member to Project"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Staff Member"
+msgstr "Staff Member"
+
+#: assets/src/components/projects/ProjectMembersModal.js assets/src/components/requests/RequestConversionModal.js assets/src/components/ui/MemberSelect.js
+msgid "Select a team member..."
+msgstr "Select a team member..."
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Project Role"
+msgstr "Project Role"
+
+#: assets/src/components/projects/ProjectMembersModal.js assets/src/components/tasks/TaskAssignmentModal.js assets/src/pages/ProjectDetailPage.js
+msgid "Team Member"
+msgstr "Team Member"
+
+#: assets/src/components/projects/ProjectMembersModal.js assets/src/components/tasks/TaskAssignmentModal.js
+msgid "Project Manager"
+msgstr "Project Manager"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Add Member"
+msgstr "Add Member"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Current Project Members"
+msgstr "Current Project Members"
+
+#: assets/src/components/projects/ProjectMembersModal.js assets/src/components/tasks/TaskAssignmentModal.js
+msgid "Loading members list..."
+msgstr "Loading members list..."
+
+#: assets/src/components/projects/ProjectMembersModal.js assets/src/components/ui/MemberSelect.js
+msgid "User"
+msgstr "User"
+
+#: assets/src/components/projects/ProjectMembersModal.js assets/src/components/settings/UserDirectoryTab.js
+msgid "Email"
+msgstr "Email"
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Action"
+msgstr "Action"
+
+#: assets/src/components/projects/ProjectMembersModal.js assets/src/components/tasks/TaskAssignmentModal.js assets/src/pages/ProjectDetailPage.js
+msgid "No members added to this project yet."
+msgstr "No members added to this project yet."
+
+#: assets/src/components/projects/ProjectMembersModal.js
+msgid "Remove from Project"
+msgstr "Remove from Project"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "On Hold"
+msgstr "On Hold"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Cancelled"
+msgstr "Cancelled"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Project updated successfully"
+msgstr "Project updated successfully"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Project created successfully"
+msgstr "Project created successfully"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "An error occurred while saving project"
+msgstr "An error occurred while saving project"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Project name is required"
+msgstr "Project name is required"
+
+#: assets/src/components/projects/ProjectModal.js assets/src/components/settings/ContributionTypesTab.js assets/src/components/settings/RolesPermissionsTab.js
+msgid "Save Changes"
+msgstr "حفظ التعديلات"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Create Project"
+msgstr "مشروع جديد"
+
+#: assets/src/components/projects/ProjectModal.js assets/src/pages/ProjectsPage.js
+msgid "Add New Project"
+msgstr "Add New Project"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Project Title..."
+msgstr "Project Title..."
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Prefix:"
+msgstr "Prefix:"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Status:"
+msgstr "Status:"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Due Date:"
+msgstr "Due Date:"
+
+#: assets/src/components/projects/ProjectModal.js
+msgid "Write project details..."
+msgstr "Write project details..."
+
+#: assets/src/components/projects/ProjectQuickPreviewModal.js assets/src/components/ui/Loader.js assets/src/pages/ContributionsPage.js
+msgid "Loading..."
+msgstr "جاري التحميل..."
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Form Template:"
+msgstr "Form Template:"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Default Form"
+msgstr "Default Form"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Pending Triage"
+msgstr "Pending Triage"
+
+#: assets/src/components/requests/RequestCardsView.js assets/src/components/requests/RequestTableView.js assets/src/components/requests/RequestTriageBoard.js
+msgid "Under Review"
+msgstr "Under Review"
+
+#: assets/src/components/requests/RequestCardsView.js assets/src/components/requests/RequestTableView.js assets/src/components/requests/RequestTriageBoard.js
+msgid "Rejected"
+msgstr "Rejected"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Approved / In Progress"
+msgstr "Approved / In Progress"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Review Notes (Visible to client in portal):"
+msgstr "Review Notes (Visible to client in portal):"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Rejection Reason (Visible to client in portal):"
+msgstr "Rejection Reason (Visible to client in portal):"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Proposed Budget:"
+msgstr "Proposed Budget:"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Deadline:"
+msgstr "Deadline:"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Received Specs (%d)"
+msgstr "Received Specs (%d)"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "No detailed specifications submitted."
+msgstr "No detailed specifications submitted."
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "File"
+msgstr "File"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Approve & initialize project workspace"
+msgstr "Approve & initialize project workspace"
+
+#: assets/src/components/requests/RequestCardsView.js assets/src/components/requests/RequestTableView.js assets/src/components/requests/RequestTriageBoard.js
+msgid "Approve"
+msgstr "Approve"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Mark as under review with note to client"
+msgstr "Mark as under review with note to client"
+
+#: assets/src/components/requests/RequestCardsView.js
+msgid "Reject request with explanation to client"
+msgstr "Reject request with explanation to client"
+
+#: assets/src/components/requests/RequestCardsView.js assets/src/components/requests/RequestTableView.js assets/src/components/requests/RequestTriageBoard.js
+msgid "Reject"
+msgstr "Reject"
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "Approve & Initialize Project Workspace"
+msgstr "Approve & Initialize Project Workspace"
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "Project to approve:"
+msgstr "Project to approve:"
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "The project status will be converted to Active and launched, notifying the client in their portal."
+msgstr "The project status will be converted to Active and launched, notifying the client in their portal."
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "Assign Project Lead:"
+msgstr "Assign Project Lead:"
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "Approved Budget:"
+msgstr "Approved Budget:"
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "Agreed budget..."
+msgstr "Agreed budget..."
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "Target Delivery Date:"
+msgstr "Target Delivery Date:"
+
+#: assets/src/components/requests/RequestConversionModal.js
+msgid "Confirm & Launch Project"
+msgstr "Confirm & Launch Project"
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Mark Request Under Technical Review"
+msgstr "Mark Request Under Technical Review"
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Project Request:"
+msgstr "Project Request:"
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "The request status will be changed to Under Review and the client will be notified immediately."
+msgstr "The request status will be changed to Under Review and the client will be notified immediately."
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Review Notes (Explanation visible to client in portal):"
+msgstr "Review Notes (Explanation visible to client in portal):"
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "e.g., We are assessing technical feasibility and scheduling required resources with the team..."
+msgstr "e.g., We are assessing technical feasibility and scheduling required resources with the team..."
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "This explanation will appear directly in the client portal and notification alerts."
+msgstr "This explanation will appear directly in the client portal and notification alerts."
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Confirm Review & Notify Client"
+msgstr "Confirm Review & Notify Client"
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Reject Project Request with Reason"
+msgstr "Reject Project Request with Reason"
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "The request will be recorded as Rejected and an immediate notification will be sent to the client."
+msgstr "The request will be recorded as Rejected and an immediate notification will be sent to the client."
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Rejection Justification (Reason shown to client):"
+msgstr "Rejection Justification (Reason shown to client):"
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "e.g., We cannot accommodate this request due to current capacity constraints or scope boundaries..."
+msgstr "e.g., We cannot accommodate this request due to current capacity constraints or scope boundaries..."
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Please formulate the justification courteously as it will be shown to the client."
+msgstr "Please formulate the justification courteously as it will be shown to the client."
+
+#: assets/src/components/requests/RequestEvaluationModal.js
+msgid "Confirm Rejection & Notify Client"
+msgstr "Confirm Rejection & Notify Client"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Requests Triage Studio:"
+msgstr "Requests Triage Studio:"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Total: %d"
+msgstr "Total: %d"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Pending: %d"
+msgstr "Pending: %d"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Under Review: %d"
+msgstr "Under Review: %d"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Approved: %d"
+msgstr "Approved: %d"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Rejected: %d"
+msgstr "Rejected: %d"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Cards & Specs View"
+msgstr "Cards & Specs View"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Cards"
+msgstr "Cards"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Triage Kanban Board"
+msgstr "Triage Kanban Board"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Quick Triage Table"
+msgstr "Quick Triage Table"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Table"
+msgstr "Table"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Search requests (Name, Client, Email, Details)..."
+msgstr "Search requests (Name, Client, Email, Details)..."
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "All Templates (%d)"
+msgstr "All Templates (%d)"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Newest First"
+msgstr "Newest First"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Oldest First"
+msgstr "Oldest First"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Nearest Deadline"
+msgstr "Nearest Deadline"
+
+#: assets/src/components/requests/RequestFilterBar.js assets/src/components/settings/UserDirectoryTab.js
+msgid "All (%d)"
+msgstr "الكل (%d)"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Inbox (%d)"
+msgstr "Inbox (%d)"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Review (%d)"
+msgstr "Review (%d)"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Approved (%d)"
+msgstr "Approved (%d)"
+
+#: assets/src/components/requests/RequestFilterBar.js
+msgid "Rejected (%d)"
+msgstr "Rejected (%d)"
+
+#: assets/src/components/requests/RequestTableView.js
+msgid "Request / Project Name"
+msgstr "Request / Project Name"
+
+#: assets/src/components/requests/RequestTableView.js
+msgid "Form Template"
+msgstr "Form Template"
+
+#: assets/src/components/requests/RequestTableView.js
+msgid "Budget"
+msgstr "Budget"
+
+#: assets/src/components/requests/RequestTableView.js assets/src/pages/ProjectDetailPage.js
+msgid "Delivery Date"
+msgstr "Delivery Date"
+
+#: assets/src/components/requests/RequestTableView.js assets/src/components/settings/ContributionTypesTab.js assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Actions"
+msgstr "الإجراءات"
+
+#: assets/src/components/requests/RequestTableView.js
+msgid "Review"
+msgstr "Review"
+
+#: assets/src/components/requests/RequestTableView.js
+msgid "Default"
+msgstr "Default"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Inbox / Pending Triage (%d)"
+msgstr "Inbox / Pending Triage (%d)"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "No pending requests"
+msgstr "No pending requests"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Under Review (%d)"
+msgstr "Under Review (%d)"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "No requests under review"
+msgstr "No requests under review"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Approved / Active (%d)"
+msgstr "Approved / Active (%d)"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Workspace"
+msgstr "Workspace"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Complete"
+msgstr "Complete"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "No active requests"
+msgstr "No active requests"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Rejected / Completed (%d)"
+msgstr "Rejected / Completed (%d)"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Re-evaluate"
+msgstr "Re-evaluate"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "Review Deliverables"
+msgstr "Review Deliverables"
+
+#: assets/src/components/requests/RequestTriageBoard.js
+msgid "No requests in this column"
+msgstr "No requests in this column"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Contribution Types Management"
+msgstr "إدارة أنواع المساهمات (Contribution Types)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Customize contribution types to suit your organization workflow (Core Neutrality & Multi-domain)."
+msgstr "خصص أنواع وتسميات المساهمات لتناسب طبيعة عمل مؤسستك وفق المبدأ 19 (حيادية النواة وتعدد المجالات)."
+
+#: assets/src/components/settings/ContributionTypesTab.js assets/src/components/settings/GeneralLocalizationTab.js assets/src/components/settings/RolesPermissionsTab.js
+msgid "Saving..."
+msgstr "جاري الحفظ..."
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Icon (Dashicon)"
+msgstr "الأيقونة (Dashicon)"
+
+#: assets/src/components/settings/ContributionTypesTab.js assets/src/components/settings/RolesPermissionsTab.js
+msgid "Slug"
+msgstr "المعرّف (Slug)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Label"
+msgstr "التسمية"
+
+#: assets/src/components/settings/ContributionTypesTab.js assets/src/components/settings/RolesPermissionsTab.js assets/src/pages/ContributionsPage.js
+msgid "Type"
+msgstr "النوع"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "System Protected"
+msgstr "نظام محمي"
+
+#: assets/src/components/settings/ContributionTypesTab.js assets/src/components/settings/RolesPermissionsTab.js
+msgid "Custom"
+msgstr "مخصص"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Delete this type"
+msgstr "حذف هذا النوع"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "System types cannot be deleted"
+msgstr "لا يمكن حذف أنواع النظام"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Add New Custom Contribution Type"
+msgstr "إضافة نوع مساهمة جديد مخصص"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Icon (Dashicon):"
+msgstr "Icon (Dashicon):"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Comments (Comments)"
+msgstr "تعليقات (Comments)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Technical Implementation (Hammer)"
+msgstr "تنفيذ فني (Hammer)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Solution Star (Star)"
+msgstr "نجمة حل (Star)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Review & Audit (Search)"
+msgstr "تدقيق ومراجعة (Search)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Decision & Guidance (Check)"
+msgstr "قرار وتوجيه (Check)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Side Note (Aside)"
+msgstr "مذكرة جانبية (Aside)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Tag (Tag)"
+msgstr "تصنيف (Tag)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Portfolio (Portfolio)"
+msgstr "حقيبة (Portfolio)"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Slug (English Identifier):"
+msgstr "المعرّف بالإنجليزية (Slug):"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Display Label:"
+msgstr "التسمية الظاهرة (Label):"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "e.g., Legal Brief Draft"
+msgstr "مثال: صياغة مذكرة قانونية"
+
+#: assets/src/components/settings/ContributionTypesTab.js
+msgid "Add Type"
+msgstr "إضافة النوع"
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "Data Export & Archiving"
+msgstr "التصدير والأرشفة"
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "Export project and task records in structured JSON format for backups and data migration."
+msgstr "يمكنك تصدير بيانات المشاريع والمهام بصيغة JSON لاستخدامها كنسخة احتياطية."
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "Export Full Workspace JSON"
+msgstr "تصدير كل البيانات وتحميل JSON"
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "Development Data Seeder Engine"
+msgstr "محرك البيانات التجريبية (Dev Data Seeder Engine)"
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "Generate realistic demo records (projects, kanban tasks, contributions, verified solutions) to explore all platform features in one click."
+msgstr "توليد بيئة عمل واقعية تحاكي منشأة حقيقية (مشاريع، مهام كانبان، مساهمات، وحلول معرفية معتمدة) لاختبار وتجربة كافة وظائف النظام بنقرة واحدة."
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "Safety Notice:"
+msgstr "ملاحظة أمان:"
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "All generated demo entities are tagged and completely isolated from standard WordPress posts, and can be purged at any time."
+msgstr "كافة العناصر المولدة بواسطة هذا المحرك موسومة برمجياً ولا تمس أو تغير أي محتوى أو منشورات أصلية لموقع ووردبريس، ويمكن تطهيرها وحذفها بالكامل في أي وقت."
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js
+msgid "Seed Demo Workspace Data"
+msgstr "توليد بيانات بيئة العمل التجريبية"
+
+#: assets/src/components/settings/ExportDiagnosticsTab.js assets/src/pages/SettingsPage.js
+msgid "Purge Demo Data"
+msgstr "تطهير وحذف البيانات التجريبية"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js assets/src/components/ui/ImagePicker.js
+msgid "Select Image"
+msgstr "اختيار صورة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js assets/src/components/ui/ImagePicker.js
+msgid "Use this image"
+msgstr "استخدام هذه الصورة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Select or upload custom WorkPress logo"
+msgstr "Select or upload custom WorkPress logo"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Select or upload Favicon icon"
+msgstr "Select or upload Favicon icon"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "System Settings & Visual Identity"
+msgstr "إعدادات النظام والهوية البصرية"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Configure workspace environment, brand logo, and favicon for WorkPress and Client Portal."
+msgstr "ضبط وتخصيص بيئة العمل، الشعار الرسمي، وأيقونة المتصفح (Favicon) الخاصة بمنظومة WorkPress وبوابة المستفيدين."
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Save System Settings"
+msgstr "حفظ إعدادات النظام"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Workspace Environment"
+msgstr "بيئة العمل العامة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Workspace Name"
+msgstr "اسم بيئة العمل (Workspace Name)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Displayed in navigation header, project reports, and browser tab titles."
+msgstr "يظهر هذا الاسم في ترويسة التطبيق، تقارير المشاريع، وعناوين ألسنة المتصفح."
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Default Priority for New Tasks"
+msgstr "الأولوية الافتراضية للمهام الجديدة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js assets/src/components/tasks/TaskModal.js assets/src/components/ui/PriorityBadge.js
+msgid "Low"
+msgstr "منخفضة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js assets/src/components/tasks/TaskModal.js assets/src/components/ui/PriorityBadge.js
+msgid "Medium"
+msgstr "متوسطة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js assets/src/components/tasks/TaskModal.js assets/src/components/ui/PriorityBadge.js
+msgid "High"
+msgstr "عالية"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Visual Identity Scope:"
+msgstr "نطاق الهوية البصرية المستقلة:"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Logo and Favicon settings apply to WorkPress admin, Client Portal, and Unified Login screen without modifying the public WordPress theme."
+msgstr "تخص إعدادات الشعار والـ Favicon أدناه تطبيق WorkPress الداخلي، بوابة المستفيدين، وشاشة الدخول الموحدة، ولا تُغير شعار أو أيقونة قالب موقع ووردبريس العام."
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Visual Identity & Brand Logo"
+msgstr "الهوية البصرية وشعار المنظومة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Workspace Logo"
+msgstr "شعار المنظومة (WorkPress Logo)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Custom Logo Active"
+msgstr "شعار مخصص نشط"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Default Logo"
+msgstr "الشعار الافتراضي المدمج"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Choose / Upload Logo"
+msgstr "اختيار / رفع شعار"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Reset to default WorkPress logo"
+msgstr "العودة لشعار WorkPress الرسمي المدمج"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Restore Default"
+msgstr "استعادة الافتراضي"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Recommended: SVG vector, or transparent PNG (180-260px width, 36-54px height)."
+msgstr "الامتدادات المفضلة: SVG vector، أو PNG شفاف بأبعاد عرض 180-260px وارتفاع 36-54px."
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Browser Tab Favicon"
+msgstr "أيقونة لسان المتصفح (WorkPress Favicon)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Custom Favicon"
+msgstr "Favicon مخصص"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Default Favicon"
+msgstr "الأيقونة الافتراضية"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Browser Tab Simulation Preview:"
+msgstr "معاينة شكل لسان المتصفح (Browser Tab Simulation):"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Choose / Upload Favicon"
+msgstr "اختيار / رفع Favicon"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Reset to default WorkPress favicon"
+msgstr "العودة لأيقونة WorkPress الافتراضية"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Recommended: SVG, or square PNG (32x32px or 64x64px)."
+msgstr "الامتدادات المفضلة: SVG، أو PNG بأبعاد 32x32px أو 64x64px مربعة."
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Time, Timezone & Regional Localization"
+msgstr "الوقت والمنطقة الزمنية واللغة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Manage workspace timezone, month naming conventions, and universal number formatting."
+msgstr "إدارة توقيت بيئة العمل، تسمية الشهور المغاربية/المشرقية، وفرض الأرقام المعيارية عالمياً."
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Save Time Settings"
+msgstr "حفظ إعدادات الوقت"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Workspace Timezone"
+msgstr "المنطقة الزمنية للمنظومة (Timezone)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "North Africa & Maghreb"
+msgstr "المنطقة المغاربية والشمال أفريقي"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Middle East & Gulf"
+msgstr "الخليج العربي والشرق الأوسط"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "International Zones"
+msgstr "نطاقات دولية"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "All audit logs, timeline streams, and deadlines are computed according to this timezone."
+msgstr "تُحسب كافة سجلات التعديل وخيوط الزمن والمساهمات بناءً على هذا النطاق الزمني."
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Month Naming System"
+msgstr "نظام تسمية الشهور (Month Naming System)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Maghrebi Arabic Months (جانفي، فيفري، مارس...) - Recommended"
+msgstr "الشهور المغاربية الرسمية (جانفي، فيفري، مارس، أفريل، ماي، جوان، جويلية، أوت، سبتمبر، أكتوبر، نوفمبر، ديسمبر) - موصى به"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Mashriqi Arabic Months (يناير، فبراير، مارس...)"
+msgstr "الشهور المشرقية (يناير، فبراير، مارس، أبريل، مايو، يونيو، يوليو، أغسطس، سبتمبر، أكتوبر، نوفمبر، ديسمبر)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Syriac / Levantine Months (كانون الثاني، شباط، آذار...)"
+msgstr "الشهور السريانية والشامية (كانون الثاني، شباط، آذار، نيسان، أيار، حزيران، تموز، آب، أيلول، تشرين الأول، تشرين الثاني، كانون الأول)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Calendar Date Display Format"
+msgstr "صيغة عرض التاريخ التقويمي (Date Format)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Day, Month Name & Year (e.g. 18 August 2026)"
+msgstr "اليوم واسم الشهر والسنة (مثال: 18 أوت 2026)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Standard Slash Separated (e.g. 18/08/2026)"
+msgstr "أرقام قياسية مفصولة بشرطة مائلة (مثال: 18/08/2026)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "ISO Standard (e.g. 2026-08-18)"
+msgstr "التاريخ الدولي القياسي (مثال: 2026-08-18)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Enable smart relative time (e.g., \"Just now\", \"5m ago\", \"2h ago\", \"Yesterday\") in activity feeds."
+msgstr "تفعيل التوقيت النسبي الذكي (مثل: \"الآن\"، \"منذ 5 دقائق\"، \"منذ ساعتين\"، \"أمس\") في خيوط الزمن والإشعارات"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Live Preview"
+msgstr "معاينة حية ومباشرة (Live Preview)"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Date & Month:"
+msgstr "تاريخ اليوم والشهور:"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Full Date & Time:"
+msgstr "التاريخ والوقت الكامل:"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Relative Time Sample:"
+msgstr "عينة من التوقيت النسبي (في المساهمات):"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js assets/src/portal/portal-dashboard.js
+msgid "Just now"
+msgstr "الآن"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "15m ago"
+msgstr "منذ 15 دقيقة"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "3h ago"
+msgstr "منذ 3 ساعات"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Universal Numerals & Percentages:"
+msgstr "الأرقام القياسية والنسب المئوية:"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Completed %s contributions with %s success rate"
+msgstr "Completed %s contributions with %s success rate"
+
+#: assets/src/components/settings/GeneralLocalizationTab.js
+msgid "Universal numerals (1, 2, 3...) are enforced system-wide for institutional clarity."
+msgstr "يتم فرض الأرقام العالمية (1, 2, 3...) تلقائياً ومنع الأرقام المشرقية/الهندية لضمان بيئة عمل احترافية."
+
+#: assets/src/components/settings/NotificationsTab.js
+msgid "Notification & Alert Settings"
+msgstr "إعدادات الإشعارات والتنبيهات"
+
+#: assets/src/components/settings/NotificationsTab.js
+msgid "Send email notifications when tasks are assigned"
+msgstr "إرسال إشعارات البريد الإلكتروني عند تعيين مهمة جديدة"
+
+#: assets/src/components/settings/NotificationsTab.js
+msgid "Interactive Audio Cues (UI Sounds & Audio Cues)"
+msgstr "المؤثرات والنغمات الصوتية التفاعلية (UI Sounds & Audio Cues)"
+
+#: assets/src/components/settings/NotificationsTab.js
+msgid "Integrated SND audio engine; customize audio tones for solution approvals, notifications, or mute specific events."
+msgstr "تم دمج مكتبة الأصوات SND محلياً بالكامل؛ يمكنك تخصيص نغمة كل إشعار، اعتماد حل، استفسار عميل، أو تعطيل/تفعيل أي حدث على حدة مع تحديد موضعه في النظام."
+
+#: assets/src/components/settings/NotificationsTab.js
+msgid "Customize Sound Effects"
+msgstr "تخصيص أصوات وأماكن النظام"
+
+#: assets/src/components/settings/NotificationsTab.js
+msgid "Notification preferences saved."
+msgstr "تم حفظ تفضيلات الإشعارات."
+
+#: assets/src/components/settings/NotificationsTab.js
+msgid "Save Preferences"
+msgstr "حفظ التفضيلات"
+
+#: assets/src/components/settings/RolesPermissionsTab.js assets/src/components/settings/SettingsQuickMenu.js
+msgid "Capability Matrix"
+msgstr "مصفوفة الصلاحيات (Capability Matrix)"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Configure capabilities assigned to each role. Changes take effect dynamically and immediately."
+msgstr "تحكم في الصلاحيات المخصصة لكل دور في النظام. هذه الصلاحيات ديناميكية وتطبق فوراً."
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Select role to configure capabilities:"
+msgstr "اختر الدور لتعديل صلاحياته:"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Capability"
+msgstr "القدرة (Capability)"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Granted?"
+msgstr "ممنوحة؟"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Role Display Aliases"
+msgstr "الأسماء المخصصة للأدوار (Aliases)"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Customize outward display labels for standard WordPress roles to match organizational terminology."
+msgstr "قم بتخصيص المسميات الظاهرية للأدوار الأساسية في ووردبريس لتناسب طبيعة ومصطلحات عمل مؤسستك."
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Save Role Aliases"
+msgstr "حفظ الأسماء المخصصة"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "WordPress Core Role"
+msgstr "الدور في ووردبريس"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Workspace Display Alias"
+msgstr "المسمى المعروض في مساحة العمل (Alias)"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Delete this role"
+msgstr "Delete this role"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Core standard WordPress role"
+msgstr "دور نظامي أصيل في ووردبريس"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "System"
+msgstr "نظامي"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Add New Custom Role"
+msgstr "إضافة دور جديد مخصص"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Create custom roles and clone capabilities from existing templates."
+msgstr "قم بإنشاء أدوار جديدة واستنساخ صلاحياتها من أدوار موجودة مسبقاً."
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Role Slug (English alphanumeric):"
+msgstr "معرّف الدور (إنجليزي فقط):"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Display Name:"
+msgstr "الاسم الظاهر للدور:"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Technical Project Manager"
+msgstr "مدير مشاريع تقنية"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Clone Capabilities From:"
+msgstr "استنساخ الصلاحيات من:"
+
+#: assets/src/components/settings/RolesPermissionsTab.js
+msgid "Add Custom Role"
+msgstr "إضافة الدور الجديد"
+
+#: assets/src/components/settings/SettingsQuickMenu.js assets/src/pages/SettingsPage.js
+msgid "About WorkPress & Philosophy"
+msgstr "عن WorkPress والفلسفة"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Client Intake Forms"
+msgstr "نماذج استقبال الطلبات"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Enterprise Webhooks"
+msgstr "خطافات الويب والتكامل الخارجي"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Role Aliases & Custom Roles"
+msgstr "إدارة الأدوار والمسميات"
+
+#: assets/src/components/settings/SettingsQuickMenu.js assets/src/pages/SettingsPage.js
+msgid "Contribution Types"
+msgstr "أنواع المساهمات"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Team Members Directory"
+msgstr "دليل الأعضاء والمنفذين"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Clients & Stakeholders"
+msgstr "المستفيدون وأصحاب الطلبات"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Timezone & Localization"
+msgstr "الوقت والمنطقة الزمنية"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "General System Settings"
+msgstr "إعدادات النظام"
+
+#: assets/src/components/settings/SettingsQuickMenu.js assets/src/pages/SettingsPage.js
+msgid "Notifications & Alerts"
+msgstr "الإشعارات والتنبيهات"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Sound Effects & Audio Cues"
+msgstr "الأصوات والتأثيرات التفاعلية"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Export & Archiving"
+msgstr "التصدير والأرشفة"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Settings & Quick Navigation"
+msgstr "الإعدادات والروابط السريعة"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "WorkPress Settings"
+msgstr "إعدادات WorkPress"
+
+#: assets/src/components/settings/SettingsQuickMenu.js
+msgid "Open Settings Studio"
+msgstr "فتح استوديو الإعدادات"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Interactive Sound Effects (SND Sound Engine)"
+msgstr "الأصوات والتأثيرات التفاعلية (SND Sound Engine)"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Manage and customize interactive audio cues for actions, client notifications, and task completions with granular per-event control."
+msgstr "إدارة وتخصيص المؤثرات الصوتية لكافة العمليات التفاعلية، إشعارات العملاء، وإغلاق المهام مع تحكم كامل بتفعيل وتعطيل كل حدث على حدة."
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Sound Effects Enabled"
+msgstr "الأصوات العامة مفعلة"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Sound Effects Muted"
+msgstr "الأصوات العامة مكتومة"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Master Volume:"
+msgstr "مستوى الصوت العام (Master Volume):"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Sound Theme Kit:"
+msgstr "حزمة النغمات الأساسية (Sound Theme Kit):"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "SND01 — Sine (Modern SaaS Pure Wave)"
+msgstr "SND01 — Sine (الموجة العصرية النقية — Modern SaaS)"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "SND02 — Piano (Acoustic Grand Steinway)"
+msgstr "SND02 — Piano (بيانو شتاينواي الفاخر — Acoustic Grand)"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "SND03 — Industrial (Tactile ASMR Mechanical)"
+msgstr "SND03 — Industrial (الميكانيكية الملموسة — Tactile ASMR)"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Pure electronic synthesizer tones for high-velocity workflows."
+msgstr "نغمات إلكترونية فائقة النقاء والخفة تناسب بيئات العمل السريعة."
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Acoustic piano recordings providing warmth and premium tactile feedback."
+msgstr "نغمات مسجلة على بيانو كلاسيكي تمنح شعوراً بالدفء والفخامة."
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Mechanical switch clicks providing tactile ASMR sensations."
+msgstr "أصوات تكتكة ميكانيكية حية تمنح شعوراً ملموساً بكل نقرة."
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Granular Interactive Events Matrix:"
+msgstr "مصفوفة أماكن وأصوات النظام التفاعلية:"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Toggle and customize audio tones for each interactive event independently."
+msgstr "يمكنك تفعيل أو تعطيل وتغيير صوت أي حدث تفاعلي بشكل مستقل"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Interactive Event"
+msgstr "الحدث التفاعلي"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "System Trigger Location"
+msgstr "موضع وقوع الصوت في النظام"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Assigned Tone"
+msgstr "النغمة المخصصة"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Preview"
+msgstr "معاينة"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Mute this sound"
+msgstr "تعطيل هذا الصوت"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Enable this sound"
+msgstr "تفعيل هذا الصوت"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Listen to audio tone"
+msgstr "استماع للنغمة"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Play"
+msgstr "استماع"
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Synthesized audio triggers natively in all modern browsers with 0 latency."
+msgstr "المؤثرات الصوتية تعمل تلقائياً مع كافة الأجهزة والمتصفحات الحديثة دون أي تنزيلات إضافية."
+
+#: assets/src/components/settings/SoundEffectsTab.js
+msgid "Save Audio Settings"
+msgstr "حفظ إعدادات وتخصيصات الأصوات"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Team Members & Staff Directory"
+msgstr "دليل أعضاء الفريق والمنفذين (Specialists & Staff Directory)"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Manage staff, specialists, and technical leads handling tasks in the CoWorkPress operations room."
+msgstr "إدارة الكوادر والمشرفين الفنيين المكلفين بإنجاز المهام والمشاريع داخل غرفة عمليات CoWorkPress."
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "No team members registered on this page."
+msgstr "لا يوجد أعضاء فريق مسجلون حالياً في هذه الصفحة."
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Member / Specialist"
+msgstr "العضو / المنفذ"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Role / Capability"
+msgstr "الصلاحية (الدور)"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Page %d of %d"
+msgstr "Page %d of %d"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Previous"
+msgstr "السابق"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Next"
+msgstr "التالي"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Stakeholders & Clients Directory"
+msgstr "سجل المستفيدين وأصحاب الطلبات (Stakeholders & Subscribers Directory)"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Manage client accounts and subscribers. Upgrade any standard subscriber to a portal stakeholder."
+msgstr "إدارة حسابات المستفيدين الموسومين وأعضاء الموقع العاديين. يمكن ترقية أي مشترك عادي ليصبح مشتركاً مستفيداً يملك صلاحية البوابة."
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Triage Studio ↗"
+msgstr "استوديو فرز الطلبات ↗"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Stakeholders (%d)"
+msgstr "المستفيدون (%d)"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Subscribers (%d)"
+msgstr "المشتركون (%d)"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Total registered on this page: %d"
+msgstr "إجمالي المسجلين في هذه الصفحة: %d"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "No verified stakeholders on this page."
+msgstr "لا يوجد مستفيدون معتمدون حالياً في هذه الصفحة."
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "No matching users on this page."
+msgstr "لا يوجد أعضاء مطابقون في هذه الصفحة."
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "You can upgrade any subscriber using \"Assign as Stakeholder\" from the Subscribers tab."
+msgstr "يمكنك ترقية أي عضو مشترك إلى مستفيد باستخدام زر «تعيين كمستفيد» من تبويب (المشتركون)."
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Users appear here automatically when registered in WordPress or submitting requests."
+msgstr "يتم إضافة الأعضاء تلقائياً عند تسجيلهم في ووردبريس أو تقديم طلبات جديدة."
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Member / Stakeholder"
+msgstr "العضو / المستفيد"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Action & Access"
+msgstr "الإجراء والوصول"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Stakeholder"
+msgstr "مستفيد"
+
+#: assets/src/components/settings/UserDirectoryTab.js assets/src/portal/portal-app.js assets/src/portal/portal-gateway.js
 msgid "Subscriber"
 msgstr "مشترك"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "View incoming requests"
+msgstr "استعراض وارد الطلبات"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Incoming Requests ↗"
+msgstr "وارد الطلبات ↗"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Upgrade subscriber to stakeholder for portal access"
+msgstr "ترقية العضو إلى مستفيد لتمكينه من دخول البوابة وطلب مشاريع"
+
+#: assets/src/components/settings/UserDirectoryTab.js
+msgid "Assign as Stakeholder"
+msgstr "تعيين كمستفيد"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Contributions & Activity Log"
+msgstr "Contributions & Activity Log"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "No contributions recorded for this task yet"
+msgstr "No contributions recorded for this task yet"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Add a technical report, comment, or propose an official solution from the form below to start collaborating."
+msgstr "Add a technical report, comment, or propose an official solution from the form below to start collaborating."
+
+#: assets/src/components/task-detail/TaskContributionsStream.js assets/src/components/tasks/TaskCard.js
+msgid "No reason specified"
+msgstr "No reason specified"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "View and add technical discussion notes"
+msgstr "View and add technical discussion notes"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Discussion (%d)"
+msgstr "Discussion (%d)"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Approve Solution & Complete Task"
+msgstr "Approve Solution & Complete Task"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Are you sure you want to accept this contribution as official resolution? The task will be closed and archived in knowledge base."
+msgstr "Are you sure you want to accept this contribution as official resolution? The task will be closed and archived in knowledge base."
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Are you sure you want to request deletion of this contribution?"
+msgstr "Are you sure you want to request deletion of this contribution?"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Send Request"
+msgstr "Send Request"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js assets/src/pages/ContributionsPage.js assets/src/pages/KanbanPage.js
+msgid "Reason for deletion"
+msgstr "Reason for deletion"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Deletion request submitted"
+msgstr "Deletion request submitted"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Failed to send request"
+msgstr "Failed to send request"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Task Completed & Closed"
+msgstr "Task Completed & Closed"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "The solution has been approved and the task is closed. To add new contributions or resume work, it can be reopened."
+msgstr "The solution has been approved and the task is closed. To add new contributions or resume work, it can be reopened."
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Reopen Task"
+msgstr "Reopen Task"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Are you sure you want to reopen this task? It will return to active status to resume work and add contributions."
+msgstr "Are you sure you want to reopen this task? It will return to active status to resume work and add contributions."
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Task reopened successfully"
+msgstr "Task reopened successfully"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Write contribution details..."
+msgstr "Write contribution details..."
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Attach files and documents (PDF, ZIP, DOCX, Images)"
+msgstr "Attach files and documents (PDF, ZIP, DOCX, Images)"
+
+#: assets/src/components/task-detail/TaskContributionsStream.js
+msgid "Submit"
+msgstr "Submit"
+
+#: assets/src/components/task-detail/TaskHeaderActions.js assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "Back to Kanban"
+msgstr "Back to Kanban"
+
+#: assets/src/components/task-detail/TaskHeaderActions.js assets/src/components/tasks/TaskCard.js assets/src/components/tasks/TaskModal.js
+msgid "Edit Task"
+msgstr "Edit Task"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "Task Administration"
+msgstr "Task Administration"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "Task Status (Live Derived State)"
+msgstr "Task Status (Live Derived State)"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js assets/src/components/tasks/TaskCard.js
+msgid "Assigned"
+msgstr "Assigned"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js assets/src/components/tasks/TaskCard.js
+msgid "New"
+msgstr "New"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "State progresses automatically: (Assign member -> Add contribution -> Approve solution)."
+msgstr "State progresses automatically: (Assign member -> Add contribution -> Approve solution)."
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "Priority Level"
+msgstr "Priority Level"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "Assigned Members"
+msgstr "Assigned Members"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "No members assigned to this task."
+msgstr "No members assigned to this task."
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js assets/src/pages/TaskDetailPage.js
+msgid "Remove Assignee"
+msgstr "Remove Assignee"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "Select a member to assign"
+msgstr "Select a member to assign"
+
+#: assets/src/components/task-detail/TaskMetaSidebar.js
+msgid "Assign"
+msgstr "Assign"
+
+#: assets/src/components/tasks/TaskAssignmentModal.js
+msgid "Task assignments updated successfully"
+msgstr "Task assignments updated successfully"
+
+#: assets/src/components/tasks/TaskAssignmentModal.js
+msgid "An error occurred while updating assignments."
+msgstr "An error occurred while updating assignments."
+
+#: assets/src/components/tasks/TaskAssignmentModal.js
+msgid "%d assignees selected"
+msgstr "%d assignees selected"
+
+#: assets/src/components/tasks/TaskAssignmentModal.js
+msgid "Save Assignment"
+msgstr "Save Assignment"
+
+#: assets/src/components/tasks/TaskAssignmentModal.js
+msgid "Assign Task: %s"
+msgstr "Assign Task: %s"
+
+#: assets/src/components/tasks/TaskAssignmentModal.js
+msgid "Assign Task"
+msgstr "Assign Task"
+
+#: assets/src/components/tasks/TaskAssignmentModal.js
+msgid "Select members to assign to this task (only approved project members are shown):"
+msgstr "Select members to assign to this task (only approved project members are shown):"
+
+#: assets/src/components/tasks/TaskCard.js
+msgid "Logged: %sh / Estimated: %sh"
+msgstr "Logged: %sh / Estimated: %sh"
+
+#: assets/src/components/tasks/TaskCard.js
+msgid "Checklist: %d of %d completed (%d%%)"
+msgstr "Checklist: %d of %d completed (%d%%)"
+
+#: assets/src/components/tasks/TaskCard.js
+msgid "%d attachments and documents"
+msgstr "%d attachments and documents"
+
+#: assets/src/components/tasks/TaskCard.js assets/src/components/tasks/TaskQuickPreviewModal.js
+msgid "%d contributions & comments"
+msgstr "%d contributions & comments"
+
+#: assets/src/components/tasks/TaskCard.js
+msgid "Extra Actions"
+msgstr "Extra Actions"
+
+#: assets/src/components/tasks/TaskCard.js
+msgid "Task pending deletion"
+msgstr "Task pending deletion"
+
+#: assets/src/components/tasks/TaskCard.js
+msgid "Clone"
+msgstr "Clone"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Could not add checklist item"
+msgstr "Could not add checklist item"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Could not update checklist item state"
+msgstr "Could not update checklist item state"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Could not delete item"
+msgstr "Could not delete item"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Could not update checklist item"
+msgstr "Could not update checklist item"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Checklist & Procedural Steps"
+msgstr "Checklist & Procedural Steps"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Click to edit item"
+msgstr "Click to edit item"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Save Edit"
+msgstr "Save Edit"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Delete Item"
+msgstr "Delete Item"
+
+#: assets/src/components/tasks/TaskChecklist.js
+msgid "Add new checklist step... (Press Enter to add)"
+msgstr "Add new checklist step... (Press Enter to add)"
+
+#: assets/src/components/tasks/TaskDocuments.js
+msgid "Document attached successfully"
+msgstr "Document attached successfully"
+
+#: assets/src/components/tasks/TaskDocuments.js
+msgid "Could not attach file"
+msgstr "Could not attach file"
+
+#: assets/src/components/tasks/TaskDocuments.js
+msgid "Attachment removed from task"
+msgstr "Attachment removed from task"
+
+#: assets/src/components/tasks/TaskDocuments.js
+msgid "Could not delete attachment"
+msgstr "Could not delete attachment"
+
+#: assets/src/components/tasks/TaskDocuments.js
+msgid "Official Task Documents & Attachments"
+msgstr "Official Task Documents & Attachments"
+
+#: assets/src/components/tasks/TaskDocuments.js
+msgid "Attach task files (PDF, ZIP, DOCX, Images)"
+msgstr "Attach task files (PDF, ZIP, DOCX, Images)"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Task title is required"
+msgstr "Task title is required"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Project is required"
+msgstr "Project is required"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Task updated successfully"
+msgstr "Task updated successfully"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Task created successfully"
+msgstr "Task created successfully"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "An error occurred while saving task"
+msgstr "An error occurred while saving task"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Select Project"
+msgstr "Select Project"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Create Task"
+msgstr "Create Task"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Task Title..."
+msgstr "Task Title..."
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Priority:"
+msgstr "Priority:"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Estimated Hours:"
+msgstr "Estimated Hours:"
+
+#: assets/src/components/tasks/TaskModal.js
+msgid "Write task details here..."
+msgstr "Write task details here..."
+
+#: assets/src/components/tasks/TaskQuickPreviewModal.js assets/src/pages/TaskDetailPage.js
+msgid "Loading task details..."
+msgstr "Loading task details..."
+
+#: assets/src/components/tasks/TaskQuickPreviewModal.js
+msgid "By: %s"
+msgstr "By: %s"
+
+#: assets/src/components/tasks/TaskQuickPreviewModal.js assets/src/pages/ContributionsPage.js
+msgid "Author"
+msgstr "Author"
+
+#: assets/src/components/tasks/TaskQuickPreviewModal.js assets/src/pages/KanbanPage.js
+msgid "Unassigned"
+msgstr "Unassigned"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Worklog recorded successfully"
+msgstr "Worklog recorded successfully"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Could not log work hours"
+msgstr "Could not log work hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Worklog deleted"
+msgstr "Worklog deleted"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Could not delete worklog"
+msgstr "Could not delete worklog"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Estimated hours updated successfully"
+msgstr "Estimated hours updated successfully"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Could not update estimated hours"
+msgstr "Could not update estimated hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Track & Estimate Working Hours"
+msgstr "Track & Estimate Working Hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Over budget by %sh"
+msgstr "Over budget by %sh"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Estimated Hours"
+msgstr "Estimated Hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Edit estimated hours"
+msgstr "Edit estimated hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "hours"
+msgstr "hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Logged Hours"
+msgstr "Logged Hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Over Budget"
+msgstr "Over Budget"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Remaining Hours"
+msgstr "Remaining Hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Time Consumption Progress"
+msgstr "Time Consumption Progress"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Log New Working Session / Hours"
+msgstr "Log New Working Session / Hours"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Quick Add:"
+msgstr "Quick Add:"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Add %s hours to input"
+msgstr "Add %s hours to input"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Hours (e.g. 1.5)"
+msgstr "Hours (e.g. 1.5)"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Work description & notes..."
+msgstr "Work description & notes..."
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Log Time"
+msgstr "Log Time"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Previous Worklogs (%d)"
+msgstr "Previous Worklogs (%d)"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Work completed without notes"
+msgstr "Work completed without notes"
+
+#: assets/src/components/tasks/TaskTimeTracker.js
+msgid "Delete worklog"
+msgstr "Delete worklog"
+
+#: assets/src/components/ui/CustomSelect.js
+msgid "Select..."
+msgstr "Select..."
+
+#: assets/src/components/ui/CustomSelect.js
+msgid "Options"
+msgstr "Options"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Reschedule Target Deadline"
+msgstr "Reschedule Target Deadline"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Days:"
+msgstr "Days:"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "+%d days"
+msgstr "+%d days"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Hours:"
+msgstr "Hours:"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "+%d hours"
+msgstr "+%d hours"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Previous Month"
+msgstr "Previous Month"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Jump to today"
+msgstr "Jump to today"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Next Month"
+msgstr "Next Month"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Delivery Time:"
+msgstr "Delivery Time:"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Selected Target Date:"
+msgstr "Selected Target Date:"
+
+#: assets/src/components/ui/DatePicker.js
+msgid "Confirm & Save Target Deadline"
+msgstr "Confirm & Save Target Deadline"
+
+#: assets/src/components/ui/ErrorBoundary.js
+msgid "Sorry, an unexpected error occurred in the view"
+msgstr "Sorry, an unexpected error occurred in the view"
+
+#: assets/src/components/ui/ErrorBoundary.js
+msgid "Failed to render component properly."
+msgstr "Failed to render component properly."
+
+#: assets/src/components/ui/ErrorBoundary.js
+msgid "Back to CoWorkPress Plaza"
+msgstr "Back to CoWorkPress Plaza"
+
+#: assets/src/components/ui/ErrorBoundary.js
+msgid "Reload Page"
+msgstr "Reload Page"
+
+#: assets/src/components/ui/FilterBar.js
+msgid "Item"
+msgstr "Item"
+
+#: assets/src/components/ui/FilterBar.js
+msgid "Quick search..."
+msgstr "Quick search..."
+
+#: assets/src/components/ui/FilterBar.js
+msgid "Clear search"
+msgstr "Clear search"
+
+#: assets/src/components/ui/FilterBar.js
+msgid "All Assignees"
+msgstr "All Assignees"
+
+#: assets/src/components/ui/FilterBar.js
+msgid "Showing %s of %s %s"
+msgstr "Showing %s of %s %s"
+
+#: assets/src/components/ui/FilterBar.js assets/src/pages/ContributionsPage.js assets/src/pages/KnowledgePage.js
+msgid "Reset Filters"
+msgstr "Reset Filters"
+
+#: assets/src/components/ui/ImagePicker.js
+msgid "Select thumbnail image"
+msgstr "Select thumbnail image"
+
+#: assets/src/components/ui/ImagePicker.js
+msgid "Change thumbnail"
+msgstr "Change thumbnail"
+
+#: assets/src/components/ui/ImagePicker.js
+msgid "Add thumbnail"
+msgstr "Add thumbnail"
+
+#: assets/src/components/ui/ImagePicker.js
+msgid "Remove image"
+msgstr "Remove image"
+
+#: assets/src/components/ui/ImagePicker.js
+msgid "Cover Image (Optional)"
+msgstr "Cover Image (Optional)"
+
+#: assets/src/components/ui/ImagePicker.js
+msgid "Upload Cover Image"
+msgstr "Upload Cover Image"
+
+#: assets/src/components/ui/ImagePicker.js
+msgid "Click or drag to select"
+msgstr "Click or drag to select"
+
+#: assets/src/components/ui/MemberSelect.js
+msgid "Member"
+msgstr "Member"
+
+#: assets/src/components/ui/MemberSelect.js
+msgid "Clear selection"
+msgstr "Clear selection"
+
+#: assets/src/components/ui/MemberSelect.js
+msgid "Search by name, role or email..."
+msgstr "Search by name, role or email..."
+
+#: assets/src/components/ui/MemberSelect.js
+msgid "No members match search query"
+msgstr "No members match search query"
+
+#: assets/src/components/ui/MultiFilePicker.js
+msgid "Attach files / documents"
+msgstr "Attach files / documents"
+
+#: assets/src/components/ui/MultiFilePicker.js
+msgid "Select or upload attachment files"
+msgstr "Select or upload attachment files"
+
+#: assets/src/components/ui/MultiFilePicker.js
+msgid "Attach selected files"
+msgstr "Attach selected files"
+
+#: assets/src/components/ui/MultiFilePicker.js
+msgid "WordPress Media Library is not available."
+msgstr "WordPress Media Library is not available."
+
+#: assets/src/components/ui/MultiFilePicker.js assets/src/pages/ContributionsPage.js assets/src/pages/ProjectDetailPage.js
+msgid "Attachments"
+msgstr "Attachments"
+
+#: assets/src/components/ui/MultiFilePicker.js
+msgid "Open or download file"
+msgstr "Open or download file"
+
+#: assets/src/components/ui/MultiFilePicker.js
+msgid "Remove this attachment"
+msgstr "Remove this attachment"
+
+#: assets/src/components/ui/PriorityBadge.js
+msgid "Task Priority"
+msgstr "Task Priority"
+
+#: assets/src/components/ui/PriorityBadge.js assets/src/pages/KanbanPage.js
+msgid "Critical"
+msgstr "حرجة"
+
+#: assets/src/components/ui/PriorityBadge.js
+msgid "Critical Priority — requires immediate action"
+msgstr "Critical Priority — requires immediate action"
+
+#: assets/src/components/ui/PriorityBadge.js
+msgid "High Priority — complete as soon as possible"
+msgstr "High Priority — complete as soon as possible"
+
+#: assets/src/components/ui/PriorityBadge.js
+msgid "Medium Priority — according to timeline"
+msgstr "Medium Priority — according to timeline"
+
+#: assets/src/components/ui/PriorityBadge.js
+msgid "Low Priority — when time allows"
+msgstr "Low Priority — when time allows"
+
+#: assets/src/components/ui/SoundQuickToggle.js
+msgid "Sound effects enabled"
+msgstr "Sound effects enabled"
+
+#: assets/src/components/ui/SoundQuickToggle.js
+msgid "Sound effects muted"
+msgstr "Sound effects muted"
+
+#: assets/src/components/ui/SoundQuickToggle.js
+msgid "Mute sound effects"
+msgstr "Mute sound effects"
+
+#: assets/src/components/ui/SoundQuickToggle.js
+msgid "Enable sound effects"
+msgstr "Enable sound effects"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "Local Testing & Mock Loopback Guide (Laragon / Localhost)"
+msgstr "دليل التجربة والاختبار المحلي الفوري على Laragon / Localhost"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "Because WorkPress sends outbound HTTP webhook payloads, you can test locally in seconds via:"
+msgstr "نظراً لأن نظام WorkPress يرسل طلبات صادرة (Outbound)، يمكنك اختباره محلياً في ثوانٍ عبر أحد الخيارات التالية:"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "1. Free Discord Channel Webhook:"
+msgstr "1. عبر قناة Discord مجانية (الأسهل والأجمل):"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "Create Discord server -> Channel Settings -> Integrations -> Webhooks, and paste URL here to preview embeds."
+msgstr "أنشئ سيرفر Discord -> إعدادات القناة -> Integrations -> Webhooks، والصق الرابط هنا لرؤية البطاقات الفاخرة!"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "2. Via Webhook.site (Instant without registration):"
+msgstr "2. عبر موقع Webhook.site (فوري بدون تسجيل):"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "Open webhook.site, copy your unique URL, and paste here to inspect JSON payloads live."
+msgstr "افتح موقع webhook.site، وانسخ رابطك الفريد والصقه هنا لمعاينة الـ JSON لحظياً."
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "Local Mock Loopback Receiver:"
+msgstr "المستقبل المحلي المدمج (Local Mock Loopback):"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "Use this endpoint URL to test deliveries without internet connectivity."
+msgstr "يمكنك وضع هذا الرابط لتجربة الإرسال محلياً دون أي اتصال بالإنترنت"
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js
+msgid "Copied local receiver URL."
+msgstr "Copied local receiver URL."
+
+#: assets/src/components/webhooks/WebhookDeliveryLogs.js assets/src/pages/KanbanPage.js
+msgid "Copy"
+msgstr "نسخ"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Webhook Endpoints & Outbound Listeners"
+msgstr "قائمة خطافات الويب وقنوات الاستماع الخارجية"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Events are dispatched asynchronously with configurable timeouts."
+msgstr "يتم إرسال الأحداث بشكل فوري غير معطل للواجهة مع مهلة زمنية مضبوطة"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Refresh List"
+msgstr "تحديث القائمة"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Loading webhooks and delivery logs..."
+msgstr "جاري جلب إعدادات وسجلات الخطافات..."
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "No webhooks registered yet"
+msgstr "لم يتم تسجيل أي خطافات ويب بعد"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Add an external listener URL to receive instant notifications on Discord, Slack, or your custom server whenever events occur!"
+msgstr "يمكنك إضافة رابط استماع خارجي لتصلك إشعارات فورية على هاتفك أو حاسوبك عبر Discord أو Slack بمجرد اعتماد حل أو تقديم طلب مشروع جديد!"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Create Discord Webhook"
+msgstr "إنشاء تكامل Discord"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Create Slack Webhook"
+msgstr "إنشاء تكامل Slack"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Custom JSON Endpoint"
+msgstr "رابط مخصص (Custom JSON)"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Name & Type"
+msgstr "اسم الخطاف والنوع"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Endpoint URL"
+msgstr "رابط النهاية (Endpoint URL)"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Subscribed Events"
+msgstr "الأحداث المشترك بها"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Last Delivery"
+msgstr "آخر إرسال"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Click to deactivate"
+msgstr "انقر للتعطيل"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Click to activate"
+msgstr "انقر للتفعيل"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Not dispatched yet"
+msgstr "لم يُرسل بعد"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Send test payload"
+msgstr "إرسال فحص تجريبي لحظي"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Test"
+msgstr "اختبار"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Edit Webhook"
+msgstr "تعديل الخطاف"
+
+#: assets/src/components/webhooks/WebhookEndpointsList.js
+msgid "Delete Webhook"
+msgstr "حذف الخطاف"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Edit Webhook Settings"
+msgstr "تعديل إعدادات خطاف الويب"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Create New Webhook"
+msgstr "إنشاء خطاف ويب جديد"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Payload Preset & Target Platform:"
+msgstr "نوع قالب الإرسال والمنصة المستهدفة (Preset):"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Webhook / Channel Name:"
+msgstr "اسم الخطاف / القناة:"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "e.g., Discord Management Alerts"
+msgstr "مثال: تنبيهات ديسكورد للإدارة العامة"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "External Webhook Endpoint URL:"
+msgstr "رابط الاستماع الخارجي (Webhook Endpoint URL):"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "HMAC Secret Key (Signature):"
+msgstr "المفتاح السري للتوقيع المشفر (Secret Key for HMAC):"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Generate random secret"
+msgstr "توليد مفتاح عشوائي"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Generate"
+msgstr "توليد"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Used to sign payloads via X-WorkPress-Signature header."
+msgstr "يتم استخدام هذا المفتاح لتوقيع الحزم عبر رأس X-WorkPress-Signature لمنع التلاعب."
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Subscribed Events to Dispatch:"
+msgstr "الأحداث المراد الاشتراك بها وإرسالها:"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Live Test Ping"
+msgstr "اختبار الاتصال اللحظي (Test Ping)"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Send a test payload to verify endpoint connectivity before saving."
+msgstr "أرسل حزمة تجريبية الآن وتأكد من عمل الرابط قبل الحفظ"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Send Test Ping"
+msgstr "إرسال فحص تجريبي"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Connected successfully!"
+msgstr "تم الاتصال بنجاح!"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Latency: %sms"
+msgstr "Latency: %sms"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Connection failed:"
+msgstr "تعذر الاتصال:"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Status code: %s"
+msgstr "Status code: %s"
+
+#: assets/src/components/webhooks/WebhookModal.js
+msgid "Save Webhook"
+msgstr "حفظ إعدادات الخطاف"
+
+#: assets/src/components/webhooks/WebhooksHeroBanner.js
+msgid "Enterprise Webhooks Studio"
+msgstr "منظومة خطافات الويب والتكامل المؤسسي (Webhooks Studio)"
+
+#: assets/src/components/webhooks/WebhooksHeroBanner.js
+msgid "Stream live WorkPress events (solution approvals, client requests, completed milestones) to Discord, Slack, Microsoft Teams, and Zapier with HMAC-SHA256 signatures."
+msgstr "ربط أحداث WorkPress الحية (اعتماد الحلول، طلبات العملاء، اكتمال المشاريع) بقنوات العمل الخارجية مثل Discord و Slack و Microsoft Teams و Zapier فور وقوعها مع التوقيع الأمني المشفر HMAC-SHA256."
+
+#: assets/src/components/webhooks/WebhooksHeroBanner.js
+msgid "Add Webhook"
+msgstr "إضافة خطاف جديد"
+
+#: assets/src/components/webhooks/WebhooksHeroBanner.js
+msgid "Registered Webhooks"
+msgstr "إجمالي الخطافات المسجلة"
+
+#: assets/src/components/webhooks/WebhooksHeroBanner.js
+msgid "Active Live Endpoints"
+msgstr "الخطافات النشطة الحية"
+
+#: assets/src/components/webhooks/WebhooksHeroBanner.js
+msgid "Payload Signature Security"
+msgstr "حماية التوقيع الأمني"
+
+#: assets/src/components/webhooks/WebhooksHeroBanner.js
+msgid "HMAC-SHA256 Active"
+msgstr "HMAC-SHA256 نشط"
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Failed to load webhooks settings."
+msgstr "Failed to load webhooks settings."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Discord Work Alerts"
+msgstr "قناة ديسكورد لتنبيهات العمل"
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Slack Projects Channel"
+msgstr "قناة سلاك للمشاريع"
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Enterprise Webhook"
+msgstr "خطاف ويب مؤسسي"
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Generated new secret key."
+msgstr "تم توليد مفتاح سري عشوائي جديد."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Please enter webhook name and endpoint URL."
+msgstr "يرجى إدخال اسم الخطاف ورابط النهاية (URL)."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Webhook saved successfully."
+msgstr "تم حفظ الخطاف بنجاح."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "An error occurred while saving webhook."
+msgstr "حدث خطأ أثناء حفظ الخطاف."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Are you sure you want to permanently delete webhook \"%s\"?"
+msgstr "Are you sure you want to permanently delete webhook \"%s\"?"
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Webhook deleted successfully."
+msgstr "تم حذف الخطاف بنجاح."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Failed to delete webhook."
+msgstr "تعذر حذف الخطاف."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Connection succeeded! Status: HTTP %s (%sms)"
+msgstr "Connection succeeded! Status: HTTP %s (%sms)"
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Connection failed: %s"
+msgstr "Connection failed: %s"
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Failed to dispatch test ping."
+msgstr "تعذر إرسال الفحص التجريبي."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Please enter endpoint URL first."
+msgstr "يرجى إدخال الرابط أولاً لاختبار الاتصال."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Network error or unreachable host."
+msgstr "خطأ في الشبكة أو تعذر الاتصال."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Webhook activated."
+msgstr "تم تفعيل الخطاف بنجاح."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Webhook deactivated."
+msgstr "تم تعطيل الخطاف بنجاح."
+
+#: assets/src/components/webhooks/WebhooksSettingsTab.js
+msgid "Failed to update webhook status."
+msgstr "تعذر تحديث حالة الخطاف."
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Trash Contribution Request"
+msgstr "Trash Contribution Request"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KnowledgePage.js
+msgid "Approved Solution"
+msgstr "Approved Solution"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Go to Task"
+msgstr "Go to Task"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Accept Solution & Complete Task"
+msgstr "Accept Solution & Complete Task"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Delete Contribution"
+msgstr "Delete Contribution"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Accept Contribution as Verified Solution"
+msgstr "Accept Contribution as Verified Solution"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Are you sure you want to accept this contribution as verified solution for task"
+msgstr "Are you sure you want to accept this contribution as verified solution for task"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Solution accepted and task completed successfully"
+msgstr "Solution accepted and task completed successfully"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/DashboardPage.js assets/src/pages/KanbanPage.js
+msgid "An error occurred during restore"
+msgstr "An error occurred during restore"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KnowledgePage.js
+msgid "Are you sure you want to revoke approval for solution in task"
+msgstr "Are you sure you want to revoke approval for solution in task"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KnowledgePage.js
+msgid "Revoke & Reopen"
+msgstr "Revoke & Reopen"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KnowledgePage.js
+msgid "Approval revoked and task reopened successfully"
+msgstr "Approval revoked and task reopened successfully"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Are you sure you want to request trashing contribution for task"
+msgstr "Are you sure you want to request trashing contribution for task"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KanbanPage.js assets/src/pages/KnowledgePage.js
+msgid "Submit Request"
+msgstr "إرسال الطلب"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KanbanPage.js assets/src/pages/KnowledgePage.js
+msgid "Trash request sent successfully."
+msgstr "Trash request sent successfully."
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KanbanPage.js assets/src/pages/KnowledgePage.js
+msgid "Failed to send feedback, please try again."
+msgstr "فشل إرسال الملاحظة، يرجى المحاولة ثانية."
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Contribution restored successfully"
+msgstr "Contribution restored successfully"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/DashboardPage.js assets/src/pages/KanbanPage.js
+msgid "Confirm Permanent Deletion"
+msgstr "Confirm Permanent Deletion"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/DashboardPage.js assets/src/pages/KanbanPage.js
+msgid "Are you sure you want to permanently delete this item? This action cannot be undone."
+msgstr "Are you sure you want to permanently delete this item? This action cannot be undone."
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Contribution permanently deleted"
+msgstr "Contribution permanently deleted"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/DashboardPage.js assets/src/pages/KanbanPage.js
+msgid "An error occurred during deletion"
+msgstr "An error occurred during deletion"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KanbanPage.js assets/src/pages/KnowledgePage.js
+msgid "All Projects"
+msgstr "جميع المشاريع"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "All Tasks"
+msgstr "All Tasks"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "All Members"
+msgstr "All Members"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "All Contributions & Activities"
+msgstr "All Contributions & Activities"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Team Contributions (Exclude System)"
+msgstr "Team Contributions (Exclude System)"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Search contributions..."
+msgstr "Search contributions..."
+
+#: assets/src/pages/ContributionsPage.js
+msgid "No contributions matching selected filters"
+msgstr "No contributions matching selected filters"
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Contributions stream is currently empty"
+msgstr "Contributions stream is currently empty"
+
+#: assets/src/pages/ContributionsPage.js assets/src/pages/KnowledgePage.js assets/src/pages/ProjectDetailPage.js
+msgid "Try adjusting search terms or active filters to find what you are looking for."
+msgstr "Try adjusting search terms or active filters to find what you are looking for."
+
+#: assets/src/pages/ContributionsPage.js
+msgid "Contributions represent technical solutions and work evidence submitted by team members."
+msgstr "Contributions represent technical solutions and work evidence submitted by team members."
+
+#: assets/src/pages/DashboardPage.js assets/src/pages/ProjectDetailPage.js assets/src/pages/ReportsPage.js
+msgid "Failed to load workspace data"
+msgstr "Failed to load workspace data"
+
+#: assets/src/pages/DashboardPage.js
+msgid "Trash request rejected and item restored successfully"
+msgstr "Trash request rejected and item restored successfully"
+
+#: assets/src/pages/DashboardPage.js assets/src/pages/KnowledgePage.js
+msgid "Permanently deleted successfully"
+msgstr "Permanently deleted successfully"
+
+#: assets/src/pages/DashboardPage.js includes/services/class-workpress-portal-service.php
+msgid "Loading Workspace..."
+msgstr "Loading Workspace..."
+
+#: assets/src/pages/GanttPage.js
+msgid "Gantt Chart & Institutional Timeline"
+msgstr "Gantt Chart & Institutional Timeline"
+
+#: assets/src/pages/GanttPage.js
+msgid "Track project timelines, dependencies, deadlines, and milestone completion percentages."
+msgstr "Track project timelines, dependencies, deadlines, and milestone completion percentages."
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "New Request Form Template"
+msgstr "New Request Form Template"
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "Service or Request Type:"
+msgstr "Service or Request Type:"
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "Standard Option 1"
+msgstr "Standard Option 1"
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "Advanced Option 2"
+msgstr "Advanced Option 2"
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "At least one intake form template must remain."
+msgstr "At least one intake form template must remain."
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "Template deleted."
+msgstr "Template deleted."
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "Added field: %s"
+msgstr "Added field: %s"
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "Field removed from template."
+msgstr "Field removed from template."
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "All intake forms saved and published successfully"
+msgstr "All intake forms saved and published successfully"
+
+#: assets/src/pages/IntakeFormsPage.js
+msgid "An error occurred while saving forms."
+msgstr "An error occurred while saving forms."
+
+#: assets/src/pages/KanbanPage.js assets/src/pages/ProjectDetailPage.js
+msgid "New / Unassigned"
+msgstr "New / Unassigned"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Awaiting assignment and kickoff"
+msgstr "Awaiting assignment and kickoff"
+
+#: assets/src/pages/KanbanPage.js assets/src/pages/ProjectDetailPage.js
+msgid "Assigned & Targeted"
+msgstr "Assigned & Targeted"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Assigned members awaiting first contribution"
+msgstr "Assigned members awaiting first contribution"
+
+#: assets/src/pages/KanbanPage.js
+msgid "In Progress & Collaboration"
+msgstr "In Progress & Collaboration"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Active contributions in execution"
+msgstr "Active contributions in execution"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Completed & Verified"
+msgstr "Completed & Verified"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Approved solutions documented in knowledge base"
+msgstr "Approved solutions documented in knowledge base"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Confirm Task Clone"
+msgstr "Confirm Task Clone"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Are you sure you want to clone task"
+msgstr "Are you sure you want to clone task"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Task cloned successfully"
+msgstr "Task cloned successfully"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Trash / Delete Request"
+msgstr "Trash / Delete Request"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Are you sure you want to request trashing task"
+msgstr "Are you sure you want to request trashing task"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Task restored successfully"
+msgstr "Task restored successfully"
+
+#: assets/src/pages/KanbanPage.js assets/src/pages/ProjectsPage.js
+msgid "Failed to restore project"
+msgstr "Failed to restore project"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Task permanently deleted"
+msgstr "Task permanently deleted"
+
+#: assets/src/pages/KanbanPage.js assets/src/pages/ProjectDetailPage.js assets/src/portal/portal-workspace.js
+msgid "Priority"
+msgstr "الأولوية"
+
+#: assets/src/pages/KanbanPage.js assets/src/pages/ProjectDetailPage.js
+msgid "Search tasks..."
+msgstr "Search tasks..."
+
+#: assets/src/pages/KanbanPage.js
+msgid "No tasks in this lane"
+msgstr "No tasks in this lane"
+
+#: assets/src/pages/KanbanPage.js
+msgid "New tasks will appear here"
+msgstr "New tasks will appear here"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Completed tasks appear here"
+msgstr "Completed tasks appear here"
+
+#: assets/src/pages/KanbanPage.js
+msgid "Active tasks in progress"
+msgstr "Active tasks in progress"
+
+#: assets/src/pages/KanbanPage.js assets/src/pages/ProjectsPage.js
+msgid "Load More"
+msgstr "Load More"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Link copied successfully!"
+msgstr "Link copied successfully!"
+
+#: assets/src/pages/KnowledgePage.js assets/src/pages/ProjectDetailPage.js assets/src/pages/RequestsPage.js
+msgid "An error occurred while processing the request."
+msgstr "An error occurred while processing the request."
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Trash Knowledge Request"
+msgstr "Trash Knowledge Request"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Verified Knowledge"
+msgstr "Verified Knowledge"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "View Solution in Task"
+msgstr "View Solution in Task"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Copy Solution Link"
+msgstr "Copy Solution Link"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Delete Knowledge Asset"
+msgstr "Delete Knowledge Asset"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Are you sure you want to request deleting knowledge for task"
+msgstr "Are you sure you want to request deleting knowledge for task"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Knowledge asset restored successfully"
+msgstr "Knowledge asset restored successfully"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "All Types"
+msgstr "All Types"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Search knowledge base and approved solutions..."
+msgstr "Search knowledge base and approved solutions..."
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Solution Type"
+msgstr "Solution Type"
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Organizational memory is built automatically when the project lead approves solutions, creating permanent assets for the team."
+msgstr "Organizational memory is built automatically when the project lead approves solutions, creating permanent assets for the team."
+
+#: assets/src/pages/KnowledgePage.js
+msgid "Explore Open Tasks for Contributions"
+msgstr "Explore Open Tasks for Contributions"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Project not found or you do not have permission to view it."
+msgstr "Project not found or you do not have permission to view it."
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Project approved and established successfully! It is now active."
+msgstr "Project approved and established successfully! It is now active."
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Back to Projects"
+msgstr "Back to Projects"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Approve & Establish Project Officially"
+msgstr "Approve & Establish Project Officially"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Start Date"
+msgstr "Start Date"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Proposed Budget"
+msgstr "Proposed Budget"
+
+#: assets/src/pages/ProjectDetailPage.js assets/src/pages/ProjectsPage.js
+msgid "Archived"
+msgstr "Archived"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Client Specifications & Attachments Vault"
+msgstr "Client Specifications & Attachments Vault"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Project Tasks"
+msgstr "Project Tasks"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "No tasks match current filter"
+msgstr "No tasks match current filter"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "No tasks recorded in this project yet"
+msgstr "No tasks recorded in this project yet"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Start adding tasks to assign work to team members."
+msgstr "Start adding tasks to assign work to team members."
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Manage Kanban Tasks"
+msgstr "Manage Kanban Tasks"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Reference"
+msgstr "Reference"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Project Progress"
+msgstr "Project Progress"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "In Progress & Review"
+msgstr "In Progress & Review"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Requester / Verified Client"
+msgstr "Requester / Verified Client"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Project Members"
+msgstr "Project Members"
+
+#: assets/src/pages/ProjectDetailPage.js
+msgid "Manager"
+msgstr "Manager"
+
+#: assets/src/pages/ProjectsPage.js
+msgid "Project restored successfully"
+msgstr "Project restored successfully"
+
+#: assets/src/pages/ProjectsPage.js
+msgid "Are you sure you want to permanently delete this project?"
+msgstr "Are you sure you want to permanently delete this project?"
+
+#: assets/src/pages/ProjectsPage.js
+msgid "Project permanently deleted"
+msgstr "Project permanently deleted"
+
+#: assets/src/pages/ProjectsPage.js
+msgid "You are about to request archiving/trashing project"
+msgstr "You are about to request archiving/trashing project"
+
+#: assets/src/pages/ProjectsPage.js
+msgid "Please state the reason for executive review."
+msgstr "Please state the reason for executive review."
+
+#: assets/src/pages/ProjectsPage.js
+msgid "Reason for trash / archive"
+msgstr "Reason for trash / archive"
+
+#: assets/src/pages/ProjectsPage.js assets/src/portal/portal-dashboard.js
+msgid "Under Review / Pending"
+msgstr "قيد الدراسة والانتظار"
+
+#: assets/src/pages/ProjectsPage.js assets/src/pages/ReportsPage.js
+msgid "Search projects (name, code, description)..."
+msgstr "Search projects (name, code, description)..."
+
+#: assets/src/pages/ProjectsPage.js assets/src/pages/ReportsPage.js
+msgid "No projects matching search"
+msgstr "No projects matching search"
+
+#: assets/src/pages/ProjectsPage.js assets/src/portal/portal-dashboard.js
+msgid "No active projects matching this filter."
+msgstr "No active projects matching this filter."
+
+#: assets/src/pages/ProjectsPage.js
+msgid "Projects are the primary containers for tasks and solutions. Start by creating your first project."
+msgstr "Projects are the primary containers for tasks and solutions. Start by creating your first project."
+
+#: assets/src/pages/ReportsPage.js
+msgid "Executive Reports & Knowledge Intelligence Center"
+msgstr "Executive Reports & Knowledge Intelligence Center"
+
+#: assets/src/pages/ReportsPage.js assets/src/portal/portal-workspace.js
+msgid "The comprehensive project delivery certificate aggregates verified solutions, milestones index, and cryptographic sign-off metadata."
+msgstr "The comprehensive project delivery certificate aggregates verified solutions, milestones index, and cryptographic sign-off metadata."
+
+#: assets/src/pages/ReportsPage.js
+msgid "Completed & Ready for Delivery"
+msgstr "Completed & Ready for Delivery"
+
+#: assets/src/pages/ReportsPage.js
+msgid "Executive Report (A4 / PDF)"
+msgstr "Executive Report (A4 / PDF)"
+
+#: assets/src/pages/RequestsPage.js
+msgid "Project \"%s\" approved and established successfully"
+msgstr "Project \"%s\" approved and established successfully"
+
+#: assets/src/pages/RequestsPage.js assets/src/portal/portal-app.js
+msgid "An error occurred while submitting request."
+msgstr "حدث خطأ أثناء إرسال الطلب، يرجى المحاولة ثانية."
+
+#: assets/src/pages/RequestsPage.js
+msgid "Request \"%s\" moved to under review and client notified"
+msgstr "Request \"%s\" moved to under review and client notified"
+
+#: assets/src/pages/RequestsPage.js
+msgid "Request \"%s\" rejected and client notified"
+msgstr "Request \"%s\" rejected and client notified"
+
+#: assets/src/pages/RequestsPage.js
+msgid "Request status updated to: %s"
+msgstr "Request status updated to: %s"
+
+#: assets/src/pages/RequestsPage.js
+msgid "No requests matching triage filters currently"
+msgstr "No requests matching triage filters currently"
+
+#: assets/src/pages/RequestsPage.js assets/src/portal/portal-workspace.js
+msgid "No requests submitted yet."
+msgstr "No requests submitted yet."
+
+#: assets/src/pages/RequestsPage.js assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js
+msgid "Submit New Request"
+msgstr "تقديم طلب مشروع"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Webhooks & External Integrations"
+msgstr "Webhooks & External Integrations"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Permissions Matrix"
+msgstr "Permissions Matrix"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Role Management & Aliases"
+msgstr "Role Management & Aliases"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Members & Staff Directory"
+msgstr "Members & Staff Directory"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Clients & Requesters"
+msgstr "Clients & Requesters"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Time & Localization"
+msgstr "Time & Localization"
+
+#: assets/src/pages/SettingsPage.js
+msgid "System Settings"
+msgstr "System Settings"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Sound Effects & Audio Feedback"
+msgstr "Sound Effects & Audio Feedback"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Export & Archive"
+msgstr "Export & Archive"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Timezone and localization settings saved successfully."
+msgstr "Timezone and localization settings saved successfully."
+
+#: assets/src/pages/SettingsPage.js
+msgid "An error occurred while saving settings."
+msgstr "An error occurred while saving settings."
+
+#: assets/src/pages/SettingsPage.js
+msgid "System and branding settings saved successfully."
+msgstr "System and branding settings saved successfully."
+
+#: assets/src/pages/SettingsPage.js
+msgid "Sound effects and events settings saved successfully."
+msgstr "Sound effects and events settings saved successfully."
+
+#: assets/src/pages/SettingsPage.js
+msgid "Demo data generated successfully!"
+msgstr "Demo data generated successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Failed to generate demo data"
+msgstr "Failed to generate demo data"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Are you sure you want to purge all generated demo projects and tasks?"
+msgstr "Are you sure you want to purge all generated demo projects and tasks?"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Purge All"
+msgstr "Purge All"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Demo data purged successfully!"
+msgstr "Demo data purged successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Failed to purge demo data"
+msgstr "Failed to purge demo data"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Complete workspace JSON exported successfully!"
+msgstr "Complete workspace JSON exported successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Failed to export data"
+msgstr "Failed to export data"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Contribution types saved successfully!"
+msgstr "Contribution types saved successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Please fill all required fields."
+msgstr "Please fill all required fields."
+
+#: assets/src/pages/SettingsPage.js
+msgid "New contribution type added successfully!"
+msgstr "New contribution type added successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Delete Contribution Type"
+msgstr "Delete Contribution Type"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Are you sure you want to delete this custom contribution type?"
+msgstr "Are you sure you want to delete this custom contribution type?"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Contribution type deleted successfully."
+msgstr "Contribution type deleted successfully."
+
+#: assets/src/pages/SettingsPage.js
+msgid "User role changed successfully to: %s"
+msgstr "User role changed successfully to: %s"
+
+#: assets/src/pages/SettingsPage.js
+msgid "An error occurred while updating user role."
+msgstr "An error occurred while updating user role."
+
+#: assets/src/pages/SettingsPage.js
+msgid "Permissions matrix saved successfully!"
+msgstr "Permissions matrix saved successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Role aliases saved successfully!"
+msgstr "Role aliases saved successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Custom role created successfully!"
+msgstr "Custom role created successfully!"
+
+#: assets/src/pages/SettingsPage.js
+msgid "An error occurred while creating custom role."
+msgstr "An error occurred while creating custom role."
+
+#: assets/src/pages/SettingsPage.js
+msgid "Delete Custom Role"
+msgstr "Delete Custom Role"
+
+#: assets/src/pages/SettingsPage.js
+msgid "Are you sure you want to delete this custom role? This action cannot be undone."
+msgstr "Are you sure you want to delete this custom role? This action cannot be undone."
+
+#: assets/src/pages/SettingsPage.js
+msgid "Custom role deleted successfully."
+msgstr "Custom role deleted successfully."
+
+#: assets/src/pages/TaskDetailPage.js
+msgid "Are you sure you want to unassign this member?"
+msgstr "Are you sure you want to unassign this member?"
+
+#: assets/src/pages/TaskDetailPage.js
+msgid "Task not found or has been deleted"
+msgstr "Task not found or has been deleted"
+
+#: assets/src/pages/TaskDetailPage.js
+msgid "Requested task ID"
+msgstr "Requested task ID"
 
 #: assets/src/portal/portal-app.js
 msgid "An error occurred while uploading file."
@@ -45,20 +4521,12 @@ msgid "Your feedback has been sent successfully."
 msgstr "تم إرسال ملاحظتكم واستفساركم بنجاح إلى فريق العمل."
 
 #: assets/src/portal/portal-app.js
-msgid "Failed to send feedback, please try again."
-msgstr "فشل إرسال الملاحظة، يرجى المحاولة ثانية."
-
-#: assets/src/portal/portal-app.js
 msgid "Please enter a title for the project request."
 msgstr "يرجى كتابة عنوان أو اسم لطلب المشروع."
 
 #: assets/src/portal/portal-app.js assets/src/portal/portal-request.js
 msgid "Request Submitted Successfully!"
-msgstr "تم استلام وتوثيق طلبكم بنجاح!"
-
-#: assets/src/portal/portal-app.js
-msgid "An error occurred while submitting request."
-msgstr "حدث خطأ أثناء إرسال الطلب، يرجى المحاولة ثانية."
+msgstr "Request Submitted Successfully!"
 
 #: assets/src/portal/portal-app.js
 msgid "Unable to load executive report."
@@ -68,41 +4536,29 @@ msgstr "تعذر جلب التقرير التنفيذي."
 msgid "An error occurred while loading report."
 msgstr "حدث خطأ أثناء تحميل التقرير."
 
-#: assets/src/portal/portal-app.js assets/src/portal/portal-modals.js assets/src/portal/portal-radar.js
-msgid "Loading..."
-msgstr "جاري التحميل..."
-
-#: assets/src/portal/portal-core.js
-msgid "An error occurred while processing the request."
-msgstr "حدث خطأ أثناء معالجة الطلب."
-
 #: assets/src/portal/portal-core.js
 msgid "Approved Project"
-msgstr "مشروع معتمد"
+msgstr "Approved Project"
 
 #: assets/src/portal/portal-core.js
 msgid "Technical System"
-msgstr "منظومة تقنية"
+msgstr "Technical System"
 
 #: assets/src/portal/portal-core.js
 msgid "Service Request"
-msgstr "طلب خدمة"
-
-#: assets/src/portal/portal-core.js assets/src/portal/portal-radar.js assets/src/portal/portal-workspace.js
-msgid "Under Review"
-msgstr "قيد الدراسة"
+msgstr "Service Request"
 
 #: assets/src/portal/portal-core.js
 msgid "Approved Deliverable"
-msgstr "مخرج معتمد"
+msgstr "Approved Deliverable"
 
 #: assets/src/portal/portal-core.js
 msgid "Previous Page"
-msgstr "الصفحة السابقة"
+msgstr "Previous Page"
 
 #: assets/src/portal/portal-core.js
 msgid "Next Page"
-msgstr "الصفحة التالية"
+msgstr "Next Page"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Active Projects"
@@ -110,75 +4566,23 @@ msgstr "المشاريع الجارية"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Approved Deliverables"
-msgstr "المخرجات المعتمدة"
-
-#: assets/src/portal/portal-dashboard.js
-msgid "Average Progress"
-msgstr "معدل الإنجاز العام"
+msgstr "Approved Deliverables"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
 msgid "Total Requests"
-msgstr "إجمالي الطلبات"
+msgstr "Total Requests"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Deliverables requiring your review and sign-off"
-msgstr "مخرجات فنية تتطلب مراجعتك وقرارك الفوري"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
-msgid "Pending"
-msgstr "معلق"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js
-msgid "Project:"
-msgstr "المشروع:"
+msgstr "Deliverables requiring your review and sign-off"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Active Project"
-msgstr "مشروع نشط"
-
-#: assets/src/portal/portal-dashboard.js
-msgid "Lead:"
-msgstr "المسؤول الفني:"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
-msgid "Staff"
-msgstr "فريق العمل"
-
-#: assets/src/portal/portal-dashboard.js
-msgid "Review & Sign-off"
-msgstr "المعاينة والمصادقة"
-
-#: assets/src/portal/portal-dashboard.js
-msgid "All Projects"
-msgstr "جميع المشاريع"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
-msgid "In Progress"
-msgstr "قيد التنفيذ والإنجاز"
-
-#: assets/src/portal/portal-dashboard.js
-msgid "Under Review / Pending"
-msgstr "قيد الدراسة والانتظار"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js
-msgid "Approved"
-msgstr "المعتمدة حديثاً"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
-msgid "Completed"
-msgstr "المكتملة والمنجزة"
-
-#: assets/src/portal/portal-dashboard.js
-msgid "No active projects matching this filter."
-msgstr "لا توجد مشاريع تطابق هذا الفلتر حالياً."
+msgstr "Active Project"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Click here to submit your first project request."
-msgstr "اضغط هنا لتقديم أول طلب مشروع."
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js assets/src/portal/portal-request.js
-msgid "Submit New Request"
-msgstr "تقديم طلب مشروع"
+msgstr "Click here to submit your first project request."
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-radar.js
 msgid "Lead"
@@ -188,65 +4592,41 @@ msgstr "المسؤول الفني"
 msgid "Due Date"
 msgstr "موعد التسليم"
 
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
-msgid "Flexible"
-msgstr "مرن"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
-msgid "Deliverables"
-msgstr "المخرجات"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-workspace.js
-msgid "Progress"
-msgstr "نسبة الإنجاز"
-
 #: assets/src/portal/portal-dashboard.js
 msgid "View Delivery Certificate"
-msgstr "معاينة وثيقة الاستلام الرسمية"
-
-#: assets/src/portal/portal-dashboard.js assets/src/portal/portal-gateway.js
-msgid "Open Workspace"
-msgstr "فتح مساحة عمل المشروع"
+msgstr "View Delivery Certificate"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js
 msgid "Notifications"
-msgstr "الإشعارات"
+msgstr "Notifications"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "No new notifications"
-msgstr "لا توجد إشعارات جديدة حالياً"
+msgstr "No new notifications"
 
 #: assets/src/portal/portal-dashboard.js
 msgid "Notification"
 msgstr "إشعار"
 
 #: assets/src/portal/portal-dashboard.js
-msgid "Just now"
-msgstr "الآن"
-
-#: assets/src/portal/portal-dashboard.js
 msgid "Quality Assurance & Governance"
-msgstr "حوكمة وضمان الجودة"
+msgstr "Quality Assurance & Governance"
 
 #: assets/src/portal/portal-dashboard.js assets/src/portal/portal-modals.js
 msgid "All deliverables and milestone sign-offs are cryptographically hashed and permanently recorded in the organizational memory engine."
-msgstr "كافة المخرجات ومصادقات الاستلام موثقة ببصمات مشفرة ومحفوظة بصورة دائمة في محرك الذاكرة المؤسسية."
+msgstr "All deliverables and milestone sign-offs are cryptographically hashed and permanently recorded in the organizational memory engine."
 
 #: assets/src/portal/portal-gateway.js
 msgid "Welcome! Redirecting you to the main site..."
-msgstr "مرحباً بك! جاري تحويلك تلقائياً إلى الصفحة الرئيسية للموقع..."
-
-#: assets/src/portal/portal-gateway.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
-msgid "Back to Main Site"
-msgstr "العودة للموقع الرئيسي"
+msgstr "Welcome! Redirecting you to the main site..."
 
 #: assets/src/portal/portal-gateway.js
 msgid "Welcome! Initializing CoWorkPress operations plaza..."
-msgstr "مرحباً بك! جاري تهيئة غرفة العمليات والرادار الإداري..."
+msgstr "Welcome! Initializing CoWorkPress operations plaza..."
 
 #: assets/src/portal/portal-gateway.js
 msgid "Welcome! Entering your authorized project workspace..."
-msgstr "مرحباً بك! جاري نقلك إلى مساحة مشاريعك ومخرجاتك المعتمدة..."
+msgstr "Welcome! Entering your authorized project workspace..."
 
 #: assets/src/portal/portal-gateway.js assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Logout"
@@ -254,19 +4634,15 @@ msgstr "تسجيل الخروج"
 
 #: assets/src/portal/portal-header.js
 msgid "Your request status has been officially updated."
-msgstr "تم تحديث حالة طلبكم رسمياً."
-
-#: assets/src/portal/portal-header.js assets/src/portal/portal-modals.js
-msgid "Close"
-msgstr "إغلاق"
+msgstr "Your request status has been officially updated."
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
 msgid "Client Preview Mode — Viewing the portal exactly as seen by the authorized client."
-msgstr "وضع المعاينة التجريبية كزبون — استعراض البوابة كما يراها العميل تماماً."
+msgstr "Client Preview Mode — Viewing the portal exactly as seen by the authorized client."
 
 #: assets/src/portal/portal-header.js
 msgid "Return to Executive Radar"
-msgstr "العودة للرادار التنفيذي"
+msgstr "Return to Executive Radar"
 
 #: assets/src/portal/portal-header.js
 msgid "Client Portal"
@@ -278,27 +4654,19 @@ msgstr "اللغة"
 
 #: assets/src/portal/portal-header.js
 msgid "Mark all as read"
-msgstr "تحديد الكل كمقروء"
-
-#: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js assets/src/portal/portal-workspace.js
-msgid "View"
-msgstr "معاينة"
+msgstr "Mark all as read"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js assets/src/portal/portal-request.js
 msgid "Main Overview"
 msgstr "الرئيسية"
 
-#: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js
-msgid "Project Requests"
-msgstr "سجل الطلبات والمقترحات"
-
 #: assets/src/portal/portal-header.js
 msgid "Active Project:"
-msgstr "المشروع النشط:"
+msgstr "Active Project:"
 
 #: assets/src/portal/portal-header.js
 msgid "Select a project..."
-msgstr "اختر مشروعاً..."
+msgstr "Select a project..."
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Deliverables Vault"
@@ -306,11 +4674,11 @@ msgstr "خزانة المخرجات المعتمدة"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-workspace.js
 msgid "Milestones & Roadmap"
-msgstr "المعالم وخطة الإنجاز"
+msgstr "Milestones & Roadmap"
 
 #: assets/src/portal/portal-header.js assets/src/portal/portal-radar.js assets/src/portal/portal-workspace.js
 msgid "Submit Feedback"
-msgstr "إرسال ملاحظة أو استفسار"
+msgstr "Submit Feedback"
 
 #: assets/src/portal/portal-login.js
 msgid "Sign In"
@@ -318,51 +4686,35 @@ msgstr "تسجيل الدخول"
 
 #: assets/src/portal/portal-login.js
 msgid "Please sign in with your authorized client credentials to access your workspace."
-msgstr "مرحباً بك، يرجى إدخال بيانات الدخول للمتابعة"
+msgstr "Please sign in with your authorized client credentials to access your workspace."
 
 #: assets/src/portal/portal-login.js
 msgid "Username or Email"
-msgstr "اسم المستخدم أو البريد الإلكتروني"
+msgstr "Username or Email"
 
 #: assets/src/portal/portal-login.js
 msgid "Password"
-msgstr "كلمة المرور"
+msgstr "Password"
 
 #: assets/src/portal/portal-login.js
 msgid "Entering Workspace..."
-msgstr "جاري التحقق والدخول..."
-
-#: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
-msgid "Official Delivery Certificate"
-msgstr "وثيقة الاستلام الرسمية للمشروع"
-
-#: assets/src/portal/portal-modals.js
-msgid "Date"
-msgstr "التاريخ"
-
-#: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
-msgid "Status"
-msgstr "الحالة"
+msgstr "Entering Workspace..."
 
 #: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "No deliverables submitted yet for this project."
-msgstr "لم تُرفع مخرجات معتمدة لهذا المشروع حتى الآن."
-
-#: assets/src/portal/portal-modals.js includes/api/portal/class-workpress-portal-auth-handler.php includes/services/class-workpress-portal-service.php
-msgid "Project Lead"
-msgstr "قائد مشروع"
+msgstr "No deliverables submitted yet for this project."
 
 #: assets/src/portal/portal-modals.js
 msgid "SHA-256 Digital Fingerprint:"
-msgstr "البصمة الرقمية المشفرة SHA-256:"
+msgstr "SHA-256 Digital Fingerprint:"
 
 #: assets/src/portal/portal-modals.js
 msgid "Official Sign-off"
-msgstr "المصادقة والتوقيع الرسمي"
+msgstr "Official Sign-off"
 
 #: assets/src/portal/portal-modals.js
 msgid "Sign-off Approved"
-msgstr "تمت المصادقة والاستلام بنجاح"
+msgstr "Sign-off Approved"
 
 #: assets/src/portal/portal-modals.js assets/src/portal/portal-workspace.js
 msgid "Print"
@@ -374,15 +4726,11 @@ msgstr "لوحة القيادة والمتابعة"
 
 #: assets/src/portal/portal-radar.js
 msgid "Executive intelligence radar for real-time portfolio monitoring, intake requests, and client review feedback."
-msgstr "شاشة استعلامية متقدمة تمنحك إحاطة فورية بنشاط الزبائن والطلبات والملاحظات الواردة، مع روابط فورية لإدارتها داخل منظومة WorkPress."
-
-#: assets/src/portal/portal-radar.js
-msgid "Tasks"
-msgstr "المهام"
+msgstr "Executive intelligence radar for real-time portfolio monitoring, intake requests, and client review feedback."
 
 #: assets/src/portal/portal-radar.js
 msgid "Connected & Live"
-msgstr "متصل ومحدث"
+msgstr "Connected & Live"
 
 #: assets/src/portal/portal-radar.js assets/src/portal/portal-request.js
 msgid "Filter"
@@ -393,56 +4741,44 @@ msgid "WorkPress Certified Request Gateway"
 msgstr "بوابة تقديم الطلبات الرسمية المعتمدة"
 
 #: assets/src/portal/portal-request.js
-msgid "Submit Project Request"
-msgstr "إرسال وتوثيق طلب المشروع"
-
-#: assets/src/portal/portal-request.js
 msgid "Our technical leads will review your request and get back to you shortly."
-msgstr "حدد متطلباتك ومواصفات طلبك وسيصل مباشرة للإدارة العامة كمشروع رسمي للمراجعة والتسعير والاعتماد الفوري."
+msgstr "Our technical leads will review your request and get back to you shortly."
 
 #: assets/src/portal/portal-request.js
 msgid "Project Title"
-msgstr "عنوان المشروع المطلوب"
+msgstr "Project Title"
 
 #: assets/src/portal/portal-request.js assets/src/portal/portal-workspace.js
 msgid "Detailed Specifications"
-msgstr "المواصفات والمتطلبات التفصيلية"
+msgstr "Detailed Specifications"
 
 #: assets/src/portal/portal-request.js
 msgid "Attachments & Files"
-msgstr "المرفقات والملفات الداعمة"
+msgstr "Attachments & Files"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Requests History"
-msgstr "سجل الطلبات والمقترحات"
+msgstr "Requests History"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Track and manage your submitted project proposals."
-msgstr "متابعة مسار فرز واعتماد مقترحات وطلبات المشاريع المقدمة."
-
-#: assets/src/portal/portal-workspace.js
-msgid "No requests submitted yet."
-msgstr "لا توجد طلبات سابقة مسجلة"
+msgstr "Track and manage your submitted project proposals."
 
 #: assets/src/portal/portal-workspace.js
 msgid "You can submit a project or service request at any time for executive review and scope estimation."
-msgstr "يمكنك تقديم طلب مشروع أو خدمة جديدة في أي وقت وسيقوم الفريق الفني بمراجعته واعتماده فوراً."
+msgstr "You can submit a project or service request at any time for executive review and scope estimation."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Approved & Ready"
-msgstr "معتمد ومجدول للتنفيذ"
+msgstr "Approved & Ready"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Declined"
 msgstr "معتذر عنه"
 
 #: assets/src/portal/portal-workspace.js
-msgid "No additional details provided."
-msgstr "لا يوجد بيان إضافي مرفق مع الطلب."
-
-#: assets/src/portal/portal-workspace.js
 msgid "Welcome to Client Portal"
-msgstr "مرحباً بك في بوابة المستفيدين"
+msgstr "Welcome to Client Portal"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Your client account is verified and ready. You can begin by submitting a project or service request for review and scope preparation."
@@ -450,27 +4786,11 @@ msgstr "Your client account is verified and ready. You can begin by submitting a
 
 #: assets/src/portal/portal-workspace.js
 msgid "Executive tracking and approved deliverables vault."
-msgstr "مساحة المتابعة التنفيذية واستلام المخرجات المعتمدة."
-
-#: assets/src/portal/portal-workspace.js
-msgid "Frozen / Paused"
-msgstr "مجمد مؤقتاً"
-
-#: assets/src/portal/portal-workspace.js
-msgid "Active"
-msgstr "نشط"
-
-#: assets/src/portal/portal-workspace.js
-msgid "The comprehensive project delivery certificate aggregates verified solutions, milestones index, and cryptographic sign-off metadata."
-msgstr "تتضمن وثيقة الاستلام الشاملة حصر كافة الحلول المعتمدة، مؤشرات الإنجاز، وبيانات التوقيع والاستلام الرسمي."
+msgstr "Executive tracking and approved deliverables vault."
 
 #: assets/src/portal/portal-workspace.js
 msgid "When the project lead publishes approved deliverables, they will appear here immediately for review, download, and permanent sign-off."
-msgstr "عندما يقوم الفريق الفني برفع الحلول واعتمادها من قبل مدير المشروع، ستظهر ملفاتها وروابطها هنا مباشرة للتحميل والمصادقة."
-
-#: assets/src/portal/portal-workspace.js
-msgid "Approved Solutions"
-msgstr "الحلول المعتمدة"
+msgstr "When the project lead publishes approved deliverables, they will appear here immediately for review, download, and permanent sign-off."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Download"
@@ -478,39 +4798,23 @@ msgstr "تحميل"
 
 #: assets/src/portal/portal-workspace.js
 msgid "The technical team is currently structuring the milestone delivery roadmap."
-msgstr "يقوم مدير المشروع حالياً بهيكلة المراحل وتوزيع المهام على الفريق الفني."
-
-#: assets/src/portal/portal-workspace.js
-msgid "Priority"
-msgstr "الأولوية"
-
-#: assets/src/portal/portal-workspace.js
-msgid "High"
-msgstr "عالية"
-
-#: assets/src/portal/portal-workspace.js
-msgid "Medium"
-msgstr "متوسطة"
-
-#: assets/src/portal/portal-workspace.js
-msgid "Assignees"
-msgstr "المكلفون"
+msgstr "The technical team is currently structuring the milestone delivery roadmap."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Your message will be sent immediately to the project lead and recorded as an official evidence entry in the task timeline."
-msgstr "ستصل ملاحظتك فوراً لمدير المشروع والفريق الفني وتُسجل كـ Evidence رسمي في خط زمن المهمة."
+msgstr "Your message will be sent immediately to the project lead and recorded as an official evidence entry in the task timeline."
 
 #: assets/src/portal/portal-workspace.js
 msgid "Select milestone or task for feedback:"
-msgstr "اختر المرحلة أو المهمة المراد الاستفسار عنها:"
+msgstr "Select milestone or task for feedback:"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Request Revisions"
-msgstr "طلب تعديل واستدراك"
+msgstr "Request Revisions"
 
 #: assets/src/portal/portal-workspace.js
 msgid "Write your feedback or clarification request here..."
-msgstr "اكتب ملاحظتك أو طلب التوضيح هنا..."
+msgstr "Write your feedback or clarification request here..."
 
 #: includes/admin/class-workpress-admin.php includes/core/class-workpress-install.php
 msgid "WorkPress"
@@ -694,7 +4998,7 @@ msgstr "منفذ فني"
 
 #: includes/api/portal/class-workpress-portal-auth-handler.php
 msgid "Language updated successfully."
-msgstr "تم تحديث اللغة بنجاح."
+msgstr "Language updated successfully."
 
 #: includes/api/portal/class-workpress-portal-projects-handler.php includes/services/class-workpress-portal-signoff-service.php includes/services/class-workpress-project-service.php
 msgid "المشروع غير موجود."
@@ -1408,10 +5712,6 @@ msgstr "إشعار جديد بخصوص مشروع: %s"
 msgid "مشاريعك"
 msgstr "مشاريعك"
 
-#: includes/services/class-workpress-portal-service.php
-msgid "Loading Workspace..."
-msgstr "جاري تشغيل مساحة المشاريع..."
-
 #: includes/services/class-workpress-portal-signoff-service.php
 msgid "غير مصرح لك بالتعليق على هذا المخرج."
 msgstr "غير مصرح لك بالتعليق على هذا المخرج."
@@ -1673,24 +5973,12 @@ msgid "Native Organizational Memory & Work Management Engine for WordPress."
 msgstr "محرك إدارة العمل والذاكرة المؤسسية الأصيل لووردبريس."
 
 #: includes/i18n.php
-msgid "Submit Request"
-msgstr "إرسال الطلب"
-
-#: includes/i18n.php
 msgid "New Request"
 msgstr "طلب جديد"
 
 #: includes/i18n.php
 msgid "Search"
 msgstr "بحث"
-
-#: includes/i18n.php
-msgid "Cancel"
-msgstr "إلغاء"
-
-#: includes/i18n.php
-msgid "Confirm"
-msgstr "تأكيد"
 
 #: includes/i18n.php
 msgid "Save"
@@ -1701,138 +5989,78 @@ msgid "Back"
 msgstr "رجوع"
 
 #: includes/i18n.php
-msgid "Next"
-msgstr "التالي"
-
-#: includes/i18n.php
-msgid "Previous"
-msgstr "السابق"
-
-#: includes/i18n.php
 msgid "Total"
 msgstr "الإجمالي"
+
+#: includes/i18n.php
+msgid "Optional"
+msgstr "اختياري"
+
+#: includes/i18n.php
+msgid "Projects Studio"
+msgstr "المشاريع"
+
+#: includes/i18n.php
+msgid "Kanban Tasks"
+msgstr "المهام"
+
+#: includes/i18n.php
+msgid "Triage Studio"
+msgstr "فرز الطلبات"
+
+#: includes/i18n.php
+msgid "Interactive Gantt"
+msgstr "مخطط جانت"
+
+#: includes/i18n.php
+msgid "Knowledge Book"
+msgstr "المعرفة"
+
+#: includes/i18n.php
+msgid "Audit Stream"
+msgstr "المساهمات"
+
+#: includes/i18n.php
+msgid "Executive Reports"
+msgstr "التقارير"
+
+#: includes/i18n.php
+msgid "Platform Settings"
+msgstr "الإعدادات"
+
+#: includes/i18n.php
+msgid "New Task"
+msgstr "مهمة جديدة"
+
+#: includes/i18n.php
+msgid "Switch Perspective"
+msgstr "تبديل المنظور"
+
+#: includes/i18n.php
+msgid "All Perspectives"
+msgstr "كافة المناظير"
+
+#: includes/i18n.php
+msgid "Executive Overview"
+msgstr "الرادار التنفيذي"
+
+#: includes/i18n.php
+msgid "Lead View"
+msgstr "منظور القيادة الفنية"
+
+#: includes/i18n.php
+msgid "My Workspace"
+msgstr "مساحة عملي"
 
 #: includes/i18n.php
 msgid "Closed"
 msgstr "مغلق"
 
 #: includes/i18n.php
-msgid "Low"
-msgstr "منخفضة"
+msgid "Urgent"
+msgstr "عاجلة"
 
 #: includes/i18n.php
-msgid "Critical"
-msgstr "حرجة"
-
-#: includes/i18n.php
-msgid "Quick Project Switcher"
-msgstr "التبديل السريع للمشاريع"
-
-#: includes/i18n.php
-msgid "Total Projects"
-msgstr "إجمالي المشاريع"
-
-#: includes/i18n.php
-msgid "Workspace"
-msgstr "مساحة العمل"
-
-#: includes/i18n.php
-msgid "Sign-off Timestamp:"
-msgstr "توقيت المصادقة:"
-
-#: includes/i18n.php
-msgid "Signed By:"
-msgstr "الموقع:"
-
-#: includes/i18n.php
-msgid "All milestones have been successfully delivered and verified."
-msgstr "تم إنجاز والتحقق من كافة المعالم والمخرجات بنجاح."
-
-#: includes/i18n.php
-msgid "Quotation & Scope"
-msgstr "إعداد نطاق العمل والميزانية"
-
-#: includes/i18n.php
-msgid "Estimated Budget"
-msgstr "الميزانية المقترحة"
-
-#: includes/i18n.php
-msgid "Target Delivery"
-msgstr "موعد التسليم المستهدف"
-
-#: includes/i18n.php
-msgid "Secure enterprise gateway for project delivery, deliverables review, and organizational memory sign-offs."
-msgstr "البوابة المؤسسية الآمنة لمتابعة مسار تنفيذ المشاريع ومراجعة المخرجات وتوثيق الاستلام في الذاكرة المؤسسية."
-
-#: includes/i18n.php
-msgid "Keep me signed in"
-msgstr "تذكر بيانات دخولي"
-
-#: includes/i18n.php
-msgid "Projects"
-msgstr "المشاريع"
-
-#: includes/i18n.php
-msgid "Project"
-msgstr "مشروع"
-
-#: includes/i18n.php
-msgid "Search Projects"
-msgstr "البحث في المشاريع"
-
-#: includes/i18n.php
-msgid "Parent Project"
-msgstr "المشروع الأب"
-
-#: includes/i18n.php
-msgid "Edit Project"
-msgstr "تعديل المشروع"
-
-#: includes/i18n.php
-msgid "Update Project"
-msgstr "تحديث المشروع"
-
-#: includes/i18n.php
-msgid "Add New Project"
-msgstr "إضافة مشروع جديد"
-
-#: includes/i18n.php
-msgid "New Project Name"
-msgstr "اسم المشروع الجديد"
-
-#: includes/i18n.php
-msgid "Work Items"
-msgstr "عناصر العمل"
-
-#: includes/i18n.php
-msgid "Work Item"
-msgstr "عنصر عمل"
-
-#: includes/i18n.php
-msgid "Add New Work Item"
-msgstr "إضافة عنصر عمل جديد"
-
-#: includes/i18n.php
-msgid "Edit Work Item"
-msgstr "تعديل عنصر العمل"
-
-#: includes/i18n.php
-msgid "View Work Item"
-msgstr "عرض عنصر العمل"
-
-#: includes/i18n.php
-msgid "All Work Items"
-msgstr "جميع عناصر العمل"
-
-#: includes/i18n.php
-msgid "Search Work Items"
-msgstr "البحث في عناصر العمل"
-
-#: includes/i18n.php
-msgid "No work items found"
-msgstr "لم يتم العثور على عناصر عمل"
-
-#: includes/i18n.php
-msgid "No work items in trash"
-msgstr "لا توجد عناصر عمل في سلة المهملات"
+msgid "Normal"
+msgstr "عادية"
 
