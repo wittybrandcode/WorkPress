@@ -44,7 +44,7 @@ export default function SettingsQuickMenu({ route }) {
 	return html`
 		<div 
 			ref=${dropdownRef} 
-			className=${`dropdown ${isOpen ? 'is-active' : ''}`} 
+			className=${`dropdown ${rtl ? 'is-left' : 'is-right'} ${isOpen ? 'is-active' : ''}`} 
 			style=${{ margin: 0, zIndex: isOpen ? 100 : 1, display: 'inline-flex', alignItems: 'center', position: 'relative' }}
 		>
 			<div className="dropdown-trigger">
@@ -74,10 +74,14 @@ export default function SettingsQuickMenu({ route }) {
 				role="menu" 
 				style=${{ 
 					minWidth: '240px',
-					[rtl ? 'right' : 'left']: 0,
-					[rtl ? 'left' : 'right']: 'auto',
+					maxWidth: 'min(280px, calc(100vw - 32px))',
+					insetInlineEnd: 0,
+					insetInlineStart: 'auto',
+					[rtl ? 'left' : 'right']: 0,
+					[rtl ? 'right' : 'left']: 'auto',
 					top: '100%',
-					paddingTop: '6px'
+					paddingTop: '6px',
+					zIndex: 1200
 				}}
 			>
 				<div 

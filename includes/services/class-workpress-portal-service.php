@@ -279,7 +279,7 @@ class WorkPress_Portal_Service {
 				'rejection_reason'    => $rejection_rs,
 				'lead'                => array(
 					'id'     => $lead_id,
-					'name'   => $lead_user ? $lead_user->display_name : __( 'غير محدد', 'workpress' ),
+					'name'   => $lead_user ? $lead_user->display_name : __( 'Unspecified', 'workpress' ),
 					'avatar' => $lead_id ? get_avatar_url( $lead_id, array( 'size' => 64 ) ) : '',
 				),
 			);
@@ -628,7 +628,7 @@ class WorkPress_Portal_Service {
 
 			foreach ( $raw_notes as $n ) {
 				$actor      = ! empty( $n['actor_id'] ) ? get_userdata( $n['actor_id'] ) : null;
-				$actor_name = $actor ? $actor->display_name : __( 'الإدارة', 'workpress' );
+				$actor_name = $actor ? $actor->display_name : __( 'Management', 'workpress' );
 
 				$task_title    = $n['task_id'] ? html_entity_decode( get_the_title( $n['task_id'] ), ENT_QUOTES, 'UTF-8' ) : '';
 				$project_title = '';
@@ -642,27 +642,27 @@ class WorkPress_Portal_Service {
 				$msg = '';
 				switch ( $n['type'] ) {
 					case 'project_request_approved':
-						$msg = sprintf( __( ' تم اعتماد طلبكم لمشروع "%s" وتدشينه رسمياً في المنظومة ', 'workpress' ), $project_title ?: __( 'المشروع', 'workpress' ) );
+						$msg = sprintf( __( 'Your project request "%s" has been approved and officially launched.', 'workpress' ), $project_title ?: __( 'Project', 'workpress' ) );
 						break;
 					case 'project_request_under_review':
 						$rn  = ( ! empty( $n['project_id'] ) ) ? get_term_meta( $n['project_id'], '_workpress_review_notes', true ) : '';
-						$msg = sprintf( __( ' طلبكم لمشروع "%1$s" قيد الدراسة الهندسية: %2$s', 'workpress' ), $project_title ?: __( 'المشروع', 'workpress' ), $rn ?: __( 'يجري الفحص الفني للجدوى', 'workpress' ) );
+						$msg = sprintf( __( 'Your project request "%1$s" is under technical review: %2$s', 'workpress' ), $project_title ?: __( 'Project', 'workpress' ), $rn ?: __( 'Technical feasibility review in progress', 'workpress' ) );
 						break;
 					case 'project_request_rejected':
 						$rj  = ( ! empty( $n['project_id'] ) ) ? get_term_meta( $n['project_id'], '_workpress_rejection_reason', true ) : '';
-						$msg = sprintf( __( ' تعذر اعتماد مشروع "%1$s". السبب: %2$s', 'workpress' ), $project_title ?: __( 'المشروع', 'workpress' ), $rj ?: __( 'خارج نطاق الخدمات المتاحة', 'workpress' ) );
+						$msg = sprintf( __( 'Project "%1$s" could not be approved. Reason: %2$s', 'workpress' ), $project_title ?: __( 'Project', 'workpress' ), $rj ?: __( 'Out of available service scope', 'workpress' ) );
 						break;
 					case 'contribution_created':
-						$msg = sprintf( __( ' تم إيداع مخرج / مقترح جديد في مشروع "%s" بانتظار مراجعتكم.', 'workpress' ), $project_title ?: __( 'المشروع', 'workpress' ) );
+						$msg = sprintf( __( 'A new deliverable/proposal has been submitted in project "%s" awaiting your review.', 'workpress' ), $project_title ?: __( 'Project', 'workpress' ) );
 						break;
 					case 'contribution_accepted':
-						$msg = sprintf( __( ' تم اعتماد الحل النهائي للمهمة: "%s"', 'workpress' ), $task_title ?: __( 'المهمة', 'workpress' ) );
+						$msg = sprintf( __( 'The final solution for task "%s" has been approved.', 'workpress' ), $task_title ?: __( 'Task', 'workpress' ) );
 						break;
 					case 'project_request':
-						$msg = sprintf( __( ' تم تقديم طلبكم لمشروع: "%s"', 'workpress' ), $project_title ?: __( 'المشروع', 'workpress' ) );
+						$msg = sprintf( __( 'Your project request has been submitted: "%s"', 'workpress' ), $project_title ?: __( 'Project', 'workpress' ) );
 						break;
 					default:
-						$msg = sprintf( __( 'إشعار جديد بخصوص مشروع: %s', 'workpress' ), $project_title ?: __( 'مشاريعك', 'workpress' ) );
+						$msg = sprintf( __( 'New notification regarding project: %s', 'workpress' ), $project_title ?: __( 'Your Projects', 'workpress' ) );
 				}
 
 				$recent_notifications[] = array(

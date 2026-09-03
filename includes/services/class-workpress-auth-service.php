@@ -306,7 +306,25 @@ class WorkPress_Auth_Service {
 			return $requested_target;
 		}
 
-		// Universal Smart Welcome Gateway Transition for all citizen tiers
+		// Role-based smart post-login routing
+		$user_roles = (array) $user->roles;
+
+		// Administrators, Editors & Project Leads land directly in CoWorkPress Operations Room
+		if ( in_array( 'administrator', $user_roles, true ) || user_can( $user, 'manage_options' ) || in_array( 'editor', $user_roles, true ) ) {
+			return admin_url( 'admin.php?page=workpress#/' );
+		}
+
+		// Clients & Portal Stakeholders land in Client Portal
+		if ( in_array( 'workpress_client', $user_roles, true ) || in_array( 'workpress_portal_user', $user_roles, true ) || user_can( $user, 'access_workpress_portal' ) ) {
+			return home_url( '/portal/' );
+		}
+
+		// Technical Executors / Contributors
+		if ( user_can( $user, 'edit_posts' ) || in_array( 'author', $user_roles, true ) || in_array( 'contributor', $user_roles, true ) ) {
+			return admin_url( 'admin.php?page=workpress#/' );
+		}
+
+		// Standard Subscribers or Guest Citizens
 		return home_url( '/portal/?welcome=1' );
 	}
 
@@ -353,7 +371,7 @@ class WorkPress_Auth_Service {
 		if ( $attempts >= self::MAX_FAILED_ATTEMPTS ) {
 			return new WP_Error(
 				'workpress_too_many_attempts',
-				__( 'تم تجاوز الحد المسموح من محاولات الدخول الخاطئة. تم قفل المحاولات مؤقتاً لمدة 15 دقيقة لدواعي الأمان والحماية.', 'workpress' )
+				__( 'Maximum login attempts exceeded. Access locked temporarily for 15 minutes for security.', 'workpress' )
 			);
 		}
 
@@ -362,14 +380,12 @@ class WorkPress_Auth_Service {
 
 	/**
 	 * Get reliable client IP address.
+	 * Strictly uses REMOTE_ADDR unless an explicit trusted proxy is configured to prevent header spoofing and DoS.
 	 *
 	 * @return string
 	 */
 	private function get_client_ip() {
-		if ( ! empty( $_SERVER['HTTP_CLIENT_IP'] ) ) {
-			return sanitize_text_field( wp_unslash( $_SERVER['HTTP_CLIENT_IP'] ) );
-		}
-		if ( ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+		if ( defined( 'WORKPRESS_TRUSTED_PROXY' ) && WORKPRESS_TRUSTED_PROXY && ! empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 			$ips = explode( ',', sanitize_text_field( wp_unslash( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 			return trim( $ips[0] );
 		}

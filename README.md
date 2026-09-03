@@ -12,7 +12,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v2.2.3--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
+  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v2.3.0--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
   <a href="https://wordpress.org/"><img src="https://img.shields.io/badge/WordPress-6.0%20➔%207.x-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress" /></a>
   <a href="https://php.net/"><img src="https://img.shields.io/badge/PHP-8.0%20➔%208.3-777bb4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv2-00192f?style=for-the-badge" alt="License" /></a>
@@ -257,6 +257,16 @@
 ### 6. المؤثرات الصوتية والتوست التفاعلي الشامل (Audio & Notification Suite)
 - حزمة نغمات إلكترونية وميكانيكية وبيانو مدمجة بمحرك `Web Audio API` لتأكيد العمليات (الاعتماد، الحذف، التنبيهات).
 - نظام توست إشعارات ملون وشامل يتيح التراجع الفوري عن القرارات الخاطئة.
+
+### 7. الدستور البصري الموحد وهندسة الحواف الحادة 0px (Universal Visual System v2.3.0)
+- **دستور الأزرار الثلاثي الموحد (`Universal Tri-State Button Law`):** توحيد أزرار المنظومة على 3 حالات: الافتراضي أبيض نقي بإطار رمادي دقيق وزوايا حادة `0px`، التحويم برمادي داكن أردوازي (`#334155`) مع خط وأيقونة بيضاء ناصعة، والنشط بأخضر الشعار (`#10b981`). حظر كامل لقوس قزح الأزرار الملونة.
+- **دستور الأيقونات المونوكرومي الموحد (`Universal Monochrome Icon Law`):** أسود فحمي `#0f172a` حصرياً لكافة الأيقونات في الوضع الافتراضي، مع الانقلاب للأبيض الناصع عند التفاعل.
+- **أيقونة الثلج الشهيرة للمشاريع المجمدة (`SnowflakeIcon`):** تصميم SVG دقيق مخصص للمشاريع المجمدة بدلاً من القفل.
+- **زر الإضافة السريع الموحد (+) مع القائمة المنسدلة الذكية (`QuickAddMenu`):** جمع عمليات الإضافة في زر واحد بالـ Breadcrumb مع نافذة تقديم الطلبات السريعة (`RequestModal`).
+- **أشرطة الأدوات الموحدة بالهيدر (`UnifiedToolbar` via Portal):** تعميم شريط الأدوات الموحد في كافة الصفحات الرئيسية ليركب أسفل الـ Breadcrumb.
+- **سجل الأيقونات الدلالي الموحد (`iconRegistry.js`):** ارتباط دلالي ثابت لكل كيان لمنع التكرار العشوائي للأيقونات.
+- **لوحة كانبان المؤسسية المونوكرومية:** إلغاء ألوان قوس قزح في رؤوس الأعمدة واعتماد النمط الفحمي والرمادي الفخم.
+- **التجميد الكلي لقائمة الإعدادات الجانبية:** ثبات كلي بنسبة 0 بكسل حركة أثناء التمرير العمودي دون اصطدام بالـ Breadcrumb.
 
 ---
 

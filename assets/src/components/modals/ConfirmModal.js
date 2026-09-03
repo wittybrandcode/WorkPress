@@ -20,13 +20,15 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 		<div className="is-flex is-justify-content-space-between is-align-items-center" style=${{ width: '100%' }}>
 			<div></div>
 			<div className="buttons mb-0" style=${{ gap: '8px' }}>
-				<button className="button is-light wp-sharp-button" onClick=${ handleClose } disabled=${ isSubmitting }>
+				<button type="button" className="button wp-btn" onClick=${ handleClose } disabled=${ isSubmitting } style=${{ borderRadius: 0, border: '1px solid #cbd5e1' }}>
 					${ __( 'Cancel', 'workpress' ) }
 				</button>
 				<button 
-					className=${ `button wp-sharp-button ${ confirmColor } ${ isSubmitting ? 'is-loading' : '' }` }
+					type="button"
+					className=${ `button wp-btn is-active ${ isSubmitting ? 'is-loading' : '' }` }
 					onClick=${ handleConfirm }
 					disabled=${ (requiresReason && !reason.trim()) || isSubmitting }
+					style=${{ borderRadius: 0 }}
 				>
 					<span className="icon"><i className=${ isDangerous ? "dashicons dashicons-warning" : "dashicons dashicons-yes" }></i></span>
 					<span>${ defaultConfirmText }</span>

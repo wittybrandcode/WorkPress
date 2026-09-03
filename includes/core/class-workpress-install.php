@@ -53,17 +53,17 @@ class WorkPress_Install {
 	 */
 	private static function register_taxonomy() {
 		$labels = array(
-			'name'              => _x( 'المشاريع', 'taxonomy general name', 'workpress' ),
-			'singular_name'     => _x( 'مشروع', 'taxonomy singular name', 'workpress' ),
-			'search_items'      => __( 'البحث في المشاريع', 'workpress' ),
-			'all_items'         => __( 'جميع المشاريع', 'workpress' ),
-			'parent_item'       => __( 'المشروع الأب', 'workpress' ),
-			'parent_item_colon' => __( 'المشروع الأب:', 'workpress' ),
-			'edit_item'         => __( 'تعديل المشروع', 'workpress' ),
-			'update_item'       => __( 'تحديث المشروع', 'workpress' ),
-			'add_new_item'      => __( 'إضافة مشروع جديد', 'workpress' ),
-			'new_item_name'     => __( 'اسم المشروع الجديد', 'workpress' ),
-			'menu_name'         => __( 'المشاريع', 'workpress' ),
+			'name'              => _x( 'Projects', 'taxonomy general name', 'workpress' ),
+			'singular_name'     => _x( 'Project', 'taxonomy singular name', 'workpress' ),
+			'search_items'      => __( 'Search Projects', 'workpress' ),
+			'all_items'         => __( 'All Projects', 'workpress' ),
+			'parent_item'       => __( 'Parent Project', 'workpress' ),
+			'parent_item_colon' => __( 'Parent Project:', 'workpress' ),
+			'edit_item'         => __( 'Edit Project', 'workpress' ),
+			'update_item'       => __( 'Update Project', 'workpress' ),
+			'add_new_item'      => __( 'Add New Project', 'workpress' ),
+			'new_item_name'     => __( 'New Project Name', 'workpress' ),
+			'menu_name'         => __( 'Projects', 'workpress' ),
 		);
 
 		$args = array(
@@ -84,19 +84,19 @@ class WorkPress_Install {
 	 */
 	private static function register_post_type() {
 		$labels = array(
-			'name'               => _x( 'عناصر العمل', 'post type general name', 'workpress' ),
-			'singular_name'      => _x( 'عنصر عمل', 'post type singular name', 'workpress' ),
+			'name'               => _x( 'Work Items', 'post type general name', 'workpress' ),
+			'singular_name'      => _x( 'Work Item', 'post type singular name', 'workpress' ),
 			'menu_name'          => _x( 'WorkPress', 'admin menu', 'workpress' ),
-			'name_admin_bar'     => _x( 'عنصر عمل', 'add new on admin bar', 'workpress' ),
-			'add_new'            => _x( 'إضافة عنصر جديد', 'work_item', 'workpress' ),
-			'add_new_item'       => __( 'إضافة عنصر عمل جديد', 'workpress' ),
-			'new_item'           => __( 'عنصر عمل جديد', 'workpress' ),
-			'edit_item'          => __( 'تعديل عنصر العمل', 'workpress' ),
-			'view_item'          => __( 'عرض عنصر العمل', 'workpress' ),
-			'all_items'          => __( 'جميع عناصر العمل', 'workpress' ),
-			'search_items'       => __( 'البحث في عناصر العمل', 'workpress' ),
-			'not_found'          => __( 'لم يتم العثور على عناصر عمل', 'workpress' ),
-			'not_found_in_trash' => __( 'لا توجد عناصر عمل في سلة المهملات', 'workpress' ),
+			'name_admin_bar'     => _x( 'Work Item', 'add new on admin bar', 'workpress' ),
+			'add_new'            => _x( 'Add New', 'work_item', 'workpress' ),
+			'add_new_item'       => __( 'Add New Work Item', 'workpress' ),
+			'new_item'           => __( 'New Work Item', 'workpress' ),
+			'edit_item'          => __( 'Edit Work Item', 'workpress' ),
+			'view_item'          => __( 'View Work Item', 'workpress' ),
+			'all_items'          => __( 'All Work Items', 'workpress' ),
+			'search_items'       => __( 'Search Work Items', 'workpress' ),
+			'not_found'          => __( 'No Work Items found', 'workpress' ),
+			'not_found_in_trash' => __( 'No Work Items found in trash', 'workpress' ),
 		);
 
 		$args = array(
@@ -303,7 +303,7 @@ class WorkPress_Install {
 		// 5. Dedicated WorkPress Portal Stakeholder Role (Tagged Clients & Requesters)
 		add_role(
 			'workpress_client',
-			__( 'مستفيد', 'workpress' ),
+			__( 'Stakeholder', 'workpress' ),
 			array(
 				'read'                         => true,
 				'access_workpress_portal'      => true,

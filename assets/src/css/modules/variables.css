@@ -14,15 +14,22 @@
     --wp-text-muted: #94a3b8;
     
     /* الألوان السيادية والعلامة التجارية */
-    --wp-brand-primary: #008478;
-    --wp-brand-secondary: #00564f;
+    --wp-brand-primary: #10b981;
+    --wp-brand-secondary: #059669;
     --wp-brand-accent: #10b981;
 
-    /* الأزرار والتفاعل */
-    --wp-hover-fill: #757E8E;
+    /* دستور الأزرار الثلاثي الموحد */
+    --wp-btn-bg: #ffffff;
+    --wp-btn-color: #0f172a;
+    --wp-btn-border: #cbd5e1;
+    --wp-btn-hover-fill: #334155;
+    --wp-btn-hover-color: #ffffff;
+    --wp-btn-active-fill: #10b981;
+    --wp-btn-active-color: #ffffff;
+    --wp-hover-fill: #334155;
     --wp-accent-green: #10b981;
-    --wp-danger: #f14668;
-    --wp-info: #3e8ed0;
+    --wp-danger: #ef4444;
+    --wp-info: #0284c7;
     
     /* الحدود */
     --wp-border: #e2e8f0;

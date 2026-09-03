@@ -115,14 +115,14 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 		<div className="mt-4">
 			<div className="mb-4 is-flex is-justify-content-space-between is-align-items-center">
 				<div style=${{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-					<a href="#/projects" className="button is-small is-light wp-icon-button" style=${{ borderRadius: 0, border: '2px solid #0f172a' }} title=${ __( 'Back to Projects', 'workpress' ) }>
+					<a href="#/projects" className="button is-small wp-btn" style=${{ borderRadius: 0, border: '1px solid #cbd5e1' }} title=${ __( 'Back to Projects', 'workpress' ) }>
 						<span className="icon"><i className=${ rtl ? 'dashicons dashicons-arrow-right-alt2' : 'dashicons dashicons-arrow-left-alt2' }></i></span>
 					</a>
 
 					<button
-						className="button is-small is-dark wp-sharp-button"
+						className="button is-small wp-btn"
 						onClick=${ () => { setIsReportModalOpen( true ); sound.play( 'pop' ); } }
-						style=${{ fontWeight: '700', backgroundColor: '#0f172a', borderColor: '#0f172a' }}
+						style=${{ fontWeight: '700' }}
 						title=${ __( 'Executive Report & Knowledge Book', 'workpress' ) }
 					>
 						<span className="icon"><i className="dashicons dashicons-media-document"></i></span>
@@ -162,17 +162,17 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 						<div className="p-5">
 							<div className="is-flex is-align-items-center is-flex-wrap-wrap mb-3" style=${{ gap: '8px' }}>
 								<h1 className="title is-3 mb-0">${ project.name }</h1>
-								<span className="tag is-info is-light" style=${{ borderRadius: 0 }}>${ project.prefix }</span>
+								<span className="tag is-small has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1' }}>${ project.prefix }</span>
 								
 								${ project.is_client_request ? html`
-									<span className="tag is-warning has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#fef3c7', color: '#b45309', border: '1px solid #fde68a' }}>
+									<span className="tag is-small has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1' }}>
 										${ __( 'New Client Request', 'workpress' ) }
 									</span>
 								` : null }
 
 								${ isProjectCompleted ? html`
-									<span className="tag is-success has-text-weight-bold" style=${{ borderRadius: 0 }}>
-										<i className="dashicons dashicons-awards ml-1"></i> ${ __( 'Completed', 'workpress' ) } (${ project.progress || 100 }%)
+									<span className="tag is-small has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1' }}>
+										<i className="dashicons dashicons-yes-alt ml-1"></i> ${ __( 'Completed', 'workpress' ) } (${ project.progress || 100 }%)
 									</span>
 								` : null }
 							</div>
@@ -191,12 +191,12 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 								${ project.requested_budget ? html`
 									<div>
 										<span className="heading has-text-grey mb-1">${ __( 'Proposed Budget', 'workpress' ) }</span>
-										<span className="has-text-weight-bold has-text-success">${ project.requested_budget }</span>
+										<span className="has-text-weight-bold" style=${{ color: '#0f172a' }}>${ project.requested_budget }</span>
 									</div>
 								` : null }
 								<div>
 									<span className="heading has-text-grey mb-1">${ __( 'Status', 'workpress' ) }</span>
-									<span className=${`tag ${ isProjectCompleted ? 'is-success' : (project.status === 'active' ? 'is-info' : (project.status === 'pending' ? 'is-warning' : (project.status === 'archived' ? 'is-dark' : project.status))) }`} style=${{ borderRadius: 0 }}>
+									<span className="tag is-small has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1' }}>
 										${ isProjectCompleted ? __( 'Completed', 'workpress' ) : (project.status === 'active' ? __( 'Active', 'workpress' ) : (project.status === 'pending' ? __( 'Under Review', 'workpress' ) : (project.status === 'archived' ? __( 'Archived', 'workpress' ) : project.status))) }
 									</span>
 								</div>
@@ -206,13 +206,13 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 
 					<!-- بطاقة المواصفات والمتطلبات الفنية للطلب (Client Specifications Vault) -->
 					${ (project.is_client_request && ((project.request_specs && Object.keys(project.request_specs).length > 0) || (project.request_attachments && project.request_attachments.length > 0))) ? html`
-						<div className="box wp-card p-5 mb-5" style=${{ border: '1.5px solid #6366f1', backgroundColor: '#f8fafc', boxShadow: '0 4px 12px rgba(99,102,241,0.06)' }}>
+						<div className="box wp-card p-5 mb-5" style=${{ border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>
 							<div className="is-flex is-justify-content-space-between is-align-items-center mb-3 pb-2" style=${{ borderBottom: '1px solid #e2e8f0' }}>
-								<h3 className="title is-5 mb-0 has-text-primary is-flex is-align-items-center" style=${{ gap: '8px' }}>
+								<h3 className="title is-5 mb-0 has-text-dark is-flex is-align-items-center" style=${{ gap: '8px' }}>
 									<span className="icon is-small"><i className="dashicons dashicons-portfolio"></i></span>
 									<span>${ __( 'Client Specifications & Attachments Vault', 'workpress' ) }</span>
 								</h3>
-								<span className="tag is-primary is-light" style=${{ fontWeight: '800' }}>
+								<span className="tag is-light is-small has-text-weight-bold" style=${{ borderRadius: 0, border: '1px solid #cbd5e1', color: '#0f172a' }}>
 									${ project.request_form_id ? `Form: ${project.request_form_id}` : __( 'Project Requests', 'workpress' ) }
 								</span>
 							</div>
@@ -384,23 +384,23 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 
 					<!-- بطاقة العميل صاحب الطلب (Client Profile Card) -->
 					${ (project.is_client_request || project.client) ? html`
-						<div className="box wp-card p-5 mb-5" style=${{ border: '1.5px solid #f59e0b', backgroundColor: '#fffbeb', boxShadow: '0 4px 12px rgba(245,158,11,0.08)' }}>
+						<div className="box wp-card p-5 mb-5" style=${{ border: '1px solid #e2e8f0', backgroundColor: '#f8fafc' }}>
 							<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
-								<h3 className="title is-6 mb-0 has-text-warning-dark has-text-weight-bold is-flex is-align-items-center" style=${{ gap: '6px' }}>
+								<h3 className="title is-6 mb-0 has-text-dark has-text-weight-bold is-flex is-align-items-center" style=${{ gap: '6px' }}>
 									<i className="dashicons dashicons-businessman"></i>
 									<span>${ __( 'Requester / Verified Client', 'workpress' ) }</span>
 								</h3>
-								<span className="tag is-warning has-text-weight-bold" style=${{ borderRadius: 0, fontSize: '0.72rem' }}>
-									⭐ ${ __( 'Client', 'workpress' ) }
+								<span className="tag is-small has-text-weight-bold" style=${{ borderRadius: 0, border: '1px solid #cbd5e1', backgroundColor: '#f1f5f9', color: '#0f172a' }}>
+									${ __( 'Client', 'workpress' ) }
 								</span>
 							</div>
 
-							<div className="is-flex is-align-items-center p-3" style=${{ backgroundColor: '#ffffff', border: '1px solid #fde68a', gap: '12px' }}>
+							<div className="is-flex is-align-items-center p-3" style=${{ backgroundColor: '#ffffff', border: '1px solid #e2e8f0', gap: '12px' }}>
 								<figure className="image is-40x40 m-0">
 									<img
 										src=${ (project.client && project.client.avatar) || '' }
 										alt=${ (project.client && project.client.display_name) || __( 'Client', 'workpress' ) }
-										style=${{ borderRadius: 0, border: '2px solid #f59e0b', backgroundColor: '#fef3c7' }}
+										style=${{ borderRadius: 0, border: '1px solid #cbd5e1', backgroundColor: '#f1f5f9' }}
 									/>
 								</figure>
 								<div style=${{ overflow: 'hidden' }}>
@@ -419,7 +419,7 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 					<div className="box wp-card p-5">
 						<div className="is-flex is-justify-content-space-between is-align-items-center mb-4">
 							<h3 className="title is-5 mb-0 has-text-weight-bold">${ __( 'Project Members', 'workpress' ) }</h3>
-							<span className="tag is-dark" style=${{ borderRadius: 0 }}>${ members.length }</span>
+							<span className="tag is-small has-text-weight-bold" style=${{ borderRadius: 0, backgroundColor: '#f1f5f9', color: '#0f172a', border: '1px solid #cbd5e1' }}>${ members.length }</span>
 						</div>
 						
 						${ members.length === 0 ? html`

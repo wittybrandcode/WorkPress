@@ -44,7 +44,11 @@
 /* 12. Webhooks Studio, Integrations & Delivery Monitors */
 @import url('modules/webhooks.css');
 
+/* 13. Executive Reports & Knowledge Intelligence */
+@import url('modules/reports.css');
 
+/* 14. Contributions Stream & Evidence Vault */
+@import url('modules/contributions.css');
 
-
+/* Version 2.2.10 - True Zero-Movement Frozen Settings Sidebar */
 

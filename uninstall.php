@@ -41,11 +41,41 @@ $wpdb->query(
 	"DELETE FROM {$wpdb->comments} WHERE comment_type = 'wp_contribution'"
 );
 
+// 3.5. Drop notifications read-model table
+$notif_table = $wpdb->prefix . 'workpress_notifications';
+$wpdb->query( "DROP TABLE IF EXISTS {$notif_table}" );
+
+// 3.6. Clean WorkPress user meta
+$wpdb->query( "DELETE FROM {$wpdb->usermeta} WHERE meta_key IN ('_workpress_portal_locale', '_workpress_user_locale', '_workpress_sync_wp_locale')" );
+
 // 4. Delete options
 delete_option( 'workpress_meta_migrated' );
 delete_option( 'workpress_clean_on_uninstall' );
 delete_option( 'workpress_db_version' );
 delete_option( 'workpress_role_aliases' );
+delete_option( 'workpress_webhooks' );
+delete_option( 'workpress_intake_forms_schema' );
+delete_option( 'workpress_default_priority' );
+delete_option( 'workpress_email_notifications' );
+delete_option( 'workpress_timezone' );
+delete_option( 'workpress_month_naming' );
+delete_option( 'workpress_date_format' );
+delete_option( 'workpress_relative_time' );
+delete_option( 'workpress_sound_enabled' );
+delete_option( 'workpress_sound_volume' );
+delete_option( 'workpress_sound_kit' );
+delete_option( 'workpress_sound_notification' );
+delete_option( 'workpress_sound_celebration' );
+delete_option( 'workpress_sound_button' );
+delete_option( 'workpress_sound_transition' );
+delete_option( 'workpress_sound_caution' );
+delete_option( 'workpress_sound_events_config' );
+delete_option( 'workpress_custom_login_enabled' );
+delete_option( 'workpress_custom_logo_id' );
+delete_option( 'workpress_custom_logo_url' );
+delete_option( 'workpress_custom_favicon_id' );
+delete_option( 'workpress_custom_favicon_url' );
+delete_option( 'workpress_custom_types' );
 
 // 5. Remove custom roles
 $custom_roles = get_option( 'workpress_custom_roles', array() );

@@ -33,11 +33,11 @@ class WorkPress_Portal_Pulse_Handler {
 		}
 
 		if ( empty( $message ) && 'client_signoff' !== $action_type ) {
-			return new WP_Error( 'empty_feedback', __( 'يرجى كتابة نص الملاحظة أو الاستفسار أو سبب طلب الاستدراك.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'empty_feedback', __( 'Please enter feedback text, inquiry, or reason for revision request.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		if ( empty( $message ) && 'client_signoff' === $action_type ) {
-			$message = __( 'تم اعتماد ومصادقة استلام المخرجات والحلول الفنية رسمياً من قِبل المستفيد.', 'workpress' );
+			$message = __( 'Deliverables and technical solutions officially approved and signed off by the stakeholder.', 'workpress' );
 		}
 
 		$user = wp_get_current_user();
@@ -53,11 +53,11 @@ class WorkPress_Portal_Pulse_Handler {
 		// Trigger notification hook for project lead & audit timeline
 		do_action( 'workpress_client_feedback_submitted', $comment_id, $task_id, $user->ID, $action_type );
 
-		$success_msg = __( 'تم إرسال ملاحظتك واستفسارك بنجاح لفريق العمل.', 'workpress' );
+		$success_msg = __( 'Your feedback and inquiry were sent successfully to the team.', 'workpress' );
 		if ( 'client_revision_request' === $action_type ) {
-			$success_msg = __( 'تم إرسال طلب التعديل والاستدراك المسبب لمدير المشروع.', 'workpress' );
+			$success_msg = __( 'The justified revision request was sent to the project lead.', 'workpress' );
 		} elseif ( 'client_signoff' === $action_type ) {
-			$success_msg = __( 'تم تسجيل توقيعك والمصادقة على استلام المخرجات بنجاح.', 'workpress' );
+			$success_msg = __( 'Your signature and sign-off for deliverables were recorded successfully.', 'workpress' );
 		}
 
 		return new WP_REST_Response(
@@ -87,12 +87,12 @@ class WorkPress_Portal_Pulse_Handler {
 
 		// 1. Determine Executive Tier & Scope
 		$executive_type     = 'client';
-		$role_label         = __( 'عميل', 'workpress' );
+		$role_label         = __( 'Client', 'workpress' );
 		$scoped_project_ids = array();
 
 		if ( $is_admin ) {
 			$executive_type = 'admin';
-			$role_label     = __( 'المدير العام', 'workpress' );
+			$role_label     = __( 'General Manager', 'workpress' );
 		} else {
 			// Find projects led by this user
 			$lead_terms = get_terms( array(
@@ -108,11 +108,11 @@ class WorkPress_Portal_Pulse_Handler {
 
 			if ( ! empty( $lead_terms ) && ! is_wp_error( $lead_terms ) ) {
 				$executive_type     = 'lead';
-				$role_label         = __( 'قائد مشروع', 'workpress' );
+				$role_label         = __( 'Project Lead', 'workpress' );
 				$scoped_project_ids = wp_list_pluck( $lead_terms, 'term_id' );
 			} elseif ( user_can( $user_id, 'edit_posts' ) || in_array( 'editor', (array) $current_user->roles, true ) || in_array( 'author', (array) $current_user->roles, true ) ) {
 				$executive_type = 'member';
-				$role_label     = __( 'عضو فريق العمل', 'workpress' );
+				$role_label     = __( 'Team Member', 'workpress' );
 			}
 		}
 
@@ -155,7 +155,7 @@ class WorkPress_Portal_Pulse_Handler {
 					'form_id'       => $form,
 					'budget'        => $budget,
 					'due_date'      => $due,
-					'client_name'   => $c_user ? $c_user->display_name : __( 'عميل مسجل', 'workpress' ),
+					'client_name'   => $c_user ? $c_user->display_name : __( 'Registered Client', 'workpress' ),
 					'client_email'  => $c_user ? $c_user->user_email : '',
 					'client_avatar' => $c_id > 0 ? get_avatar_url( $c_id, array( 'size' => 48 ) ) : '',
 					'workpress_url' => admin_url( 'admin.php?page=workpress#/requests' ),
@@ -219,7 +219,7 @@ class WorkPress_Portal_Pulse_Handler {
 				$recent_feedbacks[] = array(
 					'id'            => (int) $c->comment_ID,
 					'task_id'       => (int) $c->comment_post_ID,
-					'task_title'    => $task_post ? $task_post->post_title : __( 'مهمة', 'workpress' ),
+					'task_title'    => $task_post ? $task_post->post_title : __( 'Task', 'workpress' ),
 					'project_id'    => $p_term ? $p_term->term_id : 0,
 					'project_name'  => $p_term ? $p_term->name : '',
 					'content'       => wp_trim_words( $c->comment_content, 20, '...' ),
@@ -281,29 +281,29 @@ class WorkPress_Portal_Pulse_Handler {
 				'recentFeedbacks'=> $recent_feedbacks,
 				'quickLaunchers' => array(
 					array(
-						'title' => __( 'استوديو فرز الطلبات', 'workpress' ),
+						'title' => __( 'Request Triage Studio', 'workpress' ),
 						'icon'  => '',
 						'url'   => admin_url( 'admin.php?page=workpress#/requests' ),
 						'badge' => $pending_req_count > 0 ? (string) $pending_req_count : null,
 					),
 					array(
-						'title' => __( 'إدارة المشاريع', 'workpress' ),
+						'title' => __( 'Project Management', 'workpress' ),
 						'icon'  => '',
 						'url'   => admin_url( 'admin.php?page=workpress#/projects' ),
 						'badge' => $active_projects_count > 0 ? (string) $active_projects_count : null,
 					),
 					array(
-						'title' => __( 'لوحة الكانبان', 'workpress' ),
+						'title' => __( 'Kanban Board', 'workpress' ),
 						'icon'  => '',
 						'url'   => admin_url( 'admin.php?page=workpress#/kanban' ),
 					),
 					array(
-						'title' => __( 'نماذج استقبال الطلبات', 'workpress' ),
+						'title' => __( 'Intake Forms', 'workpress' ),
 						'icon'  => '',
 						'url'   => admin_url( 'admin.php?page=workpress#/forms' ),
 					),
 					array(
-						'title' => __( 'قاعدة المعرفة', 'workpress' ),
+						'title' => __( 'Knowledge Base', 'workpress' ),
 						'icon'  => '',
 						'url'   => admin_url( 'admin.php?page=workpress#/knowledge' ),
 					),
@@ -366,7 +366,7 @@ class WorkPress_Portal_Pulse_Handler {
 		return new WP_REST_Response(
 			array(
 				'success'  => true,
-				'message'  => __( 'تم حفظ إعدادات قنوات الإشعارات بنجاح.', 'workpress' ),
+				'message'  => __( 'Notification channel settings saved successfully.', 'workpress' ),
 				'channels' => $result,
 			),
 			200
@@ -398,7 +398,7 @@ class WorkPress_Portal_Pulse_Handler {
 		return new WP_REST_Response(
 			array(
 				'success' => true,
-				'message' => __( 'تم تحديث الملف التعريفي بنجاح.', 'workpress' ),
+				'message' => __( 'Profile updated successfully.', 'workpress' ),
 				'profile' => $result,
 			),
 			200

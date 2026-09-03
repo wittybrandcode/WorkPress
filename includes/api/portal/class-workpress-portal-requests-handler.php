@@ -39,7 +39,7 @@ class WorkPress_Portal_Requests_Handler {
 	 */
 	public function upload_attachment( $request ) {
 		if ( empty( $_FILES['file'] ) ) {
-			return new WP_Error( 'no_file', __( 'لم يتم إرسال أي ملف.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'no_file', __( 'No file was uploaded.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$uploaded = $_FILES['file'];
@@ -48,11 +48,11 @@ class WorkPress_Portal_Requests_Handler {
 		$blocked  = array( 'php', 'php3', 'php4', 'php5', 'phtml', 'exe', 'sh', 'bat', 'cmd', 'js', 'py', 'cgi', 'pl', 'asp', 'aspx', 'jsp', 'shtml' );
 
 		if ( in_array( $ext, $blocked, true ) ) {
-			return new WP_Error( 'blocked_file_type', __( 'عذراً، لا يُسمح برفع هذا النوع من الملفات لأسباب أمنية.', 'workpress' ), array( 'status' => 403 ) );
+			return new WP_Error( 'blocked_file_type', __( 'Sorry, uploading this file type is not permitted for security reasons.', 'workpress' ), array( 'status' => 403 ) );
 		}
 
 		if ( ! empty( $uploaded['size'] ) && $uploaded['size'] > 25 * 1024 * 1024 ) {
-			return new WP_Error( 'file_too_large', __( 'حجم الملف يتجاوز الحد الأقصى المسموح به (25 ميجابايت).', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'file_too_large', __( 'File size exceeds the maximum limit of 25MB.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		require_once ABSPATH . 'wp-admin/includes/image.php';
@@ -97,7 +97,7 @@ class WorkPress_Portal_Requests_Handler {
 		$raw_specs   = $request->get_param( 'specs' );
 
 		if ( empty( $title ) ) {
-			return new WP_Error( 'empty_title', __( 'يرجى إدخال عنوان أو اسم الطلب.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'empty_title', __( 'Please enter a title or request name.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$user = wp_get_current_user();
@@ -171,7 +171,7 @@ class WorkPress_Portal_Requests_Handler {
 		return new WP_REST_Response(
 			array(
 				'success'    => true,
-				'message'    => __( 'تم تقديم طلب المشروع بنجاح وسيصل إشعار فوري لمدير المنظومة للمراجعة والتسعير ', 'workpress' ),
+				'message'    => __( 'Project request submitted successfully. A notification will be sent to the administrator for review and estimation.', 'workpress' ),
 				'project_id' => $project_id,
 				'project'    => WorkPress_Project_Service::get_project( $project_id ),
 			),

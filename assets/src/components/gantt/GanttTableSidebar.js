@@ -3,9 +3,51 @@ import AvatarStack from '../ui/AvatarStack.js';
 import { formatDate } from '../../utils/datetime.js';
 
 /**
+ * Gantt Table Header Component (Fixed 380px Width)
+ * Minimalist icon-driven design matching WorkPress FilterBar
+ */
+export function GanttTableHeader({ areAllCollapsed = false, toggleAllProjects }) {
+	const rtl = isRtl();
+
+	return html`
+		<div className="wp-gantt-table-header">
+			<div style=${{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+				<span className="is-flex is-align-items-center" style=${{ gap: '6px', fontWeight: '800', fontSize: '0.85rem', color: '#0f172a' }} title=${ __( 'Projects & Work Items', 'workpress' ) }>
+					<i className="dashicons dashicons-category" style=${{ fontSize: '17px', width: '17px', height: '17px', color: '#008478' }}></i>
+					<span>${ __( 'Work Items', 'workpress' ) }</span>
+				</span>
+				
+				<!-- Single Unified Expand / Collapse Toggle Button (Enlarged 32px) -->
+				<button 
+					type="button" 
+					className="wp-header-toggle-btn" 
+					onClick=${ toggleAllProjects }
+					title=${ areAllCollapsed ? __( 'Expand all projects', 'workpress' ) : __( 'Collapse all projects', 'workpress' ) }
+				>
+					<i 
+						className=${ `dashicons ${ areAllCollapsed ? 'dashicons-editor-expand' : 'dashicons-editor-contract' }` }
+					></i>
+				</button>
+			</div>
+
+			<!-- Meta Icon Group (Duration & Assignee) -->
+			<div className="is-flex is-align-items-center" style=${{ gap: '4px' }} title=${ __( 'Duration & Assignee', 'workpress' ) }>
+				<span className="wp-stat-chip" style=${{ height: '28px', padding: '0 8px', fontSize: '0.72rem', backgroundColor: '#f8fafc', color: '#64748b', gap: '5px' }}>
+					<i className="dashicons dashicons-clock" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
+					<i className="dashicons dashicons-admin-users" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
+				</span>
+			</div>
+		</div>
+	`;
+}
+
+/**
  * Gantt Right Master Table Component (380px)
  */
 export default function GanttTableSidebar({
+	tableContainerRef,
+	onScroll,
+	hideHeader = false,
 	projectGroups = {},
 	collapsedProjects = {},
 	toggleProjectCollapse,
@@ -21,34 +63,14 @@ export default function GanttTableSidebar({
 	const rtl = isRtl();
 
 	return html`
-		<div className="wp-gantt-master-table">
+		<div ref=${ tableContainerRef } onScroll=${ onScroll } className="wp-gantt-master-table">
 			<!-- Table Header (Height 58px) -->
-			<div className="wp-gantt-table-header">
-				<div style=${{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-					<span>${ __( 'Project & Task', 'workpress' ) }</span>
-					<div className="wp-btn-group-tight" style=${{ height: '22px' }}>
-						<button 
-							type="button" 
-							className="button is-small" 
-							onClick=${ expandAllProjects }
-							title=${ __( 'Expand all projects', 'workpress' ) }
-							style=${{ height: '22px', fontSize: '10px', padding: '0 5px', fontWeight: '800' }}
-						>
-							${ __( 'Expand', 'workpress' ) }
-						</button>
-						<button 
-							type="button" 
-							className="button is-small" 
-							onClick=${ collapseAllProjects }
-							title=${ __( 'Collapse all projects', 'workpress' ) }
-							style=${{ height: '22px', fontSize: '10px', padding: '0 5px', fontWeight: '800' }}
-						>
-							${ __( 'Collapse', 'workpress' ) }
-						</button>
-					</div>
-				</div>
-				<span style=${{ fontSize: '0.72rem', color: '#64748b' }}>${ __( 'Duration & Assignee', 'workpress' ) }</span>
-			</div>
+			${ ! hideHeader && html`
+				<${GanttTableHeader} 
+					expandAllProjects=${ expandAllProjects } 
+					collapseAllProjects=${ collapseAllProjects } 
+				/>
+			` }
 
 			<!-- Table Rows List -->
 			<div style=${{ display: 'flex', flexDirection: 'column' }}>

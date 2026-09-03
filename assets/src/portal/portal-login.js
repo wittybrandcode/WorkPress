@@ -38,11 +38,31 @@ window.WorkPressPortal = window.WorkPressPortal || {};
             renderWorkPressLogo
         } = ctx;
 
+        const i18n = window.WorkPressPortalI18n || { getLanguage: () => 'ar', isRTL: () => true, setLanguage: () => {}, getAvailableLanguages: () => [] };
+        const currentLang = i18n.getLanguage();
+        const availableLangs = i18n.getAvailableLanguages();
         const logoRenderer = renderWorkPressLogo || exports.renderWorkPressLogo || (() => null);
 
         return html`
             <div class="portal-login-canvas">
                 <div class="portal-login-card">
+                    <!-- Language Selection Bar -->
+                    <div class="portal-login-lang-bar" style="display: flex; justify-content: flex-end; gap: 6px; margin-bottom: 1rem;">
+                        ${availableLangs.map(lang => html`
+                            <button
+                                key=${lang.code}
+                                type="button"
+                                class="portal-login-lang-btn ${currentLang.startsWith(lang.code) ? 'is-active' : ''}"
+                                style="background: ${currentLang.startsWith(lang.code) ? 'var(--wp-primary, #0f172a)' : 'transparent'}; color: ${currentLang.startsWith(lang.code) ? '#ffffff' : 'var(--wp-text-secondary, #64748b)'}; border: 1px solid ${currentLang.startsWith(lang.code) ? 'var(--wp-primary, #0f172a)' : 'var(--wp-border, #e2e8f0)'}; padding: 3px 8px; font-size: 0.76rem; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 4px; border-radius: 0px; transition: all 0.15s ease;"
+                                onClick=${() => i18n.setLanguage(lang.code)}
+                                title=${lang.label}
+                            >
+                                <span>${lang.flag}</span>
+                                <span>${lang.code.toUpperCase()}</span>
+                            </button>
+                        `)}
+                    </div>
+
                     <!-- Official Vector Brand Logo -->
                     <div class="portal-login-brand">
                         ${logoRenderer(38)}

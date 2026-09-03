@@ -1,0 +1,182 @@
+/**
+ * WorkPress CSS Module: Executive Reports & Analytics
+ *
+ * @package WorkPress
+ * @subpackage CSS/Modules
+ */
+
+.wp-reports-unified-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+}
+
+/* Card Micro Stats Grid (2x2) */
+.wp-card-stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.wp-card-stat-box {
+    background-color: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 6px 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 0;
+}
+
+.wp-stat-label {
+    font-size: 0.68rem;
+    color: #64748b;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+
+.wp-stat-label i {
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
+}
+
+.wp-stat-value {
+    font-size: 0.78rem;
+    font-weight: 800;
+    color: #0f172a;
+}
+
+.wp-reports-stats-section {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+}
+
+.wp-reports-filter-section {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+}
+
+
+
+/* Executive Reports Table */
+.wp-reports-table-container {
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    overflow-x: auto;
+    border-radius: 0;
+}
+
+.wp-reports-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.84rem;
+}
+
+.wp-reports-table th {
+    background-color: #f8fafc;
+    color: #475569;
+    font-weight: 800;
+    padding: 10px 14px;
+    border-bottom: 2px solid #cbd5e1;
+    text-align: inherit;
+    white-space: nowrap;
+}
+
+.wp-reports-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: middle;
+}
+
+.wp-reports-table tr:hover td {
+    background-color: #f8fafc;
+}
+
+/* Clean spacing for Reports cards */
+.reports-page {
+    position: relative;
+}
+
+/* Pagination Bar */
+.wp-reports-pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 18px;
+    background-color: #ffffff;
+    border: 1px solid #e2e8f0;
+    margin-top: 1rem;
+    gap: 12px;
+    flex-wrap: wrap;
+    border-radius: 0;
+}
+
+.wp-reports-table-container + .wp-reports-pagination-container {
+    margin-top: -1px;
+    border-top: none;
+}
+
+.wp-pagination-controls {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.wp-pagination-btn,
+.wp-pagination-num-btn {
+    height: 32px;
+    min-width: 32px;
+    padding: 0 8px;
+    border: 1px solid #cbd5e1;
+    border-radius: 0;
+    background-color: #ffffff;
+    color: #334155;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.wp-pagination-btn:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    background-color: #f8fafc;
+}
+
+.wp-pagination-btn:hover:not(:disabled),
+.wp-pagination-num-btn:hover:not(.is-active) {
+    background-color: #334155;
+    color: #ffffff;
+    border-color: #334155;
+}
+
+.wp-pagination-num-btn.is-active {
+    background-color: #10b981;
+    color: #ffffff;
+    border-color: #10b981;
+    font-weight: 800;
+}
+
+.wp-pagination-ellipsis {
+    padding: 0 6px;
+    color: #94a3b8;
+    font-weight: 800;
+    user-select: none;
+}

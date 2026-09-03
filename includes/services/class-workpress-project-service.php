@@ -87,7 +87,7 @@ class WorkPress_Project_Service {
 	public static function get_project( $project_id ) {
 		$term = get_term( (int) $project_id, WorkPress_Install::TAX_PROJECT );
 		if ( ! $term || is_wp_error( $term ) ) {
-			return new WP_Error( 'not_found', __( 'المشروع غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Project not found.', 'workpress' ) );
 		}
 
 		$cache_key = 'wp_prj_' . $project_id;
@@ -110,7 +110,7 @@ class WorkPress_Project_Service {
 	 */
 	public static function create_project( $data ) {
 		if ( empty( $data['name'] ) ) {
-			return new WP_Error( 'missing_name', __( 'اسم المشروع مطلوب.', 'workpress' ) );
+			return new WP_Error( 'missing_name', __( 'Project name is required.', 'workpress' ) );
 		}
 
 		$result = wp_insert_term(
@@ -170,7 +170,7 @@ class WorkPress_Project_Service {
 
 		$project_name = ! empty( $data['name'] ) ? sanitize_text_field( $data['name'] ) : ( $project['name'] ?? '' );
 		if ( empty( $project_name ) ) {
-			return new WP_Error( 'missing_name', __( 'اسم المشروع مطلوب.', 'workpress' ) );
+			return new WP_Error( 'missing_name', __( 'Project name is required.', 'workpress' ) );
 		}
 
 		$update_args = array(
@@ -300,7 +300,7 @@ class WorkPress_Project_Service {
 		$project_id = (int) $project_id;
 		$term = get_term( $project_id, WorkPress_Install::TAX_PROJECT );
 		if ( ! $term || is_wp_error( $term ) ) {
-			return new WP_Error( 'not_found', __( 'المشروع غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Project not found.', 'workpress' ) );
 		}
 
 		// Soft-delete / Archive project preserving historical integrity (Principle 13)

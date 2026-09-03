@@ -8,12 +8,156 @@
  * @subpackage CSS/Modules
  */
 
-.wp-requests-filter-card {
+/* ==========================================================================
+   Requests Unified Fixed Toolbar System
+   ========================================================================== */
+.wp-requests-unified-toolbar {
     background-color: #ffffff;
-    border-top: 3px solid #6366f1;
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #e2e8f0;
+    padding: 0.35rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-height: 44px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+.wp-toolbar-section {
+    display: flex;
+    align-items: center;
+    gap: 0.45rem;
+    flex-wrap: wrap;
+}
+
+.wp-toolbar-divider {
+    width: 1px;
+    height: 20px;
+    background-color: #e2e8f0;
+    margin: 0 3px;
+}
+
+/* Interactive Colored Stats Buttons */
+.wp-stat-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    height: 32px;
+    min-height: 32px;
+    padding: 0 10px;
+    border-radius: 0 !important;
+    border: 1px solid #cbd5e1 !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    white-space: nowrap;
+    box-sizing: border-box;
+    line-height: 1;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.wp-stat-chip * {
+    color: #0f172a !important;
+    transition: color 0.15s ease;
+}
+
+.wp-stat-chip:hover {
+    background-color: #334155 !important;
+    border-color: #334155 !important;
+    color: #ffffff !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12);
+}
+
+.wp-stat-chip:hover * {
+    color: #ffffff !important;
+}
+
+.wp-stat-chip.is-active {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.wp-stat-chip.is-active * {
+    color: #ffffff !important;
+}
+
+.wp-stat-chip.is-active:hover {
+    background-color: #059669 !important;
+    border-color: #059669 !important;
+    color: #ffffff !important;
+}
+
+.wp-stat-chip i {
+    font-size: 14px;
+    width: 14px;
+    height: 14px;
+    line-height: 14px;
+}
+
+.wp-stat-chip b {
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+/* View & Action Icon Buttons */
+.wp-icon-btn-group {
+    display: inline-flex;
+    align-items: center;
+    border: 1px solid #cbd5e1;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.wp-view-icon-btn,
+.wp-action-icon-btn {
+    height: 32px;
+    width: 34px;
+    padding: 0;
+    border: none;
+    border-inline-end: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #64748b;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    text-decoration: none;
+}
+
+.wp-view-icon-btn:last-child,
+.wp-action-icon-btn:last-child {
+    border-inline-end: none;
+}
+
+.wp-view-icon-btn,
+.wp-action-icon-btn {
+    background-color: #ffffff;
+    color: #0f172a;
+    border: 1px solid #cbd5e1;
     border-radius: 0;
-    padding: 1rem;
-    margin-bottom: 1.5rem;
+    transition: all 0.15s ease;
+}
+
+.wp-view-icon-btn:hover,
+.wp-action-icon-btn:hover {
+    background-color: #334155;
+    border-color: #334155;
+    color: #ffffff;
+}
+
+.wp-view-icon-btn.is-active,
+.wp-action-icon-btn.is-active {
+    background-color: #10b981;
+    border-color: #10b981;
+    color: #ffffff;
 }
 
 .wp-request-card {

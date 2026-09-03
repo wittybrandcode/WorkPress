@@ -248,7 +248,7 @@ export default function DatePicker( {
 				<button 
 					type="button" 
 					className="wp-icon-btn is-small"
-					onClick=${ rtl ? handleNextMonth : handlePrevMonth }
+					onClick=${ handlePrevMonth }
 					title=${ __( 'Previous Month', 'workpress' ) }
 				>
 					<i className=${ rtl ? 'dashicons dashicons-arrow-right-alt2' : 'dashicons dashicons-arrow-left-alt2' }></i>
@@ -278,7 +278,7 @@ export default function DatePicker( {
 				<button 
 					type="button" 
 					className="wp-icon-btn is-small"
-					onClick=${ rtl ? handlePrevMonth : handleNextMonth }
+					onClick=${ handleNextMonth }
 					title=${ __( 'Next Month', 'workpress' ) }
 				>
 					<i className=${ rtl ? 'dashicons dashicons-arrow-left-alt2' : 'dashicons dashicons-arrow-right-alt2' }></i>

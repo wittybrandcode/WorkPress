@@ -35,28 +35,28 @@ class WorkPress_Webhook_Service {
 	public static function get_supported_events() {
 		return array(
 			'workpress.solution_accepted'   => array(
-				'label'       => __( 'اعتماد حل رسمي لمهمة (Solution Accepted)', 'workpress' ),
-				'description' => __( 'يُطلق فور قيام مدير المشروع أو المسؤول باعتماد مساهمة كحل رسمي معتمد.', 'workpress' ),
+				'label'       => __( 'Solution Accepted for Task', 'workpress' ),
+				'description' => __( 'Fired when project lead or admin approves a contribution as official solution.', 'workpress' ),
 				'icon'        => 'dashicons-yes-alt',
 			),
 			'workpress.solution_revoked'    => array(
-				'label'       => __( 'إلغاء اعتماد حل لمهمة (Solution Revoked)', 'workpress' ),
-				'description' => __( 'يُطلق عند إلغاء اعتماد حل وإعادة فتح المهمة للمراجعة.', 'workpress' ),
+				'label'       => __( 'Solution Revoked for Task', 'workpress' ),
+				'description' => __( 'Fired when a solution approval is revoked and task reopened for review.', 'workpress' ),
 				'icon'        => 'dashicons-undo',
 			),
 			'workpress.request_submitted'   => array(
-				'label'       => __( 'تقديم طلب مشروع جديد من عميل (Client Request Submitted)', 'workpress' ),
-				'description' => __( 'يُطلق فور إرسال عميل لطلب مشروع جديد عبر نماذج الاستقبال بالبوابة.', 'workpress' ),
+				'label'       => __( 'Client Request Submitted', 'workpress' ),
+				'description' => __( 'Fired when a client submits a new project request via portal intake forms.', 'workpress' ),
 				'icon'        => 'dashicons-forms',
 			),
 			'workpress.task_status_changed' => array(
-				'label'       => __( 'تغيير حالة المهمة (Task Status Changed)', 'workpress' ),
-				'description' => __( 'يُطلق عند نقل مهمة بين أعمدة الكانبان أو إغلاقها.', 'workpress' ),
+				'label'       => __( 'Task Status Changed', 'workpress' ),
+				'description' => __( 'Fired when a task moves between kanban columns or is closed.', 'workpress' ),
 				'icon'        => 'dashicons-update',
 			),
 			'workpress.project_completed'   => array(
-				'label'       => __( 'اكتمال كافة مهام المشروع 100% (Project Completed)', 'workpress' ),
-				'description' => __( 'يُطلق عند إنجاز واعتماد الحلول لجميع مهام المشروع بنسبة 100%.', 'workpress' ),
+				'label'       => __( 'Project Completed (100%)', 'workpress' ),
+				'description' => __( 'Fired when all project tasks are completed with approved solutions at 100%.', 'workpress' ),
 				'icon'        => 'dashicons-awards',
 			),
 		);
@@ -110,7 +110,7 @@ class WorkPress_Webhook_Service {
 	public static function save_webhook( $data ) {
 		$webhooks = self::get_webhooks();
 		$id       = ! empty( $data['id'] ) ? sanitize_key( $data['id'] ) : 'wh_' . substr( md5( uniqid( (string) wp_rand(), true ) ), 0, 10 );
-		$name     = ! empty( $data['name'] ) ? sanitize_text_field( $data['name'] ) : __( 'خطاف جديد', 'workpress' );
+		$name     = ! empty( $data['name'] ) ? sanitize_text_field( $data['name'] ) : __( 'New Webhook', 'workpress' );
 		$url      = ! empty( $data['url'] ) ? esc_url_raw( trim( $data['url'] ) ) : '';
 		$preset   = ! empty( $data['preset'] ) && in_array( $data['preset'], array( 'generic', 'discord', 'slack', 'teams' ), true ) ? $data['preset'] : 'generic';
 		$events   = ! empty( $data['events'] ) && is_array( $data['events'] ) ? array_map( 'sanitize_text_field', $data['events'] ) : array( 'workpress.solution_accepted' );
@@ -118,7 +118,7 @@ class WorkPress_Webhook_Service {
 		$active   = isset( $data['active'] ) ? (bool) $data['active'] : true;
 
 		if ( empty( $url ) || ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
-			return new WP_Error( 'invalid_url', __( 'يرجى إدخال رابط Webhook صالح.', 'workpress' ) );
+			return new WP_Error( 'invalid_url', __( 'Please enter a valid Webhook URL.', 'workpress' ) );
 		}
 
 		$existing_index = -1;
@@ -227,7 +227,7 @@ class WorkPress_Webhook_Service {
 				'headers'   => $headers,
 				'body'      => $body_str,
 				'timeout'   => 5,
-				'sslverify' => false,
+				'sslverify' => apply_filters( 'https_ssl_verify', true, $wh['url'] ),
 			) );
 			$latency    = round( ( microtime( true ) - $start_time ) * 1000 );
 
@@ -264,12 +264,12 @@ class WorkPress_Webhook_Service {
 	 * @return array
 	 */
 	public static function test_webhook( $url, $secret = '', $preset = 'generic' ) {
-		if ( empty( $url ) || ! filter_var( $url, FILTER_VALIDATE_URL ) ) {
+		if ( empty( $url ) || ! wp_http_validate_url( $url ) ) {
 			return array(
 				'success'       => false,
 				'status_code'   => 0,
 				'latency_ms'    => 0,
-				'error_message' => __( 'الرابط المدخل غير صالح.', 'workpress' ),
+				'error_message' => __( 'The entered URL is invalid or points to an unauthorized internal network address.', 'workpress' ),
 				'response_body' => '',
 			);
 		}
@@ -290,7 +290,7 @@ class WorkPress_Webhook_Service {
 		$signature = 'sha256=' . hash_hmac( 'sha256', $body_str, $secret );
 		$headers   = array(
 			'Content-Type'          => 'application/json; charset=utf-8',
-			'User-Agent'            => 'WorkPress-Webhook-Engine/1.5.0',
+			'User-Agent'            => 'WorkPress-Webhook-Engine/' . ( defined( 'WORKPRESS_VERSION' ) ? WORKPRESS_VERSION : '2.3.0' ),
 			'X-WorkPress-Event'     => 'workpress.test_ping',
 			'X-WorkPress-Signature' => $signature,
 			'X-WorkPress-Timestamp' => (string) time(),
@@ -301,7 +301,7 @@ class WorkPress_Webhook_Service {
 			'headers'   => $headers,
 			'body'      => $body_str,
 			'timeout'   => 8,
-			'sslverify' => false,
+			'sslverify' => apply_filters( 'https_ssl_verify', true, $url ),
 		) );
 		$latency    = round( ( microtime( true ) - $start_time ) * 1000 );
 

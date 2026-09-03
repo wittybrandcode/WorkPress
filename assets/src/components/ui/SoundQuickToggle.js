@@ -31,7 +31,7 @@ export default function SoundQuickToggle() {
 
 	return html`
 		<button 
-			className=${`button wp-header-btn ${enabled ? 'is-active' : ''}`}
+			className="button wp-header-btn"
 			onClick=${handleToggle}
 			title=${enabled ? __( 'Mute sound effects', 'workpress' ) : __( 'Enable sound effects', 'workpress' )}
 			style=${{ 
@@ -47,7 +47,7 @@ export default function SoundQuickToggle() {
 			<span className="icon is-small">
 				<i 
 					className=${`dashicons ${enabled ? 'dashicons-controls-volumeon' : 'dashicons-controls-volumeoff'}`} 
-					style=${{ fontSize: '18px', color: enabled ? '#6366f1' : '#94a3b8' }}
+					style=${{ fontSize: '18px' }}
 				></i>
 			</span>
 		</button>

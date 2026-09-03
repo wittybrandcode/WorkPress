@@ -93,20 +93,16 @@ export default function TaskCard( { task, isSkeleton, onClick, draggable, onDrag
 				</div>
 			` : null }
 
-			<!-- 1. Cover Image (220px Double Height) -->
+			<!-- 1. Cover Image or Pure Symbolic Icon Container (No Text) -->
 			${ task.cover_url ? html`
-				<figure className="image m-0 wp-border-bottom" style=${{ height: '220px', overflow: 'hidden', backgroundColor: '#0f172a' }}>
+				<figure className="image m-0 wp-border-bottom" style=${{ height: '180px', overflow: 'hidden', backgroundColor: '#0f172a' }}>
 					<img src=${ task.cover_url } alt=${ task.title } style=${{ objectFit: 'cover', width: '100%', height: '100%', display: 'block' }} />
 				</figure>
 			` : html`
-				<figure className="image m-0 wp-border-bottom" style=${{ height: '200px', backgroundColor: '#0f172a', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden' }}>
-					<div style=${{ position: 'absolute', inset: 0, opacity: 0.12, backgroundImage: 'radial-gradient(#38bdf8 1px, transparent 1px)', backgroundSize: '14px 14px' }}></div>
-					<div style=${{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '8px', zIndex: 2 }}>
-						<span className="icon is-large has-text-white-ter" style=${{ opacity: 0.85, width: '48px', height: '48px' }}>
-							<i className="dashicons dashicons-clipboard" style=${{ fontSize: '48px', width: '48px', height: '48px', color: '#94a3b8' }}></i>
-						</span>
-						<span style=${{ fontSize: '0.75rem', fontWeight: '800', color: '#64748b', letterSpacing: '0.5px' }}>
-							${ task.project_name ? task.project_name : 'WORKPRESS' }
+				<figure className="image m-0 wp-border-bottom" style=${{ height: '140px', backgroundColor: '#f8fafc', display: 'flex', alignItems: 'center', justifyContent: 'center', position: 'relative', overflow: 'hidden', borderBottom: '1px solid #e2e8f0' }}>
+					<div style=${{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+						<span className="icon is-large has-text-grey-light" style=${{ width: '48px', height: '48px' }}>
+							<i className="dashicons dashicons-clipboard" style=${{ fontSize: '42px', width: '42px', height: '42px', color: '#94a3b8' }}></i>
 						</span>
 					</div>
 				</figure>
@@ -196,7 +192,7 @@ export default function TaskCard( { task, isSkeleton, onClick, draggable, onDrag
 						<i className="dashicons dashicons-visibility"></i>
 					</button>
 
-					<div ref=${dropdownRef} className=${`dropdown is-up is-left ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
+					<div ref=${dropdownRef} className=${`dropdown is-up ${rtl ? 'is-left' : 'is-right'} ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
 						<div className="dropdown-trigger">
 							<button 
 								type="button" 
@@ -209,7 +205,19 @@ export default function TaskCard( { task, isSkeleton, onClick, draggable, onDrag
 								<i className="dashicons dashicons-ellipsis"></i>
 							</button>
 						</div>
-						<div className="dropdown-menu" id="dropdown-menu" role="menu" style=${{ zIndex: 1000 }}>
+						<div 
+							className="dropdown-menu" 
+							id="dropdown-menu" 
+							role="menu" 
+							style=${{ 
+								zIndex: 1000,
+								minWidth: '190px',
+								insetInlineEnd: 0,
+								insetInlineStart: 'auto',
+								[rtl ? 'left' : 'right']: 0,
+								[rtl ? 'right' : 'left']: 'auto'
+							}}
+						>
 							<div className="dropdown-content p-0" style=${{ borderRadius: '0', border: '1px solid #0f172a', boxShadow: '0 8px 24px rgba(0,0,0,0.2)' }}>
 								${ task.is_pending_trash ? html`
 									<div className="dropdown-item p-2 has-text-centered is-size-7 has-text-grey">

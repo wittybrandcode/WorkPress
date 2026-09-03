@@ -24,7 +24,7 @@ class WorkPress_Report_Service {
 		$project_id = (int) $project_id;
 		$project = WorkPress_Project_Service::get_project( $project_id );
 		if ( is_wp_error( $project ) || ! $project ) {
-			return new WP_Error( 'project_not_found', __( 'المشروع غير موجود.', 'workpress' ) );
+			return new WP_Error( 'project_not_found', __( 'Project not found.', 'workpress' ) );
 		}
 
 		// Retrieve all tasks for this project (unlimited).
@@ -71,7 +71,7 @@ class WorkPress_Report_Service {
 				'title'       => $task['title'],
 				'status'      => $status,
 				'priority'    => $priority,
-				'assignee'    => ! empty( $task['assignees'] ) && is_array( $task['assignees'] ) ? implode( '، ', array_filter( wp_list_pluck( $task['assignees'], 'display_name' ) ) ) : __( 'غير مسند', 'workpress' ),
+				'assignee'    => ! empty( $task['assignees'] ) && is_array( $task['assignees'] ) ? implode( '، ', array_filter( wp_list_pluck( $task['assignees'], 'display_name' ) ) ) : __( 'Unassigned', 'workpress' ),
 				'created_at'  => $task['created_at'],
 				'due_date'    => ! empty( $task['due_at'] ) ? $task['due_at'] : null,
 			);
@@ -195,7 +195,7 @@ class WorkPress_Report_Service {
 				'accepted_at'      => $comment->comment_date,
 				'author_name'      => $author_user ? $author_user->display_name : $comment->comment_author,
 				'author_avatar'    => get_avatar_url( $comment->user_id, array( 'size' => 48 ) ),
-				'accepted_by_name' => $accepted_by_user ? $accepted_by_user->display_name : __( 'قائد المشروع', 'workpress' ),
+				'accepted_by_name' => $accepted_by_user ? $accepted_by_user->display_name : __( 'Project Lead', 'workpress' ),
 				'attachments'      => $attachments,
 			);
 		}

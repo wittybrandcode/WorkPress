@@ -3,7 +3,7 @@
  * Plugin Name: WorkPress
  * Plugin URI:  https://workpress.local
  * Description: Native Organizational Memory & Work Management Engine for WordPress.
- * Version:     2.2.3
+ * Version:     2.3.0
  * Author:      WorkPress Team
  * Text Domain: workpress
  * Domain Path: /languages
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'WORKPRESS_VERSION', '2.2.3' );
+define( 'WORKPRESS_VERSION', '2.3.0' );
 define( 'WORKPRESS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WORKPRESS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -91,22 +91,44 @@ function workpress_init() {
 add_action( 'plugins_loaded', 'workpress_init' );
 
 /**
- * Filter WordPress locale for WorkPress requests and user preferences.
+ * Filter WordPress locale for WorkPress portal and specific REST requests.
+ * Standard WordPress admin requests remain completely unaffected.
  *
  * @param string $locale
  * @return string
  */
 function workpress_filter_locale( $locale ) {
-	$cookie_locale = isset( $_COOKIE['workpress_user_locale'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['workpress_user_locale'] ) ) : '';
-	if ( ! empty( $cookie_locale ) && in_array( $cookie_locale, array( 'ar', 'en_US', 'en', 'fr_FR', 'es_ES' ), true ) ) {
-		return ( $cookie_locale === 'en' ) ? 'en_US' : $cookie_locale;
+	// Never override locale on standard WordPress admin pages
+	if ( is_admin() && ( ! defined( 'REST_REQUEST' ) || ! REST_REQUEST ) ) {
+		return $locale;
 	}
-	if ( is_user_logged_in() ) {
-		$user_locale = get_user_meta( get_current_user_id(), 'locale', true );
-		if ( ! empty( $user_locale ) && in_array( $user_locale, array( 'ar', 'en_US', 'en', 'fr_FR', 'es_ES' ), true ) ) {
-			return ( $user_locale === 'en' ) ? 'en_US' : $user_locale;
+
+	$map = array(
+		'en'    => 'en_US',
+		'en_US' => 'en_US',
+		'ar'    => 'ar',
+		'fr'    => 'fr_FR',
+		'fr_FR' => 'fr_FR',
+		'es'    => 'es_ES',
+		'es_ES' => 'es_ES',
+	);
+
+	// 1. URL Query parameter priority (instant preview / link sharing on portal)
+	if ( isset( $_GET['lang'] ) ) {
+		$get_lang = sanitize_text_field( wp_unslash( $_GET['lang'] ) );
+		if ( isset( $map[ $get_lang ] ) ) {
+			return $map[ $get_lang ];
 		}
 	}
+
+	// 2. Portal independent client cookie
+	if ( isset( $_COOKIE['workpress_portal_locale'] ) ) {
+		$portal_locale = sanitize_text_field( wp_unslash( $_COOKIE['workpress_portal_locale'] ) );
+		if ( isset( $map[ $portal_locale ] ) ) {
+			return $map[ $portal_locale ];
+		}
+	}
+
 	return $locale;
 }
 add_filter( 'locale', 'workpress_filter_locale', 99 );

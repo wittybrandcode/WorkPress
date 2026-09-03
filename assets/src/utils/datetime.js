@@ -18,23 +18,64 @@ export const MONTH_NAMES = {
 		'كانون الثاني', 'شباط', 'آذار', 'نيسان', 'أيار', 'حزيران',
 		'تموز', 'آب', 'أيلول', 'تشرين الأول', 'تشرين الثاني', 'كانون الأول'
 	],
+	en: [
+		'January', 'February', 'March', 'April', 'May', 'June',
+		'July', 'August', 'September', 'October', 'November', 'December'
+	],
+	fr: [
+		'Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin',
+		'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'
+	],
+	es: [
+		'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
+		'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'
+	],
 };
 
-export const DAY_NAMES = [
-	'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'
-];
+export const DAY_NAMES_LOCALIZED = {
+	ar: [
+		'الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'
+	],
+	en: [
+		'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'
+	],
+	fr: [
+		'Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'
+	],
+	es: [
+		'Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'
+	],
+};
+
+export const DAY_NAMES = new Proxy( DAY_NAMES_LOCALIZED.ar, {
+	get( target, prop ) {
+		const settings = getRuntimeSettings();
+		const list = DAY_NAMES_LOCALIZED[ settings.lang ] || DAY_NAMES_LOCALIZED.ar;
+		if ( prop === 'length' ) return list.length;
+		if ( typeof list[ prop ] === 'function' ) {
+			return list[ prop ].bind( list );
+		}
+		if ( prop in list ) {
+			return list[ prop ];
+		}
+		return target[ prop ];
+	}
+} );
 
 /**
  * Get current active runtime settings
  */
 export function getRuntimeSettings() {
 	const wpSettings = window.workpressSettings || {};
+	const rawLocale = wpSettings.userLocale || wpSettings.locale || 'ar';
+	const lang = String( rawLocale ).split( '_' )[ 0 ].toLowerCase();
 	return {
 		timezone: wpSettings.timezone || 'Africa/Algiers',
 		monthNaming: wpSettings.monthNaming || 'maghrebi',
 		dateFormat: wpSettings.dateFormat || 'D MMMM YYYY',
 		relativeTime: wpSettings.relativeTime !== undefined ? wpSettings.relativeTime : true,
 		gmtOffset: wpSettings.gmtOffset !== undefined ? parseFloat( wpSettings.gmtOffset ) : 1,
+		lang: lang || 'ar',
 	};
 }
 
@@ -76,7 +117,13 @@ export function formatPercent( rate ) {
  * Get localized month name
  */
 export function getMonthName( monthIndex, namingStyle = null ) {
-	const style = namingStyle || getRuntimeSettings().monthNaming;
+	const settings = getRuntimeSettings();
+	const lang = settings.lang;
+	if ( lang === 'en' || lang === 'fr' || lang === 'es' ) {
+		const months = MONTH_NAMES[ lang ] || MONTH_NAMES.en;
+		return months[ monthIndex ] || '';
+	}
+	const style = namingStyle || settings.monthNaming;
 	const months = MONTH_NAMES[ style ] || MONTH_NAMES.maghrebi;
 	return months[ monthIndex ] || '';
 }
@@ -127,6 +174,43 @@ export function formatDateTime( dateInput, options = {} ) {
 	const formattedDate = formatDate( date, options );
 	const formattedTime = formatTime( date );
 	return `${ formattedDate }، ${ formattedTime }`;
+}
+
+/**
+ * Break down date & time into discrete visual segments:
+ * { day, month, year, time, isValid }
+ * Implements standard: أيقونة | اليوم | الشهر | السنة | الساعة
+ *
+ * @param {any} dateInput
+ * @param {Object} [options]
+ * @return {{ day: string, month: string, year: string, time: string, isValid: boolean }}
+ */
+export function formatDateTimeSegments( dateInput, options = {} ) {
+	const date = parseDate( dateInput );
+	if ( ! date ) {
+		return {
+			day: '—',
+			month: '—',
+			year: '—',
+			time: '—',
+			isValid: false
+		};
+	}
+
+	const day = String( date.getDate() ).padStart( 2, '0' );
+	const month = getMonthName( date.getMonth(), options.monthNaming );
+	const year = String( date.getFullYear() );
+	const hours = String( date.getHours() ).padStart( 2, '0' );
+	const minutes = String( date.getMinutes() ).padStart( 2, '0' );
+	const time = `${ hours }:${ minutes }`;
+
+	return {
+		day,
+		month,
+		year,
+		time,
+		isValid: true
+	};
 }
 
 /**
@@ -184,3 +268,147 @@ export function formatRelativeTime( dateInput, options = {} ) {
 	// Older years
 	return formatDate( date, options );
 }
+
+/**
+ * Calculate deep temporal intelligence metrics for a project/task timeline.
+ * Computes elapsed time, remaining time, overdue duration, and Gantt extension.
+ *
+ * @param {Object} params
+ * @param {any} params.startDate - Start timestamp or date string
+ * @param {any} params.dueDate - Target deadline timestamp or date string
+ * @param {boolean} [params.isCompleted=false] - Whether the entity is completed
+ * @param {any} [params.completedAt] - When the entity was completed
+ * @param {any} [params.originalDueDate] - Initial scheduled due date before Gantt extension
+ * @return {Object} Detailed metrics
+ */
+export function calculateTimelineInsights( {
+	startDate,
+	dueDate,
+	isCompleted = false,
+	completedAt = null,
+	originalDueDate = null,
+} ) {
+	const start = parseDate( startDate );
+	const due = parseDate( dueDate );
+	const now = new Date();
+	const end = isCompleted && completedAt ? parseDate( completedAt ) : now;
+
+	const DAY_MS = 86400000;
+	const HOUR_MS = 3600000;
+
+	// Total planned duration
+	let totalPlannedDays = 0;
+	if ( start && due && due >= start ) {
+		totalPlannedDays = Math.max( 1, Math.round( ( due.getTime() - start.getTime() ) / DAY_MS ) );
+	}
+
+	// Elapsed duration
+	let elapsedDays = 0;
+	let elapsedHours = 0;
+	if ( start ) {
+		const elapsedDiff = Math.max( 0, end.getTime() - start.getTime() );
+		elapsedDays = Math.floor( elapsedDiff / DAY_MS );
+		elapsedHours = Math.floor( ( elapsedDiff % DAY_MS ) / HOUR_MS );
+	}
+
+	// Remaining or Overdue duration
+	let remainingDays = 0;
+	let remainingHours = 0;
+	let overdueDays = 0;
+	let isOverdue = false;
+
+	if ( due ) {
+		const diff = due.getTime() - end.getTime();
+		if ( diff < 0 && ! isCompleted ) {
+			isOverdue = true;
+			const absDiff = Math.abs( diff );
+			overdueDays = Math.max( 1, Math.floor( absDiff / DAY_MS ) );
+		} else if ( diff >= 0 ) {
+			remainingDays = Math.floor( diff / DAY_MS );
+			remainingHours = Math.floor( ( diff % DAY_MS ) / HOUR_MS );
+		}
+	}
+
+	// Gantt Extension / Extra Time Added
+	let extensionDays = 0;
+	const origDue = parseDate( originalDueDate );
+	if ( origDue && due && due > origDue ) {
+		extensionDays = Math.round( ( due.getTime() - origDue.getTime() ) / DAY_MS );
+	}
+
+	const elapsedDetailed = start ? formatDetailedDuration( start, end ) : '—';
+	const remainingDetailed = due ? formatDetailedDuration( end, due ) : '—';
+
+	let insightType = 'in_progress'; // 'completed' | 'overdue' | 'in_progress'
+
+	if ( isCompleted ) {
+		insightType = 'completed';
+	} else if ( isOverdue ) {
+		insightType = 'overdue';
+	} else {
+		insightType = 'in_progress';
+	}
+
+	return {
+		totalPlannedDays,
+		elapsedDays,
+		elapsedHours,
+		elapsedDetailed,
+		remainingDays,
+		remainingHours,
+		remainingDetailed,
+		overdueDays,
+		isOverdue,
+		extensionDays,
+		insightType,
+	};
+}
+
+/**
+ * Format duration with institutional precision:
+ * Format: 1 سنة | 4 أشهر | 12 يوما | hh:mm:ss
+ *
+ * @param {any} fromDate
+ * @param {any} [toDate]
+ * @return {string}
+ */
+export function formatDetailedDuration( fromDate, toDate = new Date() ) {
+	const d1 = parseDate( fromDate );
+	const d2 = parseDate( toDate );
+	if ( ! d1 || ! d2 ) return '—';
+
+	const diffMs = Math.abs( d2.getTime() - d1.getTime() );
+
+	const totalSeconds = Math.floor( diffMs / 1000 );
+	const seconds = totalSeconds % 60;
+	const totalMinutes = Math.floor( totalSeconds / 60 );
+	const minutes = totalMinutes % 60;
+	const totalHours = Math.floor( totalMinutes / 60 );
+	const hours = totalHours % 24;
+	const totalDays = Math.floor( totalHours / 24 );
+
+	const years = Math.floor( totalDays / 365 );
+	const remainingDaysAfterYears = totalDays % 365;
+	const months = Math.floor( remainingDaysAfterYears / 30 );
+	const days = remainingDaysAfterYears % 30;
+
+	const hh = String( hours ).padStart( 2, '0' );
+	const mm = String( minutes ).padStart( 2, '0' );
+	const ss = String( seconds ).padStart( 2, '0' );
+	const timePart = `${ hh }:${ mm }:${ ss }`;
+
+	const parts = [];
+	if ( years > 0 ) {
+		parts.push( `${ years } سنة` );
+	}
+	if ( months > 0 ) {
+		parts.push( `${ months } أشهر` );
+	}
+	if ( days > 0 || ( years === 0 && months === 0 ) ) {
+		parts.push( `${ days } يوما` );
+	}
+	parts.push( timePart );
+
+	return parts.join( ' | ' );
+}
+

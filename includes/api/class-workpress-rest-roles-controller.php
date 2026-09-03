@@ -107,12 +107,12 @@ class WorkPress_REST_Roles_Controller extends WP_REST_Controller {
 		);
 
 		$native_labels = array(
-			'administrator'    => __( 'مدير عام', 'workpress' ),
-			'editor'           => __( 'قائد مشروع', 'workpress' ),
-			'author'           => __( 'منفذ رئيسي', 'workpress' ),
-			'contributor'      => __( 'مساهم فني', 'workpress' ),
-			'subscriber'       => __( 'مشترك', 'workpress' ),
-			'workpress_client' => __( 'مستفيد', 'workpress' ),
+			'administrator'    => __( 'Administrator', 'workpress' ),
+			'editor'           => __( 'Project Lead', 'workpress' ),
+			'author'           => __( 'Primary Executor', 'workpress' ),
+			'contributor'      => __( 'Technical Contributor', 'workpress' ),
+			'subscriber'       => __( 'Subscriber', 'workpress' ),
+			'workpress_client' => __( 'Stakeholder', 'workpress' ),
 		);
 
 		foreach ( $target_roles as $role_name ) {
@@ -150,7 +150,7 @@ class WorkPress_REST_Roles_Controller extends WP_REST_Controller {
 		$updates = $request->get_param( 'updates' );
 		
 		if ( ! is_array( $updates ) ) {
-			return new WP_Error( 'invalid_data', __( 'بيانات غير صالحة', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_data', __( 'Invalid data', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$wp_roles = wp_roles();
@@ -178,7 +178,7 @@ class WorkPress_REST_Roles_Controller extends WP_REST_Controller {
 		$aliases = $request->get_param( 'aliases' );
 		
 		if ( ! is_array( $aliases ) ) {
-			return new WP_Error( 'invalid_data', __( 'بيانات غير صالحة', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_data', __( 'Invalid data', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		// Sanitize
@@ -201,18 +201,18 @@ class WorkPress_REST_Roles_Controller extends WP_REST_Controller {
 		$clone_from = sanitize_key( $request->get_param( 'clone_from' ) );
 
 		if ( empty( $role_id ) || empty( $display_name ) || empty( $clone_from ) ) {
-			return new WP_Error( 'missing_fields', __( 'جميع الحقول مطلوبة', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'missing_fields', __( 'All fields are required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$wp_roles = wp_roles();
 		
 		if ( $wp_roles->is_role( $role_id ) ) {
-			return new WP_Error( 'role_exists', __( 'هذا الدور موجود مسبقاً', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'role_exists', __( 'This role already exists', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$base_role = $wp_roles->get_role( $clone_from );
 		if ( ! $base_role ) {
-			return new WP_Error( 'invalid_base_role', __( 'الدور الأساسي غير صالح', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_base_role', __( 'Core role is invalid', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		// Create the new role with the base role's capabilities
@@ -242,7 +242,7 @@ class WorkPress_REST_Roles_Controller extends WP_REST_Controller {
 		$custom_roles = get_option( 'workpress_custom_roles', array() );
 		
 		if ( ! in_array( $role_id, $custom_roles, true ) ) {
-			return new WP_Error( 'not_custom_role', __( 'لا يمكن حذف هذا الدور أو أنه غير موجود', 'workpress' ), array( 'status' => 403 ) );
+			return new WP_Error( 'not_custom_role', __( 'Cannot delete this role or it does not exist', 'workpress' ), array( 'status' => 403 ) );
 		}
 		
 		// Remove from custom roles array

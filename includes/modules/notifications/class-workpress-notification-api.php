@@ -48,10 +48,10 @@ class WorkPress_Notification_API extends WP_REST_Controller {
 		foreach ( $notifications as &$n ) {
 			if ( ! empty( $n['actor_id'] ) ) {
 				$actor = get_userdata( $n['actor_id'] );
-				$n['actor_name']   = $actor ? $actor->display_name : __( 'شخص ما', 'workpress' );
+				$n['actor_name']   = $actor ? $actor->display_name : __( 'Someone', 'workpress' );
 				$n['actor_avatar'] = $actor ? get_avatar_url( $actor->ID, array( 'size' => 32 ) ) : '';
 			} else {
-				$n['actor_name']   = __( 'النظام', 'workpress' );
+				$n['actor_name']   = __( 'System', 'workpress' );
 				$n['actor_avatar'] = '';
 			}
 
@@ -69,40 +69,40 @@ class WorkPress_Notification_API extends WP_REST_Controller {
 			// Generate message based on type
 			switch ( $n['type'] ) {
 				case 'task_assigned':
-					$n['message'] = sprintf( __( 'تم تكليفك بمهمة جديدة: %s', 'workpress' ), $task_title );
+					$n['message'] = sprintf( __( 'You have been assigned to a new task: %s', 'workpress' ), $task_title );
 					break;
 				case 'task_unassigned':
-					$n['message'] = sprintf( __( 'تم إلغاء تكليفك من المهمة: %s', 'workpress' ), $task_title );
+					$n['message'] = sprintf( __( 'You have been unassigned from task: %s', 'workpress' ), $task_title );
 					break;
 				case 'task_state_changed':
-					$n['message'] = sprintf( __( 'تغيرت حالة المهمة: %s', 'workpress' ), $task_title );
+					$n['message'] = sprintf( __( 'Task status changed: %s', 'workpress' ), $task_title );
 					break;
 				case 'task_reopened':
-					$n['message'] = sprintf( __( 'تم إعادة فتح المهمة: %s', 'workpress' ), $task_title );
+					$n['message'] = sprintf( __( 'Task reopened: %s', 'workpress' ), $task_title );
 					break;
 				case 'task_closed':
-					$n['message'] = sprintf( __( 'تم إغلاق المهمة: %s', 'workpress' ), $task_title );
+					$n['message'] = sprintf( __( 'Task closed: %s', 'workpress' ), $task_title );
 					break;
 				case 'contribution_created':
-					$n['message'] = sprintf( __( 'أضاف %1$s مساهمة جديدة في المهمة: %2$s', 'workpress' ), $n['actor_name'], $task_title );
+					$n['message'] = sprintf( __( '%1$s added a new contribution to task: %2$s', 'workpress' ), $n['actor_name'], $task_title );
 					break;
 				case 'contribution_comment':
-					$n['message'] = sprintf( __( 'علق %1$s على مساهمة في المهمة: %2$s', 'workpress' ), $n['actor_name'], $task_title );
+					$n['message'] = sprintf( __( '%1$s commented on a contribution in task: %2$s', 'workpress' ), $n['actor_name'], $task_title );
 					break;
 				case 'contribution_accepted':
-					$n['message'] = sprintf( __( 'تم اعتماد مساهمتك في المهمة كحل: %s', 'workpress' ), $task_title );
+					$n['message'] = sprintf( __( 'Your contribution was approved as solution for task: %s', 'workpress' ), $task_title );
 					break;
 				case 'contribution_revoked':
-					$n['message'] = sprintf( __( 'تم التراجع عن اعتماد مساهمتك في المهمة: %s', 'workpress' ), $task_title );
+					$n['message'] = sprintf( __( 'Your contribution approval was revoked for task: %s', 'workpress' ), $task_title );
 					break;
 				case 'member_added':
-					$n['message'] = sprintf( __( 'تمت إضافتك إلى مشروع: %s', 'workpress' ), $project_title );
+					$n['message'] = sprintf( __( 'You have been added to project: %s', 'workpress' ), $project_title );
 					break;
 				case 'member_removed':
-					$n['message'] = sprintf( __( 'تمت إزالتك من مشروع: %s', 'workpress' ), $project_title );
+					$n['message'] = sprintf( __( 'You have been removed from project: %s', 'workpress' ), $project_title );
 					break;
 				case 'project_permanently_deleted':
-					$n['message'] = sprintf( __( 'تم الحذف النهائي لمشروعك والمهام الخاصة به: %s', 'workpress' ), $project_title ? $project_title : __( 'مشروع محذوف', 'workpress' ) );
+					$n['message'] = sprintf( __( 'Your project and its tasks have been permanently deleted: %s', 'workpress' ), $project_title ? $project_title : __( 'Deleted Project', 'workpress' ) );
 					break;
 				case 'deletion_requested':
 					$reason = '';
@@ -111,31 +111,31 @@ class WorkPress_Notification_API extends WP_REST_Controller {
 					} elseif ( $n['project_id'] ) {
 						$reason = get_term_meta( $n['project_id'], '_workpress_trash_reason', true );
 					}
-					$reason = $reason ? $reason : __( 'غير محدد', 'workpress' );
-					$entity_name = $task_title ? $task_title : ( $project_title ? $project_title : __( 'عنصر', 'workpress' ) );
-					$n['message'] = sprintf( __( '<strong>طلب حذف:</strong> يطلب %1$s حذف "%2$s". <br><strong>السبب:</strong> %3$s', 'workpress' ), $n['actor_name'], $entity_name, esc_html( $reason ) );
+					$reason = $reason ? $reason : __( 'Unspecified', 'workpress' );
+					$entity_name = $task_title ? $task_title : ( $project_title ? $project_title : __( 'Item', 'workpress' ) );
+					$n['message'] = sprintf( __( '<strong>Trash request:</strong> %1$s requests deletion of "%2$s". <br><strong>Reason:</strong> %3$s', 'workpress' ), $n['actor_name'], $entity_name, esc_html( $reason ) );
 					break;
 				case 'client_feedback':
-					$n['message'] = sprintf( __( '<strong>استفسار من العميل:</strong> أرسل %1$s ملاحظة حول المهمة: "%2$s"', 'workpress' ), $n['actor_name'], $task_title ? $task_title : __( 'مهمة', 'workpress' ) );
+					$n['message'] = sprintf( __( '<strong>Client inquiry:</strong> %1$s sent feedback about task: "%2$s"', 'workpress' ), $n['actor_name'], $task_title ? $task_title : __( 'Task', 'workpress' ) );
 					break;
 				case 'project_request':
-					$n['message'] = sprintf( __( '<strong>طلب مشروع جديد:</strong> قدم العميل %1$s طلباً جديداً لمشروع: "%2$s"', 'workpress' ), $n['actor_name'], $project_title ? $project_title : __( 'مشروع جديد', 'workpress' ) );
+					$n['message'] = sprintf( __( '<strong>New project request:</strong> Client %1$s submitted a new project request: "%2$s"', 'workpress' ), $n['actor_name'], $project_title ? $project_title : __( 'New Project', 'workpress' ) );
 					break;
 				case 'project_request_approved':
-					$n['message'] = sprintf( __( '<strong>تم اعتماد طلبكم:</strong> قامت الإدارة باعتماد طلبكم لمشروع "%s" وتدشينه رسمياً في مساحتكم ', 'workpress' ), $project_title ? $project_title : __( 'المشروع', 'workpress' ) );
+					$n['message'] = sprintf( __( '<strong>Request approved:</strong> Management has approved your project request "%s" and officially launched it in your workspace.', 'workpress' ), $project_title ? $project_title : __( 'Project', 'workpress' ) );
 					break;
 				case 'project_request_under_review':
 					$review_notes = ( ! empty( $n['project_id'] ) ) ? get_term_meta( $n['project_id'], '_workpress_review_notes', true ) : '';
-					$reason_str   = $review_notes ? sprintf( __( '<br><strong>توضيح الإدارة:</strong> %s', 'workpress' ), esc_html( $review_notes ) ) : '';
-					$n['message'] = sprintf( __( '<strong>طلبكم قيد الدراسة:</strong> يجري التدقيق الهندسي لطلب مشروع "%1$s".%2$s', 'workpress' ), $project_title ? $project_title : __( 'المشروع', 'workpress' ), $reason_str );
+					$reason_str   = $review_notes ? sprintf( __( '<br><strong>Management note:</strong> %s', 'workpress' ), esc_html( $review_notes ) ) : '';
+					$n['message'] = sprintf( __( '<strong>Request under review:</strong> Technical review is underway for project request "%1$s".%2$s', 'workpress' ), $project_title ? $project_title : __( 'Project', 'workpress' ), $reason_str );
 					break;
 				case 'project_request_rejected':
 					$rejection_reason = ( ! empty( $n['project_id'] ) ) ? get_term_meta( $n['project_id'], '_workpress_rejection_reason', true ) : '';
-					$reason_str       = $rejection_reason ? sprintf( __( '<br><strong>سبب عدم الاعتماد:</strong> %s', 'workpress' ), esc_html( $rejection_reason ) ) : '';
-					$n['message']     = sprintf( __( '<strong>تحديث حول طلبكم:</strong> تعذر اعتماد مشروع "%1$s".%2$s', 'workpress' ), $project_title ? $project_title : __( 'المشروع', 'workpress' ), $reason_str );
+					$reason_str       = $rejection_reason ? sprintf( __( '<br><strong>Rejection reason:</strong> %s', 'workpress' ), esc_html( $rejection_reason ) ) : '';
+					$n['message']     = sprintf( __( '<strong>Request update:</strong> Project "%1$s" could not be approved.%2$s', 'workpress' ), $project_title ? $project_title : __( 'Project', 'workpress' ), $reason_str );
 					break;
 				default:
-					$n['message'] = __( 'لديك إشعار جديد', 'workpress' );
+					$n['message'] = __( 'You have a new notification', 'workpress' );
 			}
 		}
 
@@ -152,7 +152,7 @@ class WorkPress_Notification_API extends WP_REST_Controller {
 		$result = WorkPress_Notification_DB::mark_as_read( $id, $user_id );
 		
 		if ( false === $result ) {
-			return new WP_Error( 'db_error', __( 'حدث خطأ أثناء تحديث الإشعار', 'workpress' ), array( 'status' => 500 ) );
+			return new WP_Error( 'db_error', __( 'An error occurred while updating the notification', 'workpress' ), array( 'status' => 500 ) );
 		}
 		
 		return rest_ensure_response( array( 'success' => true ) );

@@ -1,4 +1,4 @@
-import { html, useState, useEffect, __, sprintf } from '../utils/html.js';
+import { html, useState, useEffect, __, sprintf, isSyncWithWp, getLocale, setLocale, getWpLocale } from '../utils/html.js';
 import { hooks } from '../utils/hooks.js';
 import { usersApi, rolesApi, contributionsApi, settingsApi, devApi, exportApi } from '../api/client.js';
 import { CANONICAL_ROLE_LABELS, getUserRoleLabel } from '../utils/userScope.js';
@@ -38,14 +38,18 @@ export default function SettingsPage() {
 	useEffect(() => {
 		const handleHashChange = () => {
 			const tab = parseTabFromHash();
-			setActiveTab(tab);
+			if (tab !== activeTab) {
+				setActiveTab(tab);
+			}
 		};
 		window.addEventListener('hashchange', handleHashChange);
 		return () => window.removeEventListener('hashchange', handleHashChange);
-	}, []);
+	}, [activeTab]);
 
+	// Shared State
 	const [users, setUsers] = useState([]);
-	const [isLoading, setIsLoading] = useState(true);
+	const [isLoading, setIsLoading] = useState(false);
+	const [userSearch, setUserSearch] = useState('');
 	const [page, setPage] = useState(1);
 	const [totalPages, setTotalPages] = useState(1);
 	const [confirmConfig, setConfirmConfig] = useState(null);
@@ -61,17 +65,52 @@ export default function SettingsPage() {
 	const [monthNaming, setMonthNaming] = useState(wpSettings.monthNaming || 'maghrebi');
 	const [dateFormat, setDateFormat] = useState(wpSettings.dateFormat || 'D MMMM YYYY');
 	const [relativeTime, setRelativeTime] = useState(wpSettings.relativeTime !== undefined ? wpSettings.relativeTime : true);
+	const [syncWpLocale, setSyncWpLocale] = useState(isSyncWithWp);
+	const [selectedLocale, setSelectedLocale] = useState(getLocale);
 	const [logoUrl, setLogoUrl] = useState(wpSettings.customLogoUrl || '');
 	const [logoId, setLogoId] = useState(wpSettings.customLogoId || 0);
 	const [faviconUrl, setFaviconUrl] = useState(wpSettings.customFaviconUrl || '');
 	const [faviconId, setFaviconId] = useState(wpSettings.customFaviconId || 0);
 	const [isSettingsSaving, setIsSettingsSaving] = useState(false);
 
+	useEffect(() => {
+		const handleLocaleChange = () => {
+			setSyncWpLocale(isSyncWithWp());
+			setSelectedLocale(getLocale());
+		};
+		window.addEventListener('workpress_locale_changed', handleLocaleChange);
+		return () => window.removeEventListener('workpress_locale_changed', handleLocaleChange);
+	}, []);
+
 	// Sound Effects Settings State
 	const [soundEnabled, setSoundEnabled] = useState(wpSettings.sound_enabled !== undefined ? wpSettings.sound_enabled : true);
 	const [soundVolume, setSoundVolume] = useState(wpSettings.sound_volume !== undefined ? parseFloat(wpSettings.sound_volume) : 0.7);
 	const [soundKit, setSoundKit] = useState(wpSettings.sound_kit || '01');
 	const [eventsConfig, setEventsConfig] = useState(sound.getAllEventsConfig());
+
+	// Exact Zero-Movement Sticky Top Positioning (تجميد كلي دون أدنى حركة)
+	const [stickyTop, setStickyTop] = useState(() => {
+		if (typeof document === 'undefined') return 165;
+		const adminBar = document.getElementById('wpadminbar');
+		const header = document.querySelector('.workpress-header-wrapper');
+		const aH = adminBar ? adminBar.getBoundingClientRect().height : 32;
+		const hH = header ? header.getBoundingClientRect().height : 108;
+		return Math.round(aH + hH + 24);
+	});
+
+	useEffect(() => {
+		const calculateStickyTop = () => {
+			const adminBar = document.getElementById('wpadminbar');
+			const header = document.querySelector('.workpress-header-wrapper');
+			const aH = adminBar ? adminBar.getBoundingClientRect().height : 32;
+			const hH = header ? header.getBoundingClientRect().height : 108;
+			setStickyTop(Math.round(aH + hH + 24));
+		};
+
+		calculateStickyTop();
+		window.addEventListener('resize', calculateStickyTop);
+		return () => window.removeEventListener('resize', calculateStickyTop);
+	}, []);
 
 	// Intake Forms Schema State
 	const [intakeForms, setIntakeForms] = useState(wpSettings.intake_forms_schema || []);
@@ -116,7 +155,10 @@ export default function SettingsPage() {
 
 	const handleSaveLocalizationSettings = () => {
 		setIsSettingsSaving(true);
-		settingsApi.update({ timezone, monthNaming, dateFormat, relativeTime }).then(() => {
+		Promise.all([
+			settingsApi.update({ timezone, monthNaming, dateFormat, relativeTime }),
+			settingsApi.updateLocale(selectedLocale, syncWpLocale)
+		]).then(() => {
 			setIsSettingsSaving(false);
 			if (window.workpressSettings) {
 				window.workpressSettings.timezone = timezone;
@@ -124,12 +166,23 @@ export default function SettingsPage() {
 				window.workpressSettings.dateFormat = dateFormat;
 				window.workpressSettings.relativeTime = relativeTime;
 			}
+			setLocale(syncWpLocale ? 'auto' : selectedLocale, syncWpLocale);
 			toast( __( 'Timezone and localization settings saved successfully.', 'workpress' ), 'success' );
 		}).catch(err => {
 			setIsSettingsSaving(false);
 			console.error(err);
 			toast( __( 'An error occurred while saving settings.', 'workpress' ), 'danger' );
 		});
+	};
+
+	const handleResetToWordPressLocale = () => {
+		setSyncWpLocale(true);
+		const wpLoc = getWpLocale();
+		setSelectedLocale(wpLoc);
+		setLocale('auto', true);
+		settingsApi.updateLocale('auto', true).then(() => {
+			toast( __( 'Language reset to match WordPress default.', 'workpress' ), 'success' );
+		}).catch(() => {});
 	};
 
 	const handleSaveGeneralSettings = () => {
@@ -521,10 +574,13 @@ export default function SettingsPage() {
 	}
 
 	return html`
-		<div className="columns is-variable is-5 mt-4">
+		<div className="columns is-variable is-5 mt-0">
 			<!-- القائمة الجانبية للإعدادات (Settings Sidebar) -->
 			<div className="column is-2">
-				<div className="wp-card p-3">
+				<div 
+					className="wp-card p-3 wp-settings-sidebar-sticky"
+					style=${{ top: `${stickyTop}px`, maxHeight: `calc(100vh - ${stickyTop + 20}px)` }}
+				>
 					<h2 className="title is-6 mb-3 has-text-weight-bold" style=${{ borderBottom: '1px solid #ededed', paddingBottom: '0.5rem', color: '#64748b' }}>${ __( 'Settings', 'workpress' ) }</h2>
 					<div className="is-flex is-flex-direction-column" style=${{ gap: '4px' }}>
 						${tabs.map(tab => {
@@ -626,6 +682,11 @@ export default function SettingsPage() {
 						setDateFormat=${setDateFormat}
 						relativeTime=${relativeTime}
 						setRelativeTime=${setRelativeTime}
+						syncWpLocale=${syncWpLocale}
+						setSyncWpLocale=${setSyncWpLocale}
+						selectedLocale=${selectedLocale}
+						setSelectedLocale=${setSelectedLocale}
+						handleResetToWordPressLocale=${handleResetToWordPressLocale}
 						siteName=${siteName}
 						setSiteName=${setSiteName}
 						defaultPriority=${defaultPriority}

@@ -117,7 +117,7 @@ class WorkPress_Assignment_Service {
 	public static function assign( $task_id, $user_ids, $assigner_id = 0 ) {
 		$task = get_post( (int) $task_id );
 		if ( ! $task || WorkPress_Install::CPT_WORK_ITEM !== $task->post_type ) {
-			return new WP_Error( 'not_found', __( 'المهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Task not found.', 'workpress' ) );
 		}
 
 		$project_id = 0;
@@ -155,7 +155,7 @@ class WorkPress_Assignment_Service {
 		if ( ! empty( $names ) ) {
 			$log_msg = sprintf(
 				/* translators: %s: Comma separated user names */
-				__( 'تم تكليف المستخدمين: %s.', 'workpress' ),
+				__( 'Users assigned: %s.', 'workpress' ),
 				implode( '، ', $names )
 			);
 			WorkPress_Contribution_Service::add_system_log( $task_id, $log_msg, $assigner_id );
@@ -183,7 +183,7 @@ class WorkPress_Assignment_Service {
 	public static function unassign( $task_id, $user_ids, $assigner_id = 0 ) {
 		$task = get_post( (int) $task_id );
 		if ( ! $task || WorkPress_Install::CPT_WORK_ITEM !== $task->post_type ) {
-			return new WP_Error( 'not_found', __( 'المهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Task not found.', 'workpress' ) );
 		}
 
 		$current_assignees = get_post_meta( $task_id, '_workpress_assignee_ids', true ) ?: array();
@@ -204,7 +204,7 @@ class WorkPress_Assignment_Service {
 
 		$log_msg = sprintf(
 			/* translators: %s: Comma separated user names */
-			__( 'تم إلغاء تكليف المستخدمين: %s.', 'workpress' ),
+			__( 'Users unassigned: %s.', 'workpress' ),
 			implode( '، ', $names )
 		);
 
@@ -232,7 +232,7 @@ class WorkPress_Assignment_Service {
 	public static function set_assignees( $task_id, $user_ids = array(), $assigner_id = 0 ) {
 		$task = get_post( (int) $task_id );
 		if ( ! $task || WorkPress_Install::CPT_WORK_ITEM !== $task->post_type ) {
-			return new WP_Error( 'not_found', __( 'المهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Task not found.', 'workpress' ) );
 		}
 
 		$project_id = 0;
@@ -272,11 +272,11 @@ class WorkPress_Assignment_Service {
 				}
 				$log_msg = sprintf(
 					/* translators: %s: Comma separated user names */
-					__( 'تم تعيين المكلفين بالمهمة: %s.', 'workpress' ),
+					__( 'Task assignees set: %s.', 'workpress' ),
 					implode( '، ', $names )
 				);
 			} else {
-				$log_msg = __( 'تمت إزالة جميع المكلفين من المهمة.', 'workpress' );
+				$log_msg = __( 'All assignees removed from task.', 'workpress' );
 			}
 
 			WorkPress_Contribution_Service::add_system_log( $task_id, $log_msg, $assigner_id );

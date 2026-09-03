@@ -102,10 +102,10 @@ export default function KanbanPage({ refreshKey }) {
 	}, [page] );
 
 	const columns = [ 
-		{ id: 'new', label: __( 'New / Unassigned', 'workpress' ), subtitle: __( 'Awaiting assignment and kickoff', 'workpress' ), icon: 'dashicons-tag', color: '#3b82f6', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
-		{ id: 'assigned', label: __( 'Assigned & Targeted', 'workpress' ), subtitle: __( 'Assigned members awaiting first contribution', 'workpress' ), icon: 'dashicons-admin-users', color: '#0284c7', bg: '#f0f9ff', headerBg: '#e0f2fe', border: '#bae6fd' }, 
-		{ id: 'in_progress', label: __( 'In Progress & Collaboration', 'workpress' ), subtitle: __( 'Active contributions in execution', 'workpress' ), icon: 'dashicons-hammer', color: '#d97706', bg: '#fffbeb', headerBg: '#fef3c7', border: '#fde68a' }, 
-		{ id: 'completed', label: __( 'Completed & Verified', 'workpress' ), subtitle: __( 'Approved solutions documented in knowledge base', 'workpress' ), icon: 'dashicons-awards', color: '#059669', bg: '#ecfdf5', headerBg: '#d1fae5', border: '#a7f3d0' } 
+		{ id: 'new', label: __( 'New / Unassigned', 'workpress' ), subtitle: __( 'Awaiting assignment and kickoff', 'workpress' ), icon: 'dashicons-tag', color: '#0f172a', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
+		{ id: 'assigned', label: __( 'Assigned & Targeted', 'workpress' ), subtitle: __( 'Assigned members awaiting first contribution', 'workpress' ), icon: 'dashicons-admin-users', color: '#0f172a', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
+		{ id: 'in_progress', label: __( 'In Progress & Collaboration', 'workpress' ), subtitle: __( 'Active contributions in execution', 'workpress' ), icon: 'dashicons-hammer', color: '#0f172a', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' }, 
+		{ id: 'completed', label: __( 'Completed & Verified', 'workpress' ), subtitle: __( 'Approved solutions documented in knowledge base', 'workpress' ), icon: 'dashicons-yes-alt', color: '#0f172a', bg: '#f8fafc', headerBg: '#f1f5f9', border: '#e2e8f0' } 
 	];
 
 	const handleCloneTask = ( task ) => {
@@ -114,7 +114,7 @@ export default function KanbanPage({ refreshKey }) {
 			title: __( 'Confirm Task Clone', 'workpress' ),
 			message: `${ __( 'Are you sure you want to clone task', 'workpress' ) } "${task.title}"?`,
 			confirmText: __( 'Confirm', 'workpress' ),
-			confirmColor: 'is-info',
+			confirmColor: 'is-active',
 			onConfirm: () => {
 				tasksApi.create({
 					title: task.title + ' (' + __( 'Copy', 'workpress' ) + ')',
@@ -136,7 +136,7 @@ export default function KanbanPage({ refreshKey }) {
 			title: __( 'Trash / Delete Request', 'workpress' ),
 			message: `${ __( 'Are you sure you want to request trashing task', 'workpress' ) } "${task.title}"?`,
 			confirmText: __( 'Submit Request', 'workpress' ),
-			confirmColor: 'is-warning',
+			confirmColor: 'is-active',
 			isDangerous: false,
 			requiresReason: true,
 			reasonLabel: __( 'Reason for deletion', 'workpress' ),
@@ -323,28 +323,27 @@ export default function KanbanPage({ refreshKey }) {
 					return html`
 					<div 
 						key=${ col.id } 
-						className="column p-0 mx-2 wp-kanban-column"
+						className="column wp-kanban-column p-0 is-flex is-flex-direction-column"
 						style=${{ 
-							borderTop: `4px solid ${ col.color }`,
-							backgroundColor: col.bg,
-							border: `1px solid ${ col.border }`,
-							borderTopWidth: '4px'
+							backgroundColor: '#f8fafc', 
+							borderRadius: 0, 
+							border: '1px solid #cbd5e1'
 						}}
 					>
 						<!-- Column Header with Status Theme and Count Badge -->
 						<div 
 							className="px-3 py-2 is-flex is-justify-content-space-between is-align-items-center wp-border-bottom" 
-							style=${{ backgroundColor: col.headerBg, height: '40px', borderBottom: `1px solid ${ col.border }` }}
+							style=${{ backgroundColor: '#f1f5f9', height: '40px', borderBottom: '1px solid #e2e8f0' }}
 							title=${ col.subtitle }
 						>
 							<div className="is-flex is-align-items-center" style=${{ gap: '6px' }}>
-								<i className=${ `dashicons ${ col.icon }` } style=${{ fontSize: '16px', color: col.color, width: '16px', height: '16px' }}></i>
+								<i className=${ `dashicons ${ col.icon }` } style=${{ fontSize: '16px', color: '#0f172a', width: '16px', height: '16px' }}></i>
 								<h3 className="title is-6 mb-0 has-text-weight-bold has-text-dark" style=${{ fontSize: '0.86rem' }}>
 									${ col.label }
 								</h3>
 							</div>
 
-							<span className="wp-dense-chip" style=${{ height: '20px', padding: '0 6px', fontSize: '0.7rem', fontWeight: '900', backgroundColor: '#ffffff', borderColor: col.border, color: col.color }}>
+							<span className="wp-dense-chip" style=${{ height: '22px', padding: '0 8px', fontSize: '0.72rem', fontWeight: '800', backgroundColor: '#ffffff', border: '1px solid #cbd5e1', color: '#0f172a', borderRadius: 0 }}>
 								${ columnTasks.length }
 							</span>
 						</div>

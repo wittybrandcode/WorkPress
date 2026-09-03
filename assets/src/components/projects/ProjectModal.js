@@ -6,7 +6,7 @@ import ImagePicker from '../ui/ImagePicker.js';
 import CustomSelect from '../ui/CustomSelect.js';
 import { toast } from '../../utils/toast.js';
 
-export default function ProjectModal( { isActive, onClose, onSave, project = null } ) {
+export default function ProjectModal( { isActive, onClose, onSave, onSaved, project = null } ) {
 	const [ name, setName ] = useState( '' );
 	const [ description, setDescription ] = useState( '' );
 	const [ prefix, setPrefix ] = useState( '' );
@@ -67,8 +67,13 @@ export default function ProjectModal( { isActive, onClose, onSave, project = nul
 			
 		request.then( () => {
 			toast( project && project.id ? __( 'Project updated successfully', 'workpress' ) : __( 'Project created successfully', 'workpress' ), 'success' );
-			onSave();
-			onClose();
+			const saveCallback = onSave || onSaved;
+			if ( typeof saveCallback === 'function' ) {
+				saveCallback();
+			}
+			if ( typeof onClose === 'function' ) {
+				onClose();
+			}
 		} ).catch( err => {
 			console.error( 'Error saving project:', err );
 			toast( __( 'An error occurred while saving project', 'workpress' ), 'danger' );

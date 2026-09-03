@@ -93,19 +93,19 @@ class WorkPress_Template_Service {
 	public static function apply_template( $project_id, $template_slug ) {
 		$template = self::get_template( $template_slug );
 		if ( ! $template ) {
-			return new WP_Error( 'template_not_found', __( 'القالب غير موجود.', 'workpress' ) );
+			return new WP_Error( 'template_not_found', __( 'Template not found.', 'workpress' ) );
 		}
 
 		$project = get_term( $project_id, WorkPress_Install::TAX_PROJECT );
 		if ( ! $project || is_wp_error( $project ) ) {
-			return new WP_Error( 'project_not_found', __( 'المشروع غير موجود.', 'workpress' ) );
+			return new WP_Error( 'project_not_found', __( 'Project not found.', 'workpress' ) );
 		}
 
 		$created_tasks = array();
 
 		foreach ( $template['tasks'] as $task_config ) {
 			$task_data = array(
-				'title'      => isset( $task_config['title'] ) ? $task_config['title'] : __( 'مهمة جديدة', 'workpress' ),
+				'title'      => isset( $task_config['title'] ) ? $task_config['title'] : __( 'New Task', 'workpress' ),
 				'content'    => isset( $task_config['content'] ) ? $task_config['content'] : '',
 				'project_id' => $project_id,
 				'priority'   => isset( $task_config['priority'] ) ? $task_config['priority'] : 'medium',
@@ -125,8 +125,8 @@ class WorkPress_Template_Service {
 // Register the default empty template.
 add_action( 'workpress_register_templates', function() {
 	WorkPress_Template_Service::register_template( 'blank', array(
-		'label'       => __( 'مشروع فارغ', 'workpress' ),
-		'description' => __( 'مشروع بدون مهام مبدئية.', 'workpress' ),
+		'label'       => __( 'Empty Project', 'workpress' ),
+		'description' => __( 'Project without initial tasks.', 'workpress' ),
 		'tasks'       => array(),
 	) );
 } );

@@ -4,17 +4,20 @@ import MemberSelect from './MemberSelect.js';
 import { formatNumber } from '../../utils/datetime.js';
 
 /**
- * Unified Contextual Fixed FilterBar Component
+ * Unified Contextual Compact FilterBar Component
+ *
+ * Provides a streamlined single-row toolbar for searching, filtering, and resetting views.
  *
  * @param {Object} props
  * @param {Object} [props.search] - { value, onChange, placeholder }
- * @param {Array} [props.filters] - Array of { key, label, icon, value, onChange, options, placeholder, isCustomSelect, width }
+ * @param {Array} [props.filters] - Array of { key, label, icon, value, onChange, options, placeholder, isCustomSelect, isMemberSelect, width, users }
  * @param {number} [props.totalCount] - Current filtered items count
  * @param {number} [props.totalUnfiltered] - Total unfiltered items count
  * @param {string} [props.counterLabel] - Label for counter (e.g. "مهمة", "مشروع", "حل")
  * @param {boolean} [props.isFilterActive] - Whether any filter is active
  * @param {Function} [props.onReset] - Callback to reset all filters
  * @param {any} [props.extraActions] - Optional extra components on the left
+ * @param {any} [props.children] - Custom children elements
  */
 export default function FilterBar({
 	search,
@@ -25,6 +28,7 @@ export default function FilterBar({
 	isFilterActive = false,
 	onReset = null,
 	extraActions = null,
+	children = null,
 }) {
 	const portalRoot = typeof document !== 'undefined' ? document.getElementById( 'wp-filterbar-portal-root' ) : null;
 	const label = counterLabel || __( 'Item', 'workpress' );
@@ -32,109 +36,94 @@ export default function FilterBar({
 
 	const content = html`
 		<div className="wp-filter-toolbar">
-			<div className="wp-filter-group">
-				
-				<!-- Instant Search Input -->
-				${ search && html`
-					<div className="wp-filter-search-box">
-						<span className="wp-filter-search-icon">
-							<i className="dashicons dashicons-search"></i>
-						</span>
-						<input 
-							type="text"
-							className="input wp-filter-input"
-							placeholder=${ search.placeholder || __( 'Quick search...', 'workpress' ) }
-							value=${ search.value || '' }
-							onInput=${ (e) => search.onChange( e.target.value ) }
-						/>
-						${ search.value && html`
-							<button 
-								type="button" 
-								className="wp-filter-search-clear" 
-								title=${ __( 'Clear search', 'workpress' ) }
-								onClick=${ () => search.onChange('') }
-							>
-								<i className="dashicons dashicons-no-alt"></i>
-							</button>
-						` }
-					</div>
-				` }
-
-				<!-- Contextual Filters -->
-				${ filters.map( ( f ) => {
-					if ( ! f ) return null;
-					return html`
-						<div key=${ f.key } className="wp-filter-item">
-							${ f.label && html`
-								<span className="wp-filter-label">
-									${ f.icon && html`<i className=${`dashicons ${f.icon}`}></i>` }
-									${ f.label }:
-								</span>
+			${ children ? children : html`
+				<div className="wp-filter-group">
+					
+					<!-- Instant Search Input -->
+					${ search && html`
+						<div className="wp-filter-search-box">
+							<span className="wp-filter-search-icon">
+								<i className="dashicons dashicons-search"></i>
+							</span>
+							<input 
+								type="text"
+								className="input wp-filter-input"
+								placeholder=${ search.placeholder || __( 'Quick search...', 'workpress' ) }
+								value=${ search.value || '' }
+								onInput=${ (e) => search.onChange( e.target.value ) }
+							/>
+							${ search.value && html`
+								<button 
+									type="button" 
+									className="wp-filter-search-clear" 
+									title=${ __( 'Clear search', 'workpress' ) }
+									onClick=${ () => search.onChange('') }
+								>
+									<i className="dashicons dashicons-no-alt"></i>
+								</button>
 							` }
-							
-							<div style=${{ minWidth: f.width || '150px' }}>
-								${ f.isMemberSelect ? html`
-									<${MemberSelect}
-										value=${ f.value }
-										onChange=${ f.onChange }
-										users=${ f.users || [] }
-										placeholder=${ f.placeholder || `-- ${ __( 'All Assignees', 'workpress' ) } --` }
-										size="small"
-									/>
-								` : f.isCustomSelect ? html`
-									<${CustomSelect}
-										value=${ f.value }
-										onChange=${ f.onChange }
-										options=${ f.options || [] }
-										placeholder=${ f.placeholder || `-- ${ __( 'All', 'workpress' ) } --` }
-									/>
-								` : html`
-									<div className="select is-small" style=${{ width: '100%' }}>
-										<select 
-											className="wp-filter-input"
-											style=${{ width: '100%' }}
-											value=${ f.value }
-											onChange=${ (e) => f.onChange( e.target.value ) }
-										>
-											${ ( f.options || [] ).map( ( opt ) => html`
-												<option key=${ opt.value } value=${ opt.value }>
-													${ opt.label }
-												</option>
-											` ) }
-										</select>
-									</div>
-								` }
-							</div>
 						</div>
-					`;
-				} ) }
-			</div>
+					` }
 
-			<!-- Actions & Counters -->
-			<div className="wp-filter-actions">
-				${ ( totalCount !== null || totalUnfiltered !== null ) && html`
-					<span className="wp-filter-counter">
-						<i className="dashicons dashicons-filter" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
-						${ ( totalUnfiltered !== null && totalCount !== null && totalCount !== totalUnfiltered )
-							? sprintf( __( 'Showing %s of %s %s', 'workpress' ), formatNumber( totalCount ), formatNumber( totalUnfiltered ), label )
-							: `${ formatNumber( totalCount !== null ? totalCount : totalUnfiltered ) } ${ label }`
+					<!-- Select Filters -->
+					${ filters.map( ( filter ) => {
+						const filterWidth = filter.width || '150px';
+
+						if ( filter.isMemberSelect ) {
+							return html`
+								<${MemberSelect}
+									key=${ filter.key }
+									value=${ filter.value }
+									onChange=${ filter.onChange }
+									users=${ filter.users || filter.options || filter.members || [] }
+									placeholder=${ filter.placeholder || filter.label }
+									width=${ filterWidth }
+									size="small"
+								/>
+							`;
 						}
-					</span>
-				` }
 
-				${ isFilterActive && onReset && html`
-					<button 
-						type="button" 
-						className=${ `wp-icon-btn is-dense is-danger ${ rtl ? 'ml-2' : 'mr-2' }` } 
-						onClick=${ onReset }
-						title=${ __( 'Reset Filters', 'workpress' ) }
-					>
-						<i className="dashicons dashicons-undo"></i>
-					</button>
-				` }
+						return html`
+							<${CustomSelect}
+								key=${ filter.key }
+								value=${ filter.value }
+								onChange=${ filter.onChange }
+								options=${ filter.options || [] }
+								placeholder=${ filter.placeholder || filter.label }
+								icon=${ filter.icon }
+								width=${ filterWidth }
+							/>
+						`;
+					} ) }
+				</div>
 
-				${ extraActions }
-			</div>
+				<!-- Actions & Counters -->
+				<div className="wp-filter-actions">
+					${ isFilterActive && onReset && html`
+						<button 
+							type="button" 
+							className="wp-filter-reset-btn" 
+							onClick=${ onReset }
+							title=${ __( 'Reset Filters', 'workpress' ) }
+						>
+							<i className="dashicons dashicons-undo" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
+							<span>${ __( 'Reset', 'workpress' ) }</span>
+						</button>
+					` }
+
+					${ ( totalCount !== null || totalUnfiltered !== null ) && html`
+						<span className="wp-filter-counter">
+							<i className="dashicons dashicons-filter" style=${{ fontSize: '12px', width: '12px', height: '12px' }}></i>
+							${ ( totalUnfiltered !== null && totalCount !== null && totalCount !== totalUnfiltered )
+								? sprintf( __( 'Showing %s of %s %s', 'workpress' ), formatNumber( totalCount ), formatNumber( totalUnfiltered ), label )
+								: `${ formatNumber( totalCount !== null ? totalCount : totalUnfiltered ) } ${ label }`
+							}
+						</span>
+					` }
+
+					${ extraActions }
+				</div>
+			` }
 		</div>
 	`;
 

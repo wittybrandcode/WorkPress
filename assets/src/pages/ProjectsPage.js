@@ -1,20 +1,27 @@
-import { html, useState, useEffect, useRef, __ } from '../utils/html.js';
+import { html, useState, useEffect, useRef, __, sprintf, isRtl } from '../utils/html.js';
 import { projectsApi } from '../api/client.js';
+import { formatDate } from '../utils/datetime.js';
+import sound from '../utils/sound.js';
 import ProjectCard from '../components/projects/ProjectCard.js';
+import ProjectFilterBar from '../components/projects/ProjectFilterBar.js';
 import ProjectModal from '../components/projects/ProjectModal.js';
 import ProjectMembersModal from '../components/projects/ProjectMembersModal.js';
 import TaskModal from '../components/tasks/TaskModal.js';
 import ProjectQuickPreviewModal from '../components/projects/ProjectQuickPreviewModal.js';
 import ConfirmModal from '../components/modals/ConfirmModal.js';
-import FilterBar from '../components/ui/FilterBar.js';
 import Loader from '../components/ui/Loader.js';
 import { toast } from '../utils/toast.js';
 
 export default function ProjectsPage({ refreshKey }) {
 	const [ projects, setProjects ] = useState( null );
-	const [ page, setPage ] = useState( 1 );
-	const [ totalPages, setTotalPages ] = useState( 1 );
-	const [ isLoadingMore, setIsLoadingMore ] = useState( false );
+	const [ isLoading, setIsLoading ] = useState( true );
+	const [ viewMode, setViewMode ] = useState( 'cards' ); // 'cards' | 'table'
+	const [ sortBy, setSortBy ] = useState( 'newest' ); // 'newest' | 'progress_desc' | 'name'
+	const [ currentPage, setCurrentPage ] = useState( 1 );
+	const itemsPerPage = 12; // 3 columns x 4 rows
+	const rtl = isRtl();
+
+	// Modal States
 	const [ isModalOpen, setIsModalOpen ] = useState( false );
 	const [ isMembersModalOpen, setIsMembersModalOpen ] = useState( false );
 	const [ isTaskModalOpen, setIsTaskModalOpen ] = useState( false );
@@ -24,55 +31,52 @@ export default function ProjectsPage({ refreshKey }) {
 	const [ isQuickPreviewModalOpen, setIsQuickPreviewModalOpen ] = useState( false );
 	const [ quickPreviewProject, setQuickPreviewProject ] = useState( null );
 	const [ confirmModalConfig, setConfirmModalConfig ] = useState( { isActive: false } );
-	
+
 	// Filters
 	const [ searchQuery, setSearchQuery ] = useState( '' );
 	const [ selectedStatus, setSelectedStatus ] = useState( 'all' );
-	
-	useEffect( () => {
-		fetchProjects( 1, false );
-	}, [refreshKey] );
 
-	// Smart Background Polling
-	const isPollingBlocked = useRef(false);
+	// Reset page on filter or search changes
 	useEffect( () => {
-		isPollingBlocked.current = isModalOpen || isMembersModalOpen || isTaskModalOpen || 
+		setCurrentPage( 1 );
+	}, [ searchQuery, selectedStatus, sortBy ] );
+
+	useEffect( () => {
+		fetchProjects();
+	}, [ refreshKey ] );
+
+	// Smart Background Polling (pauses when modals are open)
+	const isPollingBlocked = useRef( false );
+	useEffect( () => {
+		isPollingBlocked.current = isModalOpen || isMembersModalOpen || isTaskModalOpen ||
 								   isQuickPreviewModalOpen || confirmModalConfig.isActive;
-	}, [isModalOpen, isMembersModalOpen, isTaskModalOpen, isQuickPreviewModalOpen, confirmModalConfig.isActive] );
+	}, [ isModalOpen, isMembersModalOpen, isTaskModalOpen, isQuickPreviewModalOpen, confirmModalConfig.isActive ] );
 
 	useEffect( () => {
 		const interval = setInterval( () => {
 			if ( ! isPollingBlocked.current ) {
-				// Silent fetch, no spinner
-				projectsApi.list( { page: 1, number: 12 * page, withPagination: true } )
+				projectsApi.list( { number: 100 } )
 					.then( res => {
-						setProjects( res.items );
+						const items = res && res.items ? res.items : ( Array.isArray( res ) ? res : [] );
+						setProjects( items );
 					} ).catch( () => {} );
 			}
 		}, 30000 );
 		return () => clearInterval( interval );
-	}, [page] );
+	}, [] );
 
-	const fetchProjects = ( pageNum = 1, append = false ) => {
-		if ( pageNum > 1 ) setIsLoadingMore( true );
-		projectsApi.list( { page: pageNum, number: 12, withPagination: true } )
+	const fetchProjects = () => {
+		setIsLoading( true );
+		projectsApi.list( { number: 100 } )
 			.then( res => {
-				setTotalPages( res.totalPages );
-				setPage( pageNum );
-				if ( append && projects.length ) {
-					const newProjects = [...projects];
-					res.items.forEach( p => {
-						if ( !newProjects.find( existing => existing.id === p.id ) ) {
-							newProjects.push( p );
-						}
-					});
-					setProjects( newProjects );
-				} else {
-					setProjects( res.items );
-				}
+				const items = res && res.items ? res.items : ( Array.isArray( res ) ? res : [] );
+				setProjects( items );
 			} )
-			.catch( err => console.error(err) )
-			.finally( () => setIsLoadingMore( false ) );
+			.catch( err => {
+				console.error( err );
+				toast( __( 'Failed to load projects', 'workpress' ), 'danger' );
+			} )
+			.finally( () => setIsLoading( false ) );
 	};
 
 	const handleCreateClick = () => {
@@ -90,55 +94,63 @@ export default function ProjectsPage({ refreshKey }) {
 		setIsMembersModalOpen( true );
 	};
 
+	const handleAddTaskClick = ( project ) => {
+		setSelectedProjectIdForTask( project.id );
+		setIsTaskModalOpen( true );
+	};
+
+	const handleQuickPreviewClick = ( project ) => {
+		setQuickPreviewProject( project );
+		setIsQuickPreviewModalOpen( true );
+	};
+
 	const handleRestoreClick = ( project ) => {
-		// Optimistic UI update
-		setProjects(prev => prev.map(p => p.id === project.id ? { ...p, status: 'active', is_pending_trash: false } : p));
-		
-		projectsApi.update( project.id, { status: 'active' } ).then( () => {
-			toast( __( 'Project restored successfully', 'workpress' ), 'success' );
-			fetchProjects();
-		} ).catch( err => {
-			toast( err.message || __( 'Failed to restore project', 'workpress' ), 'danger' );
-			fetchProjects(); // Revert on error
-		});
+		setProjects( prev => prev.map( p => p.id === project.id ? { ...p, status: 'active', is_pending_trash: false } : p ) );
+		projectsApi.update( project.id, { status: 'active' } )
+			.then( () => {
+				toast( __( 'Project restored successfully', 'workpress' ), 'success' );
+				fetchProjects();
+			} )
+			.catch( err => {
+				toast( err.message || __( 'Failed to restore project', 'workpress' ), 'danger' );
+				fetchProjects();
+			} );
 	};
 
 	const handleDeleteClick = ( project ) => {
 		if ( project.is_pending_trash ) {
-			// Hard delete for pending trash projects (Admin only)
-			setConfirmModalConfig({
+			setConfirmModalConfig( {
 				isActive: true,
 				title: __( 'Confirm Permanent Deletion', 'workpress' ),
-				message: `${ __( 'Are you sure you want to permanently delete this project?', 'workpress' ) } ("${project.name}")`,
+				message: `${ __( 'Are you sure you want to permanently delete this project?', 'workpress' ) } ("${ project.name }")`,
 				confirmText: __( 'Approve & Delete', 'workpress' ),
 				confirmColor: 'is-danger',
 				isDangerous: true,
 				requiresReason: false,
 				isSubmitting: false,
 				onConfirm: () => {
-					setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
-					
-					// Optimistic UI update
-					setProjects(prev => prev.filter(p => p.id !== project.id));
-					
-					projectsApi.delete( project.id ).then( () => {
-						setConfirmModalConfig({ isActive: false });
-						toast( __( 'Project permanently deleted', 'workpress' ), 'success' );
-						fetchProjects();
-					} ).catch( err => {
-						setConfirmModalConfig({ isActive: false });
-						toast( err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger' );
-						fetchProjects(); // Revert on error
-					} );
+					setConfirmModalConfig( prev => ( { ...prev, isSubmitting: true } ) );
+					setProjects( prev => prev.filter( p => p.id !== project.id ) );
+					projectsApi.delete( project.id )
+						.then( () => {
+							setConfirmModalConfig( { isActive: false } );
+							toast( __( 'Project permanently deleted', 'workpress' ), 'success' );
+							fetchProjects();
+						} )
+						.catch( err => {
+							setConfirmModalConfig( { isActive: false } );
+							toast( err.message || __( 'An error occurred during deletion', 'workpress' ), 'danger' );
+							fetchProjects();
+						} );
 				}
-			});
+			} );
 			return;
 		}
 
-		setConfirmModalConfig({
+		setConfirmModalConfig( {
 			isActive: true,
 			title: __( 'Trash / Archive Request', 'workpress' ),
-			message: `${ __( 'You are about to request archiving/trashing project', 'workpress' ) } "${project.name}". ${ __( 'Please state the reason for executive review.', 'workpress' ) }`,
+			message: `${ __( 'You are about to request archiving/trashing project', 'workpress' ) } "${ project.name }". ${ __( 'Please state the reason for executive review.', 'workpress' ) }`,
 			confirmText: __( 'Submit Request', 'workpress' ),
 			confirmColor: 'is-warning',
 			isDangerous: false,
@@ -146,61 +158,44 @@ export default function ProjectsPage({ refreshKey }) {
 			reasonLabel: __( 'Reason for trash / archive', 'workpress' ),
 			isSubmitting: false,
 			onConfirm: ( reason ) => {
-				setConfirmModalConfig( prev => ({ ...prev, isSubmitting: true }) );
-				
-				// Optimistic UI update
-				setProjects(prev => prev.map(p => p.id === project.id ? { ...p, is_pending_trash: true, trash_reason: reason } : p));
-				
-				projectsApi.trashRequest( project.id, reason ).then( () => {
-					setConfirmModalConfig({ isActive: false });
-					toast( __( 'Trash request sent successfully.', 'workpress' ), 'info' );
-					fetchProjects();
-				} ).catch( err => {
-					setConfirmModalConfig({ isActive: false });
-					toast( err.message || __( 'Failed to send feedback, please try again.', 'workpress' ), 'danger' );
-					fetchProjects(); // Revert on error
-				} );
+				setConfirmModalConfig( prev => ( { ...prev, isSubmitting: true } ) );
+				setProjects( prev => prev.map( p => p.id === project.id ? { ...p, is_pending_trash: true, trash_reason: reason } : p ) );
+				projectsApi.trashRequest( project.id, reason )
+					.then( () => {
+						setConfirmModalConfig( { isActive: false } );
+						toast( __( 'Trash request sent successfully.', 'workpress' ), 'info' );
+						fetchProjects();
+					} )
+					.catch( err => {
+						setConfirmModalConfig( { isActive: false } );
+						toast( err.message || __( 'Failed to submit request', 'workpress' ), 'danger' );
+						fetchProjects();
+					} );
 			}
-		});
+		} );
 	};
 
-	const handleAddTaskClick = ( project ) => {
-		setSelectedProjectIdForTask( project.id );
-		setIsTaskModalOpen( true );
-	};
+	const rawProjects = projects || [];
 
-	const statusOptions = [
-		{ value: 'all', label: __( 'All Projects', 'workpress' ) },
-		{ value: 'active', label: __( 'Active', 'workpress' ) },
-		{ value: 'pending', label: __( 'Under Review / Pending', 'workpress' ) },
-		{ value: 'frozen', label: __( 'Frozen / Paused', 'workpress' ) },
-		{ value: 'completed', label: __( 'Completed', 'workpress' ) },
-		{ value: 'archived', label: __( 'Archived', 'workpress' ) }
-	];
+	// Baseline KPI Counts for Section 1 Toolbar Chips
+	const totalCount = rawProjects.length;
+	const activeCount = rawProjects.filter( p => ( p.status === 'active' || p.status === 'in_progress' ) && ! p.is_pending_trash ).length;
+	const completedCount = rawProjects.filter( p => p.status === 'completed' || p.is_completed || p.progress === 100 ).length;
+	const pendingCount = rawProjects.filter( p => p.is_client_request || p.status === 'pending' ).length;
+	const frozenCount = rawProjects.filter( p => p.is_frozen || p.status === 'frozen' ).length;
+	const archivedCount = rawProjects.filter( p => p.status === 'archived' || p.is_pending_trash ).length;
 
-	const isFilterActive = Boolean( searchQuery || selectedStatus !== 'all' );
-
-	const handleResetFilters = () => {
-		setSearchQuery( '' );
-		setSelectedStatus( 'all' );
-	};
-
-	if ( projects === null ) {
-		return html`
-			<div className="py-6 mt-4">
-				<${Loader} center=${true} label=${ __( 'Loading...', 'workpress' ) } size="large" />
-			</div>
-		`;
-	}
-
-	const filteredProjects = projects.filter( p => {
-		if ( searchQuery ) {
+	// Filter & Sort
+	const filteredProjects = rawProjects.filter( p => {
+		if ( searchQuery.trim() ) {
 			const q = searchQuery.toLowerCase();
 			const matchName = ( p.name || '' ).toLowerCase().includes( q );
-			const matchPrefix = ( p.prefix || '' ).toLowerCase().includes( q );
+			const matchPrefix = ( p.prefix || p.code || '' ).toLowerCase().includes( q );
 			const matchDesc = ( p.description || '' ).toLowerCase().includes( q );
-			if ( ! matchName && ! matchPrefix && ! matchDesc ) return false;
+			const matchLead = ( p.lead_name || '' ).toLowerCase().includes( q );
+			if ( ! matchName && ! matchPrefix && ! matchDesc && ! matchLead ) return false;
 		}
+
 		if ( selectedStatus !== 'all' ) {
 			if ( selectedStatus === 'archived' ) {
 				if ( p.status !== 'archived' && ! p.is_pending_trash ) return false;
@@ -208,6 +203,11 @@ export default function ProjectsPage({ refreshKey }) {
 				if ( p.status !== 'pending' && ! p.is_client_request ) return false;
 			} else if ( selectedStatus === 'frozen' ) {
 				if ( p.status !== 'frozen' && ! p.is_frozen ) return false;
+			} else if ( selectedStatus === 'completed' ) {
+				if ( p.status !== 'completed' && ! p.is_completed && p.progress !== 100 ) return false;
+			} else if ( selectedStatus === 'active' ) {
+				if ( p.status !== 'active' && p.status !== 'in_progress' ) return false;
+				if ( p.is_pending_trash || p.is_frozen || p.status === 'completed' ) return false;
 			} else {
 				if ( p.status !== selectedStatus ) return false;
 			}
@@ -215,141 +215,324 @@ export default function ProjectsPage({ refreshKey }) {
 		return true;
 	} );
 
-	return html`
-		<div>
-			<div className="is-flex is-justify-content-space-between is-align-items-center mb-3">
-				<div></div>
-				<div className="buttons are-small mb-0" style=${{ gap: '6px' }}>
-					<a 
-						href="#/requests"
-						className="button is-small wp-sharp-button is-warning"
-						style=${{ fontWeight: '800', backgroundColor: '#fef3c7', color: '#92400e', border: '1px solid #fde68a' }}
-					>
-						<span className="icon"><i className="dashicons dashicons-email-alt"></i></span>
-						<span>${ __( 'Project Requests', 'workpress' ) }</span>
-					</a>
-					<a 
-						href="#/forms"
-						className="button is-small wp-sharp-button is-primary is-outlined"
-						style=${{ fontWeight: '700' }}
-					>
-						<span className="icon"><i className="dashicons dashicons-forms"></i></span>
-						<span>${ __( 'Intake Forms Builder', 'workpress' ) }</span>
-					</a>
-				</div>
-			</div>
+	filteredProjects.sort( ( a, b ) => {
+		if ( sortBy === 'progress_desc' ) return ( Number( b.progress ) || 0 ) - ( Number( a.progress ) || 0 );
+		if ( sortBy === 'name' ) return ( a.name || '' ).localeCompare( b.name || '' );
+		return new Date( b.created_at || b.date || 0 ) - new Date( a.created_at || a.date || 0 );
+	} );
 
-			<${FilterBar}
-				search=${{
-					value: searchQuery,
-					onChange: setSearchQuery,
-					placeholder: __( 'Search projects (name, code, description)...', 'workpress' ),
-				}}
-				filters=${[
-					{
-						key: 'status',
-						label: __( 'Status', 'workpress' ),
-						icon: 'dashicons-tag',
-						value: selectedStatus,
-						onChange: setSelectedStatus,
-						options: statusOptions,
-						width: '180px',
-					}
-				]}
-				totalCount=${ filteredProjects.length }
-				totalUnfiltered=${ projects.length }
-				counterLabel=${ __( 'Project', 'workpress' ) }
-				isFilterActive=${ isFilterActive }
+	// Pagination
+	const totalItems = filteredProjects.length;
+	const totalPages = Math.ceil( totalItems / itemsPerPage ) || 1;
+	const validCurrentPage = Math.min( Math.max( 1, currentPage ), totalPages );
+	const startIndex = ( validCurrentPage - 1 ) * itemsPerPage;
+	const endIndex = Math.min( startIndex + itemsPerPage, totalItems );
+	const paginatedProjects = filteredProjects.slice( startIndex, endIndex );
+
+	const getPageNumbers = ( current, total ) => {
+		if ( total <= 7 ) return Array.from( { length: total }, ( _, i ) => i + 1 );
+		if ( current <= 4 ) return [ 1, 2, 3, 4, 5, '...', total ];
+		if ( current >= total - 3 ) return [ 1, '...', total - 4, total - 3, total - 2, total - 1, total ];
+		return [ 1, '...', current - 1, current, current + 1, '...', total ];
+	};
+
+	const handleResetFilters = () => {
+		setSearchQuery( '' );
+		setSelectedStatus( 'all' );
+		setSortBy( 'newest' );
+		sound.play( 'pop' );
+	};
+
+	return html`
+		<div className="projects-page pb-6">
+			<!-- شريط الأدوات الموحد القياسي (UnifiedToolbar) -->
+			<${ProjectFilterBar}
+				totalCount=${ totalCount }
+				activeCount=${ activeCount }
+				completedCount=${ completedCount }
+				pendingCount=${ pendingCount }
+				frozenCount=${ frozenCount }
+				archivedCount=${ archivedCount }
+				selectedStatus=${ selectedStatus }
+				setSelectedStatus=${ setSelectedStatus }
+				searchQuery=${ searchQuery }
+				setSearchQuery=${ setSearchQuery }
+				sortBy=${ sortBy }
+				setSortBy=${ setSortBy }
+				viewMode=${ viewMode }
+				setViewMode=${ setViewMode }
+				onNewProject=${ handleCreateClick }
 				onReset=${ handleResetFilters }
 			/>
 
-			<div className="columns is-multiline">
-				${ filteredProjects.map( project => html`
-					<div key=${ project.id } className="column is-4">
-						<${ProjectCard} 
-							project=${ project } 
-							onEdit=${ handleEditClick }
-							onManageMembers=${ handleManageMembersClick }
-							onDelete=${ handleDeleteClick }
-							onRestore=${ handleRestoreClick }
-							onAddTask=${ handleAddTaskClick }
-							onQuickPreview=${ (p) => { setQuickPreviewProject(p); setIsQuickPreviewModalOpen(true); } }
-						/>
-					</div>
-				` ) }
-				
-				${ filteredProjects.length === 0 && html`
-					<div className="column is-12">
-						<div className="box has-text-centered p-6 wp-card" style=${{ borderRadius: 0, border: '1px solid #e2e8f0', backgroundColor: '#ffffff' }}>
-							<div className="mb-3" style=${{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', width: '64px', height: '64px', backgroundColor: '#f0fdf4', border: '1px solid #bbf7d0' }}>
-								<i className="dashicons dashicons-category has-text-primary" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i>
-							</div>
-							<h3 className="title is-5 mb-2 has-text-weight-bold has-text-dark">
-								${ isFilterActive ? __( 'No projects matching search', 'workpress' ) : __( 'No active projects matching this filter.', 'workpress' ) }
-							</h3>
-							<p className="has-text-grey is-size-6 mb-5" style=${{ maxWidth: '460px', margin: '0 auto' }}>
-								${ isFilterActive 
-									? __( 'Try adjusting search terms or active filters to find what you are looking for.', 'workpress' ) 
-									: __( 'Projects are the primary containers for tasks and solutions. Start by creating your first project.', 'workpress' ) }
-							</p>
-							${ isFilterActive ? html`
-								<button className="button is-light wp-sharp-button" onClick=${ handleResetFilters }>
-									<span className="icon"><i className="dashicons dashicons-image-rotate"></i></span>
-									<span>${ __( 'Reset Filters', 'workpress' ) }</span>
-								</button>
-							` : html`
-								<button className="button is-primary wp-sharp-button" onClick=${ handleCreateClick }>
-									<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-									<span>${ __( 'Add New Project', 'workpress' ) }</span>
-								</button>
-							` }
-						</div>
-					</div>
-				` }
-			</div>
-			
-			${ page < totalPages ? html`
-				<div className="has-text-centered mt-5">
-					<button 
-						className=${ `button wp-btn is-white ${ isLoadingMore ? 'is-loading' : '' }` } 
-						onClick=${ () => fetchProjects( page + 1, true ) }
-						style=${{ border: '2px solid #0f172a' }}
-					>
-						${ __( 'Load More', 'workpress' ) }
-					</button>
+			${ isLoading && ! projects ? html`
+				<div className="py-6 mt-4 has-text-centered">
+					<${Loader} center=${ true } label=${ __( 'Loading projects...', 'workpress' ) } size="large" />
 				</div>
-			` : null }
-			
-			<${ProjectModal} 
-				isActive=${ isModalOpen } 
-				onClose=${ () => setIsModalOpen(false) } 
-				project=${ editingProject }
-				onSave=${ fetchProjects }
-			/>
+			` : totalItems === 0 ? html`
+				<div className="box wp-card has-text-centered py-6 mt-4" style=${{ borderRadius: 0 }}>
+					<span className="icon is-large has-text-grey-light mb-3">
+						<i className="dashicons dashicons-portfolio" style=${{ fontSize: '48px', width: '48px', height: '48px' }}></i>
+					</span>
+					<h3 className="title is-5 mb-2 has-text-dark">
+						${ ( searchQuery || selectedStatus !== 'all' ) ? __( 'No projects matching selected filters', 'workpress' ) : __( 'No projects registered yet', 'workpress' ) }
+					</h3>
+					<p className="subtitle is-6 has-text-grey-light mb-4">
+						${ ( searchQuery || selectedStatus !== 'all' ) ? __( 'Try resetting filters or adjusting search terms.', 'workpress' ) : __( 'Create your first organizational project to start coordinating tasks and knowledge.', 'workpress' ) }
+					</p>
+					<div className="buttons is-centered">
+						${ ( searchQuery || selectedStatus !== 'all' ) ? html`
+							<button className="button is-light wp-btn" onClick=${ handleResetFilters }>
+								<i className="dashicons dashicons-image-rotate" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '4px' }}></i>
+								<span>${ __( 'Reset Filters', 'workpress' ) }</span>
+							</button>
+						` : html`
+							<button className="button is-primary wp-btn has-text-weight-bold" onClick=${ handleCreateClick }>
+								<i className="dashicons dashicons-plus-alt2" style=${{ [rtl ? 'marginLeft' : 'marginRight']: '4px' }}></i>
+								<span>${ __( 'Create First Project', 'workpress' ) }</span>
+							</button>
+						` }
+					</div>
+				</div>
+			` : viewMode === 'table' ? html`
+				<!-- نمط الجدول التنفيذي الموحد للمشاريع -->
+				<div className="wp-reports-table-container mt-4">
+					<table className="wp-reports-table">
+						<thead>
+							<tr>
+								<th style=${{ width: '110px' }}>${ __( 'Code', 'workpress' ) }</th>
+								<th>${ __( 'Project Name', 'workpress' ) }</th>
+								<th style=${{ width: '130px' }}>${ __( 'Status', 'workpress' ) }</th>
+								<th style=${{ width: '180px' }}>${ __( 'Completion Progress', 'workpress' ) }</th>
+								<th style=${{ width: '110px' }}>${ __( 'Tasks', 'workpress' ) }</th>
+								<th style=${{ width: '130px' }}>${ __( 'Lead', 'workpress' ) }</th>
+								<th style=${{ width: '120px' }}>${ __( 'Due Date', 'workpress' ) }</th>
+								<th style=${{ width: '120px', textAlign: rtl ? 'left' : 'right' }}>${ __( 'Actions', 'workpress' ) }</th>
+							</tr>
+						</thead>
+						<tbody>
+							${ paginatedProjects.map( project => {
+								const progress = Math.min( 100, Math.max( 0, Number( project.progress ) || 0 ) );
+								const isCompleted = project.is_completed || progress === 100 || project.status === 'completed';
+								const isFrozen = project.is_frozen || project.status === 'frozen';
+								const isTrash = Boolean( project.is_pending_trash );
 
-			<${ProjectMembersModal}
-				isActive=${ isMembersModalOpen }
-				onClose=${ () => setIsMembersModalOpen(false) }
-				project=${ managingMembersProject }
-			/>
+								return html`
+									<tr key=${ project.id } style=${{ backgroundColor: isTrash ? '#fef2f2' : 'transparent' }}>
+										<td>
+											<span className="tag is-dark is-rounded is-small has-text-weight-bold">
+												${ project.code || project.prefix || `PRJ-${ project.id }` }
+											</span>
+										</td>
+										<td>
+											<a href=${ `#/projects/${ project.id }` } className="has-text-dark has-text-weight-bold wp-hover-primary is-block mb-1">
+												${ project.name }
+											</a>
+											<span className="is-size-7 has-text-grey wp-text-truncate is-block" style=${{ maxWidth: '380px' }}>
+												${ project.description ? project.description.replace( /<[^>]*>?/gm, '' ) : '—' }
+											</span>
+										</td>
+										<td>
+											${ isCompleted ? html`
+												<span className="tag is-success is-light is-rounded is-small has-text-weight-bold">
+													${ __( 'Completed', 'workpress' ) }
+												</span>
+											` : isFrozen ? html`
+												<span className="tag is-info is-light is-rounded is-small has-text-weight-bold">
+													${ __( 'Frozen', 'workpress' ) }
+												</span>
+											` : isTrash ? html`
+												<span className="tag is-danger is-light is-rounded is-small has-text-weight-bold">
+													${ __( 'Pending Trash', 'workpress' ) }
+												</span>
+											` : html`
+												<span className="tag is-primary is-light is-rounded is-small has-text-weight-bold">
+													${ __( 'Active', 'workpress' ) }
+												</span>
+											` }
+										</td>
+										<td>
+											<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
+												<div style=${{ flex: 1, height: '6px', backgroundColor: '#e2e8f0', overflow: 'hidden' }}>
+													<div style=${{ height: '100%', width: `${ progress }%`, backgroundColor: isCompleted ? '#10b981' : ( progress < 30 ? '#ef4444' : '#10b981' ) }}></div>
+												</div>
+												<span className="is-size-7 has-text-weight-bold" style=${{ width: '35px', textAlign: 'end' }}>${ progress }%</span>
+											</div>
+										</td>
+										<td>
+											<span className="is-size-7 has-text-grey-dark">
+												${ project.count || project.total_tasks || 0 } ${ __( 'Tasks', 'workpress' ) }
+											</span>
+										</td>
+										<td>
+											<span className="is-size-7 has-text-dark has-text-weight-semibold">
+												${ project.lead_name || __( 'Unassigned', 'workpress' ) }
+											</span>
+										</td>
+										<td>
+											<span className="is-size-7 has-text-grey">
+												${ project.due_at || project.end_date ? formatDate( project.due_at || project.end_date, { hideYear: true } ) : '—' }
+											</span>
+										</td>
+										<td style=${{ textAlign: rtl ? 'left' : 'right' }}>
+											<div className="is-inline-flex" style=${{ gap: '4px' }}>
+												<a
+													href=${ `#/projects/${ project.id }` }
+													className="button is-small wp-btn is-light"
+													title=${ __( 'Open Workspace', 'workpress' ) }
+													style=${{ height: '28px', padding: '0 8px' }}
+												>
+													<i className="dashicons dashicons-portfolio"></i>
+												</a>
+												<button
+													type="button"
+													className="button is-small wp-btn is-light"
+													onClick=${ () => handleQuickPreviewClick( project ) }
+													title=${ __( 'Quick Preview', 'workpress' ) }
+													style=${{ height: '28px', padding: '0 8px' }}
+												>
+													<i className="dashicons dashicons-visibility"></i>
+												</button>
+												<button
+													type="button"
+													className="button is-small wp-btn is-light"
+													onClick=${ () => handleEditClick( project ) }
+													title=${ __( 'Edit Project', 'workpress' ) }
+													style=${{ height: '28px', padding: '0 8px' }}
+												>
+													<i className="dashicons dashicons-edit"></i>
+												</button>
+											</div>
+										</td>
+									</tr>
+								`;
+							} ) }
+						</tbody>
+					</table>
+				</div>
+			` : html`
+				<!-- نمط شبكة الصناديق الثلاثية الحديثة (3 في السطر) -->
+				<div className="columns is-multiline mt-4">
+					${ paginatedProjects.map( project => html`
+						<div key=${ project.id } className="column is-4-desktop is-6-tablet is-12-mobile">
+							<${ProjectCard}
+								project=${ project }
+								onEdit=${ handleEditClick }
+								onManageMembers=${ handleManageMembersClick }
+								onDelete=${ handleDeleteClick }
+								onRestore=${ handleRestoreClick }
+								onAddTask=${ handleAddTaskClick }
+								onQuickPreview=${ handleQuickPreviewClick }
+							/>
+						</div>
+					` ) }
+				</div>
+			` }
 
-			<${TaskModal}
-				isActive=${ isTaskModalOpen }
-				onClose=${ () => { setIsTaskModalOpen(false); setSelectedProjectIdForTask(null); } }
-				projectId=${ selectedProjectIdForTask }
-				onSave=${ () => { fetchProjects(); /* Refresh to update task count */ } }
-			/>
-			
-			<${ProjectQuickPreviewModal}
-				isActive=${ isQuickPreviewModalOpen }
-				onClose=${ () => { setIsQuickPreviewModalOpen(false); setQuickPreviewProject(null); } }
-				projectId=${ quickPreviewProject ? quickPreviewProject.id : null }
-			/>
-			
-			<${ConfirmModal}
-				...${ confirmModalConfig }
-				onClose=${ () => setConfirmModalConfig({ isActive: false }) }
-			/>
+			<!-- ترقيم الصفحات المتوافق مع الفلاتر -->
+			${ ! isLoading && totalItems > 0 && html`
+				<div className="wp-reports-pagination-container">
+					<div className="is-size-7 has-text-grey has-text-weight-semibold">
+						${ sprintf( __( 'Showing %d - %d of %d projects', 'workpress' ), startIndex + 1, endIndex, totalItems ) }
+					</div>
+
+					${ totalPages > 1 && html`
+						<div className="wp-pagination-controls">
+							<button
+								type="button"
+								className="wp-pagination-btn"
+								disabled=${ validCurrentPage <= 1 }
+								onClick=${ () => { setCurrentPage( prev => Math.max( 1, prev - 1 ) ); sound.play( 'click' ); } }
+								title=${ __( 'Previous Page', 'workpress' ) }
+							>
+								<i className=${ `dashicons ${ rtl ? 'dashicons-arrow-right-alt2' : 'dashicons-arrow-left-alt2' }` }></i>
+							</button>
+
+							${ getPageNumbers( validCurrentPage, totalPages ).map( ( p, idx ) => {
+								if ( p === '...' ) return html`<span key=${ `el_${ idx }` } className="wp-pagination-ellipsis">…</span>`;
+								return html`
+									<button
+										key=${ `p_${ p }` }
+										type="button"
+										className=${ `wp-pagination-num-btn ${ p === validCurrentPage ? 'is-active' : '' }` }
+										onClick=${ () => { setCurrentPage( p ); sound.play( 'click' ); } }
+									>
+										${ p }
+									</button>
+								`;
+							} ) }
+
+							<button
+								type="button"
+								className="wp-pagination-btn"
+								disabled=${ validCurrentPage >= totalPages }
+								onClick=${ () => { setCurrentPage( prev => Math.min( totalPages, prev + 1 ) ); sound.play( 'click' ); } }
+								title=${ __( 'Next Page', 'workpress' ) }
+							>
+								<i className=${ `dashicons ${ rtl ? 'dashicons-arrow-left-alt2' : 'dashicons-arrow-right-alt2' }` }></i>
+							</button>
+						</div>
+					` }
+				</div>
+			` }
+
+			<!-- النوافذ المنبثقة الإدارية -->
+			${ isModalOpen && html`
+				<${ProjectModal}
+					isActive=${ isModalOpen }
+					onClose=${ () => { setIsModalOpen( false ); setEditingProject( null ); } }
+					project=${ editingProject }
+					onSave=${ fetchProjects }
+					onSaved=${ fetchProjects }
+				/>
+			` }
+
+			${ isMembersModalOpen && html`
+				<${ProjectMembersModal}
+					isActive=${ isMembersModalOpen }
+					onClose=${ () => { setIsMembersModalOpen( false ); setManagingMembersProject( null ); } }
+					project=${ managingMembersProject }
+					onSave=${ fetchProjects }
+					onSaved=${ fetchProjects }
+				/>
+			` }
+
+			${ isTaskModalOpen && html`
+				<${TaskModal}
+					isActive=${ isTaskModalOpen }
+					onClose=${ () => { setIsTaskModalOpen( false ); setSelectedProjectIdForTask( null ); } }
+					projectId=${ selectedProjectIdForTask }
+					defaultProjectId=${ selectedProjectIdForTask }
+					onSave=${ fetchProjects }
+					onSaved=${ fetchProjects }
+				/>
+			` }
+
+			${ isQuickPreviewModalOpen && html`
+				<${ProjectQuickPreviewModal}
+					isActive=${ isQuickPreviewModalOpen }
+					onClose=${ () => { setIsQuickPreviewModalOpen( false ); setQuickPreviewProject( null ); } }
+					project=${ quickPreviewProject }
+					onEdit=${ () => { setIsQuickPreviewModalOpen( false ); handleEditClick( quickPreviewProject ); } }
+					onManageMembers=${ () => { setIsQuickPreviewModalOpen( false ); handleManageMembersClick( quickPreviewProject ); } }
+				/>
+			` }
+
+			${ confirmModalConfig.isActive && html`
+				<${ConfirmModal}
+					isActive=${ confirmModalConfig.isActive }
+					title=${ confirmModalConfig.title }
+					message=${ confirmModalConfig.message }
+					confirmText=${ confirmModalConfig.confirmText }
+					confirmColor=${ confirmModalConfig.confirmColor }
+					isDangerous=${ confirmModalConfig.isDangerous }
+					requiresReason=${ confirmModalConfig.requiresReason }
+					reasonLabel=${ confirmModalConfig.reasonLabel }
+					isSubmitting=${ confirmModalConfig.isSubmitting }
+					onConfirm=${ confirmModalConfig.onConfirm }
+					onCancel=${ () => setConfirmModalConfig( { isActive: false } ) }
+				/>
+			` }
 		</div>
 	`;
 }

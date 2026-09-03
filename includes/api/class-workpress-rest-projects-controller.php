@@ -95,7 +95,7 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 		$due_at      = sanitize_text_field( $request->get_param( 'due_at' ) );
 
 		if ( empty( $name ) ) {
-			return new WP_Error( 'rest_missing_name', __( 'اسم المشروع مطلوب', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_name', __( 'Project name is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$project = WorkPress_Project_Service::create_project( array(
@@ -128,7 +128,7 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 		$project    = WorkPress_Project_Service::get_project( $project_id );
 		
 		if ( is_wp_error( $project ) ) {
-			return new WP_Error( 'rest_project_not_found', __( 'المشروع غير موجود', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_project_not_found', __( 'Project not found', 'workpress' ), array( 'status' => 404 ) );
 		}
 
 		return rest_ensure_response( $project );
@@ -159,7 +159,7 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 		$due_at      = $request->has_param( 'due_at' ) ? sanitize_text_field( $request->get_param( 'due_at' ) ) : $existing['due_at'];
 
 		if ( empty( $name ) ) {
-			return new WP_Error( 'rest_missing_name', __( 'اسم المشروع مطلوب', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_name', __( 'Project name is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$project = WorkPress_Project_Service::update_project( $project_id, array(

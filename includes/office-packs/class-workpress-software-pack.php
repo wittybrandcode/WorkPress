@@ -29,32 +29,32 @@ class WorkPress_Software_Pack {
 		}
 
 		WorkPress_Template_Service::register_template( 'software-dev', array(
-			'label'       => __( 'تطوير برمجيات (Software Development)', 'workpress' ),
-			'description' => __( 'قالب مخصص لمشاريع تطوير البرمجيات يشمل مهام تحليل المتطلبات، التصميم، التطوير، والاختبار.', 'workpress' ),
+			'label'       => __( 'Software Development', 'workpress' ),
+			'description' => __( 'Specialized template for software development projects including requirement analysis, design, development, and testing.', 'workpress' ),
 			'tasks'       => array(
 				array(
-					'title'    => __( 'تحليل المتطلبات', 'workpress' ),
-					'content'  => __( 'جمع وتحليل متطلبات النظام وإعداد وثيقة المتطلبات (PRD).', 'workpress' ),
+					'title'    => __( 'Requirement Analysis', 'workpress' ),
+					'content'  => __( 'Gather and analyze system requirements and prepare PRD document.', 'workpress' ),
 					'priority' => 'high',
-					'status'   => 'open',
+					'status'   => 'new',
 				),
 				array(
-					'title'    => __( 'تصميم واجهة المستخدم (UI/UX)', 'workpress' ),
-					'content'  => __( 'تصميم واجهات النظام وتجربة المستخدم.', 'workpress' ),
+					'title'    => __( 'User Interface Design (UI/UX)', 'workpress' ),
+					'content'  => __( 'Design system interfaces and user experience.', 'workpress' ),
 					'priority' => 'medium',
-					'status'   => 'open',
+					'status'   => 'new',
 				),
 				array(
-					'title'    => __( 'بناء وتطوير واجهات برمجة التطبيقات (API)', 'workpress' ),
-					'content'  => __( 'بناء نقاط الاتصال المطلوبة بناءً على التصميم المعماري.', 'workpress' ),
+					'title'    => __( 'Build and develop APIs', 'workpress' ),
+					'content'  => __( 'Build required API endpoints based on architectural design.', 'workpress' ),
 					'priority' => 'high',
-					'status'   => 'open',
+					'status'   => 'new',
 				),
 				array(
-					'title'    => __( 'الاختبار الأوتوماتيكي (Automated Testing)', 'workpress' ),
-					'content'  => __( 'كتابة اختبارات الوحدة والتحقق من التغطية البرمجية.', 'workpress' ),
+					'title'    => __( 'Automated Testing', 'workpress' ),
+					'content'  => __( 'Write unit tests and verify code coverage.', 'workpress' ),
 					'priority' => 'medium',
-					'status'   => 'open',
+					'status'   => 'new',
 				),
 			),
 			'roles'       => array(

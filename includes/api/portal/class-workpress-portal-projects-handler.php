@@ -47,7 +47,7 @@ class WorkPress_Portal_Projects_Handler {
 		$term       = get_term( $project_id, WorkPress_Keys::TAX_PROJECT );
 
 		if ( ! $term || is_wp_error( $term ) ) {
-			return new WP_Error( 'project_not_found', __( 'المشروع غير موجود.', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'project_not_found', __( 'Project not found.', 'workpress' ), array( 'status' => 404 ) );
 		}
 
 		$lead_id   = absint( get_term_meta( $project_id, WorkPress_Keys::META_LEAD_ID, true ) );
@@ -68,7 +68,7 @@ class WorkPress_Portal_Projects_Handler {
 			'due_at'      => $due_at ? $due_at : '',
 			'lead'        => array(
 				'id'     => $lead_id,
-				'name'   => $lead_user ? $lead_user->display_name : __( 'غير محدد', 'workpress' ),
+				'name'   => $lead_user ? $lead_user->display_name : __( 'Unspecified', 'workpress' ),
 				'avatar' => $lead_id ? get_avatar_url( $lead_id, array( 'size' => 64 ) ) : '',
 			),
 		);
@@ -170,7 +170,7 @@ class WorkPress_Portal_Projects_Handler {
 		return new WP_REST_Response(
 			array(
 				'success' => true,
-				'message' => __( 'تم قبول المخرج بنجاح!', 'workpress' ),
+				'message' => __( 'Deliverable accepted successfully!', 'workpress' ),
 			),
 			200
 		);
@@ -212,7 +212,7 @@ class WorkPress_Portal_Projects_Handler {
 			return new WP_REST_Response(
 				array(
 					'success' => false,
-					'message' => __( 'نص التعليق مطلوب.', 'workpress' ),
+					'message' => __( 'Comment text is required.', 'workpress' ),
 				),
 				400
 			);
@@ -233,7 +233,7 @@ class WorkPress_Portal_Projects_Handler {
 		return new WP_REST_Response(
 			array(
 				'success' => true,
-				'message' => __( 'تم إرسال التعليق بنجاح.', 'workpress' ),
+				'message' => __( 'Comment submitted successfully.', 'workpress' ),
 				'comment' => $result,
 			),
 			200
@@ -267,7 +267,7 @@ class WorkPress_Portal_Projects_Handler {
 		return new WP_REST_Response(
 			array(
 				'success' => true,
-				'message' => __( 'تم اعتماد المشروع وإغلاقه بنجاح! شكراً لتعاونكم.', 'workpress' ),
+				'message' => __( 'Project approved and closed successfully! Thank you for your collaboration.', 'workpress' ),
 			),
 			200
 		);

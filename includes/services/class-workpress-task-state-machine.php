@@ -63,24 +63,32 @@ class WorkPress_Task_State_Machine {
 	 * @return int Number of contributions.
 	 */
 	public static function count_real_contributions( $task_id ) {
-		$comments = get_comments( array(
+		$comment_ids = get_comments( array(
 			'post_id'    => (int) $task_id,
 			'type'       => 'wp_contribution',
-			'count'      => true,
+			'fields'     => 'ids',
 			'meta_query' => array(
-				'relation' => 'OR',
+				'relation' => 'AND',
 				array(
-					'key'     => '_workpress_is_pending_trash',
-					'compare' => 'NOT EXISTS',
+					'relation' => 'OR',
+					array(
+						'key'     => '_workpress_is_pending_trash',
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key'     => '_workpress_is_pending_trash',
+						'value'   => '1',
+						'compare' => '!=',
+					),
 				),
 				array(
-					'key'     => '_workpress_is_pending_trash',
-					'value'   => '1',
-					'compare' => '!=',
+					'key'     => '_workpress_contribution_type',
+					'value'   => array( 'state_change', 'assignment', 'trash_request' ),
+					'compare' => 'NOT IN',
 				),
 			),
 		) );
-		return (int) $comments;
+		return is_array( $comment_ids ) ? count( array_unique( $comment_ids ) ) : 0;
 	}
 
 	/**
@@ -153,7 +161,7 @@ class WorkPress_Task_State_Machine {
 					$task_id,
 					sprintf(
 						/* translators: 1: Old status label, 2: New status label */
-						__( 'تم تحديث حالة المهمة آلياً: من %1$s إلى %2$s', 'workpress' ),
+						__( 'Task status automatically updated: from %1$s to %2$s', 'workpress' ),
 						$old_label,
 						$new_label
 					),
@@ -239,7 +247,7 @@ class WorkPress_Task_State_Machine {
 
 		$log_msg = sprintf(
 			/* translators: 1: Old Status 2: New Status */
-			__( 'تم تغيير حالة المهمة من ( %1$s ) إلى ( %2$s ).', 'workpress' ),
+			__( 'Task status changed from ( %1$s ) to ( %2$s ).', 'workpress' ),
 			$old_label,
 			$new_label
 		);
@@ -308,10 +316,10 @@ class WorkPress_Task_State_Machine {
 			$log_msg = ! empty( $reason )
 				? sprintf(
 					/* translators: %s: Reason */
-					__( 'تم تقديم طلب حذف المهمة (السبب: %s).', 'workpress' ),
+					__( 'Task deletion requested (reason: %s).', 'workpress' ),
 					$reason
 				)
-				: __( 'تم تقديم طلب حذف المهمة.', 'workpress' );
+				: __( 'Task deletion requested.', 'workpress' );
 
 			WorkPress_Contribution_Service::add_system_log( $task_id, $log_msg, $user_id );
 		}
@@ -342,7 +350,7 @@ class WorkPress_Task_State_Machine {
 		if ( class_exists( 'WorkPress_Contribution_Service' ) ) {
 			WorkPress_Contribution_Service::add_system_log(
 				$task_id,
-				__( 'تمت استعادة المهمة وإلغاء طلب الحذف.', 'workpress' ),
+				__( 'Task restored and deletion request cancelled.', 'workpress' ),
 				$user_id
 			);
 		}
@@ -365,14 +373,14 @@ class WorkPress_Task_State_Machine {
 		if ( class_exists( 'WorkPress_Contribution_Service' ) ) {
 			WorkPress_Contribution_Service::add_system_log(
 				$task_id,
-				__( 'تم حذف المهمة ونقلها إلى سلة المهملات نهائياً.', 'workpress' ),
+				__( 'Task deleted and moved to trash permanently.', 'workpress' ),
 				get_current_user_id()
 			);
 		}
 
 		$result = wp_trash_post( $task_id );
 		if ( ! $result ) {
-			return new WP_Error( 'delete_failed', __( 'فشل حذف المهمة.', 'workpress' ) );
+			return new WP_Error( 'delete_failed', __( 'Failed to delete task.', 'workpress' ) );
 		}
 
 		self::clear_task_cache( $task_id );

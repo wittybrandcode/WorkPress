@@ -1,4 +1,4 @@
-import { html, useState, useEffect, useRef } from '../../utils/html.js';
+import { html, useState, useEffect, useRef, __, isRtl, sprintf } from '../../utils/html.js';
 import { hooks } from '../../utils/hooks.js';
 import { formatDate, formatDateTime, formatRelativeTime } from '../../utils/datetime.js';
 import { toast } from '../../utils/toast.js';
@@ -44,6 +44,7 @@ function NotificationBell() {
 	const [isOpen, setIsOpen] = useState(false);
 	const [activeTab, setActiveTab] = useState('all'); // all, tasks, contributions, projects
 	const dropdownRef = useRef(null);
+	const rtl = isRtl();
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -100,14 +101,14 @@ function NotificationBell() {
 
 		const stopPolling = () => {
 			if ( interval ) {
-				clearInterval(interval);
+				clearInterval( interval );
 				interval = null;
 			}
 		};
 
 		const handleVisibilityChange = () => {
 			if ( document.visibilityState === 'visible' ) {
-				fetchNotifications(); // Instant wakeup refresh
+				fetchNotifications(); // Instant wake-up fetch
 				startPolling();
 			} else {
 				stopPolling();
@@ -115,34 +116,41 @@ function NotificationBell() {
 		};
 
 		startPolling();
-		document.addEventListener('visibilitychange', handleVisibilityChange);
+		document.addEventListener( 'visibilitychange', handleVisibilityChange );
 		
 		return () => {
 			stopPolling();
-			document.removeEventListener('visibilitychange', handleVisibilityChange);
+			document.removeEventListener( 'visibilitychange', handleVisibilityChange );
 			hooks.removeAction('workpress_refresh_notifications', 'workpress/notifications');
 		};
 	}, []);
 
 	const markAsRead = (id) => {
-		apiFetch({ path: `/workpress/v1/notifications/${id}/read`, method: 'PUT' })
-			.then(() => {
-				setNotifications(prev => prev.map(n => n.id === id ? { ...n, is_read: '1' } : n));
-				setUnreadCount(prev => Math.max(0, prev - 1));
-			})
-			.catch(console.error);
+		apiFetch({
+			path: `/workpress/v1/notifications/${id}/read`,
+			method: 'POST'
+		}).then(() => {
+			setNotifications(notifications.map(n => n.id === id ? { ...n, is_read: '1' } : n));
+			setUnreadCount(Math.max(0, unreadCount - 1));
+		}).catch(console.error);
 	};
 
 	const markAllRead = () => {
-		apiFetch({ path: '/workpress/v1/notifications/read-all', method: 'PUT' })
-			.then(() => {
-				setNotifications(prev => prev.map(n => ({ ...n, is_read: '1' })));
-				setUnreadCount(0);
-			})
-			.catch(console.error);
+		apiFetch({
+			path: `/workpress/v1/notifications/mark-all-read`,
+			method: 'POST'
+		}).then(() => {
+			setNotifications(notifications.map(n => ({ ...n, is_read: '1' })));
+			setUnreadCount(0);
+		}).catch(console.error);
 	};
 
-	const toggleDropdown = () => setIsOpen(!isOpen);
+	const toggleDropdown = () => {
+		if (!isOpen) {
+			sound.play('dropdown');
+		}
+		setIsOpen(!isOpen);
+	};
 
 	const filteredNotifications = notifications.filter(n => {
 		if (activeTab === 'all') return true;
@@ -153,14 +161,18 @@ function NotificationBell() {
 	});
 
 	return html`
-		<div ref=${dropdownRef} className=${`dropdown ${isOpen ? 'is-active' : ''}`} style=${{ margin: 0, zIndex: isOpen ? 100 : 1, display: 'inline-flex', alignItems: 'center', position: 'relative' }}>
+		<div 
+			ref=${dropdownRef} 
+			className=${`dropdown ${rtl ? 'is-left' : 'is-right'} ${isOpen ? 'is-active' : ''}`} 
+			style=${{ margin: 0, zIndex: isOpen ? 100 : 1, display: 'inline-flex', alignItems: 'center', position: 'relative' }}
+		>
 			<div className="dropdown-trigger">
 				<button 
 					className=${`button wp-header-btn ${isOpen ? 'is-active' : ''}`} 
 					aria-haspopup="true" 
 					aria-controls="dropdown-menu" 
 					onClick=${toggleDropdown} 
-					title="التنبيهات والإشعارات"
+					title=${ __( 'Notifications & Alerts', 'workpress' ) }
 					style=${{ 
 						width: '32px', 
 						height: '32px', 
@@ -179,7 +191,7 @@ function NotificationBell() {
 							borderRadius: 0, 
 							position: 'absolute', 
 							top: '-3px', 
-							right: '-3px', 
+							insetInlineEnd: '-3px', 
 							fontSize: '0.65rem', 
 							padding: '1px 4px', 
 							height: 'auto',
@@ -191,16 +203,31 @@ function NotificationBell() {
 					`}
 				</button>
 			</div>
-			<div className="dropdown-menu" id="dropdown-menu" role="menu" style=${{ minWidth: '380px', maxWidth: '92vw', left: 0, right: 'auto', top: '100%', paddingTop: '6px' }}>
-				<div className="dropdown-content wp-card p-0" style=${{ borderRadius: 0, border: '1px solid #ededed', boxShadow: '0 4px 16px rgba(0,0,0,0.1)' }}>
+			<div 
+				className="dropdown-menu" 
+				id="dropdown-menu" 
+				role="menu" 
+				style=${{ 
+					minWidth: '360px', 
+					maxWidth: 'min(380px, calc(100vw - 32px))', 
+					insetInlineEnd: 0, 
+					insetInlineStart: 'auto', 
+					[rtl ? 'left' : 'right']: 0, 
+					[rtl ? 'right' : 'left']: 'auto', 
+					top: '100%', 
+					paddingTop: '6px',
+					zIndex: 1200
+				}}
+			>
+				<div className="dropdown-content wp-card p-0" style=${{ borderRadius: 0, border: '1px solid #ededed', boxShadow: '0 4px 16px rgba(0,0,0,0.1)', backgroundColor: '#ffffff' }}>
 					${unreadCount > 0 ? html`
 						<div className="p-2 is-flex is-justify-content-space-between is-align-items-center" style=${{ borderBottom: '1px solid #ededed', backgroundColor: '#f8fafc' }}>
-							<span className="is-size-7 has-text-weight-bold has-text-grey-dark pr-2">
-								لديك ${unreadCount} إشعار جديد
+							<span className="is-size-7 has-text-weight-bold has-text-grey-dark" style=${{ paddingInlineEnd: '8px' }}>
+								${ sprintf( __( 'You have %d new notifications', 'workpress' ), unreadCount ) }
 							</span>
 							<button className="button is-small is-light wp-sharp-button" onClick=${markAllRead} style=${{ border: '1px solid #cbd5e1' }}>
 								<span className="icon is-small"><i className="dashicons dashicons-yes-alt"></i></span>
-								<span>تحديد الكل كمقروء</span>
+								<span>${ __( 'Mark all as read', 'workpress' ) }</span>
 							</button>
 						</div>
 					` : null}
@@ -209,19 +236,19 @@ function NotificationBell() {
 						<ul style=${{ margin: 0, padding: 0 }}>
 							<li className=${activeTab === 'all' ? 'is-active' : ''}><a onClick=${() => setActiveTab('all')} style=${{ borderRadius: 0, borderBottomWidth: '2px', gap: '5px' }}>
 								<i className="dashicons dashicons-bell" style=${{ fontSize: '14px', width: '14px', height: '14px' }}></i>
-								<span>الكل</span>
+								<span>${ __( 'All', 'workpress' ) }</span>
 							</a></li>
 							<li className=${activeTab === 'tasks' ? 'is-active' : ''}><a onClick=${() => setActiveTab('tasks')} style=${{ borderRadius: 0, borderBottomWidth: '2px', gap: '5px' }}>
 								<i className="dashicons dashicons-clipboard" style=${{ fontSize: '14px', width: '14px', height: '14px' }}></i>
-								<span>المهام</span>
+								<span>${ __( 'Tasks', 'workpress' ) }</span>
 							</a></li>
 							<li className=${activeTab === 'contributions' ? 'is-active' : ''}><a onClick=${() => setActiveTab('contributions')} style=${{ borderRadius: 0, borderBottomWidth: '2px', gap: '5px' }}>
 								<i className="dashicons dashicons-format-chat" style=${{ fontSize: '14px', width: '14px', height: '14px' }}></i>
-								<span>المساهمات</span>
+								<span>${ __( 'Contributions', 'workpress' ) }</span>
 							</a></li>
 							<li className=${activeTab === 'projects' ? 'is-active' : ''}><a onClick=${() => setActiveTab('projects')} style=${{ borderRadius: 0, borderBottomWidth: '2px', gap: '5px' }}>
 								<i className="dashicons dashicons-portfolio" style=${{ fontSize: '14px', width: '14px', height: '14px' }}></i>
-								<span>المشاريع</span>
+								<span>${ __( 'Projects', 'workpress' ) }</span>
 							</a></li>
 						</ul>
 					</div>
@@ -230,7 +257,7 @@ function NotificationBell() {
 						${filteredNotifications.length === 0 ? html`
 							<div className="dropdown-item p-5 has-text-centered has-text-grey">
 								<span className="icon is-medium has-text-grey-light mb-1"><i className="dashicons dashicons-bell" style=${{ fontSize: '24px' }}></i></span>
-								<p className="is-size-7 mb-0">لا توجد إشعارات جديدة.</p>
+								<p className="is-size-7 mb-0">${ __( 'No new notifications.', 'workpress' ) }</p>
 							</div>
 						` : filteredNotifications.map(n => {
 							const typeColor = NOTIFICATION_COLORS[n.type] || '#64748b';

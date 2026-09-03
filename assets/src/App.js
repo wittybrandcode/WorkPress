@@ -16,9 +16,11 @@ import SettingsPage from './pages/SettingsPage.js';
 import SettingsQuickMenu from './components/settings/SettingsQuickMenu.js';
 import SoundQuickToggle from './components/ui/SoundQuickToggle.js';
 import LanguageQuickMenu from './components/ui/LanguageQuickMenu.js';
+import QuickAddMenu from './components/ui/QuickAddMenu.js';
 import ProjectModal from './components/projects/ProjectModal.js';
 import TaskModal from './components/tasks/TaskModal.js';
 import ContributionModal from './components/contributions/ContributionModal.js';
+import RequestModal from './components/requests/RequestModal.js';
 import ErrorBoundary from './components/ui/ErrorBoundary.js';
 import sound from './utils/sound.js';
 
@@ -29,6 +31,7 @@ export default function App() {
 	const [ isProjectModalOpen, setIsProjectModalOpen ] = useState( false );
 	const [ isTaskModalOpen, setIsTaskModalOpen ] = useState( false );
 	const [ isContributionModalOpen, setIsContributionModalOpen ] = useState( false );
+	const [ isRequestModalOpen, setIsRequestModalOpen ] = useState( false );
 
 	// T1+T2: Capability-based UI guards (Atomic Audit T1, T2)
 	const settings = window.workpressSettings || {};
@@ -165,13 +168,7 @@ export default function App() {
 	return html`
 		<div dir=${ rtl ? 'rtl' : 'ltr' } className="workpress-spa has-background-light" style=${{ minHeight: '100vh', paddingBottom: '2rem' }}>
 			
-			<div className="workpress-header-wrapper mb-4 has-background-white" style=${{ 
-				boxShadow: '0 2px 6px rgba(0,0,0,0.03)', 
-				borderBottom: '1px solid #e2e8f0',
-				position: 'sticky', 
-				top: '32px', /* Accounts for standard WordPress Admin Bar */
-				zIndex: 40
-			}}>
+			<div className="workpress-header-wrapper mb-4 has-background-white">
 				<!-- الشريط الأول: الهوية والروابط -->
 				<div className="is-flex is-justify-content-space-between is-align-items-center p-3" style=${{ borderBottom: '1px solid #f0f0f0' }}>
 					<!-- الهوية: الشعار الرسمي SVG بحجم كبير وواضح -->
@@ -241,26 +238,16 @@ export default function App() {
 						</ul>
 					</nav>
 
-					<!-- أزرار الإجراءات السريعة -->
-					<div className="is-flex is-align-items-center" style=${{ gap: '10px' }}>
-						${ (isAdmin || userCaps.canManageProjects) && html`
-							<button className="button wp-header-btn" onClick=${() => setIsProjectModalOpen(true)}>
-								<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-								<span className="has-text-weight-bold">${ __( 'Project', 'workpress' ) }</span>
-							</button>
-						` }
-						
-						${ (isAdmin || userCaps.canCreateTasks) && html`
-							<button className="button is-primary wp-header-btn" onClick=${ () => setIsTaskModalOpen( true ) }>
-								<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-								<span className="has-text-weight-bold">${ __( 'Task', 'workpress' ) }</span>
-							</button>
-						` }
-						
-						<button className="button wp-header-btn" onClick=${() => setIsContributionModalOpen(true)}>
-							<span className="icon"><i className="dashicons dashicons-plus-alt2"></i></span>
-							<span className="has-text-weight-bold">${ __( 'Contribution', 'workpress' ) }</span>
-						</button>
+					<!-- زر الإضافة السريع الموحد (+) مع القائمة المنسدلة -->
+					<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
+						<${QuickAddMenu}
+							onNewProject=${ () => setIsProjectModalOpen( true ) }
+							onNewTask=${ () => setIsTaskModalOpen( true ) }
+							onNewContribution=${ () => setIsContributionModalOpen( true ) }
+							onNewRequest=${ () => setIsRequestModalOpen( true ) }
+							isAdmin=${ isAdmin }
+							userCaps=${ userCaps }
+						/>
 
 						${ hooks.applyFilters('workpress_header_actions', []).map((Component, i) => html`<${Component} key=${i} />`) }
 					</div>
@@ -292,6 +279,12 @@ export default function App() {
 				isActive=${ isContributionModalOpen }
 				onClose=${ () => setIsContributionModalOpen( false ) }
 				onSave=${ () => { setIsContributionModalOpen(false); setRefreshKey(prev => prev + 1); } }
+			/>
+
+			<${RequestModal}
+				isActive=${ isRequestModalOpen }
+				onClose=${ () => setIsRequestModalOpen( false ) }
+				onSave=${ () => { setIsRequestModalOpen(false); setRefreshKey(prev => prev + 1); } }
 			/>
 		</div>
 	`;

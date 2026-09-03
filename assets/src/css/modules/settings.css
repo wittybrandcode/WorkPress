@@ -17,7 +17,7 @@
     font-weight: 700;
     color: var(--wp-text-main, #0f172a);
     background: transparent;
-    text-align: right;
+    text-align: start;
     padding: 0.5rem 0.75rem;
     transition: all 0.15s ease;
 }
@@ -28,9 +28,48 @@
 }
 
 .wp-settings-tab-btn.is-active {
-    background: #0f172a !important;
+    background-color: #10b981 !important;
     color: #ffffff !important;
-    border-color: #0f172a !important;
+    border-color: #10b981 !important;
+}
+
+/* ==========================================================================
+   Persistent Sticky Settings Sidebar (شريط إعدادات ثابت عند التمرير العمودي)
+   ========================================================================== */
+.wp-settings-sidebar-sticky {
+    position: -webkit-sticky !important;
+    position: sticky !important;
+    top: 165px;
+    z-index: 30 !important;
+    max-height: calc(100vh - 185px);
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+}
+
+.wp-settings-sidebar-sticky::-webkit-scrollbar {
+    width: 4px;
+}
+
+.wp-settings-sidebar-sticky::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 0;
+}
+
+@media screen and (max-width: 782px) {
+    .wp-settings-sidebar-sticky {
+        top: 160px !important;
+        max-height: calc(100vh - 180px) !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .wp-settings-sidebar-sticky {
+        position: static !important;
+        max-height: none !important;
+        top: auto !important;
+    }
 }
 
 .wp-settings-card {

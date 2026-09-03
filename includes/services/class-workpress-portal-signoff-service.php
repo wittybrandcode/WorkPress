@@ -292,22 +292,22 @@ class WorkPress_Portal_Signoff_Service {
 	public static function add_deliverable_comment( $deliverable_id, $content, $user_id ) {
 		$parent_comment = get_comment( (int) $deliverable_id );
 		if ( ! $parent_comment ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ), array( 'status' => 404 ) );
 		}
 
 		$task_id = (int) $parent_comment->comment_post_ID;
 		$terms   = wp_get_object_terms( $task_id, WorkPress_Keys::TAX_PROJECT );
 		if ( empty( $terms ) || is_wp_error( $terms ) ) {
-			return new WP_Error( 'invalid_project', __( 'المشروع غير موجود.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_project', __( 'Project not found.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		if ( ! WorkPress_Portal_Service::can_user_access_project( $terms[0]->term_id, $user_id ) ) {
-			return new WP_Error( 'forbidden', __( 'غير مصرح لك بالتعليق على هذا المخرج.', 'workpress' ), array( 'status' => 403 ) );
+			return new WP_Error( 'forbidden', __( 'You are not authorized to comment on this deliverable.', 'workpress' ), array( 'status' => 403 ) );
 		}
 
 		$user = get_userdata( (int) $user_id );
 		if ( ! $user ) {
-			return new WP_Error( 'invalid_user', __( 'المستخدم غير موجود.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_user', __( 'User not found.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$comment_id = wp_insert_comment( array(
@@ -322,7 +322,7 @@ class WorkPress_Portal_Signoff_Service {
 		) );
 
 		if ( ! $comment_id ) {
-			return new WP_Error( 'insert_failed', __( 'فشل حفظ التعليق.', 'workpress' ), array( 'status' => 500 ) );
+			return new WP_Error( 'insert_failed', __( 'Failed to save comment.', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		update_comment_meta( $comment_id, '_workpress_contribution_type', 'feedback' );
@@ -365,18 +365,18 @@ class WorkPress_Portal_Signoff_Service {
 
 		$comment = get_comment( (int) $deliverable_id );
 		if ( ! $comment ) {
-			return new WP_Error( 'not_found', __( 'المخرج المطلوب غير موجود.', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Requested deliverable not found.', 'workpress' ), array( 'status' => 404 ) );
 		}
 
 		$task_id = (int) $comment->comment_post_ID;
 		$terms   = wp_get_object_terms( $task_id, WorkPress_Keys::TAX_PROJECT );
 		if ( empty( $terms ) || is_wp_error( $terms ) ) {
-			return new WP_Error( 'invalid_project', __( 'المشروع غير موجود.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_project', __( 'Project not found.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$project_id = (int) $terms[0]->term_id;
 		if ( ! WorkPress_Portal_Service::can_user_access_project( $project_id, $user_id ) ) {
-			return new WP_Error( 'forbidden', __( 'غير مصرح لك باعتماد مخرجات هذا المشروع.', 'workpress' ), array( 'status' => 403 ) );
+			return new WP_Error( 'forbidden', __( 'You are not authorized to approve deliverables for this project.', 'workpress' ), array( 'status' => 403 ) );
 		}
 
 		$user = get_userdata( (int) $user_id );
@@ -403,8 +403,8 @@ class WorkPress_Portal_Signoff_Service {
 				$task_id,
 				sprintf(
 					/* translators: %s: Client name */
-					__( 'قام العميل %s باعتماد هذا الحل رسميًا وتم تسليمه بنجاح ', 'workpress' ),
-					$user ? $user->display_name : __( 'العميل', 'workpress' )
+					__( 'Client %s officially approved this solution and it was delivered successfully.', 'workpress' ),
+					$user ? $user->display_name : __( 'Client', 'workpress' )
 				),
 				$user_id
 			);
@@ -415,7 +415,7 @@ class WorkPress_Portal_Signoff_Service {
 
 		return array(
 			'success' => true,
-			'message' => __( 'تم اعتماد الحل بنجاح وإغلاق المهمة! ', 'workpress' ),
+			'message' => __( 'Solution approved successfully and task closed!', 'workpress' ),
 			'task_id' => $task_id,
 		);
 	}
@@ -431,22 +431,23 @@ class WorkPress_Portal_Signoff_Service {
 	public static function client_project_signoff( $project_id, $user_id, $notes = '' ) {
 		$project_id = absint( $project_id );
 		if ( ! WorkPress_Portal_Service::can_user_access_project( $project_id, $user_id ) ) {
-			return new WP_Error( 'forbidden', __( 'غير مصرح لك باعتماد هذا المشروع.', 'workpress' ), array( 'status' => 403 ) );
+			return new WP_Error( 'forbidden', __( 'You are not authorized to approve this project.', 'workpress' ), array( 'status' => 403 ) );
 		}
 
 		$user      = get_userdata( (int) $user_id );
 		$now_gmt   = gmdate( 'Y-m-d H:i:s' );
 		$now_local = current_time( 'mysql' );
 
-		// Generate Cryptographic SHA-256 Certificate Fingerprint
+		// Generate Cryptographic HMAC-SHA256 Certificate Fingerprint with WordPress Auth Salt
+		$notes_digest = hash( 'sha256', (string) $notes );
 		$certificate_seed = sprintf(
 			'WORKPRESS_SIGNOFF|PRJ:%d|USR:%d|TIME:%s|NOTES:%s',
 			$project_id,
 			$user_id,
 			$now_gmt,
-			md5( (string) $notes )
+			$notes_digest
 		);
-		$sha256_fingerprint = hash( 'sha256', $certificate_seed );
+		$sha256_fingerprint = hash_hmac( 'sha256', $certificate_seed, wp_salt( 'auth' ) );
 
 		update_term_meta( $project_id, '_workpress_client_signoff', '1' );
 		update_term_meta( $project_id, '_workpress_client_signoff_by', (int) $user_id );
@@ -464,7 +465,7 @@ class WorkPress_Portal_Signoff_Service {
 
 		return array(
 			'success'     => true,
-			'message'     => __( 'تم توقيع واستلام المشروع بنجاح! شكرًا لثقتكم بنا ', 'workpress' ),
+			'message'     => __( 'Project signed off and delivered successfully! Thank you for trusting us.', 'workpress' ),
 			'fingerprint' => $sha256_fingerprint,
 		);
 	}

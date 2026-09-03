@@ -173,7 +173,7 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		if ( $request->get_param( 'project_id' ) ) {
 			$project_id = (int) $request->get_param( 'project_id' );
 			if ( ! WorkPress_Permission_Service::can_view_project( $user_id, $project_id ) ) {
-				return new WP_Error( 'rest_forbidden', __( 'غير مصرح لك', 'workpress' ), array( 'status' => 403 ) );
+				return new WP_Error( 'rest_forbidden', __( 'You are not authorized.', 'workpress' ), array( 'status' => 403 ) );
 			}
 			$args['project_id'] = $project_id;
 		} else {
@@ -225,7 +225,7 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		$assignees  = $request->get_param( 'assignees' ) ? array_map( 'intval', (array) $request->get_param( 'assignees' ) ) : array();
 
 		if ( empty( $title ) ) {
-			return new WP_Error( 'rest_missing_title', __( 'عنوان المهمة مطلوب', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_title', __( 'Task title is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$task = WorkPress_Task_Service::create_task( array(
@@ -258,7 +258,7 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		$task    = get_post( $task_id );
 		
 		if ( ! $task || WorkPress_Install::CPT_WORK_ITEM !== $task->post_type ) {
-			return new WP_Error( 'rest_task_not_found', __( 'المهمة غير موجودة', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_task_not_found', __( 'Task not found', 'workpress' ), array( 'status' => 404 ) );
 		}
 		
 		// المسؤولون يمكنهم رؤية أي مهمة
@@ -288,7 +288,7 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		$task    = WorkPress_Task_Service::get_task( $task_id );
 		
 		if ( is_wp_error( $task ) ) {
-			return new WP_Error( 'rest_task_not_found', __( 'المهمة غير موجودة', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'rest_task_not_found', __( 'Task not found', 'workpress' ), array( 'status' => 404 ) );
 		}
 
 		return rest_ensure_response( $task );
@@ -315,7 +315,7 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		$is_pending = $request->has_param( 'is_pending_trash' ) ? rest_sanitize_boolean( $request->get_param( 'is_pending_trash' ) ) : $existing['is_pending_trash'];
 
 		if ( empty( $title ) ) {
-			return new WP_Error( 'rest_missing_title', __( 'عنوان المهمة مطلوب', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_title', __( 'Task title is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		if ( $request->has_param( 'is_pending_trash' ) && ! $is_pending ) {
@@ -350,7 +350,7 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		}
 		
 		if ( empty( $status ) ) {
-			return new WP_Error( 'rest_missing_status', __( 'الحالة مطلوبة', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_status', __( 'Status is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 		
 		$task = WorkPress_Task_Service::update_task_status( $task_id, $status, get_current_user_id() );
@@ -378,7 +378,7 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		$assignees = $request->get_param( 'assignees' ) ? array_map( 'intval', (array) $request->get_param( 'assignees' ) ) : array();
 		
 		if ( ! class_exists( 'WorkPress_Assignment_Service' ) ) {
-			return new WP_Error( 'rest_service_missing', __( 'خدمة التكليف غير متوفرة', 'workpress' ), array( 'status' => 500 ) );
+			return new WP_Error( 'rest_service_missing', __( 'Assignment service unavailable', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		WorkPress_Assignment_Service::set_assignees( $task_id, $assignees, get_current_user_id() );

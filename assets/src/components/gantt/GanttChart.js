@@ -1,8 +1,8 @@
 import { html, useState, useEffect, useRef, __, sprintf, isRtl } from '../../utils/html.js';
 import DatePicker from '../ui/DatePicker.js';
 import GanttScaleBar from './GanttScaleBar.js';
-import GanttTableSidebar from './GanttTableSidebar.js';
-import GanttGridCanvas from './GanttGridCanvas.js';
+import GanttTableSidebar, { GanttTableHeader } from './GanttTableSidebar.js';
+import GanttGridCanvas, { GanttTimelineHeader } from './GanttGridCanvas.js';
 import GanttTaskRow from './GanttTaskRow.js';
 import GanttTooltip from './GanttTooltip.js';
 import { getMonthName, DAY_NAMES, formatDate, parseDate } from '../../utils/datetime.js';
@@ -45,9 +45,36 @@ export default function GanttChart({
 	const rtl = isRtl();
 
 	const timelineContainerRef = useRef( null );
+	const headerScrollRef = useRef( null );
 	const isMouseDownRef = useRef( false );
 	const startXRef = useRef( 0 );
 	const scrollLeftRef = useRef( 0 );
+
+	const handleTimelineScroll = ( e ) => {
+		if ( headerScrollRef.current ) {
+			headerScrollRef.current.scrollLeft = e.target.scrollLeft;
+		}
+	};
+
+	// Dynamically compute sticky top offset below WorkPress sticky header
+	useEffect( () => {
+		const updateStickyOffset = () => {
+			const headerWrapper = document.querySelector( '.workpress-header-wrapper' );
+			const wpAdminBar = document.getElementById( 'wpadminbar' );
+			const adminBarHeight = wpAdminBar ? wpAdminBar.offsetHeight : 32;
+			const headerHeight = headerWrapper ? headerWrapper.offsetHeight : 128;
+			const totalOffset = adminBarHeight + headerHeight;
+			document.documentElement.style.setProperty( '--wp-gantt-sticky-top', `${ totalOffset }px` );
+		};
+
+		updateStickyOffset();
+		window.addEventListener( 'resize', updateStickyOffset );
+		window.addEventListener( 'scroll', updateStickyOffset, { passive: true } );
+		return () => {
+			window.removeEventListener( 'resize', updateStickyOffset );
+			window.removeEventListener( 'scroll', updateStickyOffset );
+		};
+	}, [] );
 
 	// Filter tasks based on controls
 	const filteredTasks = tasks.filter( task => {
@@ -119,6 +146,17 @@ export default function GanttChart({
 	const expandAllProjects = () => {
 		setCollapsedProjects( {} );
 		sound.play( 'click' );
+	};
+
+	const projectGroupKeys = Object.keys( projectGroups );
+	const areAllCollapsed = projectGroupKeys.length > 0 && projectGroupKeys.every( id => !!collapsedProjects[ id ] );
+
+	const toggleAllProjects = () => {
+		if ( areAllCollapsed ) {
+			expandAllProjects();
+		} else {
+			collapseAllProjects();
+		}
 	};
 
 	// Navigation for Day View ('day_hours')
@@ -296,6 +334,9 @@ export default function GanttChart({
 			if ( pivot !== null && pivot !== undefined ) {
 				const target = Math.max( 0, Math.min( maxScroll, pivot - ( container.clientWidth / 2 ) ) );
 				container.scrollTo( { left: target, behavior: 'smooth' } );
+				if ( headerScrollRef.current ) {
+					headerScrollRef.current.scrollTo( { left: target, behavior: 'smooth' } );
+				}
 				sound.play( 'click' );
 			}
 		}
@@ -324,6 +365,9 @@ export default function GanttChart({
 		const x = e.pageX - timelineContainerRef.current.offsetLeft;
 		const walk = ( x - startXRef.current ) * 1.5;
 		timelineContainerRef.current.scrollLeft = scrollLeftRef.current - walk;
+		if ( headerScrollRef.current ) {
+			headerScrollRef.current.scrollLeft = timelineContainerRef.current.scrollLeft;
+		}
 	};
 
 	// Metric calculations for task bar in each scale
@@ -461,15 +505,44 @@ export default function GanttChart({
 				today=${today}
 			/>
 
-			<!-- Main Gantt Split Layout (Right Tree Table: 380px | Left Scrollable Canvas) -->
+			<!-- Sticky Gantt Header Row (Locks to window scroll under FilterBar!) -->
+			<div className="wp-gantt-header-row">
+				<!-- Right: Table Header (380px) -->
+				<${GanttTableHeader}
+					areAllCollapsed=${ areAllCollapsed }
+					toggleAllProjects=${ toggleAllProjects }
+				/>
+
+				<!-- Left: Date Scale Header (Moves Horizontally with Canvas) -->
+				<div 
+					ref=${ headerScrollRef }
+					className="wp-gantt-header-scroll-container"
+				>
+					<div style=${{ width: `${ totalTimelineWidth }px`, minWidth: '100%' }}>
+						<${GanttTimelineHeader}
+							scale=${scale}
+							selectedDay=${selectedDay}
+							selectedDayOfWeek=${selectedDayOfWeek}
+							hoursList=${hoursList}
+							hourCellWidth=${hourCellWidth}
+							monthHeaders=${monthHeaders}
+							dayUnits=${dayUnits}
+							weekUnits=${weekUnits}
+							monthsList=${monthsList}
+							cellWidth=${cellWidth}
+						/>
+					</div>
+				</div>
+			</div>
+
+			<!-- Main Gantt Body Rows (Right Table: 380px | Left Scrollable Canvas) -->
 			<div className="wp-gantt-split-layout">
-				<!-- Master Table (380px) -->
+				<!-- Master Table Rows (380px) -->
 				<${GanttTableSidebar}
+					hideHeader=${ true }
 					projectGroups=${projectGroups}
 					collapsedProjects=${collapsedProjects}
 					toggleProjectCollapse=${toggleProjectCollapse}
-					expandAllProjects=${expandAllProjects}
-					collapseAllProjects=${collapseAllProjects}
 					getBarMetrics=${getBarMetrics}
 					today=${today}
 					hoveredTaskId=${hoveredTaskId}
@@ -483,27 +556,24 @@ export default function GanttChart({
 					ref=${ timelineContainerRef }
 					className="wp-gantt-canvas-container"
 					style=${{ cursor: isMouseDownRef.current ? 'grabbing' : 'default' }}
+					onScroll=${ handleTimelineScroll }
 					onMouseDown=${ handleMouseDown }
 					onMouseLeave=${ handleMouseLeaveOrUp }
 					onMouseUp=${ handleMouseLeaveOrUp }
 					onMouseMove=${ handleMouseMove }
 				>
 					<div style=${{ width: `${ totalTimelineWidth }px`, minWidth: '100%', position: 'relative' }}>
-						<!-- Sticky Header & Background Grid -->
+						<!-- Background Grid Overlay & Live Needles -->
 						<${GanttGridCanvas}
 							scale=${scale}
-							selectedDay=${selectedDay}
-							selectedDayOfWeek=${selectedDayOfWeek}
 							hoursList=${hoursList}
 							hourCellWidth=${hourCellWidth}
-							monthHeaders=${monthHeaders}
 							dayUnits=${dayUnits}
 							weekUnits=${weekUnits}
 							monthsList=${monthsList}
 							cellWidth=${cellWidth}
 							todayPixelRight=${todayPixelRight}
 							currentHourPixelRight=${currentHourPixelRight}
-							now=${now}
 						/>
 
 						<!-- Timeline Rows Content (Matching table rows) -->

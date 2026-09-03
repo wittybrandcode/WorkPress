@@ -22,7 +22,10 @@ export default function MemberSelect({
 	placeholder = null,
 	disabled = false,
 	allowClear = true,
-	size = 'normal'
+	size = 'normal',
+	width = null,
+	style = {},
+	className = ''
 }) {
 	const defaultPlaceholder = placeholder || __( 'Select a team member...', 'workpress' );
 	const [isOpen, setIsOpen] = useState(false);
@@ -30,6 +33,15 @@ export default function MemberSelect({
 	const containerRef = useRef(null);
 	const searchInputRef = useRef(null);
 	const rtl = isRtl();
+	const [effectiveAlign, setEffectiveAlign] = useState('start');
+
+	useEffect(() => {
+		if (isOpen && containerRef.current) {
+			const rect = containerRef.current.getBoundingClientRect();
+			const isEndSide = rtl ? (rect.left < window.innerWidth / 2) : (rect.right > window.innerWidth / 2);
+			setEffectiveAlign(isEndSide ? 'end' : 'start');
+		}
+	}, [isOpen, rtl]);
 
 	useEffect(() => {
 		const handleClickOutside = (e) => {
@@ -159,12 +171,16 @@ export default function MemberSelect({
 	return html`
 		<div 
 			ref=${containerRef} 
-			className="member-select-container"
+			className=${ `member-select-container ${ className }` }
 			style=${{ 
 				position: 'relative', 
-				width: '100%', 
+				width: width || 'auto',
+				minWidth: width ? width : '140px',
+				maxWidth: width ? width : '210px',
 				userSelect: 'none',
-				fontFamily: 'inherit'
+				fontFamily: 'inherit',
+				flexShrink: 0,
+				...style
 			}}
 		>
 			<!-- Trigger Button -->
@@ -174,25 +190,27 @@ export default function MemberSelect({
 				onClick=${() => !disabled && setIsOpen(!isOpen)}
 				style=${{
 					width: '100%',
+					height: isSmall ? '32px' : '38px',
 					minHeight: isSmall ? '32px' : '38px',
-					padding: isSmall ? '3px 8px' : '4px 10px',
+					padding: isSmall ? '0 8px' : '4px 10px',
 					backgroundColor: disabled ? '#f8fafc' : '#ffffff',
-					border: isOpen ? '1.5px solid #6366f1' : '1px solid #cbd5e1',
-					borderRadius: '6px',
+					border: isOpen ? '1px solid #10b981' : '1px solid #cbd5e1',
+					borderRadius: isSmall ? '3px' : '6px',
 					display: 'flex',
 					alignItems: 'center',
 					justifyContent: 'space-between',
-					gap: '8px',
+					gap: '6px',
 					cursor: disabled ? 'not-allowed' : 'pointer',
-					boxShadow: isOpen ? '0 0 0 3px rgba(99, 102, 241, 0.12)' : 'none',
-					transition: 'border-color 0.15s ease, box-shadow 0.15s ease'
+					boxShadow: isOpen ? '0 0 0 1px #10b981' : 'none',
+					transition: 'border-color 0.15s ease, box-shadow 0.15s ease',
+					boxSizing: 'border-box'
 				}}
 			>
-				<div style=${{ display: 'flex', alignItems: 'center', gap: '8px', overflow: 'hidden', flex: 1 }}>
+				<div style=${{ display: 'flex', alignItems: 'center', gap: '6px', overflow: 'hidden', flex: 1 }}>
 					${selectedUser ? (() => {
 						const roleInfo = getRoleInfo(selectedUser);
 						return html`
-							${renderAvatar(selectedUser, isSmall ? 22 : 26)}
+							${renderAvatar(selectedUser, isSmall ? 20 : 26)}
 							<span 
 								style=${{ 
 									fontWeight: '700', 
@@ -207,11 +225,11 @@ export default function MemberSelect({
 							</span>
 							<span 
 								style=${{
-									fontSize: '0.68rem',
+									fontSize: '0.65rem',
 									backgroundColor: roleInfo.bg,
 									color: roleInfo.color,
-									padding: '1px 7px',
-									borderRadius: '4px',
+									padding: '1px 5px',
+									borderRadius: '3px',
 									border: `1px solid ${roleInfo.border}`,
 									fontWeight: '700',
 									whiteSpace: 'nowrap'
@@ -221,10 +239,10 @@ export default function MemberSelect({
 							</span>
 						`;
 					})() : html`
-						<span className="icon is-small" style=${{ color: '#94a3b8' }}>
-							<i className="dashicons dashicons-admin-users" style=${{ fontSize: '16px', width: '16px', height: '16px' }}></i>
+						<span className="icon is-small" style=${{ color: '#94a3b8', marginInlineEnd: '2px', flexShrink: 0 }}>
+							<i className="dashicons dashicons-admin-users" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
 						</span>
-						<span style=${{ color: '#94a3b8', fontSize: isSmall ? '0.78rem' : '0.85rem' }}>
+						<span style=${{ color: '#64748b', fontSize: isSmall ? '0.78rem' : '0.84rem', fontWeight: '500', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
 							${defaultPlaceholder}
 						</span>
 					`}
@@ -253,7 +271,7 @@ export default function MemberSelect({
 					<span className="icon is-small" style=${{ color: '#64748b' }}>
 						<i 
 							className=${`dashicons ${isOpen ? 'dashicons-arrow-up-alt2' : 'dashicons-arrow-down-alt2'}`} 
-							style=${{ fontSize: '14px', width: '14px', height: '14px', lineHeight: '14px' }}
+							style=${{ fontSize: '12px', width: '12px', height: '12px', lineHeight: '12px' }}
 						></i>
 					</span>
 				</div>
@@ -264,16 +282,18 @@ export default function MemberSelect({
 				<div 
 					style=${{
 						position: 'absolute',
-						top: 'calc(100% + 4px)',
-						right: 0,
-						left: 0,
+						top: 'calc(100% + 2px)',
+						insetInlineStart: effectiveAlign === 'end' ? 'auto' : 0,
+						insetInlineEnd: effectiveAlign === 'end' ? 0 : 'auto',
+						minWidth: '100%',
+						width: 'max-content',
+						maxWidth: 'calc(100vw - 32px)',
 						zIndex: 1500,
 						backgroundColor: '#ffffff',
+						borderRadius: 0,
+						boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.12), 0 8px 10px -6px rgba(0, 0, 0, 0.08)',
 						border: '1px solid #cbd5e1',
-						borderRadius: '8px',
-						boxShadow: '0 12px 28px rgba(15, 23, 42, 0.12), 0 4px 10px rgba(15, 23, 42, 0.04)',
-						overflow: 'hidden',
-						animation: 'wpFadeIn 0.15s ease'
+						overflow: 'hidden'
 					}}
 				>
 					<!-- Search Field -->

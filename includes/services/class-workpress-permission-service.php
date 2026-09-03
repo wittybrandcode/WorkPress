@@ -124,7 +124,20 @@ class WorkPress_Permission_Service {
 	 * @return bool
 	 */
 	public static function can_delete_task( $user_id, $task_id ) {
-		return self::can_edit_task( $user_id, $task_id );
+		if ( user_can( $user_id, 'manage_options' ) || user_can( $user_id, 'delete_workpress_tasks' ) ) {
+			return true;
+		}
+
+		// Project Leads can delete tasks inside their projects
+		$terms = wp_get_object_terms( (int) $task_id, WorkPress_Install::TAX_PROJECT );
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+			$project_id = (int) $terms[0]->term_id;
+			if ( class_exists( 'WorkPress_Project_Service' ) && WorkPress_Project_Service::is_user_lead( $project_id, $user_id ) ) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	/**

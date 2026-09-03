@@ -76,7 +76,7 @@ class WorkPress_Notification_Hooks {
 						'task_title'   => $task_post ? $task_post->post_title : '',
 						'project_id'   => (int) $terms[0]->term_id,
 						'project_name' => $terms[0]->name,
-						'message'      => __( 'تم إيداع مخرج / حل فني جديد بانتظار مراجعتكم.', 'workpress' ),
+						'message'      => __( 'A new deliverable/technical solution has been deposited awaiting your review.', 'workpress' ),
 					) );
 				}
 			}
@@ -109,7 +109,7 @@ class WorkPress_Notification_Hooks {
 						'task_title'   => $task_post ? $task_post->post_title : '',
 						'project_id'   => (int) $terms[0]->term_id,
 						'project_name' => $terms[0]->name,
-						'message'      => __( 'تم اعتماد الحل النهائي للمهمة بنجاح.', 'workpress' ),
+						'message'      => __( 'The final solution for the task was approved successfully.', 'workpress' ),
 					) );
 				}
 			}
@@ -266,7 +266,7 @@ class WorkPress_Notification_Hooks {
 						'project_name' => ( $term && ! is_wp_error( $term ) ) ? $term->name : '',
 						'status'       => 'active',
 						'approved_by'  => get_the_author_meta( 'display_name', $approver_id ) ?: 'الإدارة',
-						'message'      => __( 'تم اعتماد طلبكم رسمياً وتدشين المشروع في المنظومة ', 'workpress' ),
+						'message'      => __( 'Your request has been officially approved and the project launched in the system.', 'workpress' ),
 					)
 				);
 			}
@@ -302,7 +302,7 @@ class WorkPress_Notification_Hooks {
 						'status'       => 'under_review',
 						'reason'       => $reason,
 						'reviewer'     => get_the_author_meta( 'display_name', $actor_id ) ?: 'الإدارة',
-						'message'      => __( 'طلبكم قيد الدراسة الهندسية والتدقيق الفني ', 'workpress' ),
+						'message'      => __( 'Your request is under technical review and engineering audit.', 'workpress' ),
 					)
 				);
 			}
@@ -338,7 +338,7 @@ class WorkPress_Notification_Hooks {
 						'status'       => 'rejected',
 						'reason'       => $reason,
 						'reviewer'     => get_the_author_meta( 'display_name', $actor_id ) ?: 'الإدارة',
-						'message'      => __( 'تعذر اعتماد الطلب. يرجى مراجعة سبب الرفض.', 'workpress' ),
+						'message'      => __( 'Could not approve request. Please review the rejection reason.', 'workpress' ),
 					)
 				);
 			}

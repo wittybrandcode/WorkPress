@@ -79,12 +79,12 @@ class WorkPress_REST_Members_Controller extends WP_REST_Controller {
 		$role       = sanitize_key( $request->get_param( 'role' ) );
 
 		if ( empty( $user_id ) || empty( $role ) ) {
-			return new WP_Error( 'rest_missing_params', __( 'معرف المستخدم والدور مطلوبان.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_params', __( 'User ID and role are required.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$success = WorkPress_Membership_Service::add_member( $project_id, $user_id, $role );
 		if ( ! $success ) {
-			return new WP_Error( 'rest_add_failed', __( 'فشل إضافة العضو.', 'workpress' ), array( 'status' => 500 ) );
+			return new WP_Error( 'rest_add_failed', __( 'Failed to add member.', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		$members = WorkPress_Membership_Service::get_members( $project_id );
@@ -101,12 +101,12 @@ class WorkPress_REST_Members_Controller extends WP_REST_Controller {
 		$role       = sanitize_key( $request->get_param( 'role' ) );
 
 		if ( empty( $role ) ) {
-			return new WP_Error( 'rest_missing_role', __( 'الدور مطلوب.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_role', __( 'Role is required.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$success = WorkPress_Membership_Service::add_member( $project_id, $user_id, $role );
 		if ( ! $success ) {
-			return new WP_Error( 'rest_update_failed', __( 'فشل تحديث العضو.', 'workpress' ), array( 'status' => 500 ) );
+			return new WP_Error( 'rest_update_failed', __( 'Failed to update member.', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		$members = WorkPress_Membership_Service::get_members( $project_id );
@@ -123,7 +123,7 @@ class WorkPress_REST_Members_Controller extends WP_REST_Controller {
 
 		$success = WorkPress_Membership_Service::remove_member( $project_id, $user_id );
 		if ( ! $success ) {
-			return new WP_Error( 'rest_delete_failed', __( 'فشل إزالة العضو.', 'workpress' ), array( 'status' => 500 ) );
+			return new WP_Error( 'rest_delete_failed', __( 'Failed to remove member.', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		return rest_ensure_response( array( 'deleted' => true ) );

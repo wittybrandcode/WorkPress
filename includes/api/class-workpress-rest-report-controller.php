@@ -80,7 +80,7 @@ class WorkPress_REST_Report_Controller {
 	 */
 	public function check_project_access( $request ) {
 		if ( ! is_user_logged_in() ) {
-			return new WP_Error( 'rest_not_logged_in', __( 'يجب تسجيل الدخول أولاً.', 'workpress' ), array( 'status' => 401 ) );
+			return new WP_Error( 'rest_not_logged_in', __( 'Please log in first.', 'workpress' ), array( 'status' => 401 ) );
 		}
 
 		$user_id    = get_current_user_id();
@@ -94,7 +94,7 @@ class WorkPress_REST_Report_Controller {
 			return true;
 		}
 
-		return new WP_Error( 'rest_forbidden', __( 'ليس لديك صلاحية للاطلاع على تقارير هذا المشروع.', 'workpress' ), array( 'status' => 403 ) );
+		return new WP_Error( 'rest_forbidden', __( 'You do not have permission to view reports for this project.', 'workpress' ), array( 'status' => 403 ) );
 	}
 
 	/**
@@ -104,7 +104,7 @@ class WorkPress_REST_Report_Controller {
 	 */
 	public function check_authenticated() {
 		if ( ! is_user_logged_in() ) {
-			return new WP_Error( 'rest_not_logged_in', __( 'يجب تسجيل الدخول أولاً.', 'workpress' ), array( 'status' => 401 ) );
+			return new WP_Error( 'rest_not_logged_in', __( 'Please log in first.', 'workpress' ), array( 'status' => 401 ) );
 		}
 		return true;
 	}

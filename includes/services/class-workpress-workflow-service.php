@@ -98,14 +98,14 @@ class WorkPress_Workflow_Service {
 	 */
 	public static function get_state_labels() {
 		$labels = array(
-			self::STATE_NEW         => __( 'جديدة', 'workpress' ),
-			self::STATE_ASSIGNED    => __( 'مسندة', 'workpress' ),
-			self::STATE_OPEN        => __( 'مفتوحة', 'workpress' ),
-			self::STATE_IN_PROGRESS => __( 'قيد التنفيذ', 'workpress' ),
-			self::STATE_IN_REVIEW   => __( 'في المراجعة', 'workpress' ),
-			self::STATE_APPROVED    => __( 'معتمدة', 'workpress' ),
-			self::STATE_COMPLETED   => __( 'مكتملة', 'workpress' ),
-			self::STATE_CLOSED      => __( 'مغلقة', 'workpress' ),
+			self::STATE_NEW         => __( 'New', 'workpress' ),
+			self::STATE_ASSIGNED    => __( 'Assigned', 'workpress' ),
+			self::STATE_OPEN        => __( 'Open', 'workpress' ),
+			self::STATE_IN_PROGRESS => __( 'In Progress', 'workpress' ),
+			self::STATE_IN_REVIEW   => __( 'In Review', 'workpress' ),
+			self::STATE_APPROVED    => __( 'Approved', 'workpress' ),
+			self::STATE_COMPLETED   => __( 'Completed', 'workpress' ),
+			self::STATE_CLOSED      => __( 'Closed', 'workpress' ),
 		);
 
 		/**

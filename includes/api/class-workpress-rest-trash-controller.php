@@ -54,7 +54,7 @@ class WorkPress_REST_Trash_Controller extends WP_REST_Controller {
 		$user_id     = get_current_user_id();
 
 		if ( empty( $reason ) ) {
-			return new WP_Error( 'missing_reason', __( 'سبب الحذف مطلوب', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'missing_reason', __( 'Deletion reason is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$can_delete = false;
@@ -74,7 +74,7 @@ class WorkPress_REST_Trash_Controller extends WP_REST_Controller {
 		}
 
 		if ( ! $can_delete ) {
-			return new WP_Error( 'rest_forbidden', __( 'عذراً، لا تملك صلاحية لطلب حذف هذا العنصر.', 'workpress' ), array( 'status' => 403 ) );
+			return new WP_Error( 'rest_forbidden', __( 'Sorry, you do not have permission to request deletion for this item.', 'workpress' ), array( 'status' => 403 ) );
 		}
 
 		$project_id = 0;
@@ -129,7 +129,7 @@ class WorkPress_REST_Trash_Controller extends WP_REST_Controller {
 
 		return rest_ensure_response( array(
 			'success' => true,
-			'message' => __( 'تم تقديم طلب الحذف بنجاح', 'workpress' ),
+			'message' => __( 'Deletion request submitted successfully', 'workpress' ),
 		) );
 	}
 }

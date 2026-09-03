@@ -31,7 +31,7 @@ class WorkPress_Task_Service {
 		$query_args = array(
 			'post_type'        => WorkPress_Install::CPT_WORK_ITEM,
 			'post_status'      => 'any',
-			'suppress_filters' => true,
+			'suppress_filters' => false,
 			'posts_per_page'   => isset( $args['number'] ) ? (int) $args['number'] : 50,
 			'paged'            => isset( $args['paged'] ) ? (int) $args['paged'] : 1,
 			'orderby'          => 'date',
@@ -52,6 +52,16 @@ class WorkPress_Task_Service {
 					'taxonomy' => WorkPress_Install::TAX_PROJECT,
 					'field'    => 'term_id',
 					'terms'    => array_map( 'intval', $args['project_ids'] ),
+					'operator' => 'IN',
+				),
+			);
+		} elseif ( ! current_user_can( 'manage_options' ) && is_user_logged_in() && class_exists( 'WorkPress_Knowledge_Service' ) ) {
+			$visible_ids = WorkPress_Knowledge_Service::get_visible_project_ids( get_current_user_id() );
+			$query_args['tax_query'] = array(
+				array(
+					'taxonomy' => WorkPress_Install::TAX_PROJECT,
+					'field'    => 'term_id',
+					'terms'    => ! empty( $visible_ids ) ? array_map( 'intval', $visible_ids ) : array( 0 ),
 					'operator' => 'IN',
 				),
 			);
@@ -131,7 +141,7 @@ class WorkPress_Task_Service {
 	public static function get_task( $task_id ) {
 		$post = get_post( (int) $task_id );
 		if ( ! $post || WorkPress_Install::CPT_WORK_ITEM !== $post->post_type ) {
-			return new WP_Error( 'not_found', __( 'المهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Task not found.', 'workpress' ) );
 		}
 
 		return self::format_task( $post );
@@ -145,7 +155,7 @@ class WorkPress_Task_Service {
 	 */
 	public static function create_task( $data ) {
 		if ( empty( $data['title'] ) ) {
-			return new WP_Error( 'missing_title', __( 'عنوان المهمة مطلوب.', 'workpress' ) );
+			return new WP_Error( 'missing_title', __( 'Task title is required.', 'workpress' ) );
 		}
 
 		$post_id = wp_insert_post(
@@ -192,7 +202,7 @@ class WorkPress_Task_Service {
 		self::clear_task_cache( $post_id );
 
 		// Initial System Log for creation
-		WorkPress_Contribution_Service::add_system_log( $post_id, __( 'تم إنشاء المهمة.', 'workpress' ) );
+		WorkPress_Contribution_Service::add_system_log( $post_id, __( 'Task created.', 'workpress' ) );
 
 		if ( class_exists( 'WorkPress_Hooks' ) ) {
 			WorkPress_Hooks::fire_task_created( $post_id, $data, get_current_user_id() );
@@ -215,7 +225,7 @@ class WorkPress_Task_Service {
 		}
 
 		if ( empty( $data['title'] ) ) {
-			return new WP_Error( 'missing_title', __( 'عنوان المهمة مطلوب.', 'workpress' ) );
+			return new WP_Error( 'missing_title', __( 'Task title is required.', 'workpress' ) );
 		}
 
 		$post_update = array(
@@ -231,23 +241,23 @@ class WorkPress_Task_Service {
 
 		$changes = array();
 		if ( $data['title'] !== $task['title'] ) {
-			$changes[] = __( 'العنوان', 'workpress' );
+			$changes[] = __( 'Title', 'workpress' );
 		}
 		if ( isset( $data['priority'] ) && $data['priority'] !== $task['priority'] ) {
 			update_post_meta( $task_id, '_workpress_priority', sanitize_key( $data['priority'] ) );
-			$changes[] = __( 'الأولوية', 'workpress' );
+			$changes[] = __( 'Priority', 'workpress' );
 		}
 		if ( isset( $data['estimated_hours'] ) ) {
 			$new_est = max( 0, round( (float) $data['estimated_hours'], 2 ) );
 			if ( $new_est !== (float) ( $task['estimated_hours'] ?? 0 ) ) {
 				update_post_meta( $task_id, '_workpress_estimated_hours', $new_est );
-				$changes[] = __( 'الساعات المقدرة', 'workpress' );
+				$changes[] = __( 'Estimated hours', 'workpress' );
 			}
 		}
 
 		if ( isset( $data['project_id'] ) && (int) $data['project_id'] !== (int) $task['project_id'] ) {
 			wp_set_object_terms( $task_id, array( (int) $data['project_id'] ), WorkPress_Install::TAX_PROJECT );
-			$changes[] = __( 'المشروع', 'workpress' );
+			$changes[] = __( 'Project', 'workpress' );
 		}
 
 		if ( isset( $data['cover_id'] ) ) {
@@ -265,7 +275,7 @@ class WorkPress_Task_Service {
 				$task_id,
 				sprintf(
 					/* translators: %s: Comma separated list of changed fields */
-					__( 'تم تعديل تفاصيل المهمة: %s.', 'workpress' ),
+					__( 'Task details modified: %s.', 'workpress' ),
 					implode( '، ', $changes )
 				),
 				get_current_user_id()
@@ -457,12 +467,12 @@ class WorkPress_Task_Service {
 
 		$hours = round( (float) $hours, 2 );
 		if ( $hours <= 0 ) {
-			return new WP_Error( 'invalid_hours', __( 'يجب أن تكون الساعات المسجلة أكبر من الصفر.', 'workpress' ) );
+			return new WP_Error( 'invalid_hours', __( 'Logged hours must be greater than zero.', 'workpress' ) );
 		}
 
 		$user_id   = $user_id > 0 ? (int) $user_id : get_current_user_id();
 		$user_data = get_userdata( $user_id );
-		$user_name = $user_data ? $user_data->display_name : __( 'مستخدم', 'workpress' );
+		$user_name = $user_data ? $user_data->display_name : __( 'User', 'workpress' );
 		$date      = ! empty( $date ) ? sanitize_text_field( $date ) : current_time( 'Y-m-d' );
 
 		$worklogs = self::get_task_worklogs( $task_id );
@@ -495,7 +505,7 @@ class WorkPress_Task_Service {
 		if ( class_exists( 'WorkPress_Contribution_Service' ) ) {
 			WorkPress_Contribution_Service::add_system_log(
 				$task_id,
-				sprintf( __( 'قام %1$s بتسجيل %2$s ساعة عمل: "%3$s"', 'workpress' ), $user_name, $hours, $note ?: __( 'عمل بدون ملاحظة', 'workpress' ) ),
+				sprintf( __( '%1$s logged %2$s work hours: "%3$s"', 'workpress' ), $user_name, $hours, $note ?: __( 'Work without notes', 'workpress' ) ),
 				$user_id
 			);
 		}
@@ -534,7 +544,7 @@ class WorkPress_Task_Service {
 		}
 
 		if ( ! $found ) {
-			return new WP_Error( 'not_found', __( 'سجل العمل غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Work log not found.', 'workpress' ) );
 		}
 
 		update_post_meta( (int) $task_id, '_workpress_worklogs', $filtered );
@@ -590,7 +600,7 @@ class WorkPress_Task_Service {
 
 		$title = sanitize_text_field( trim( $title ) );
 		if ( empty( $title ) ) {
-			return new WP_Error( 'empty_title', __( 'عنوان عنصر قائمة الفحص مطلوب.', 'workpress' ) );
+			return new WP_Error( 'empty_title', __( 'Checklist item title is required.', 'workpress' ) );
 		}
 
 		$user_id    = $user_id > 0 ? (int) $user_id : get_current_user_id();
@@ -648,7 +658,7 @@ class WorkPress_Task_Service {
 		unset( $item );
 
 		if ( ! $found ) {
-			return new WP_Error( 'not_found', __( 'عنصر قائمة الفحص غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Checklist item not found.', 'workpress' ) );
 		}
 
 		update_post_meta( (int) $task_id, '_workpress_checklists', $checklists );
@@ -674,7 +684,7 @@ class WorkPress_Task_Service {
 
 		$title = sanitize_text_field( trim( $title ) );
 		if ( empty( $title ) ) {
-			return new WP_Error( 'empty_title', __( 'عنوان عنصر قائمة الفحص مطلوب.', 'workpress' ) );
+			return new WP_Error( 'empty_title', __( 'Checklist item title is required.', 'workpress' ) );
 		}
 
 		$checklists = self::get_task_checklists( $task_id );
@@ -690,7 +700,7 @@ class WorkPress_Task_Service {
 		unset( $item );
 
 		if ( ! $found ) {
-			return new WP_Error( 'not_found', __( 'عنصر قائمة الفحص غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Checklist item not found.', 'workpress' ) );
 		}
 
 		update_post_meta( (int) $task_id, '_workpress_checklists', $checklists );
@@ -726,7 +736,7 @@ class WorkPress_Task_Service {
 		}
 
 		if ( ! $found ) {
-			return new WP_Error( 'not_found', __( 'عنصر قائمة الفحص غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Checklist item not found.', 'workpress' ) );
 		}
 
 		update_post_meta( (int) $task_id, '_workpress_checklists', $filtered );
@@ -791,7 +801,7 @@ class WorkPress_Task_Service {
 
 		$attachment_id = (int) $attachment_id;
 		if ( $attachment_id <= 0 || ! wp_get_attachment_url( $attachment_id ) ) {
-			return new WP_Error( 'invalid_attachment', __( 'المرفق غير صالح.', 'workpress' ) );
+			return new WP_Error( 'invalid_attachment', __( 'Invalid attachment.', 'workpress' ) );
 		}
 
 		$att_ids = get_post_meta( (int) $task_id, '_workpress_attachment_ids', true );
@@ -807,11 +817,11 @@ class WorkPress_Task_Service {
 			if ( class_exists( 'WorkPress_Contribution_Service' ) ) {
 				$user_id   = $user_id > 0 ? (int) $user_id : get_current_user_id();
 				$user_data = get_userdata( $user_id );
-				$user_name = $user_data ? $user_data->display_name : __( 'مستخدم', 'workpress' );
-				$att_title = get_the_title( $attachment_id ) ?: __( 'ملف مرفق', 'workpress' );
+				$user_name = $user_data ? $user_data->display_name : __( 'User', 'workpress' );
+				$att_title = get_the_title( $attachment_id ) ?: __( 'Attached File', 'workpress' );
 				WorkPress_Contribution_Service::add_system_log(
 					$task_id,
-					sprintf( __( 'قام %1$s بإضافة مرفق جديد للمهمة: "%2$s"', 'workpress' ), $user_name, $att_title ),
+					sprintf( __( '%1$s added a new attachment to task: "%2$s"', 'workpress' ), $user_name, $att_title ),
 					$user_id
 				);
 			}

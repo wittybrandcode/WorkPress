@@ -1,8 +1,8 @@
-import { html, useState, useEffect, useRef, __ } from '../utils/html.js';
+import { html, useState, useEffect, useRef, __, isRtl } from '../utils/html.js';
 import { knowledgeApi, contributionsApi, projectsApi } from '../api/client.js';
 import ContributionDetailModal from '../components/contributions/ContributionDetailModal.js';
 import ConfirmModal from '../components/modals/ConfirmModal.js';
-import FilterBar from '../components/ui/FilterBar.js';
+import KnowledgeFilterBar from '../components/knowledge/KnowledgeFilterBar.js';
 import Loader from '../components/ui/Loader.js';
 import { toast } from '../utils/toast.js';
 import { hooks } from '../utils/hooks.js';
@@ -10,6 +10,7 @@ import { hooks } from '../utils/hooks.js';
 function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, onTrashRequest } ) {
 	const [ isMenuOpen, setIsMenuOpen ] = useState( false );
 	const dropdownRef = useRef(null);
+	const rtl = isRtl();
 
 	useEffect(() => {
 		const handleClickOutside = (event) => {
@@ -74,17 +75,24 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 				</div>
 			` : null }
 			${ item.cover_url ? html`
-				<figure className="image is-2by1 m-0" style=${{ borderBottom: '1px solid #ededed' }}>
-					<img src=${ item.cover_url } alt=${ item.task_title } style=${{ objectFit: 'cover' }} />
+				<figure className="image is-3by1 m-0" style=${{ overflow: 'hidden', borderBottom: '1px solid #e2e8f0', width: '100%', height: '110px' }}>
+					<img src=${ item.cover_url } alt=${ item.task_title } style=${{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
 				</figure>
 			` : html`
-				<figure className="image is-2by1 m-0" style=${{ borderBottom: '1px solid #ededed' }}>
-					<div className="has-ratio has-background-dark is-flex is-align-items-center is-justify-content-center">
-						<span className="icon is-large has-text-white-ter">
-							<i className="dashicons dashicons-book" style=${{ fontSize: '48px', width: '48px', height: '48px' }}></i>
-						</span>
-					</div>
-				</figure>
+				<div
+					className="m-0 is-flex is-align-items-center is-justify-content-center"
+					style=${{
+						backgroundColor: '#f8fafc',
+						borderBottom: '1px solid #e2e8f0',
+						width: '100%',
+						height: '110px',
+						boxSizing: 'border-box'
+					}}
+				>
+					<span className="icon is-large has-text-grey-light">
+						<i className="dashicons dashicons-book" style=${{ fontSize: '42px', width: '42px', height: '42px', color: '#94a3b8' }}></i>
+					</span>
+				</div>
 			`}
 			
 			<div className="p-4 is-flex-grow-1 is-flex is-flex-direction-column">
@@ -125,33 +133,44 @@ function KnowledgeCard( { item, onPreview, onRevoke, onRestore, onHardDelete, on
 
 				<!-- Left side: Actions Dropdown -->
 				<div className="is-flex is-align-items-center">
-					<button className="button is-small wp-icon-button mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(item); } } title=${ __( 'View', 'workpress' ) }>
+					<button className="button is-small wp-btn mr-1" onClick=${ (e) => { e.stopPropagation(); onPreview && onPreview(item); } } title=${ __( 'View', 'workpress' ) } style=${{ borderRadius: 0 }}>
 						<span className="icon"><i className="dashicons dashicons-visibility"></i></span>
 					</button>
-					<div ref=${dropdownRef} className=${`dropdown is-up ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
+					<div ref=${dropdownRef} className=${`dropdown is-up ${rtl ? 'is-left' : 'is-right'} ${isMenuOpen ? 'is-active' : ''}`} style=${{ zIndex: isMenuOpen ? 100 : 1 }}>
 						<div className="dropdown-trigger">
-							<button className="button is-small wp-icon-button" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title=${ __( 'Settings', 'workpress' ) }>
+							<button className="button is-small wp-btn" aria-haspopup="true" aria-controls="dropdown-menu" onClick=${toggleMenu} title=${ __( 'Settings', 'workpress' ) } style=${{ borderRadius: 0 }}>
 								<span className="icon"><i className="dashicons dashicons-admin-generic"></i></span>
 							</button>
 						</div>
-						<div className="dropdown-menu" id="dropdown-menu" role="menu">
+						<div 
+							className="dropdown-menu" 
+							id="dropdown-menu" 
+							role="menu"
+							style=${{
+								minWidth: '190px',
+								insetInlineEnd: 0,
+								insetInlineStart: 'auto',
+								[rtl ? 'left' : 'right']: 0,
+								[rtl ? 'right' : 'left']: 'auto'
+							}}
+						>
 							<div className="dropdown-content p-0" style=${{borderRadius: '0', border: '1px solid #ededed', boxShadow: '0 4px 12px rgba(0,0,0,0.15)'}}>
-								<a href=${`#/tasks/${item.task_id}`} className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-external"></i></span> <span>${ __( 'View Solution in Task', 'workpress' ) }</span>
+								<a href=${`#/tasks/${item.task_id}`} className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" style=${{ gap: '8px' }} onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); } }>
+									<span className="icon"><i className="dashicons dashicons-external"></i></span> <span>${ __( 'View Solution in Task', 'workpress' ) }</span>
 								</a>
 							<hr className="dropdown-divider m-0" />
-								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" onClick=${ (e) => { e.stopPropagation(); copyLink(e); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-admin-links"></i></span> <span>${ __( 'Copy Solution Link', 'workpress' ) }</span>
+								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7" style=${{ gap: '8px' }} onClick=${ (e) => { e.stopPropagation(); copyLink(e); } }>
+									<span className="icon"><i className="dashicons dashicons-admin-links"></i></span> <span>${ __( 'Copy Solution Link', 'workpress' ) }</span>
 								</a>
 							${ item.can_accept ? html`
 								<hr className="dropdown-divider m-0" />
-								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-warning" onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onRevoke && onRevoke(item); } }>
-									<span className="icon ml-2"><i className="dashicons dashicons-undo"></i></span> <span>${ __( 'Revoke Approval', 'workpress' ) }</span>
+								<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-warning" style=${{ gap: '8px' }} onClick=${ (e) => { e.stopPropagation(); setIsMenuOpen(false); onRevoke && onRevoke(item); } }>
+									<span className="icon"><i className="dashicons dashicons-undo"></i></span> <span>${ __( 'Revoke Approval', 'workpress' ) }</span>
 								</a>
 							` : null }
 							<hr className="dropdown-divider m-0" />
-							<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-danger" onClick=${ (e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(false); onTrashRequest && onTrashRequest(item); } }>
-								<span className="icon ml-2"><i className="dashicons dashicons-trash"></i></span> <span>${ __( 'Delete Knowledge Asset', 'workpress' ) }</span>
+							<a className="dropdown-item wp-dropdown-item is-flex is-align-items-center py-2 is-size-7 has-text-danger" style=${{ gap: '8px' }} onClick=${ (e) => { e.preventDefault(); e.stopPropagation(); setIsMenuOpen(false); onTrashRequest && onTrashRequest(item); } }>
+								<span className="icon"><i className="dashicons dashicons-trash"></i></span> <span>${ __( 'Delete Knowledge Asset', 'workpress' ) }</span>
 							</a>
 						</div>
 					</div>
@@ -234,7 +253,7 @@ export default function KnowledgePage({ refreshKey }) {
 			title: __( 'Trash Knowledge Request', 'workpress' ),
 			message: `${ __( 'Are you sure you want to request deleting knowledge for task', 'workpress' ) } "${item.task_title}"?`,
 			confirmText: __( 'Submit Request', 'workpress' ),
-			confirmColor: 'is-warning',
+			confirmColor: 'is-active',
 			isDangerous: false,
 			requiresReason: true,
 			reasonLabel: __( 'Reason for deletion', 'workpress' ),
@@ -275,7 +294,7 @@ export default function KnowledgePage({ refreshKey }) {
 			title: __( 'Confirm Permanent Deletion', 'workpress' ),
 			message: __( 'Are you sure you want to permanently delete this item? This action cannot be undone.', 'workpress' ),
 			confirmText: __( 'Delete Permanently', 'workpress' ),
-			confirmColor: 'is-danger',
+			confirmColor: 'is-active',
 			isDangerous: true,
 			requiresReason: false,
 			isSubmitting: false,
@@ -336,36 +355,17 @@ export default function KnowledgePage({ refreshKey }) {
 
 	return html`
 		<div>
-			<${FilterBar}
-				search=${{
-					value: searchQuery,
-					onChange: setSearchQuery,
-					placeholder: __( 'Search knowledge base and approved solutions...', 'workpress' ),
-				}}
-				filters=${[
-					{
-						key: 'project',
-						label: __( 'Project', 'workpress' ),
-						icon: 'dashicons-category',
-						value: selectedProject,
-						onChange: setSelectedProject,
-						options: projectOptions,
-						isCustomSelect: true,
-						width: '180px',
-					},
-					{
-						key: 'type',
-						label: __( 'Solution Type', 'workpress' ),
-						icon: 'dashicons-star-filled',
-						value: selectedType,
-						onChange: setSelectedType,
-						options: typeOptions,
-						width: '150px',
-					}
-				]}
-				totalCount=${ filteredKnowledgeItems.length }
-				totalUnfiltered=${ knowledgeItems.length }
-				counterLabel=${ __( 'Approved Solution', 'workpress' ) }
+			<${KnowledgeFilterBar}
+				totalCount=${ knowledgeItems.length }
+				filteredCount=${ filteredKnowledgeItems.length }
+				searchQuery=${ searchQuery }
+				setSearchQuery=${ setSearchQuery }
+				selectedProject=${ selectedProject }
+				setSelectedProject=${ setSelectedProject }
+				projectOptions=${ projectOptions }
+				selectedType=${ selectedType }
+				setSelectedType=${ setSelectedType }
+				typeOptions=${ typeOptions }
 				isFilterActive=${ isFilterActive }
 				onReset=${ handleResetFilters }
 			/>

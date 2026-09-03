@@ -6,10 +6,10 @@ import ImagePicker from '../ui/ImagePicker.js';
 import CustomSelect from '../ui/CustomSelect.js';
 import { toast } from '../../utils/toast.js';
 
-export default function TaskModal( { isActive, onClose, onSave, task = null, defaultProjectId = null } ) {
+export default function TaskModal( { isActive, onClose, onSave, onSaved, task = null, defaultProjectId = null, projectId: passedProjectId = null } ) {
 	const [ title, setTitle ] = useState( '' );
 	const [ content, setContent ] = useState( '' );
-	const [ projectId, setProjectId ] = useState( defaultProjectId || '' );
+	const [ projectId, setProjectId ] = useState( defaultProjectId || passedProjectId || '' );
 	const [ priority, setPriority ] = useState( 'medium' );
 	const [ estimatedHours, setEstimatedHours ] = useState( '' );
 	const [ featuredImage, setFeaturedImage ] = useState( null );
@@ -42,14 +42,14 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 		} else if ( isActive ) {
 			setTitle( '' );
 			setContent( '' );
-			setProjectId( defaultProjectId || '' );
+			setProjectId( defaultProjectId || passedProjectId || '' );
 			setPriority( 'medium' );
 			setEstimatedHours( '' );
 			setFeaturedImage( null );
 			setFeaturedImageUrl( '' );
 		}
 		setError( '' );
-	}, [ task, isActive, defaultProjectId ] );
+	}, [ task, isActive, defaultProjectId, passedProjectId ] );
 
 	const handleSubmit = () => {
 		setError( '' );
@@ -79,8 +79,13 @@ export default function TaskModal( { isActive, onClose, onSave, task = null, def
 			
 		request.then( () => {
 			toast( task && task.id ? __( 'Task updated successfully', 'workpress' ) : __( 'Task created successfully', 'workpress' ), 'success' );
-			onSave();
-			onClose();
+			const saveCallback = onSave || onSaved;
+			if ( typeof saveCallback === 'function' ) {
+				saveCallback();
+			}
+			if ( typeof onClose === 'function' ) {
+				onClose();
+			}
 		} ).catch( err => {
 			console.error( 'Error saving task:', err );
 			toast( __( 'An error occurred while saving task', 'workpress' ), 'danger' );

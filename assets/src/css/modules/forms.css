@@ -11,26 +11,64 @@
 .wp-filter-toolbar {
     background-color: #ffffff;
     border-top: 1px solid #f1f5f9;
-    border-bottom: none;
+    border-bottom: 1px solid #e2e8f0;
     border-left: none;
     border-right: none;
     border-radius: 0 !important;
-    padding: 0.45rem 1rem;
+    padding: 0.35rem 1rem;
     margin: 0 !important;
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-wrap: wrap;
     gap: 0.5rem;
+    min-height: 42px;
+    box-sizing: border-box;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
+/* Master Unified Filter Toolbar Architecture */
+.wp-unified-filter-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    min-height: 44px;
+    padding: 0 1.5rem;
+    box-sizing: border-box;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.wp-toolbar-section {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.wp-toolbar-start {
+    justify-content: flex-start;
+}
+
+.wp-toolbar-end {
+    justify-content: flex-end;
 }
 
 .wp-filter-group {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.6rem;
-    flex: 1;
+    gap: 0.5rem;
+    flex: 1 1 auto;
     min-width: 0;
+}
+
+.wp-custom-select-wrapper,
+.member-select-container {
+    flex-shrink: 0;
 }
 
 .wp-filter-item {
@@ -61,33 +99,38 @@
     min-height: 32px !important;
     font-size: 0.8rem !important;
     border: 1px solid #cbd5e1 !important;
-    border-radius: 0 !important;
+    border-radius: 3px !important;
     padding: 0 8px !important;
     background-color: #ffffff !important;
     color: #0f172a !important;
     box-shadow: none !important;
+    box-sizing: border-box !important;
 }
 
 .wp-filter-input:focus {
-    border-color: #008478 !important;
-    box-shadow: 0 0 0 1px #008478 !important;
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 1px #10b981 !important;
 }
 
 .wp-filter-search-box {
     position: relative;
-    min-width: 180px;
-    max-width: 260px;
-    flex: 1;
+    width: 190px;
+    min-width: 140px;
+    max-width: 220px;
+    flex: 0 1 190px;
+    flex-shrink: 0;
 }
 
 .wp-filter-search-box .wp-filter-input {
-    padding-right: 28px !important;
+    padding-inline-start: 28px !important;
+    padding-inline-end: 26px !important;
     width: 100%;
 }
 
 .wp-filter-search-icon {
     position: absolute;
-    right: 8px;
+    inset-inline-start: 8px;
+    inset-inline-end: auto;
     top: 50%;
     transform: translateY(-50%);
     color: #94a3b8;
@@ -102,7 +145,8 @@
 
 .wp-filter-search-clear {
     position: absolute;
-    left: 8px;
+    inset-inline-end: 8px;
+    inset-inline-start: auto;
     top: 50%;
     transform: translateY(-50%);
     color: #94a3b8;
@@ -123,20 +167,21 @@
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    margin-right: auto;
+    margin-inline-start: auto;
+    flex-shrink: 0;
 }
 
 .wp-filter-counter {
     font-size: 0.72rem;
     font-weight: 700;
     color: #475569;
-    background-color: #f8fafc;
-    padding: 3px 8px;
+    background-color: #f1f5f9;
+    padding: 3px 9px;
     border: 1px solid #e2e8f0;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    border-radius: 0 !important;
+    gap: 5px;
+    border-radius: 3px !important;
     white-space: nowrap;
 }
 
@@ -144,7 +189,7 @@
     height: 28px !important;
     font-size: 0.72rem !important;
     font-weight: 700 !important;
-    border-radius: 0 !important;
+    border-radius: 3px !important;
     padding: 0 8px !important;
     border: 1px solid #fecdd3 !important;
     color: #e11d48 !important;
@@ -167,10 +212,17 @@
     .wp-filter-toolbar {
         top: 0;
         position: relative;
+        padding: 0.5rem;
     }
     .wp-filter-search-box {
         max-width: 100%;
         width: 100%;
+        flex: 1 1 100%;
+    }
+    .wp-custom-select-wrapper,
+    .member-select-container {
+        flex: 1 1 calc(50% - 0.5rem);
+        max-width: 100%;
     }
 }
 
@@ -196,9 +248,9 @@
 
 .workpress-spa .wp-title-input:focus,
 .workpress-spa .wp-title-input:active {
-    border-color: #008478 !important;
+    border-color: #10b981 !important;
     outline: none !important;
-    box-shadow: 0 0 0 1px #008478 !important;
+    box-shadow: 0 0 0 1px #10b981 !important;
 }
 
 .workpress-spa .input:not(.wp-title-input),
@@ -216,20 +268,48 @@
     height: 36px !important;
 }
 
-.workpress-spa .select select {
+.workpress-spa .select select,
+.workpress-spa select,
+select.wp-select {
     -webkit-appearance: none !important;
     -moz-appearance: none !important;
     appearance: none !important;
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%230F172A%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E") !important;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2020%2020%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpath%20d%3D%22m5%207.5%205%205%205-5%22%2F%3E%3C%2Fsvg%3E") !important;
     background-repeat: no-repeat !important;
     background-position: left 10px center !important;
-    background-size: 9px auto !important;
-    padding-left: 26px !important;
+    background-size: 12px 12px !important;
+    padding-left: 28px !important;
     padding-right: 10px !important;
+}
+
+html:not([dir="rtl"]) .workpress-spa .select select,
+html:not([dir="rtl"]) .workpress-spa select,
+html:not([dir="rtl"]) select.wp-select {
+    background-position: right 10px center !important;
+    padding-right: 28px !important;
+    padding-left: 10px !important;
+}
+
+/* Eradicate Bulma's duplicate blue arrow pseudo-element */
+.select::after,
+.select:not(.is-multiple):not(.is-loading)::after,
+.workpress-spa .select::after,
+.workpress-spa .select:not(.is-multiple):not(.is-loading)::after,
+.wp-compact-select::after {
+    display: none !important;
+    content: none !important;
 }
 
 .workpress-spa .select {
     height: 36px !important;
+}
+
+.workpress-spa .select.is-small,
+.workpress-spa .select.is-small select,
+.wp-compact-select,
+.wp-compact-select select {
+    height: 32px !important;
+    min-height: 32px !important;
 }
 
 .workpress-spa .input:not(.wp-title-input):focus,
@@ -240,8 +320,8 @@
 .workpress-spa select:focus,
 .workpress-spa .wp-filter-input:focus {
     outline: none !important;
-    box-shadow: 0 0 0 1px #008478 !important;
-    border-color: #008478 !important;
+    box-shadow: 0 0 0 1px #10b981 !important;
+    border-color: #10b981 !important;
 }
 
 /* Modal Sticky Top Toolbar & Metadata Grid */

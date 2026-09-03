@@ -140,7 +140,10 @@ export const rolesApi = {
 export const settingsApi = {
 	get: () => apiFetch( { path: '/workpress/v1/settings' } ),
 	update: ( data ) => apiFetch( { path: '/workpress/v1/settings', method: 'POST', data } ),
-	updateLocale: ( locale ) => apiFetch( { path: '/workpress/v1/user/locale', method: 'POST', data: { locale } } ),
+	updateLocale: ( locale, syncWp = null ) => {
+		const payload = typeof locale === 'object' ? locale : { locale, sync_wp: syncWp };
+		return apiFetch( { path: '/workpress/v1/user/locale', method: 'POST', data: payload } );
+	},
 };
 
 export const devApi = {

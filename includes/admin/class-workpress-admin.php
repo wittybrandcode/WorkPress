@@ -109,8 +109,15 @@ class WorkPress_Admin {
 		wp_enqueue_style( 'workpress-bulma', WORKPRESS_URL . 'assets/css/bulma.min.css', array(), '1.0.2' );
 		wp_enqueue_style( 'dashicons' );
 		
-		$css_path = WORKPRESS_PATH . 'assets/src/css/admin.css';
-		$css_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $css_path ) ? filemtime( $css_path ) : WORKPRESS_VERSION );
+		$css_path  = WORKPRESS_PATH . 'assets/src/css/admin.css';
+		$comp_path = WORKPRESS_PATH . 'assets/src/css/modules/components.css';
+		$css_ver   = ( defined( 'WP_DEBUG' ) && WP_DEBUG )
+			? time()
+			: max(
+				file_exists( $css_path ) ? filemtime( $css_path ) : 0,
+				file_exists( $comp_path ) ? filemtime( $comp_path ) : 0,
+				time()
+			);
 		wp_enqueue_style( 'workpress-app-css', WORKPRESS_URL . 'assets/src/css/admin.css', array( 'workpress-bulma' ), $css_ver );
 		
 		// Load React, wp-api-fetch & wp-i18n from WP Core
@@ -154,10 +161,24 @@ class WorkPress_Admin {
 		$current_user = wp_get_current_user();
 		$is_admin     = current_user_can( 'manage_options' );
 
-		// Detect active locale preference from cookie, user meta, or WordPress default
-		$cookie_locale = isset( $_COOKIE['workpress_user_locale'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['workpress_user_locale'] ) ) : '';
-		$user_locale   = $current_user->ID ? get_user_meta( $current_user->ID, 'locale', true ) : '';
-		$locale        = $cookie_locale ?: ( $user_locale ?: get_user_locale() );
+		// Detect WordPress core locale vs WorkPress isolated preference
+		$wp_locale = get_user_locale( $current_user->ID );
+		if ( $wp_locale === 'en' ) {
+			$wp_locale = 'en_US';
+		}
+
+		$sync_wp_meta = $current_user->ID ? get_user_meta( $current_user->ID, '_workpress_sync_wp_locale', true ) : '';
+		// Default to true (auto-sync with WordPress) if not explicitly customized
+		$is_sync_wp   = ( $sync_wp_meta === '' || $sync_wp_meta === '1' || $sync_wp_meta === 1 );
+
+		if ( $is_sync_wp ) {
+			$locale = $wp_locale;
+		} else {
+			$cookie_locale = isset( $_COOKIE['workpress_user_locale'] ) ? sanitize_text_field( wp_unslash( $_COOKIE['workpress_user_locale'] ) ) : '';
+			$custom_locale = $current_user->ID ? get_user_meta( $current_user->ID, '_workpress_user_locale', true ) : '';
+			$locale        = $custom_locale ?: ( $cookie_locale ?: $wp_locale );
+		}
+
 		if ( $locale === 'en' ) {
 			$locale = 'en_US';
 		}
@@ -177,13 +198,19 @@ class WorkPress_Admin {
 			}
 		}
 
+		$app_js_path = WORKPRESS_PATH . 'assets/src/App.js';
+		$runtime_ver = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? time() : ( file_exists( $app_js_path ) ? filemtime( $app_js_path ) : WORKPRESS_VERSION );
+
 		return array(
+			'version'            => $runtime_ver,
 			'ajaxUrl'            => admin_url( 'admin-ajax.php' ),
 			'nonce'              => wp_create_nonce( 'workpress_nonce' ),
 			'restUrl'            => esc_url_raw( rest_url( 'workpress/v1/' ) ),
 			'restNonce'          => wp_create_nonce( 'wp_rest' ),
 			'siteName'           => get_bloginfo( 'name' ),
 			'locale'             => $locale,
+			'wpLocale'           => $wp_locale,
+			'syncWpLocale'       => $is_sync_wp,
 			'isRtl'              => $is_rtl,
 			'activeLanguage'     => substr( $locale, 0, 2 ),
 			'localeData'         => $domain_data,

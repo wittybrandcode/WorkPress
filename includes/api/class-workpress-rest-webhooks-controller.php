@@ -98,10 +98,10 @@ class WorkPress_REST_Webhooks_Controller extends WP_REST_Controller {
 	 * @return bool|WP_Error
 	 */
 	public function admin_permissions_check( $request ) {
-		if ( ! current_user_can( 'manage_options' ) ) {
+		if ( ! current_user_can( 'manage_options' ) && ! current_user_can( 'manage_webhooks' ) ) {
 			return new WP_Error(
 				'rest_forbidden',
-				__( 'عذراً، إدارة خطافات الويب والتكامل الخارجي محصورة بمدير النظام فقط.', 'workpress' ),
+				__( 'Sorry, managing webhooks and external integrations is restricted to administrators only.', 'workpress' ),
 				array( 'status' => rest_authorization_required_code() )
 			);
 		}
@@ -146,7 +146,7 @@ class WorkPress_REST_Webhooks_Controller extends WP_REST_Controller {
 		return rest_ensure_response( array(
 			'success' => true,
 			'webhook' => $result,
-			'message' => __( 'تم حفظ إعدادات الخطاف بنجاح.', 'workpress' ),
+			'message' => __( 'Webhook settings saved successfully.', 'workpress' ),
 		) );
 	}
 
@@ -161,12 +161,12 @@ class WorkPress_REST_Webhooks_Controller extends WP_REST_Controller {
 		$deleted = WorkPress_Webhook_Service::delete_webhook( $id );
 
 		if ( ! $deleted ) {
-			return new WP_Error( 'not_found', __( 'الخطاف المطلوب غير موجود.', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Requested webhook not found.', 'workpress' ), array( 'status' => 404 ) );
 		}
 
 		return rest_ensure_response( array(
 			'success' => true,
-			'message' => __( 'تم حذف الخطاف بنجاح.', 'workpress' ),
+			'message' => __( 'Webhook deleted successfully.', 'workpress' ),
 		) );
 	}
 

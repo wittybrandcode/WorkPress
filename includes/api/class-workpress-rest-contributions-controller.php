@@ -135,7 +135,7 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 	public function update_types( $request ) {
 		$types = $request->get_param( 'types' );
 		if ( ! is_array( $types ) ) {
-			return new WP_Error( 'invalid_data', __( 'البيانات المرسلة غير صحيحة.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'invalid_data', __( 'Invalid data submitted.', 'workpress' ), array( 'status' => 400 ) );
 		}
 		WorkPress_Contribution_Service::save_custom_types( $types );
 		return rest_ensure_response( WorkPress_Contribution_Service::get_registered_types() );
@@ -147,7 +147,7 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		$icon  = sanitize_html_class( $request->get_param( 'icon' ) ?: 'dashicons-admin-comments' );
 
 		if ( empty( $key ) || empty( $label ) ) {
-			return new WP_Error( 'missing_fields', __( 'المعرّف والتسمية مطلوبان.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'missing_fields', __( 'Slug and label are required.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$result = WorkPress_Contribution_Service::add_custom_type( $key, $label, $icon );
@@ -178,7 +178,7 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		if ( $request->get_param( 'project_id' ) ) {
 			$project_id = (int) $request->get_param( 'project_id' );
 			if ( ! WorkPress_Permission_Service::can_view_project( $user_id, $project_id ) ) {
-				return new WP_Error( 'rest_forbidden', __( 'غير مصرح لك', 'workpress' ), array( 'status' => 403 ) );
+				return new WP_Error( 'rest_forbidden', __( 'You are not authorized.', 'workpress' ), array( 'status' => 403 ) );
 			}
 			$args['project_id'] = $project_id;
 		} else {
@@ -282,7 +282,7 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		$attachments = $raw_att ? array_map( 'intval', (array) $raw_att ) : array();
 
 		if ( empty( $content ) && empty( $attachments ) && empty( $payload['cover_id'] ) ) {
-			return new WP_Error( 'rest_missing_content', __( 'المحتوى أو المرفقات مطلوبة.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'rest_missing_content', __( 'Content or attachments are required.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$result = WorkPress_Contribution_Service::add_contribution( 
@@ -370,7 +370,7 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		
 		$comment = get_comment( $contribution_id );
 		if ( ! $comment ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ), array( 'status' => 404 ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ), array( 'status' => 404 ) );
 		}
 		
 		return rest_ensure_response( WorkPress_Contribution_Service::format_contribution_public( $comment ) );
@@ -388,7 +388,7 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 			return $result;
 		}
 		
-		return rest_ensure_response( array( 'success' => true, 'message' => __( 'تم نقل المساهمة إلى سلة المهملات.', 'workpress' ) ) );
+		return rest_ensure_response( array( 'success' => true, 'message' => __( 'Contribution moved to trash.', 'workpress' ) ) );
 	}
 
 	/**
@@ -409,7 +409,7 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		$user_id = get_current_user_id();
 
 		if ( empty( $content ) ) {
-			return new WP_Error( 'missing_content', __( 'نص التعليق مطلوب.', 'workpress' ), array( 'status' => 400 ) );
+			return new WP_Error( 'missing_content', __( 'Comment text is required.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
 		$result = WorkPress_Contribution_Service::add_comment_to_contribution( $contribution_id, $user_id, $content );

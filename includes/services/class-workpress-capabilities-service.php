@@ -72,7 +72,6 @@ class WorkPress_Capabilities_Service {
 				break;
 
 			case 'edit_workpress_task':
-			case 'delete_workpress_task':
 				if ( $project_id ) {
 					$project_role = WorkPress_Membership_Service::get_user_role( $project_id, $user_id );
 					if ( WorkPress_Membership_Service::ROLE_MANAGER === $project_role ) {
@@ -80,8 +79,6 @@ class WorkPress_Capabilities_Service {
 						$caps = array( 'edit_workpress_tasks' ); 
 					} else {
 						// Regular members need to be assigned to edit.
-						// (Delete is usually blocked for regular members entirely, but we map to primitive caps 
-						// which we can control via the role's global capabilities).
 						if ( class_exists( 'WorkPress_Assignment_Service' ) ) {
 							$assignees = get_post_meta( $task_id, '_workpress_assignee_ids', true ) ?: array();
 							if ( in_array( (int) $user_id, (array) $assignees, true ) || (int) $post->post_author === (int) $user_id ) {
@@ -101,6 +98,10 @@ class WorkPress_Capabilities_Service {
 						$caps = array( 'do_not_allow' );
 					}
 				}
+				break;
+
+			case 'delete_workpress_task':
+				$caps = array( 'delete_workpress_tasks' );
 				break;
 		}
 

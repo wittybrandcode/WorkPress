@@ -47,7 +47,7 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 	}
 
 	public function update_permissions_check( $request ) {
-		return current_user_can( 'manage_options' );
+		return current_user_can( 'manage_options' ) || current_user_can( 'manage_workpress_settings' );
 	}
 
 	/**
@@ -260,33 +260,47 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 	}
 
 	/**
-	 * Update the current user's WordPress locale preference.
+	 * Update the current user's WorkPress locale preference and sync status.
+	 * Isolated strictly to WorkPress preferences without altering WordPress core profile.
 	 *
 	 * @param WP_REST_Request $request
 	 * @return WP_REST_Response|WP_Error
 	 */
 	public function update_user_locale( $request ) {
-		$locale = sanitize_text_field( $request->get_param( 'locale' ) );
-		$valid_locales = array( 'en_US', 'ar', 'fr_FR', 'es_ES', 'en' );
-		if ( ! in_array( $locale, $valid_locales, true ) ) {
+		$user_id       = get_current_user_id();
+		$locale        = sanitize_text_field( $request->get_param( 'locale' ) );
+		$sync_wp_param = $request->get_param( 'sync_wp' );
+		$is_sync_wp    = ( $locale === 'auto' || $sync_wp_param === true || $sync_wp_param === 'true' || $sync_wp_param === '1' || $sync_wp_param === 1 );
+
+		$valid_locales = array( 'auto', 'en_US', 'ar', 'fr_FR', 'es_ES', 'en' );
+		if ( ! empty( $locale ) && ! in_array( $locale, $valid_locales, true ) ) {
 			return new WP_Error( 'invalid_locale', __( 'Invalid locale provided.', 'workpress' ), array( 'status' => 400 ) );
 		}
 
-		$user_id = get_current_user_id();
-		if ( $locale === 'en' || $locale === 'en_US' ) {
-			update_user_meta( $user_id, 'locale', 'en_US' );
-		} else {
-			update_user_meta( $user_id, 'locale', $locale );
+		$wp_user_locale = get_user_locale( $user_id );
+		if ( $wp_user_locale === 'en' ) {
+			$wp_user_locale = 'en_US';
 		}
 
-		// Also set cookie for persistent instant recognition
-		setcookie( 'workpress_user_locale', $locale, time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), false );
+		if ( $is_sync_wp ) {
+			update_user_meta( $user_id, '_workpress_sync_wp_locale', 1 );
+			delete_user_meta( $user_id, '_workpress_user_locale' );
+			setcookie( 'workpress_user_locale', '', time() - 3600, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), false );
+			$resolved_locale = $wp_user_locale;
+		} else {
+			$resolved_locale = ( $locale === 'en' ) ? 'en_US' : ( $locale ?: $wp_user_locale );
+			update_user_meta( $user_id, '_workpress_sync_wp_locale', 0 );
+			update_user_meta( $user_id, '_workpress_user_locale', $resolved_locale );
+			setcookie( 'workpress_user_locale', $resolved_locale, time() + YEAR_IN_SECONDS, COOKIEPATH, COOKIE_DOMAIN, is_ssl(), false );
+		}
 
 		return rest_ensure_response( array(
-			'success' => true,
-			'locale'  => $locale,
-			'isRtl'   => in_array( substr( $locale, 0, 2 ), array( 'ar', 'he', 'fa', 'ur' ), true ),
-			'message' => __( 'Language updated successfully.', 'workpress' ),
+			'success'        => true,
+			'locale'         => $resolved_locale,
+			'wpLocale'       => $wp_user_locale,
+			'syncWpLocale'   => $is_sync_wp,
+			'isRtl'          => in_array( substr( $resolved_locale, 0, 2 ), array( 'ar', 'he', 'fa', 'ur' ), true ),
+			'message'        => __( 'Language preference updated successfully.', 'workpress' ),
 		) );
 	}
 }

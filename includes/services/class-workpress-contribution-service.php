@@ -37,74 +37,74 @@ class WorkPress_Contribution_Service {
 		return array(
 			array(
 				'key'       => 'general',
-				'label'     => __( 'عام', 'workpress' ),
+				'label'     => __( 'General', 'workpress' ),
 				'icon'      => 'dashicons-tag',
 				'is_system' => true,
 			),
 			array(
 				'key'       => self::TYPE_IMPLEMENTATION,
-				'label'     => __( 'تنفيذ فني', 'workpress' ),
+				'label'     => __( 'Technical Execution', 'workpress' ),
 				'icon'      => 'dashicons-hammer',
 				'is_system' => false,
 			),
 			array(
 				'key'       => self::TYPE_PROPOSAL,
-				'label'     => __( 'حل مقترح', 'workpress' ),
+				'label'     => __( 'Proposed Solution', 'workpress' ),
 				'icon'      => 'dashicons-star-filled',
 				'is_system' => false,
 			),
 			array(
 				'key'       => self::TYPE_REVISION,
-				'label'     => __( 'مراجعة وتدقيق', 'workpress' ),
+				'label'     => __( 'Review & Audit', 'workpress' ),
 				'icon'      => 'dashicons-search',
 				'is_system' => false,
 			),
 			array(
 				'key'       => self::TYPE_FEEDBACK,
-				'label'     => __( 'نقاش وملاحظة', 'workpress' ),
+				'label'     => __( 'Discussion & Note', 'workpress' ),
 				'icon'      => 'dashicons-admin-comments',
 				'is_system' => false,
 			),
 			array(
 				'key'       => self::TYPE_DECISION,
-				'label'     => __( 'قرار وتوجيه', 'workpress' ),
+				'label'     => __( 'Decision & Guidance', 'workpress' ),
 				'icon'      => 'dashicons-yes-alt',
 				'is_system' => false,
 			),
 			// System audit types (Principle 10 & 13)
 			array(
 				'key'       => self::TYPE_STATE_CHANGE,
-				'label'     => __( 'تغيير حالة', 'workpress' ),
+				'label'     => __( 'Status Change', 'workpress' ),
 				'icon'      => 'dashicons-randomize',
 				'is_system' => true,
 			),
 			array(
 				'key'       => self::TYPE_ASSIGNMENT,
-				'label'     => __( 'تكليف', 'workpress' ),
+				'label'     => __( 'Assignment', 'workpress' ),
 				'icon'      => 'dashicons-groups',
 				'is_system' => true,
 			),
 			array(
 				'key'       => 'trash_request',
-				'label'     => __( 'طلب حذف', 'workpress' ),
+				'label'     => __( 'Deletion Request', 'workpress' ),
 				'icon'      => 'dashicons-trash',
 				'is_system' => true,
 			),
 			array(
 				'key'       => 'client_feedback',
-				'label'     => __( 'ملاحظة واستفسار مستفيد', 'workpress' ),
+				'label'     => __( 'Stakeholder Feedback & Inquiry', 'workpress' ),
 				'icon'      => 'dashicons-testimonial',
 				'is_system' => false,
 			),
 			array(
 				'key'       => 'client_revision_request',
-				'label'     => __( 'طلب استدراك / تعديل مسبب', 'workpress' ),
+				'label'     => __( 'Justified Revision Request', 'workpress' ),
 				'icon'      => 'dashicons-update',
 				'is_system' => false,
 			),
 			array(
 				'key'       => 'client_signoff',
-				'label'     => __( 'مصادقة وتوقيع استلام', 'workpress' ),
+				'label'     => __( 'Sign-off & Receipt Signature', 'workpress' ),
 				'icon'      => 'dashicons-awards',
 				'is_system' => true,
 			),
@@ -177,13 +177,13 @@ class WorkPress_Contribution_Service {
 		$key   = sanitize_key( $key );
 		$label = sanitize_text_field( $label );
 		if ( empty( $key ) || empty( $label ) ) {
-			return new WP_Error( 'invalid_data', __( 'المعرّف والتسمية مطلوبان.', 'workpress' ) );
+			return new WP_Error( 'invalid_data', __( 'Slug and label are required.', 'workpress' ) );
 		}
 
 		$types = self::get_registered_types();
 		foreach ( $types as $t ) {
 			if ( $t['key'] === $key ) {
-				return new WP_Error( 'duplicate_key', __( 'نوع المساهمة موجود مسبقاً بهذا المعرّف.', 'workpress' ) );
+				return new WP_Error( 'duplicate_key', __( 'Contribution type already exists with this slug.', 'workpress' ) );
 			}
 		}
 
@@ -213,7 +213,7 @@ class WorkPress_Contribution_Service {
 		foreach ( $types as $t ) {
 			if ( $t['key'] === $key ) {
 				if ( ! empty( $t['is_system'] ) ) {
-					return new WP_Error( 'system_protected', __( 'لا يمكن حذف أنواع النظام المحمية.', 'workpress' ) );
+					return new WP_Error( 'system_protected', __( 'Cannot delete protected system types.', 'workpress' ) );
 				}
 				$found = true;
 				continue;
@@ -222,7 +222,7 @@ class WorkPress_Contribution_Service {
 		}
 
 		if ( ! $found ) {
-			return new WP_Error( 'not_found', __( 'نوع المساهمة غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution type not found.', 'workpress' ) );
 		}
 
 		self::save_custom_types( $new );
@@ -256,17 +256,23 @@ class WorkPress_Contribution_Service {
 	public static function add_contribution( $task_id, $user_id, $content, $type = 'implementation', $attachments = array(), $payload = array() ) {
 		$task = get_post( (int) $task_id );
 		if ( ! $task || WorkPress_Install::CPT_WORK_ITEM !== $task->post_type ) {
-			return new WP_Error( 'invalid_task', __( 'المهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'invalid_task', __( 'Task not found.', 'workpress' ) );
 		}
 
 		$status = get_post_meta( $task_id, '_workpress_status', true ) ?: 'open';
 		if ( 'closed' === $status ) {
-			return new WP_Error( 'task_closed', __( 'لا يمكن إضافة مساهمات لمهمة مغلقة.', 'workpress' ) );
+			return new WP_Error( 'task_closed', __( 'Cannot add contributions to a closed task.', 'workpress' ) );
 		}
 
-		$user = get_userdata( (int) $user_id );
+		$user = $user_id > 0 ? get_userdata( (int) $user_id ) : null;
 		if ( ! $user ) {
-			return new WP_Error( 'invalid_user', __( 'المستخدم غير موجود.', 'workpress' ) );
+			// Fallback for automated system events (e.g. CLI, automated transitions)
+			$admin = get_user_by( 'slug', 'admin' );
+			$user  = $admin ? $admin : (object) array(
+				'ID'           => 0,
+				'display_name' => __( 'WorkPress System', 'workpress' ),
+				'user_email'   => get_option( 'admin_email', 'system@workpress.local' ),
+			);
 		}
 
 		$comment_id = wp_insert_comment(
@@ -282,7 +288,7 @@ class WorkPress_Contribution_Service {
 		);
 
 		if ( ! $comment_id ) {
-			return new WP_Error( 'insert_failed', __( 'فشل في حفظ المساهمة.', 'workpress' ) );
+			return new WP_Error( 'insert_failed', __( 'Failed to save contribution.', 'workpress' ) );
 		}
 
 		$type        = sanitize_key( $type );
@@ -298,7 +304,7 @@ class WorkPress_Contribution_Service {
 		}
 
 		// Handle visibility scope (internal vs client_review)
-		$visibility_scope = ! empty( $payload['visibility_scope'] ) ? sanitize_key( $payload['visibility_scope'] ) : ( in_array( $type, array( 'implementation', 'proposal', 'solution', 'deliverable' ), true ) ? 'client_review' : 'internal' );
+		$visibility_scope = ! empty( $payload['visibility_scope'] ) ? sanitize_key( $payload['visibility_scope'] ) : ( in_array( $type, array( 'deliverable', 'solution' ), true ) ? 'client_review' : 'internal' );
 		update_comment_meta( $comment_id, '_workpress_visibility_scope', $visibility_scope );
 
 		// Store structured payload if provided (ARCHITECTURE.md: _workpress_payload).
@@ -506,7 +512,7 @@ class WorkPress_Contribution_Service {
 	public static function get_contribution( $contribution_id ) {
 		$comment = get_comment( (int) $contribution_id );
 		if ( ! $comment ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ) );
 		}
 		return self::format_contribution( $comment );
 	}
@@ -522,7 +528,7 @@ class WorkPress_Contribution_Service {
 	public static function trash_request( $contribution_id, $reason = '', $user_id = 0 ) {
 		$comment = get_comment( (int) $contribution_id );
 		if ( ! $comment ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ) );
 		}
 
 		update_comment_meta( (int) $contribution_id, '_workpress_is_pending_trash', 1 );
@@ -548,7 +554,7 @@ class WorkPress_Contribution_Service {
 	public static function restore_from_trash( $contribution_id, $user_id = 0 ) {
 		$comment = get_comment( (int) $contribution_id );
 		if ( ! $comment ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ) );
 		}
 
 		delete_comment_meta( (int) $contribution_id, '_workpress_is_pending_trash' );
@@ -571,20 +577,20 @@ class WorkPress_Contribution_Service {
 	public static function soft_delete( $contribution_id ) {
 		$comment = get_comment( (int) $contribution_id );
 		if ( ! $comment ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ) );
 		}
 
 		// Immutability rule: Block deleting an accepted solution
 		$is_accepted = (bool) get_comment_meta( $comment->comment_ID, '_workpress_is_accepted', true );
 		if ( $is_accepted ) {
-			return new WP_Error( 'locked_accepted', __( 'لا يمكن حذف مساهمة معتمدة كحل رسمي؛ يجب إلغاء اعتمادها أولاً.', 'workpress' ) );
+			return new WP_Error( 'locked_accepted', __( 'Cannot delete an approved official solution; approval must be revoked first.', 'workpress' ) );
 		}
 
 		$task_id = (int) $comment->comment_post_ID;
 
 		$result = wp_trash_comment( (int) $contribution_id );
 		if ( ! $result ) {
-			return new WP_Error( 'delete_failed', __( 'فشل نقل المساهمة إلى سلة المهملات.', 'workpress' ) );
+			return new WP_Error( 'delete_failed', __( 'Failed to move contribution to trash.', 'workpress' ) );
 		}
 
 		wp_cache_delete( (int) $contribution_id, 'comment' );
@@ -754,17 +760,17 @@ class WorkPress_Contribution_Service {
 	public static function add_comment_to_contribution( $contribution_id, $user_id, $content ) {
 		$parent = get_comment( (int) $contribution_id );
 		if ( ! $parent || 'wp_contribution' !== $parent->comment_type ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ) );
 		}
 
 		$content = trim( (string) $content );
 		if ( empty( $content ) ) {
-			return new WP_Error( 'empty_content', __( 'لا يمكن إرسال تعليق فارغ.', 'workpress' ) );
+			return new WP_Error( 'empty_content', __( 'Cannot submit an empty comment.', 'workpress' ) );
 		}
 
 		$user = get_userdata( (int) $user_id );
 		if ( ! $user ) {
-			return new WP_Error( 'invalid_user', __( 'مستخدم غير صالح.', 'workpress' ) );
+			return new WP_Error( 'invalid_user', __( 'Invalid user.', 'workpress' ) );
 		}
 
 		$task_id = (int) $parent->comment_post_ID;
@@ -774,7 +780,7 @@ class WorkPress_Contribution_Service {
 		$project_id = ! empty( $terms ) && ! is_wp_error( $terms ) ? (int) $terms[0]->term_id : 0;
 
 		if ( $project_id > 0 && class_exists( 'WorkPress_Project_Service' ) && ! WorkPress_Project_Service::user_can_access_project( $user_id, $project_id ) ) {
-			return new WP_Error( 'forbidden', __( 'ليس لديك صلاحية التعليق في هذا المشروع.', 'workpress' ) );
+			return new WP_Error( 'forbidden', __( 'You do not have permission to comment in this project.', 'workpress' ) );
 		}
 
 		$commentdata = array(
@@ -791,7 +797,7 @@ class WorkPress_Contribution_Service {
 
 		$comment_id = wp_insert_comment( $commentdata );
 		if ( ! $comment_id ) {
-			return new WP_Error( 'insert_failed', __( 'فشل حفظ التعليق.', 'workpress' ) );
+			return new WP_Error( 'insert_failed', __( 'Failed to save comment.', 'workpress' ) );
 		}
 
 		// Fire hook for notifications
@@ -879,7 +885,7 @@ class WorkPress_Contribution_Service {
 	public static function delete_contribution_comment( $comment_id, $user_id = 0 ) {
 		$comment = get_comment( (int) $comment_id );
 		if ( ! $comment || 'wp_contrib_reply' !== $comment->comment_type ) {
-			return new WP_Error( 'not_found', __( 'التعليق غير موجود.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Comment not found.', 'workpress' ) );
 		}
 
 		$user_id = $user_id > 0 ? (int) $user_id : get_current_user_id();
@@ -892,12 +898,12 @@ class WorkPress_Contribution_Service {
 		$is_admin  = user_can( $user_id, 'manage_options' );
 
 		if ( ! $is_author && ! $is_lead && ! $is_admin ) {
-			return new WP_Error( 'forbidden', __( 'ليس لديك صلاحية حذف هذا التعليق.', 'workpress' ) );
+			return new WP_Error( 'forbidden', __( 'You do not have permission to delete this comment.', 'workpress' ) );
 		}
 
 		$result = wp_delete_comment( (int) $comment_id, true );
 		if ( ! $result ) {
-			return new WP_Error( 'delete_failed', __( 'فشل حذف التعليق.', 'workpress' ) );
+			return new WP_Error( 'delete_failed', __( 'Failed to delete comment.', 'workpress' ) );
 		}
 
 		return true;

@@ -1,4 +1,4 @@
-import { html, useState, __, sprintf, isRtl } from '../../utils/html.js';
+import { html, useState, __, sprintf, isRtl, getSupportedLanguages, getWpLocale } from '../../utils/html.js';
 import { formatDate, formatDateTime, formatNumber, formatPercent } from '../../utils/datetime.js';
 import WorkPressLogo from '../ui/WorkPressLogo.js';
 
@@ -15,6 +15,11 @@ export default function GeneralLocalizationTab({
 	setDateFormat,
 	relativeTime = true,
 	setRelativeTime,
+	syncWpLocale = true,
+	setSyncWpLocale,
+	selectedLocale = 'ar',
+	setSelectedLocale,
+	handleResetToWordPressLocale,
 	siteName = 'WorkPress Workspace',
 	setSiteName,
 	defaultPriority = 'medium',
@@ -34,6 +39,9 @@ export default function GeneralLocalizationTab({
 	handleSaveGeneralSettings
 }) {
 	const rtl = isRtl();
+	const wpLocale = getWpLocale();
+	const supportedLanguages = getSupportedLanguages();
+	const wpLangObj = supportedLanguages.find(l => l.code === wpLocale) || supportedLanguages[0];
 
 	const openMediaSelector = (title, onSelected) => {
 		if (!window.wp || !window.wp.media) {
@@ -288,16 +296,101 @@ export default function GeneralLocalizationTab({
 			<div className="wp-card p-5">
 				<div className="is-flex is-justify-content-space-between is-align-items-center mb-4 pb-3" style=${{ borderBottom: '1px solid #ededed' }}>
 					<div>
-						<h3 className="title is-5 mb-1 has-text-weight-bold">${ __( 'Time, Timezone & Regional Localization', 'workpress' ) }</h3>
-						<p className="has-text-grey is-size-7">${ __( 'Manage workspace timezone, month naming conventions, and universal number formatting.', 'workpress' ) }</p>
+						<h3 className="title is-5 mb-1 has-text-weight-bold">${ __( 'Language, Timezone & Regional Localization', 'workpress' ) }</h3>
+						<p className="has-text-grey is-size-7">${ __( 'Manage interface language sync with WordPress, workspace timezone, and month naming conventions.', 'workpress' ) }</p>
 					</div>
 					<button 
 						className="button wp-btn is-primary"
 						disabled=${isSettingsSaving}
 						onClick=${handleSaveLocalizationSettings}
 					>
-						${isSettingsSaving ? __( 'Saving...', 'workpress' ) : __( 'Save Time Settings', 'workpress' )}
+						${isSettingsSaving ? __( 'Saving...', 'workpress' ) : __( 'Save Localization Settings', 'workpress' )}
 					</button>
+				</div>
+
+				<!-- Language & WordPress Synchronization Box -->
+				<div className="box p-4 mb-5" style=${{ border: '1px solid #e2e8f0', borderRadius: 0, background: '#f8fafc' }}>
+					<div className="is-flex is-justify-content-space-between is-align-items-center mb-3 pb-2" style=${{ borderBottom: '1px solid #e2e8f0' }}>
+						<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
+							<i className="dashicons dashicons-translation has-text-primary" style=${{ fontSize: '18px' }}></i>
+							<h4 className="title is-6 mb-0 has-text-weight-bold">${ __( 'Interface Language & WordPress Sync', 'workpress' ) }</h4>
+						</div>
+						<span className=${`tag is-small ${syncWpLocale ? 'is-success is-light' : 'is-info is-light'}`} style=${{ borderRadius: 0, fontSize: '0.72rem' }}>
+							${syncWpLocale ? __( 'Auto-Synced with WordPress', 'workpress' ) : __( 'Custom Language Active', 'workpress' )}
+						</span>
+					</div>
+
+					<!-- Auto-Sync Toggle Switch -->
+					<div className="field mb-4">
+						<label className="checkbox is-size-7 has-text-weight-bold is-flex is-align-items-center" style=${{ gap: '8px', cursor: 'pointer' }}>
+							<input 
+								type="checkbox" 
+								checked=${syncWpLocale} 
+								onChange=${(e) => {
+									const isChecked = e.target.checked;
+									setSyncWpLocale(isChecked);
+									if (isChecked) {
+										setSelectedLocale(wpLocale);
+									}
+								}}
+								style=${{ width: '16px', height: '16px', margin: 0 }}
+							/>
+							<span>${ __( 'Auto-sync WorkPress language with WordPress user profile language', 'workpress' ) }</span>
+						</label>
+						<p className="help has-text-grey is-size-7 mt-1">
+							${ __( 'When enabled, WorkPress automatically follows any language change made in your WordPress profile or site settings.', 'workpress' ) }
+						</p>
+					</div>
+
+					<!-- Language Selection & Reset Row -->
+					<div className="columns is-variable is-3 is-align-items-flex-end">
+						<div className="column is-7">
+							<label className="label is-small">${ __( 'Active WorkPress Language', 'workpress' ) }</label>
+							<div className="control">
+								<div className=${`select is-fullwidth wp-input ${syncWpLocale ? 'is-disabled' : ''}`}>
+									<select 
+										value=${selectedLocale} 
+										disabled=${syncWpLocale}
+										onChange=${(e) => {
+											setSelectedLocale(e.target.value);
+											setSyncWpLocale(false);
+										}}
+										style=${{ borderRadius: 0 }}
+									>
+										${supportedLanguages.map(l => html`
+											<option key=${l.code} value=${l.code}>
+												${l.flag} ${l.label} ${l.code === wpLocale ? `(${ __( 'WordPress Default', 'workpress' ) })` : ''}
+											</option>
+										`)}
+									</select>
+								</div>
+							</div>
+							${syncWpLocale ? html`
+								<p className="help has-text-success is-size-7 mt-1">
+									<i className="dashicons dashicons-yes"></i>
+									<span>${ __( 'Following WordPress language:', 'workpress' ) } <strong>${wpLangObj.label}</strong></span>
+								</p>
+							` : html`
+								<p className="help has-text-info is-size-7 mt-1">
+									<i className="dashicons dashicons-admin-generic"></i>
+									<span>${ __( 'Custom language applied strictly to WorkPress interface.', 'workpress' ) }</span>
+								</p>
+							`}
+						</div>
+
+						<div className="column is-5">
+							<button 
+								type="button" 
+								className="button is-small is-fullwidth is-light is-link"
+								onClick=${handleResetToWordPressLocale}
+								style=${{ borderRadius: 0, height: '36px' }}
+								title=${ __( 'Reset WorkPress language to match WordPress user profile', 'workpress' ) }
+							>
+								<i className=${`dashicons dashicons-image-rotate ${ rtl ? 'ml-1' : 'mr-1' }`}></i>
+								<span>${ __( 'Reset to Match WordPress', 'workpress' ) }</span>
+							</button>
+						</div>
+					</div>
 				</div>
 
 				<div className="columns is-variable is-5">

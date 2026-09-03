@@ -10,44 +10,109 @@
  * @subpackage CSS/Modules
  */
 
+.workpress-gantt-page {
+    margin-top: -1.5rem !important;
+    padding-top: 0 !important;
+}
+
 .wp-gantt-root {
     display: flex;
     flex-direction: column;
     background-color: #ffffff;
     border: 1px solid #e2e8f0;
-    min-height: 640px;
+    border-top: none;
+    min-height: 520px;
+    position: relative;
     border-radius: 0;
 }
 
-.wp-gantt-controls-bar {
+/* Master Sticky Header Row (Locks Vertically to Window Scroll below FilterBar!) */
+.wp-gantt-header-row {
+    position: -webkit-sticky;
+    position: sticky;
+    top: var(--wp-gantt-sticky-top, 160px);
+    z-index: 35;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 0.85rem 1.25rem;
+    background-color: #ffffff;
     border-bottom: 1px solid #e2e8f0;
-    background-color: #f8fafc;
-    flex-wrap: wrap;
-    gap: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+    width: 100%;
+    box-sizing: border-box;
 }
 
-.wp-gantt-filter-group {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
+.wp-gantt-header-scroll-container {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
 }
 
-.wp-gantt-scale-group {
-    display: flex;
+.wp-header-toggle-btn {
+    width: 32px;
+    height: 32px;
+    border: 1px solid #cbd5e1;
+    border-radius: 0;
+    background-color: #ffffff;
+    color: #334155;
+    cursor: pointer;
+    display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
-    flex-wrap: wrap;
+    justify-content: center;
+    padding: 0;
+    transition: all 0.15s ease;
+}
+
+.wp-header-toggle-btn:hover {
+    background-color: #334155;
+    color: #ffffff;
+    border-color: #334155;
+}
+
+.wp-header-toggle-btn .dashicons {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+}
+
+/* Unified Gantt Toolbar Controls */
+.wp-gantt-unified-toolbar {
+    min-height: 44px;
+}
+
+.wp-scale-btn {
+    height: 32px;
+    padding: 0 10px;
+    border: none;
+    border-inline-end: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    color: #475569;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+    user-select: none;
+}
+
+.wp-scale-btn:last-child {
+    border-inline-end: none;
+}
+
+.wp-scale-btn:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+}
+
+.wp-scale-btn.is-active {
+    background-color: #0f172a;
+    color: #ffffff;
+    font-weight: 800;
 }
 
 .wp-gantt-split-layout {
     display: flex;
     flex: 1;
-    overflow: hidden;
     position: relative;
 }
 
@@ -55,7 +120,7 @@
 .wp-gantt-master-table {
     width: 380px;
     min-width: 380px;
-    border-left: 2px solid #cbd5e1;
+    border-inline-end: 2px solid #cbd5e1;
     background-color: #ffffff;
     z-index: 10;
     display: flex;
@@ -63,16 +128,20 @@
 }
 
 .wp-gantt-table-header {
+    width: 380px;
+    min-width: 380px;
     height: 58px;
-    padding: 0 0.75rem;
+    min-height: 58px;
+    padding: 0 0.85rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f1f5f9;
-    border-bottom: 2px solid #cbd5e1;
+    background-color: #ffffff;
+    border-inline-end: 2px solid #cbd5e1;
     font-weight: 800;
     font-size: 0.82rem;
     color: #0f172a;
+    box-sizing: border-box;
 }
 
 .wp-gantt-project-row {
@@ -113,19 +182,17 @@
 
 .wp-gantt-sticky-header {
     height: 58px;
+    min-height: 58px;
     display: flex;
     flex-direction: column;
-    border-bottom: 2px solid #cbd5e1;
-    background-color: #f8fafc;
-    position: sticky;
-    top: 0;
-    z-index: 5;
+    background-color: #ffffff;
     user-select: none;
+    box-sizing: border-box;
 }
 
 .wp-gantt-grid-overlay {
     position: absolute;
-    top: 58px;
+    top: 0;
     bottom: 0;
     right: 0;
     left: 0;
@@ -147,15 +214,16 @@
 
 .wp-gantt-needle-today-flag {
     position: absolute;
-    top: -18px;
+    top: 6px;
     right: -14px;
     background-color: #ef4444;
     color: #ffffff;
     font-size: 9px;
     font-weight: 800;
     padding: 1px 4px;
-    border-radius: 0;
+    border-radius: 2px;
 }
+
 
 .wp-gantt-needle-now {
     position: absolute;

@@ -16,7 +16,7 @@
 .wp-report-canvas {
     background: #ffffff;
     color: #0f172a;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    font-family: 'Cairo', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
     padding: 36px 40px;
     border: 1px solid #e2e8f0;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
@@ -291,14 +291,18 @@
     padding: 0 !important;
 }
 .wp-about-nav-btn:hover {
-    background-color: #f8fafc !important;
-    color: #0f172a !important;
-    border-color: #cbd5e1 !important;
+    background-color: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.wp-about-nav-btn:hover .icon,
+.wp-about-nav-btn:hover i {
+    color: #ffffff !important;
 }
 .wp-about-nav-btn.is-active {
-    background-color: #008478 !important;
+    background-color: #10b981 !important;
     color: #ffffff !important;
-    border-color: #008478 !important;
+    border-color: #10b981 !important;
     font-weight: 800 !important;
 }
 .wp-about-nav-btn.is-active .icon,

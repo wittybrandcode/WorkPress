@@ -16,24 +16,43 @@
     box-sizing: content-box;
 }
 
+/* Full Width Seamless SPA Container Resets */
 #wpcontent {
     padding-left: 0 !important;
     padding-right: 0 !important;
 }
+
 #wpbody {
     padding-top: 0 !important;
 }
+
 #wpbody-content {
     padding-bottom: 0 !important;
+    float: none !important;
 }
+
 .wrap {
     margin: 0 !important;
     padding: 0 !important;
 }
+
+#workpress-app {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box !important;
+    overflow-x: clip !important;
+    overflow-y: visible !important;
+}
+
+#wpfooter {
+    display: none !important; /* Eradicate WP footer interference in full-height SPA */
+}
+
 #wpbody-content > .notice,
 #wpbody-content > .update-nag {
     display: none !important; /* Hide generic WP notices in SPA mode to avoid breaking full width */
 }
+
 
 /* ==========================================================================
    WorkPress Specific Layouts & Global Typography

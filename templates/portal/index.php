@@ -26,48 +26,47 @@ $is_logged_in = is_user_logged_in();
 
 $can_access_portal = false;
 $executive_type    = 'subscriber';
-$role_label        = __( 'مشترك', 'workpress' );
+$role_label        = __( 'Subscriber', 'workpress' );
 
 if ( $is_logged_in ) {
 	if ( user_can( $current_user, 'manage_options' ) || in_array( 'administrator', (array) $current_user->roles, true ) ) {
 		$executive_type    = 'admin';
-		$role_label        = __( 'مدير عام', 'workpress' );
+		$role_label        = __( 'Administrator', 'workpress' );
 		$can_access_portal = true;
 	} elseif ( in_array( 'workpress_client', (array) $current_user->roles, true ) || in_array( 'workpress_portal_user', (array) $current_user->roles, true ) || user_can( $current_user, 'access_workpress_portal' ) ) {
 		$executive_type    = 'client';
-		$role_label        = __( 'مستفيد', 'workpress' );
+		$role_label        = __( 'Stakeholder', 'workpress' );
 		$can_access_portal = true;
 	} elseif ( in_array( 'editor', (array) $current_user->roles, true ) ) {
 		$executive_type    = 'lead';
-		$role_label        = __( 'قائد مشروع', 'workpress' );
+		$role_label        = __( 'Project Lead', 'workpress' );
 		$can_access_portal = true;
 	} elseif ( user_can( $current_user, 'edit_posts' ) || in_array( 'author', (array) $current_user->roles, true ) || in_array( 'contributor', (array) $current_user->roles, true ) ) {
 		$executive_type    = 'member';
-		$role_label        = __( 'منفذ فني', 'workpress' );
+		$role_label        = __( 'Technical Executor', 'workpress' );
 		$can_access_portal = true;
 	} else {
 		$executive_type    = 'subscriber';
-		$role_label        = __( 'مشترك', 'workpress' );
+		$role_label        = __( 'Subscriber', 'workpress' );
 		$can_access_portal = false;
 	}
 }
 
-// Support ?preview=... for UI testing and verification
-if ( isset( $_GET['preview'] ) ) {
+// Support ?preview=... for UI testing and verification ONLY for logged-in administrators
+if ( isset( $_GET['preview'] ) && is_user_logged_in() && current_user_can( 'manage_options' ) ) {
 	$preview_mode = sanitize_text_field( wp_unslash( $_GET['preview'] ) );
-	$is_logged_in = true;
 	if ( 'subscriber' === $preview_mode ) {
 		$can_access_portal = false;
 		$executive_type    = 'subscriber';
-		$role_label        = __( 'مشترك', 'workpress' );
+		$role_label        = __( 'Subscriber', 'workpress' );
 	} elseif ( 'staff' === $preview_mode || 'admin' === $preview_mode ) {
 		$can_access_portal = true;
 		$executive_type    = 'admin';
-		$role_label        = __( 'مدير عام', 'workpress' );
+		$role_label        = __( 'Administrator', 'workpress' );
 	} elseif ( 'client' === $preview_mode ) {
 		$can_access_portal = true;
 		$executive_type    = 'client';
-		$role_label        = __( 'مستفيد', 'workpress' );
+		$role_label        = __( 'Stakeholder', 'workpress' );
 	}
 }
 
@@ -114,7 +113,7 @@ $portal_config = array(
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo esc_html( __( 'بوابة ومساحة متابعة المشاريع', 'workpress' ) . ' — ' . ( $site_name ? $site_name : 'WorkPress' ) ); ?></title>
+    <title><?php echo esc_html( __( 'Projects monitoring portal and workspace', 'workpress' ) . ' — ' . ( $site_name ? $site_name : 'WorkPress' ) ); ?></title>
     
     <!-- Google Fonts: Cairo & Plus Jakarta Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -144,7 +143,7 @@ $portal_config = array(
         <!-- Initial Loader Shell -->
         <div class="portal-initial-loader">
             <div class="portal-spinner"></div>
-            <p><?php esc_html_e( 'جاري تشغيل بوابة ومساحة المشاريع...', 'workpress' ); ?></p>
+            <p><?php esc_html_e( 'Starting projects workspace and portal...', 'workpress' ); ?></p>
         </div>
     </div>
 
@@ -159,6 +158,7 @@ $portal_config = array(
     <script src="https://unpkg.com/htm@3.1.1/dist/htm.umd.js"></script>
 
     <!-- WorkPress Portal Core & Modules -->
+    <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-i18n.js?v=' . $portal_js_ver ); ?>"></script>
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-core.js?v=' . $portal_js_ver ); ?>"></script>
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-login.js?v=' . $portal_js_ver ); ?>"></script>
     <script src="<?php echo esc_url( WORKPRESS_URL . 'assets/src/portal/portal-header.js?v=' . $portal_js_ver ); ?>"></script>

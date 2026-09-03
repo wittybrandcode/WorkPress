@@ -8,6 +8,28 @@
 /* ==========================================================================
    Header Navigation & Action Buttons
    ========================================================================== */
+.workpress-header-wrapper {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 32px;
+    z-index: 40;
+    background-color: #ffffff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+    border-bottom: 1px solid #e2e8f0;
+}
+
+@media screen and (max-width: 782px) {
+    .workpress-header-wrapper {
+        top: 46px;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .workpress-header-wrapper {
+        top: 0;
+    }
+}
+
 .workpress-header-wrapper a,
 .workpress-header-wrapper a:focus,
 .workpress-header-wrapper a:active,
@@ -34,7 +56,7 @@
     align-items: center !important;
     justify-content: center !important;
     gap: 6px !important;
-    direction: rtl !important;
+    direction: inherit !important;
     transition: all 0.15s ease !important;
     line-height: 1 !important;
     box-sizing: border-box !important;
@@ -48,14 +70,12 @@
 
 .workpress-spa .wp-header-btn:hover {
     background-color: #0f172a !important;
-    color: #ffffff !important;
     border-color: #0f172a !important;
+    color: #ffffff !important;
 }
 
 .workpress-spa .wp-header-btn:hover .icon,
-.workpress-spa .wp-header-btn:hover i,
-.workpress-spa .wp-header-btn:hover span,
-.workpress-spa .wp-header-btn:hover .has-text-weight-bold {
+.workpress-spa .wp-header-btn:hover i {
     color: #ffffff !important;
 }
 
@@ -75,7 +95,7 @@
 }
 
 /* ==========================================================================
-   Universal RTL Button & Icon Optical Alignment
+   Universal Button & Icon Optical Alignment (Respects DOM Direction)
    ========================================================================== */
 .workpress-spa .button:not(.wp-settings-tab-btn),
 .workpress-spa .wp-header-btn,
@@ -83,7 +103,7 @@
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    direction: rtl !important;
+    direction: inherit !important;
     text-align: center !important;
     vertical-align: middle !important;
     gap: 6px !important;
@@ -91,7 +111,7 @@
 }
 
 /* ==========================================================================
-   Settings Sidebar Navigation Tab Buttons (Right-Aligned in RTL)
+   Settings Sidebar Navigation Tab Buttons
    ========================================================================== */
 .workpress-spa .wp-settings-tab-btn,
 .wp-settings-tab-btn {
@@ -99,8 +119,8 @@
     display: flex !important;
     align-items: center !important;
     justify-content: flex-start !important;
-    direction: rtl !important;
-    text-align: right !important;
+    direction: inherit !important;
+    text-align: start !important;
     height: 38px !important;
     padding: 0 12px !important;
     border: 1px solid #e2e8f0 !important;
@@ -170,11 +190,11 @@
 
 .workpress-spa .wp-settings-tab-btn.is-active,
 .wp-settings-tab-btn.is-active {
-    background-color: #008478 !important;
+    background-color: #10b981 !important;
     color: #ffffff !important;
-    border-color: #008478 !important;
+    border-color: #10b981 !important;
     font-weight: 800 !important;
-    box-shadow: 0 2px 6px rgba(0, 132, 120, 0.25) !important;
+    box-shadow: 0 2px 6px rgba(16, 185, 129, 0.25) !important;
 }
 
 .workpress-spa .wp-settings-tab-btn.is-active .icon,
@@ -239,86 +259,189 @@
 }
 
 /* ==========================================================================
-   Unified Button Design System
+   Universal Monochrome Icon Law (دستور الأيقونات المونوكرومي الموحد)
+   All icons across cards, containers, chips, and components MUST be charcoal/black #0f172a.
+   Zero rainbow icons (no blue, green, yellow, red, cyan) in default state.
    ========================================================================== */
+.workpress-spa .dashicons,
+.workpress-spa i.dashicons,
+.workpress-spa .icon,
+.workpress-spa .wp-snowflake-icon,
+.workpress-app .dashicons,
+.workpress-app i.dashicons,
+.workpress-app .icon,
+.wp-timeline-horizon-strip i,
+.wp-timeline-horizon-strip .dashicons {
+    color: #0f172a !important;
+    stroke: currentColor !important;
+}
+
+/* ==========================================================================
+   Universal Tri-State Button Law (دستور الأزرار الثلاثي الموحد)
+   Default: White bg (#ffffff), Charcoal text & icon (#0f172a), 1px solid #cbd5e1, 0px radius
+   Hover:   Dark Slate bg (#334155), White text & icon (#ffffff)
+   Active:  Logo Green bg (#10b981), White text & icon (#ffffff)
+   ========================================================================== */
+
+/* 1. Default State: All buttons & chips start clean white with sharp 0px geometry */
 .workpress-spa .button,
-.workpress-spa .wp-sidebar-action {
+.workpress-app .button,
+.workpress-spa button,
+.workpress-spa .wp-btn,
+.workpress-spa .wp-header-btn,
+.workpress-spa .wp-sharp-button,
+.workpress-spa .wp-icon-button,
+.workpress-spa .wp-icon-action-btn,
+.workpress-spa .wp-view-icon-btn,
+.workpress-spa .wp-action-icon-btn,
+.workpress-spa .wp-stat-chip,
+.workpress-spa .wp-pagination-btn,
+.workpress-spa .wp-sidebar-action,
+.wp-btn-group-tight .button,
+.wp-btn-group-tight button {
     background-color: #ffffff !important;
-    color: var(--wp-text-primary) !important;
-    border: 1px solid var(--wp-border) !important;
+    color: #0f172a !important;
+    border: 1px solid #cbd5e1 !important;
     border-radius: 0 !important;
-    box-shadow: var(--wp-shadow-sm) !important;
-    transition: all var(--wp-transition-fast) !important;
+    box-shadow: none !important;
+    transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease, transform 0.15s ease !important;
+    box-sizing: border-box !important;
+    cursor: pointer !important;
 }
 
+/* 2. Text & Icons inherit charcoal/black color in default state */
+.workpress-spa .button *,
+.workpress-app .button *,
+.workpress-spa button *,
+.workpress-spa .wp-btn *,
+.workpress-spa .wp-header-btn *,
+.workpress-spa .wp-sharp-button *,
+.workpress-spa .wp-icon-button *,
+.workpress-spa .wp-icon-action-btn *,
+.workpress-spa .wp-view-icon-btn *,
+.workpress-spa .wp-action-icon-btn *,
+.workpress-spa .wp-stat-chip *,
+.workpress-spa .wp-pagination-btn *,
+.workpress-spa .wp-sidebar-action * {
+    color: #0f172a !important;
+    transition: color 0.15s ease !important;
+}
+
+/* 3. Hover State: Dark Slate Gray (#334155) with White text and icons */
 .workpress-spa .button:hover,
-.workpress-spa .wp-sidebar-action:hover {
-    background-color: var(--wp-hover-fill) !important;
+.workpress-app .button:hover,
+.workpress-spa button:hover,
+.workpress-spa .wp-btn:hover,
+.workpress-spa .wp-header-btn:hover,
+.workpress-spa .wp-sharp-button:hover,
+.workpress-spa .wp-icon-button:hover,
+.workpress-spa .wp-icon-action-btn:hover,
+.workpress-spa .wp-view-icon-btn:hover,
+.workpress-spa .wp-action-icon-btn:hover,
+.workpress-spa .wp-stat-chip:hover,
+.workpress-spa .wp-pagination-btn:hover,
+.workpress-spa .wp-sidebar-action:hover,
+.wp-btn-group-tight .button:hover,
+.wp-btn-group-tight button:hover {
+    background-color: #334155 !important;
+    border-color: #334155 !important;
     color: #ffffff !important;
-    border-color: var(--wp-hover-fill) !important;
     transform: translateY(-1px);
-    box-shadow: var(--wp-shadow-md) !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12) !important;
 }
 
-.workpress-spa .button.is-active,
-.workpress-spa .wp-sidebar-action.is-active {
-    background-color: var(--wp-accent-green) !important;
+.workpress-spa .button:hover *,
+.workpress-app .button:hover *,
+.workpress-spa button:hover *,
+.workpress-spa .wp-btn:hover *,
+.workpress-spa .wp-header-btn:hover *,
+.workpress-spa .wp-sharp-button:hover *,
+.workpress-spa .wp-icon-button:hover *,
+.workpress-spa .wp-icon-action-btn:hover *,
+.workpress-spa .wp-view-icon-btn:hover *,
+.workpress-spa .wp-action-icon-btn:hover *,
+.workpress-spa .wp-stat-chip:hover *,
+.workpress-spa .wp-pagination-btn:hover *,
+.workpress-spa .wp-sidebar-action:hover * {
     color: #ffffff !important;
-    border-color: var(--wp-accent-green) !important;
+}
+
+/* 4. Active / Selected State: Logo Green (#10b981) with White text and icons */
+.workpress-spa .button.is-active,
+.workpress-app .button.is-active,
+.workpress-spa button.is-active,
+.workpress-spa .wp-btn.is-active,
+.workpress-spa .wp-header-btn.is-active,
+.workpress-spa .wp-icon-button.is-active,
+.workpress-spa .wp-view-icon-btn.is-active,
+.workpress-spa .wp-action-icon-btn.is-active,
+.workpress-spa .wp-stat-chip.is-active,
+.workpress-spa .wp-sidebar-action.is-active,
+.workpress-spa .button.is-selected,
+.wp-btn-group-tight .button.is-active,
+.wp-btn-group-tight button.is-active {
+    background-color: #10b981 !important;
+    border-color: #10b981 !important;
+    color: #ffffff !important;
+}
+
+.workpress-spa .button.is-active *,
+.workpress-app .button.is-active *,
+.workpress-spa button.is-active *,
+.workpress-spa .wp-btn.is-active *,
+.workpress-spa .wp-header-btn.is-active *,
+.workpress-spa .wp-icon-button.is-active *,
+.workpress-spa .wp-view-icon-btn.is-active *,
+.workpress-spa .wp-action-icon-btn.is-active *,
+.workpress-spa .wp-stat-chip.is-active *,
+.workpress-spa .wp-sidebar-action.is-active *,
+.workpress-spa .button.is-selected *,
+.wp-btn-group-tight .button.is-active *,
+.wp-btn-group-tight button.is-active * {
+    color: #ffffff !important;
 }
 
 .workpress-spa .button.is-active:hover,
-.workpress-spa .wp-sidebar-action.is-active:hover {
-    background-color: var(--wp-text-primary) !important;
-    border-color: var(--wp-text-primary) !important;
+.workpress-app .button.is-active:hover,
+.workpress-spa button.is-active:hover,
+.workpress-spa .wp-btn.is-active:hover,
+.workpress-spa .wp-stat-chip.is-active:hover {
+    background-color: #059669 !important;
+    border-color: #059669 !important;
+    color: #ffffff !important;
 }
 
-.workpress-spa .button .dashicons,
-.workpress-spa .wp-sidebar-action .dashicons {
-    color: inherit;
-}
-
-/* Enforce Bulma Buttons against WP Admin interference */
-.workpress-app .button {
-    border-radius: 0 !important;
-    font-family: 'Cairo', sans-serif !important;
-    display: inline-flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    padding: calc(0.5em - 1px) 1em !important;
-    height: 2.5em !important;
-    box-shadow: none !important;
-    border: 1px solid #dbdbdb !important;
-    background-color: white !important;
-    color: #363636 !important;
-    line-height: 1.5 !important;
-}
-
+/* 5. Primary Action CTA: High-authority white button with distinct black border and bold font */
+.workpress-spa .button.is-primary,
 .workpress-app .button.is-primary {
-    background-color: #008478 !important;
-    border-color: #008478 !important;
-    color: #fff !important;
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border: 1px solid #0f172a !important;
+    font-weight: 800 !important;
 }
+.workpress-spa .button.is-primary:hover,
 .workpress-app .button.is-primary:hover {
-    background-color: #00564f !important;
+    background-color: #0f172a !important;
+    border-color: #0f172a !important;
+    color: #ffffff !important;
 }
 
-.workpress-app .button.is-info {
-    background-color: #3e8ed0 !important;
-    border-color: transparent !important;
-    color: #fff !important;
-}
-
-.workpress-app .button.is-danger {
-    background-color: #f14668 !important;
-    border-color: transparent !important;
-    color: #fff !important;
-}
-
-.workpress-app .button.is-light {
-    background-color: #f5f5f5 !important;
-    border-color: transparent !important;
-    color: rgba(0,0,0,.7) !important;
+/* 6. Neutralize Bulma color modifiers (No rainbow buttons!) */
+.workpress-spa .button.is-info,
+.workpress-app .button.is-info,
+.workpress-spa .button.is-success:not(.is-active),
+.workpress-app .button.is-success:not(.is-active),
+.workpress-spa .button.is-danger,
+.workpress-app .button.is-danger,
+.workpress-spa .button.is-warning,
+.workpress-app .button.is-warning,
+.workpress-spa .button.is-light,
+.workpress-app .button.is-light,
+.workpress-spa .button.is-dark,
+.workpress-app .button.is-dark {
+    background-color: #ffffff !important;
+    color: #0f172a !important;
+    border-color: #cbd5e1 !important;
 }
 
 /* Tight Connected Button Groups */
@@ -381,30 +504,40 @@
     width: 28px;
     height: 28px;
     padding: 0;
-    border: 1px solid #cbd5e1;
-    background: #ffffff;
-    color: #334155;
+    border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
+    color: #0f172a !important;
     cursor: pointer;
     border-radius: 0 !important;
-    font-family: 'Cairo', sans-serif !important;
     transition: all 0.12s ease;
     flex-shrink: 0;
     user-select: none;
 }
+.wp-icon-btn * {
+    color: #0f172a !important;
+    transition: color 0.12s ease;
+}
 .wp-icon-btn:hover {
-    background: #0f172a;
-    color: #ffffff;
-    border-color: #0f172a;
+    background: #334155 !important;
+    color: #ffffff !important;
+    border-color: #334155 !important;
+}
+.wp-icon-btn:hover * {
+    color: #ffffff !important;
+}
+.wp-icon-btn.is-active,
+.wp-icon-btn.is-selected {
+    background: #10b981 !important;
+    color: #ffffff !important;
+    border-color: #10b981 !important;
+}
+.wp-icon-btn.is-active *,
+.wp-icon-btn.is-selected * {
+    color: #ffffff !important;
 }
 .wp-icon-btn.is-dense { width: 22px; height: 22px; }
 .wp-icon-btn.is-small { width: 26px; height: 26px; }
 .wp-icon-btn.is-medium { width: 32px; height: 32px; }
-.wp-icon-btn.is-dark { background: #0f172a; color: #ffffff; border-color: #0f172a; }
-.wp-icon-btn.is-dark:hover { background: #1e293b; border-color: #38bdf8; color: #38bdf8; }
-.wp-icon-btn.is-primary { background: #008478; color: #ffffff; border-color: #008478; }
-.wp-icon-btn.is-primary:hover { background: #00564f; }
-.wp-icon-btn.is-danger { color: #dc2626; border-color: #fca5a5; }
-.wp-icon-btn.is-danger:hover { background: #dc2626; color: #ffffff; border-color: #dc2626; }
 .wp-icon-btn .dashicons { font-size: 15px; width: 15px; height: 15px; line-height: 1; }
 .wp-icon-btn.is-dense .dashicons { font-size: 13px; width: 13px; height: 13px; }
 .wp-icon-btn.is-medium .dashicons { font-size: 18px; width: 18px; height: 18px; }
@@ -792,16 +925,23 @@
 .wp-toast-deck-container {
     position: fixed;
     bottom: 24px;
-    left: 24px;
+    right: 24px;
+    left: auto;
     z-index: 999999;
     display: flex;
     flex-direction: column-reverse;
     gap: 10px;
     pointer-events: none;
-    max-width: 440px;
+    max-width: min(440px, calc(100vw - 48px));
     width: calc(100vw - 48px);
-    direction: rtl;
-    text-align: right;
+    direction: inherit;
+    text-align: start;
+}
+
+/* When WordPress core is set to RTL, the WP menu is on the right, so toasts move safely to the left */
+body.rtl .wp-toast-deck-container {
+    right: auto;
+    left: 24px;
 }
 
 .wp-toast-card {
@@ -812,7 +952,7 @@
     align-items: flex-start;
     gap: 12px;
     box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
-    font-family: 'Cairo', sans-serif !important;
+    font-family: 'Cairo', system-ui, sans-serif !important;
     border-radius: 0 !important;
     animation: wpToastEnter 0.25s cubic-bezier(0.16, 1, 0.3, 1);
     transition: all 0.2s ease;
@@ -824,23 +964,23 @@
     transform: translateY(-2px);
 }
 
-.wp-toast-success { background: #064e3b !important; border: 1px solid #059669 !important; border-right: 5px solid #34d399 !important; color: #ffffff !important; }
+.wp-toast-success { background: #064e3b !important; border: 1px solid #059669 !important; border-inline-start: 5px solid #34d399 !important; color: #ffffff !important; }
 .wp-toast-success .wp-toast-icon-col i { color: #6ee7b7 !important; }
 .wp-toast-success .wp-toast-progress-fill { background: #34d399 !important; }
 
-.wp-toast-error { background: #7f1d1d !important; border: 1px solid #b91c1c !important; border-right: 5px solid #f87171 !important; color: #ffffff !important; }
+.wp-toast-error { background: #7f1d1d !important; border: 1px solid #b91c1c !important; border-inline-start: 5px solid #f87171 !important; color: #ffffff !important; }
 .wp-toast-error .wp-toast-icon-col i { color: #fca5a5 !important; }
 .wp-toast-error .wp-toast-progress-fill { background: #f87171 !important; }
 
-.wp-toast-warning { background: #78350f !important; border: 1px solid #b45309 !important; border-right: 5px solid #fbbf24 !important; color: #ffffff !important; }
+.wp-toast-warning { background: #78350f !important; border: 1px solid #b45309 !important; border-inline-start: 5px solid #fbbf24 !important; color: #ffffff !important; }
 .wp-toast-warning .wp-toast-icon-col i { color: #fde68a !important; }
 .wp-toast-warning .wp-toast-progress-fill { background: #fbbf24 !important; }
 
-.wp-toast-info { background: #0c4a6e !important; border: 1px solid #0284c7 !important; border-right: 5px solid #38bdf8 !important; color: #ffffff !important; }
+.wp-toast-info { background: #0c4a6e !important; border: 1px solid #0284c7 !important; border-inline-start: 5px solid #38bdf8 !important; color: #ffffff !important; }
 .wp-toast-info .wp-toast-icon-col i { color: #7dd3fc !important; }
 .wp-toast-info .wp-toast-progress-fill { background: #38bdf8 !important; }
 
-.wp-toast-decision { background: #1e1b4b !important; border: 1px solid #4338ca !important; border-right: 5px solid #818cf8 !important; color: #ffffff !important; }
+.wp-toast-decision { background: #1e1b4b !important; border: 1px solid #4338ca !important; border-inline-start: 5px solid #818cf8 !important; color: #ffffff !important; }
 .wp-toast-decision .wp-toast-icon-col i { color: #a5b4fc !important; }
 .wp-toast-decision .wp-toast-progress-fill { background: #818cf8 !important; }
 
@@ -925,4 +1065,33 @@
     opacity: 0 !important;
     transform: translateX(-24px) scale(0.92) !important;
     transition: all 0.25s cubic-bezier(0.4, 0, 1, 1) !important;
+}
+
+/* ==========================================================================
+   Universal Multi-Directional Dropdown Menu Rules (RTL & LTR)
+   ========================================================================== */
+.workpress-spa .dropdown-menu {
+    max-width: min(420px, calc(100vw - 32px));
+}
+
+/* LTR Context */
+.workpress-spa .dropdown:not(.is-right) .dropdown-menu {
+    left: 0;
+    right: auto;
+}
+.workpress-spa .dropdown.is-right .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+
+/* RTL Context */
+[dir="rtl"] .workpress-spa .dropdown:not(.is-left) .dropdown-menu,
+.workpress-spa[dir="rtl"] .dropdown:not(.is-left) .dropdown-menu {
+    left: auto;
+    right: 0;
+}
+[dir="rtl"] .workpress-spa .dropdown.is-left .dropdown-menu,
+.workpress-spa[dir="rtl"] .dropdown.is-left .dropdown-menu {
+    left: 0;
+    right: auto;
 }

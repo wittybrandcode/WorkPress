@@ -87,7 +87,7 @@ WorkPress هو **محرك الذاكرة المؤسسية (Organizational Memory
 ```
 Project (Term Meta):
   _workpress_member_{user_id}    → دور العضو في المشروع
-  _workpress_project_status      → حالة المشروع (active/completed/frozen)
+  _workpress_status              → حالة المشروع (active/completed/frozen)
   _workpress_cover_id            → معرف صورة الغلاف
   _workpress_start_at            → تاريخ البدء (UTC ISO-8601)
   _workpress_due_at              → تاريخ الاستحقاق (UTC ISO-8601)
@@ -295,6 +295,10 @@ assets/src/
 | `.wp-dense-chip.is-info` | شريحة زرقاء (معلوماتية) | — |
 | `.wp-dense-chip.is-warning` | شريحة برتقالية (قيد الإنجاز) | — |
 | `.wp-dense-chip.is-danger` | شريحة حمراء (تحذيرية) | — |
+| `.wp-stat-chip` | شريحة مؤشرات في أشرطة الأدوات (أيقونات وأرقام) | ارتفاع 28px, خط 0.75rem |
+| `.wp-unified-filter-toolbar` | شريط الأدوات الموحد المركزي في الـ Portal | ارتفاع 44px, padding: 0 1.5rem |
+| `.wp-custom-select` | القائمة المنسدلة المركزية بزوايا 0px وسهم الخط المفرغ | فتح ذكي للداخل |
+| `.wp-bulk-actions-floating-bar` | شريط الإجراءات الجماعية العائم أسفل الشاشة | خلفية #0f172a, زوايا 0px |
 | `[data-wp-tooltip]` | تلميح فوري CSS عند التمرير | — |
 
 ## 6.2 نظام الألوان المعتمد لأعمدة الكانبان

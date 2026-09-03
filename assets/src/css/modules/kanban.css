@@ -22,14 +22,14 @@
     min-width: 320px;
     background-color: #ebecf0;
     border-radius: 0 !important;
-    margin-right: 1rem;
+    margin-inline-end: 1rem;
     display: flex;
     flex-direction: column;
     max-height: 100%;
 }
 
 .workpress-kanban-board .column:last-child {
-    margin-left: 1rem;
+    margin-inline-end: 0;
 }
 
 /* Kanban Columns */
@@ -57,7 +57,7 @@
 }
 
 .wp-kanban-column-header-icon {
-    border-left: 1px solid var(--wp-border-dark);
+    border-inline-start: 1px solid var(--wp-border-dark);
     color: var(--wp-text-secondary);
 }
 

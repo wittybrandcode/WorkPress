@@ -30,7 +30,7 @@ class WorkPress_Solution_Transform_Service {
 	public static function accept_solution( $contribution_id, $user_id = 0 ) {
 		$comment = get_comment( (int) $contribution_id );
 		if ( ! $comment || 'wp_contribution' !== $comment->comment_type ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ) );
 		}
 
 		$user_id = $user_id > 0 ? (int) $user_id : get_current_user_id();
@@ -40,9 +40,14 @@ class WorkPress_Solution_Transform_Service {
 		$terms      = wp_get_object_terms( $task_id, WorkPress_Install::TAX_PROJECT );
 		$project_id = ! empty( $terms ) && ! is_wp_error( $terms ) ? (int) $terms[0]->term_id : 0;
 
-		// Authorization Governance: Lead or Admin only
-		if ( class_exists( 'WorkPress_Project_Service' ) && ! WorkPress_Project_Service::is_user_lead( $project_id, $user_id ) ) {
-			return new WP_Error( 'forbidden', __( 'عذراً، حق اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط.', 'workpress' ) );
+		// Authorization Governance: User with accept_solutions capability, Project Lead, or Admin
+		$can_accept = user_can( $user_id, 'manage_options' ) || user_can( $user_id, 'accept_solutions' );
+		if ( ! $can_accept && $project_id > 0 && class_exists( 'WorkPress_Project_Service' ) ) {
+			$can_accept = WorkPress_Project_Service::is_user_lead( $project_id, $user_id );
+		}
+
+		if ( ! $can_accept ) {
+			return new WP_Error( 'forbidden', __( 'Sorry, solution approval is restricted to authorized roles, Project Lead, or Administrator.', 'workpress' ) );
 		}
 
 		// 1. Mark contribution as accepted
@@ -62,7 +67,7 @@ class WorkPress_Solution_Transform_Service {
 				$task_id,
 				sprintf(
 					/* translators: %s: User display name */
-					__( 'قام %s باعتماد هذه المساهمة كحل رسمي واكتملت المهمة.', 'workpress' ),
+					__( '%s approved this contribution as official solution and task completed.', 'workpress' ),
 					$author_name
 				),
 				$user_id
@@ -92,7 +97,7 @@ class WorkPress_Solution_Transform_Service {
 	public static function revoke_solution( $contribution_id, $user_id = 0 ) {
 		$comment = get_comment( (int) $contribution_id );
 		if ( ! $comment || 'wp_contribution' !== $comment->comment_type ) {
-			return new WP_Error( 'not_found', __( 'المساهمة غير موجودة.', 'workpress' ) );
+			return new WP_Error( 'not_found', __( 'Contribution not found.', 'workpress' ) );
 		}
 
 		$user_id = $user_id > 0 ? (int) $user_id : get_current_user_id();
@@ -104,7 +109,7 @@ class WorkPress_Solution_Transform_Service {
 
 		// Authorization Governance: Lead or Admin only
 		if ( class_exists( 'WorkPress_Project_Service' ) && ! WorkPress_Project_Service::is_user_lead( $project_id, $user_id ) ) {
-			return new WP_Error( 'forbidden', __( 'عذراً، حق إلغاء اعتماد الحلول محصور بمدير المشروع أو المدير العام فقط.', 'workpress' ) );
+			return new WP_Error( 'forbidden', __( 'Sorry, revoking solution approval is restricted to Project Lead or Administrator only.', 'workpress' ) );
 		}
 
 		// 1. Remove acceptance metadata
@@ -124,7 +129,7 @@ class WorkPress_Solution_Transform_Service {
 				$task_id,
 				sprintf(
 					/* translators: %s: User display name */
-					__( 'قام %s بإلغاء اعتماد الحل وأُعيد فتح المهمة للمراجعة.', 'workpress' ),
+					__( '%s revoked solution approval and task reopened for review.', 'workpress' ),
 					$author_name
 				),
 				$user_id

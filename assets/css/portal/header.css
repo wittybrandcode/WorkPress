@@ -132,7 +132,7 @@
 .portal-notification-disk {
     position: absolute;
     top: -4px;
-    left: -4px;
+    inset-inline-start: -4px;
     background: #ef4444 !important;
     color: #ffffff !important;
     font-size: 0.65rem !important;
@@ -274,10 +274,11 @@
  * ------------------------------------------------------------- */
 .portal-popover-drawer {
     position: absolute;
-    left: 0;
+    inset-inline-end: 0;
+    inset-inline-start: auto;
     top: calc(100% + 8px);
     width: 360px;
-    max-width: 90vw;
+    max-width: min(360px, calc(100vw - 32px));
     background: #ffffff;
     border: 1px solid var(--wp-border);
     box-shadow: var(--wp-shadow-lg);
@@ -316,16 +317,18 @@
 
 .portal-profile-dropdown {
     position: absolute;
-    left: 0;
+    inset-inline-end: 0;
+    inset-inline-start: auto;
     top: calc(100% + 8px);
     width: 280px;
+    max-width: min(280px, calc(100vw - 32px));
     background: #ffffff;
     border: 1px solid var(--wp-border);
     box-shadow: var(--wp-shadow-lg);
     z-index: 1000;
     overflow: hidden;
     animation: portalFadeDown 0.15s ease;
-    text-align: right;
+    text-align: start;
 }
 
 .portal-profile-header {
@@ -528,7 +531,9 @@
     position: absolute;
     top: calc(100% + 8px);
     inset-inline-end: 0;
+    inset-inline-start: auto;
     width: 200px;
+    max-width: min(200px, calc(100vw - 32px));
     background: #ffffff;
     border: 1px solid var(--wp-border);
     box-shadow: var(--wp-shadow-lg);
