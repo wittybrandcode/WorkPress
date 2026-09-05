@@ -30,23 +30,24 @@ class WorkPress_Task_State_Machine {
 
 		$status_map = array(
 			'جديدة'        => 'new',
-			'مفتوحة'       => 'new',
-			'open'         => 'new',
 			'new'          => 'new',
+			'مفتوحة'       => 'open',
+			'open'         => 'open',
 			'مسندة'        => 'assigned',
 			'مخصصة'        => 'assigned',
 			'assigned'     => 'assigned',
 			'قيد التنفيذ'  => 'in_progress',
 			'قيد الإنجاز'  => 'in_progress',
-			'في المراجعة'  => 'in_progress',
-			'قيد المراجعة' => 'in_progress',
-			'in_review'    => 'in_progress',
 			'in_progress'  => 'in_progress',
-			'معتمدة'       => 'completed',
+			'في المراجعة'  => 'in_review',
+			'قيد المراجعة' => 'in_review',
+			'in_review'    => 'in_review',
+			'معتمدة'       => 'approved',
+			'approved'     => 'approved',
 			'مكتملة'       => 'completed',
-			'مغلقة'        => 'completed',
-			'closed'       => 'completed',
 			'completed'    => 'completed',
+			'مغلقة'        => 'closed',
+			'closed'       => 'closed',
 		);
 
 		if ( isset( $status_map[ $status ] ) ) {
@@ -286,7 +287,13 @@ class WorkPress_Task_State_Machine {
 	 * @return array|WP_Error Updated task or error.
 	 */
 	public static function reopen_task( $task_id, $user_id = 0 ) {
-		return self::derive_and_sync_task_state( $task_id );
+		update_post_meta( (int) $task_id, '_workpress_status', 'open' );
+		self::clear_task_cache( $task_id );
+		self::derive_and_sync_task_state( $task_id );
+		if ( class_exists( 'WorkPress_Hooks' ) ) {
+			WorkPress_Hooks::fire_task_reopened( $task_id, $user_id );
+		}
+		return WorkPress_Task_Service::get_task( $task_id );
 	}
 
 	/**

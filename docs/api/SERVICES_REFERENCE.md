@@ -1,8 +1,8 @@
 # ⚙️ مرجع خدمات النواة الخلفية (WorkPress Core Services Architecture)
-## The 17 PHP Backend Services, Static Methods & Domain Logic Contracts
+## The 18 PHP Backend Services, Static Methods & Domain Logic Contracts
 
 > **نوع الوثيقة:** المرجع المعماري والبرمجي الشامل لطبقة الخدمات المركزية (Services Layer)  
-> **الإصدار المعتمد:** WorkPress v2.2.1-Stable  
+> **الإصدار المعتمد:** WorkPress v1.0.0-Stable  
 > **الفلسفة الحاكمة:** مبدأ طبقة الخدمات الحصرية (Services-Only Layer Architecture) — لا تتواصل واجهات الـ REST أو الأحداث مع قاعدة البيانات مباشرة، بل تمر كافة العمليات حصراً عبر هذه الخدمات المركزية.  
 > **المرجع الحاكم:** [ARCHITECTURE.md](../core/ARCHITECTURE.md) | [FIRST_PRINCIPLES.md](../core/FIRST_PRINCIPLES.md)
 
@@ -26,6 +26,7 @@
 │ • Assign Service  │ • Report Service   │ • Hibernation Service         │
 │ • Contrib Service │ • Webhook Service  │ • Roles & Capabilities Service│
 │ • Time Service    │ • Activity Service │ • Intake & Settings Service   │
+│ • Broadcast Serv. │                    │                               │
 └───────────────────┴────────────────────┴───────────────────────────────┘
                                     │
                                     ▼
@@ -153,4 +154,15 @@
 * **المسؤولية:** إدارة إعدادات المنظومة المركزية، حزم المؤثرات الصوتية، والتوطين الزمني.
 
 ---
+
+### 18. `WorkPress_Broadcast_Service` (`class-workpress-broadcast-service.php`)
+* **المسؤولية:** محرك بث التوجيهات الإدارية والتنبيهات التشغيلية الحية ومزامنة شريط التنبيهات والأفق الرقمي.
+* **أبرز الدوال العامة:**
+  * `get_stream()`: توليد وتجميع الدفق الحي للتنبيهات التشغيلية والتوجيهات الإدارية النشطة.
+  * `get_rules()` / `update_rules($rules)`: جلب وتحديث قواعد تنبيهات المواعيد المتأخرة والاحتفاءات.
+  * `get_directives($args)` / `create_directive($data)`: جلب وإنشاء التوجيهات الإدارية والنشريات.
+  * `invalidate_stream_cache()`: تطهير الكاش اللحظي للدفق لضمان المزامنة الفورية في الواجهة.
+
+---
 *كافة الخدمات مبنية بنمط Static Singleton Services لتوفير أقصى سرعة وأداء تحت ضغط العمليات.*
+

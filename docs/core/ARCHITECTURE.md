@@ -1,4 +1,4 @@
-# WorkPress — المعمارية التقنية والهندسة المؤسسية (v2.2.2-Stable)
+# WorkPress — المعمارية التقنية والهندسة المؤسسية (v1.0.0-Stable)
 
 ## 🏛️ القرار المعماري
 
@@ -10,8 +10,8 @@ WorkPress مبني بالكامل فوق الكيانات الأصلية في Wo
 
 ```text
 WordPress Platform (Source of Truth)
-  └─ WorkPress Core Services (17 Central Services)
-       ├─ CoWorkPress Operation Plaza (Staff & Admin SPA - 111 Modules)
+  └─ WorkPress Core Services (18 Central Services)
+       ├─ CoWorkPress Operation Plaza (Staff & Admin SPA - 136 ES Modules)
        └─ Standalone Client Portal (/portal/ - Isolated Virtual Canvas)
             ├─ Office Packs (Domain Interpretation)
             └─ Optional Modules & Webhook Integrations
@@ -24,8 +24,8 @@ WordPress Platform (Source of Truth)
 | طبقة | المسؤولية | الممنوعات الصارمة |
 | --- | --- | --- |
 | **WordPress Platform** | المصادقة (Auth)، المستخدمون (Users)، الأدوار والقدرات، الوسائط، المراجعات، REST API | منطق الأعمال المخصص |
-| **WorkPress Core** | طبقة الخدمات الـ 17 (Projects, Tasks, Membership, Assignment, Contributions, Timeline, Knowledge, Security) | تجربة خاصة بمجال معين |
-| **CoWorkPress Plaza** | غرفة العمليات، الكانبان، مخطط جانت، استوديو الفرز، وتتبع الوقت (111 موديول معياري) | استعلام `$wpdb` أو تعديل البيانات مباشرة |
+| **WorkPress Core** | طبقة الخدمات الـ 18 (Projects, Tasks, Membership, Assignment, Contributions, Timeline, Knowledge, Security, Broadcasts) | تجربة خاصة بمجال معين |
+| **CoWorkPress Plaza** | غرفة العمليات، الكانبان، مخطط جانت، استوديو الفرز، النشريات، وتتبع الوقت (136 موديول معياري) | استعلام `$wpdb` أو تعديل البيانات مباشرة |
 | **Standalone Portal** | بوابة المستفيد المستقلة (`/portal/`)، استوديو الطلبات، خزانة المخرجات، والتوقيع الرقمي المشفر بـ SHA-256 | اختراق عزل CSS أو تعديل صلاحيات الكانبان |
 | **Office Pack** | التفسير التخصصي للقطاعات: القوالب، المفردات، والمخططات | تعديل جداول Core الأساسية |
 | **Module** | التقويم، الإشعارات، الذكاء الاصطناعي، وخطافات الويب عبر API/hooks | كتابة منطق مباشر في Core |

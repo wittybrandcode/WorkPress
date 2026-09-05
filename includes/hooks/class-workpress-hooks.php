@@ -113,6 +113,16 @@ class WorkPress_Hooks {
 	}
 
 	/**
+	 * Fire when a task is reopened.
+	 *
+	 * @param int $task_id Task ID.
+	 * @param int $user_id User who reopened it.
+	 */
+	public static function fire_task_reopened( $task_id, $user_id ) {
+		do_action( 'workpress_task_reopened', $task_id, $user_id );
+	}
+
+	/**
 	 * Fire when a task is created.
 	 *
 	 * @param int   $task_id Task ID.
@@ -131,6 +141,16 @@ class WorkPress_Hooks {
 	 */
 	public static function fire_task_deleted( $task_id, $user_id ) {
 		do_action( 'workpress_task_deleted', $task_id, $user_id );
+	}
+
+	/**
+	 * Fire when a project is deleted.
+	 *
+	 * @param int $project_id Project Term ID.
+	 * @param int $user_id User ID performing deletion.
+	 */
+	public static function fire_project_deleted( $project_id, $user_id ) {
+		do_action( 'workpress_project_deleted', $project_id, $user_id );
 	}
 
 	/**
@@ -192,6 +212,38 @@ class WorkPress_Hooks {
 	 */
 	public static function fire_project_request_rejected( $project_id, $actor_id, $reason = '' ) {
 		do_action( 'workpress_project_request_rejected', $project_id, $actor_id, $reason );
+	}
+
+	/**
+	 * Fire when a broadcast notification is created.
+	 *
+	 * @param int   $broadcast_id Broadcast Post ID.
+	 * @param array $data         Broadcast creation data.
+	 * @param int   $user_id      Author / Creator User ID.
+	 */
+	public static function fire_broadcast_created( $broadcast_id, $data, $user_id ) {
+		do_action( 'workpress_broadcast_created', $broadcast_id, $data, $user_id );
+	}
+
+	/**
+	 * Fire when a broadcast notification is updated.
+	 *
+	 * @param int   $broadcast_id Broadcast Post ID.
+	 * @param array $data         Updated attributes.
+	 * @param int   $user_id      User who updated the broadcast.
+	 */
+	public static function fire_broadcast_updated( $broadcast_id, $data, $user_id ) {
+		do_action( 'workpress_broadcast_updated', $broadcast_id, $data, $user_id );
+	}
+
+	/**
+	 * Fire when a broadcast is deleted or archived.
+	 *
+	 * @param int  $broadcast_id Broadcast Post ID.
+	 * @param bool $hard_delete  Whether it was permanently purged.
+	 */
+	public static function fire_broadcast_deleted( $broadcast_id, $hard_delete ) {
+		do_action( 'workpress_broadcast_deleted', $broadcast_id, $hard_delete );
 	}
 
 	/**

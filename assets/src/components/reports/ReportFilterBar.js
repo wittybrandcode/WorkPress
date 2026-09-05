@@ -27,8 +27,7 @@ export default function ReportFilterBar({
 	sortBy = 'newest',
 	setSortBy,
 	viewMode = 'cards',
-	setViewMode,
-	onExport = null
+	setViewMode
 }) {
 	const rtl = isRtl();
 
@@ -317,19 +316,6 @@ export default function ReportFilterBar({
 				<i className="dashicons dashicons-list-view" style=${{ fontSize: '15px', width: '15px', height: '15px' }}></i>
 			</button>
 		</div>
-
-		<!-- زر الطباعة / التصدير التنفيذي -->
-		${ onExport && html`
-			<button
-				type="button"
-				className="wp-icon-action-btn"
-				onClick=${ onExport }
-				title=${ __( 'Print / Export Executive Summary', 'workpress' ) }
-				style=${{ width: '32px', height: '32px' }}
-			>
-				<i className="dashicons dashicons-printer" style=${{ fontSize: '15px', width: '15px', height: '15px' }}></i>
-			</button>
-		` }
 
 		<!-- زر إعادة ضبط الفلاتر عند التنشيط -->
 		${ isFiltered && html`

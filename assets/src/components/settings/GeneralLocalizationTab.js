@@ -34,6 +34,10 @@ export default function GeneralLocalizationTab({
 	setFaviconId,
 	defaultLogoUrl = '',
 	defaultFaviconUrl = '',
+	broadcastEnabled = true,
+	setBroadcastEnabled,
+	broadcastText = '',
+	setBroadcastText,
 	isSettingsSaving = false,
 	handleSaveLocalizationSettings,
 	handleSaveGeneralSettings
@@ -150,6 +154,34 @@ export default function GeneralLocalizationTab({
 									</select>
 								</div>
 							</div>
+						</div>
+
+						<!-- Manager Broadcast Ticker Settings -->
+						<div className="box p-3 mb-4" style=${{ border: '1px solid #cbd5e1', borderRadius: 0, background: '#f8fafc' }}>
+							<div className="is-flex is-justify-content-space-between is-align-items-center mb-2">
+								<label className="label is-small mb-0">
+									<i className=${`dashicons dashicons-megaphone ${ rtl ? 'ml-1' : 'mr-1' } has-text-primary`}></i>
+									${ __( 'Managerial Directives & Broadcast Ticker', 'workpress' ) }
+								</label>
+								<label className="checkbox is-size-7" style=${{ userSelect: 'none' }}>
+									<input 
+										type="checkbox" 
+										checked=${broadcastEnabled} 
+										onChange=${(e) => setBroadcastEnabled && setBroadcastEnabled(e.target.checked)}
+										className=${ rtl ? 'ml-1' : 'mr-1' }
+									/>
+									${ __( 'Enable ticker in breadcrumb', 'workpress' ) }
+								</label>
+							</div>
+							<p className="has-text-grey is-size-7 mb-2">${ __( 'This text appears as a live ticker in the breadcrumb bar to broadcast management directives to team members.', 'workpress' ) }</p>
+							<textarea 
+								className="textarea is-small" 
+								rows="2" 
+								value=${broadcastText} 
+								onInput=${(e) => setBroadcastText && setBroadcastText(e.target.value)}
+								placeholder=${ __( 'Write managerial directives and notices here...', 'workpress' ) }
+								style=${{ borderRadius: 0, border: '1px solid #cbd5e1' }}
+							></textarea>
 						</div>
 
 						<!-- Scope & Isolation Alert Box -->
@@ -444,9 +476,9 @@ export default function GeneralLocalizationTab({
 										onChange=${(e) => setMonthNaming(e.target.value)}
 										style=${{ borderRadius: 0 }}
 									>
-										<option value="maghrebi">${ __( 'Maghrebi Arabic Months (جانفي، فيفري، مارس...) - Recommended', 'workpress' ) }</option>
-										<option value="mashriqi">${ __( 'Mashriqi Arabic Months (يناير، فبراير، مارس...)', 'workpress' ) }</option>
-										<option value="syriac">${ __( 'Syriac / Levantine Months (كانون الثاني، شباط، آذار...)', 'workpress' ) }</option>
+										<option value="maghrebi">${ __( 'Maghrebi Arabic Months (Janvier, Fevrier, Mars...) - Recommended', 'workpress' ) }</option>
+										<option value="mashriqi">${ __( 'Mashriqi Arabic Months (Yanayer, Febrayer, Mars...)', 'workpress' ) }</option>
+										<option value="syriac">${ __( 'Syriac / Levantine Months (Kanoon, Shabat, Adar...)', 'workpress' ) }</option>
 									</select>
 								</div>
 							</div>

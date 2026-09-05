@@ -38,11 +38,11 @@ export default function ConfirmModal({ isActive, onClose, onCancel, onConfirm, t
 	`;
 
 	return html`
-		<${Modal} isActive=${ isActive } onClose=${ handleClose } title=${ title } footer=${ footer }>
-			<div className="p-4">
+		<${Modal} isActive=${ isActive } onClose=${ handleClose } title=${ title } footer=${ footer } size="is-small">
+			<div className="p-2">
 				${ isDangerous ? html`
-					<div className="has-text-danger mb-4 is-flex is-align-items-center">
-						<span className="icon is-large mr-2"><i className="dashicons dashicons-warning" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i></span>
+					<div className="has-text-danger mb-4 is-flex is-align-items-center" style=${{ gap: '12px' }}>
+						<span className="icon is-large"><i className="dashicons dashicons-warning" style=${{ fontSize: '32px', width: '32px', height: '32px' }}></i></span>
 						<span className="has-text-weight-bold">${ __( 'Warning: This action cannot be undone.', 'workpress' ) }</span>
 					</div>
 				` : null }

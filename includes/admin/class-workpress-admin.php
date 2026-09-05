@@ -243,8 +243,9 @@ class WorkPress_Admin {
 				'canManageOptions'  => $is_admin || current_user_can( 'manage_workpress_settings' ),
 				'canAccessAdmin'    => $is_admin || current_user_can( 'access_workpress_admin' ),
 				'canAccessPortal'   => $is_admin || current_user_can( 'access_workpress_portal' ),
-				'canTriageRequests' => $is_admin || current_user_can( 'triage_requests' ),
-				'canAcceptSolutions'=> $is_admin || current_user_can( 'accept_solutions' ),
+				'canTriageRequests'   => $is_admin || current_user_can( 'triage_requests' ),
+				'canAcceptSolutions'  => $is_admin || current_user_can( 'accept_solutions' ),
+				'canManageBroadcasts' => $is_admin || current_user_can( 'manage_workpress_broadcasts' ),
 			),
 			'userId'             => $current_user->ID,
 			'userRoles'          => (array) $current_user->roles,
@@ -261,6 +262,10 @@ class WorkPress_Admin {
 			'customFaviconId'    => (int) get_option( 'workpress_custom_favicon_id', 0 ),
 			'defaultLogoUrl'     => WORKPRESS_URL . 'assets/brand/workpress.svg',
 			'defaultFaviconUrl'  => WORKPRESS_URL . 'assets/brand/favicon.svg',
+			'broadcastNotice'    => get_option( 'workpress_broadcast_notice', array(
+				'enabled' => true,
+				'text'    => __( 'Welcome to WorkPress — please document your achievements via contributions and keep tasks updated.', 'workpress' )
+			) ),
 		);
 	}
 

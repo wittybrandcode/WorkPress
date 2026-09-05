@@ -260,7 +260,7 @@ export default function ProjectCard( { project, onEdit, onManageMembers, onDelet
 							</div>
 						` : null }
 
-						<!-- 2. حاوية الوقت المستغرق -->
+						<!-- 2. Time Elapsed Container -->
 						${ startDate ? html`
 							<div
 								className="is-flex is-align-items-center"
@@ -276,11 +276,11 @@ export default function ProjectCard( { project, onEdit, onManageMembers, onDelet
 								title=${ `${ __( 'Time Elapsed:', 'workpress' ) } ${ insights.elapsedDetailed }` }
 							>
 								<i className="dashicons dashicons-backup" style=${{ fontSize: '14px', width: '14px', height: '14px', color: '#0f172a' }}></i>
-								<span>${ __( 'استغرق العمل', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.elapsedDetailed }</strong></span>
+								<span>${ __( 'Work took', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.elapsedDetailed }</strong></span>
 							</div>
 						` : null }
 
-						<!-- 3. حاوية الوقت المتبقي أو التأخر -->
+						<!-- 3. Remaining or Overdue Container -->
 						${ dueParts.isValid ? html`
 							<div
 								className="is-flex is-align-items-center"
@@ -305,11 +305,11 @@ export default function ProjectCard( { project, onEdit, onManageMembers, onDelet
 								></i>
 								<span>
 									${ isCompleted
-										? html`<span>${ __( 'أُنجز في', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.elapsedDetailed }</strong></span>`
+										? html`<span>${ __( 'Completed in', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.elapsedDetailed }</strong></span>`
 										: insights.isOverdue
-											? html`<span>${ __( 'متأخر عن الموعد', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.remainingDetailed }</strong></span>`
-											: html`<span>${ __( 'الوقت المتبقي', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.remainingDetailed }</strong></span>` }
-									${ insights.extensionDays > 0 ? html`<span className="has-text-weight-bold" style=${{ [rtl ? 'marginRight' : 'marginLeft']: '4px', color: '#0f172a' }}>(+${ insights.extensionDays } ي تمديد)</span>` : null }
+											? html`<span>${ __( 'Overdue', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.remainingDetailed }</strong></span>`
+											: html`<span>${ __( 'Remaining time', 'workpress' ) } <strong style=${{ fontFamily: 'monospace', color: '#0f172a' }}>${ insights.remainingDetailed }</strong></span>` }
+									${ insights.extensionDays > 0 ? html`<span className="has-text-weight-bold" style=${{ [rtl ? 'marginRight' : 'marginLeft']: '4px', color: '#0f172a' }}>(${ sprintf( __( '+%d d ext', 'workpress' ), insights.extensionDays ) })</span>` : null }
 								</span>
 							</div>
 						` : null }

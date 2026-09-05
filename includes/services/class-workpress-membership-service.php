@@ -29,9 +29,14 @@ class WorkPress_Membership_Service {
 	 * @return bool Success.
 	 */
 	public static function add_member( $project_id, $user_id, $role = self::ROLE_MEMBER ) {
-		$result = update_term_meta( (int) $project_id, '_workpress_member_' . (int) $user_id, sanitize_key( $role ) );
+		$sanitized_role = sanitize_key( $role );
+		$current_role   = get_term_meta( (int) $project_id, '_workpress_member_' . (int) $user_id, true );
+		if ( $current_role === $sanitized_role ) {
+			return true;
+		}
+		$result = update_term_meta( (int) $project_id, '_workpress_member_' . (int) $user_id, $sanitized_role );
 		if ( $result && class_exists( 'WorkPress_Hooks' ) ) {
-			WorkPress_Hooks::fire_project_membership_changed( $project_id, $user_id, $role );
+			WorkPress_Hooks::fire_project_membership_changed( $project_id, $user_id, $sanitized_role );
 		}
 		return (bool) $result;
 	}
@@ -97,6 +102,7 @@ class WorkPress_Membership_Service {
 				if ( $user ) {
 					$members[] = array(
 						'id'           => $user_id,
+						'user_id'      => $user_id,
 						'display_name' => $user->display_name,
 						'email'        => $user->user_email,
 						'role'         => $role,

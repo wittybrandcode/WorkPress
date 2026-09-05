@@ -22,13 +22,25 @@ export default function RequestEvaluationModal({
 			<!-- Under Review Modal -->
 			${ reviewingProject && html`
 				<div className="modal is-active">
-					<div className="modal-background" onClick=${() => setReviewingProject( null )}></div>
-					<div className="modal-card" style=${{ maxWidth: '560px' }}>
-						<header className="modal-card-head" style=${{ backgroundColor: '#0369a1' }}>
-							<p className="modal-card-title has-text-white is-size-6 has-text-weight-bold">
+					<!-- Non-clickable backdrop strictly preventing accidental loss of user work -->
+					<div className="modal-background"></div>
+					<div className="modal-card is-medium" style=${{ maxWidth: '560px' }}>
+						<header className="modal-card-head">
+							<p className="modal-card-title has-text-weight-bold">
 								${ __( 'Mark Request Under Technical Review', 'workpress' ) }
 							</p>
-							<button className="delete" aria-label="close" onClick=${() => setReviewingProject( null )}></button>
+							<button 
+								type="button"
+								className="wp-modal-close-btn" 
+								aria-label=${ __( 'Close', 'workpress' ) } 
+								title=${ __( 'Close', 'workpress' ) } 
+								onClick=${() => setReviewingProject( null )}
+							>
+								<svg viewBox="0 0 24 24" width="16" height="16">
+									<line x1="18" y1="6" x2="6" y2="18"></line>
+									<line x1="6" y1="6" x2="18" y2="18"></line>
+								</svg>
+							</button>
 						</header>
 
 						<section className="modal-card-body p-5">
@@ -76,13 +88,25 @@ export default function RequestEvaluationModal({
 			<!-- Reject Request Modal -->
 			${ rejectingProject && html`
 				<div className="modal is-active">
-					<div className="modal-background" onClick=${() => setRejectingProject( null )}></div>
-					<div className="modal-card" style=${{ maxWidth: '560px' }}>
-						<header className="modal-card-head" style=${{ backgroundColor: '#991b1b' }}>
-							<p className="modal-card-title has-text-white is-size-6 has-text-weight-bold">
+					<!-- Non-clickable backdrop strictly preventing accidental loss of user work -->
+					<div className="modal-background"></div>
+					<div className="modal-card is-medium" style=${{ maxWidth: '560px' }}>
+						<header className="modal-card-head">
+							<p className="modal-card-title has-text-weight-bold has-text-danger">
 								${ __( 'Reject Project Request with Reason', 'workpress' ) }
 							</p>
-							<button className="delete" aria-label="close" onClick=${() => setRejectingProject( null )}></button>
+							<button 
+								type="button"
+								className="wp-modal-close-btn" 
+								aria-label=${ __( 'Close', 'workpress' ) } 
+								title=${ __( 'Close', 'workpress' ) } 
+								onClick=${() => setRejectingProject( null )}
+							>
+								<svg viewBox="0 0 24 24" width="16" height="16">
+									<line x1="18" y1="6" x2="6" y2="18"></line>
+									<line x1="6" y1="6" x2="18" y2="18"></line>
+								</svg>
+							</button>
 						</header>
 
 						<section className="modal-card-body p-5">

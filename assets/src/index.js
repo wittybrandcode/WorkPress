@@ -1,6 +1,15 @@
 const { render } = window.wp.element;
 import { html } from './utils/html.js';
 
+// Global error shield for browser extensions & Core Web Vitals VM crashes
+window.addEventListener('error', (event) => {
+	if (event && event.message && event.message.includes("reading 'startTime'")) {
+		event.preventDefault();
+		event.stopImmediatePropagation();
+		return true;
+	}
+}, true);
+
 // Automated runtime cache buster from WordPress settings
 const appVersion = window.workpressSettings?.version || Date.now();
 

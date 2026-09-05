@@ -36,7 +36,7 @@ export default function TaskQuickPreviewModal({ isActive, onClose, taskId }) {
 
 	if ( isLoading || !task ) {
 		return html`
-			<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } size="wp-mega-modal">
+			<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } size="is-medium">
 				<div className="py-6">
 					<${Loader} center=${true} size="medium" label=${ __( 'Loading task details...', 'workpress' ) } />
 				</div>
@@ -45,7 +45,7 @@ export default function TaskQuickPreviewModal({ isActive, onClose, taskId }) {
 	}
 
 	return html`
-		<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } footer=${ footer } size="wp-mega-modal">
+		<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } footer=${ footer } size="is-medium">
 			<div className="p-2">
 				<div className="is-flex is-justify-content-space-between is-align-items-flex-start mb-4">
 					<div>

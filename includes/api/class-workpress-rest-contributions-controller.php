@@ -232,10 +232,17 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		$task = get_post( (int) $request['task_id'] );
 		if ( ! $task ) return false;
 		
+		$user_id = get_current_user_id();
+		if ( current_user_can( 'manage_options' ) ) {
+			return true;
+		}
+
 		$terms = wp_get_object_terms( $task->ID, WorkPress_Install::TAX_PROJECT );
-		if ( empty( $terms ) || is_wp_error( $terms ) ) return false;
-		
-		return WorkPress_Permission_Service::can_view_project( get_current_user_id(), $terms[0]->term_id );
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+			return WorkPress_Permission_Service::can_view_project( $user_id, $terms[0]->term_id );
+		}
+
+		return (int) $task->post_author === $user_id || current_user_can( 'read_workpress_tasks' );
 	}
 
 	public function get_task_contributions( $request ) {
@@ -254,10 +261,6 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		$task = get_post( (int) $request['task_id'] );
 		if ( ! $task ) return false;
 		
-		$terms = wp_get_object_terms( $task->ID, WorkPress_Install::TAX_PROJECT );
-		if ( empty( $terms ) || is_wp_error( $terms ) ) return false;
-		
-		// Must be a member and have the capability, or be an admin
 		$user_id = get_current_user_id();
 		if ( current_user_can( 'manage_options' ) ) {
 			return true;
@@ -266,8 +269,22 @@ class WorkPress_REST_Contributions_Controller extends WP_REST_Controller {
 		if ( ! current_user_can( 'add_contributions' ) ) {
 			return false;
 		}
-		
-		return WorkPress_Membership_Service::is_member( $terms[0]->term_id, $user_id );
+
+		$terms = wp_get_object_terms( $task->ID, WorkPress_Install::TAX_PROJECT );
+		if ( ! empty( $terms ) && ! is_wp_error( $terms ) ) {
+			return WorkPress_Membership_Service::is_member( $terms[0]->term_id, $user_id );
+		}
+
+		if ( (int) $task->post_author === $user_id ) {
+			return true;
+		}
+
+		$assignee_ids = get_post_meta( $task->ID, '_workpress_assignee_ids', true );
+		if ( is_array( $assignee_ids ) && in_array( $user_id, array_map( 'intval', $assignee_ids ), true ) ) {
+			return true;
+		}
+
+		return false;
 	}
 
 	public function create_task_contribution( $request ) {

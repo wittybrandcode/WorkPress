@@ -34,7 +34,7 @@ export default function ProjectQuickPreviewModal({ isActive, onClose, projectId 
 
 	if ( isLoading || !project ) {
 		return html`
-			<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } size="wp-mega-modal">
+			<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } size="is-medium">
 				<div className="py-6">
 					<${Loader} center=${true} size="medium" label=${ __( 'Loading...', 'workpress' ) } />
 				</div>
@@ -43,7 +43,7 @@ export default function ProjectQuickPreviewModal({ isActive, onClose, projectId 
 	}
 
 	return html`
-		<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } footer=${ footer } size="wp-mega-modal">
+		<${Modal} isActive=${ isActive } onClose=${ onClose } title=${ __( 'Quick Preview', 'workpress' ) } footer=${ footer } size="is-medium">
 			<div className="p-2">
 				<div className="mb-4">
 					<h2 className="title is-4 mb-2">${ project.name }</h2>

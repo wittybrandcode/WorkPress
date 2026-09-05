@@ -26,7 +26,7 @@ window.WorkPressPortal = window.WorkPressPortal || {};
         if (!isOpen) return null;
 
         return html`
-            <div class="portal-modal-backdrop" onClick=${onClose}>
+            <div class="portal-modal-backdrop">
                 <div class="portal-report-card" onClick=${e => e.stopPropagation()}>
                     
                     <div class="portal-report-header">

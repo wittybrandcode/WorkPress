@@ -102,9 +102,9 @@ export default function ProjectMembersModal( { isActive, onClose, project } ) {
 				isActive=${ isActive } 
 				onClose=${ onClose } 
 				title=${ project ? sprintf( __( 'Manage Project Members: %s', 'workpress' ), project.name ) : __( 'Manage Members', 'workpress' ) }
-				size="wp-mega-modal"
+				size="is-medium"
 				footer=${html`
-					<button className="button is-text is-small" onClick=${onClose}>${ __( 'Close', 'workpress' ) }</button>
+					<button className="button is-light wp-sharp-button" onClick=${onClose}>${ __( 'Close', 'workpress' ) }</button>
 				`}
 			>
 				<div className="p-4" style=${{ minHeight: '400px' }}>

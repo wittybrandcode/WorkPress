@@ -62,7 +62,7 @@ class WorkPress_REST_Export_Controller extends WP_REST_Controller {
 	 */
 	public function get_export_data( $request ) {
 		if ( ! class_exists( 'WorkPress_Export_Service' ) ) {
-			return new WP_Error( 'export_service_missing', 'WorkPress_Export_Service not found', array( 'status' => 500 ) );
+			return new WP_Error( 'export_service_missing', __( 'WorkPress_Export_Service not found', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		$data = WorkPress_Export_Service::export_all();

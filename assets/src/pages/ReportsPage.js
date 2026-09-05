@@ -4,6 +4,7 @@ import { formatDate } from '../utils/datetime.js';
 import Loader from '../components/ui/Loader.js';
 import ReportModal from '../components/modals/ReportModal.js';
 import ReportFilterBar from '../components/reports/ReportFilterBar.js';
+import Pagination from '../components/ui/Pagination.js';
 import { toast } from '../utils/toast.js';
 import sound from '../utils/sound.js';
 
@@ -191,17 +192,6 @@ export default function ReportsPage( { refreshKey } ) {
 	const endIndex = Math.min( startIndex + itemsPerPage, totalItems );
 	const paginatedData = filteredData.slice( startIndex, endIndex );
 
-	const getPageNumbers = ( current, total ) => {
-		if ( total <= 7 ) return Array.from( { length: total }, ( _, i ) => i + 1 );
-		if ( current <= 4 ) return [ 1, 2, 3, 4, 5, '...', total ];
-		if ( current >= total - 3 ) return [ 1, '...', total - 4, total - 3, total - 2, total - 1, total ];
-		return [ 1, '...', current - 1, current, current + 1, '...', total ];
-	};
-
-	const handleExport = () => {
-		window.print();
-	};
-
 	return html`
 		<div className="reports-page pb-6">
 			<!-- شريط الأدوات والتحليلات الموحد ثلاثي المجالات -->
@@ -224,7 +214,6 @@ export default function ReportsPage( { refreshKey } ) {
 				setSortBy=${ setSortBy }
 				viewMode=${ viewMode }
 				setViewMode=${ setViewMode }
-				onExport=${ handleExport }
 			/>
 
 			${ isLoading ? html`
@@ -513,51 +502,16 @@ export default function ReportsPage( { refreshKey } ) {
 				</div>
 			` }
 
-			<!-- ترقيم الصفحات المتوافق مع كافة المجالات -->
+			<!-- ترقيم الصفحات المتوافق عبر المكون الموحد -->
 			${ ! isLoading && totalItems > 0 && html`
-				<div className="wp-reports-pagination-container">
-					<div className="is-size-7 has-text-grey has-text-weight-semibold">
-						${ sprintf( __( 'Showing %d - %d of %d items', 'workpress' ), startIndex + 1, endIndex, totalItems ) }
-					</div>
-
-					${ totalPages > 1 && html`
-						<div className="wp-pagination-controls">
-							<button
-								type="button"
-								className="wp-pagination-btn"
-								disabled=${ validCurrentPage <= 1 }
-								onClick=${ () => { setCurrentPage( prev => Math.max( 1, prev - 1 ) ); sound.play( 'click' ); } }
-								title=${ __( 'Previous Page', 'workpress' ) }
-							>
-								<i className=${ `dashicons ${ rtl ? 'dashicons-arrow-right-alt2' : 'dashicons-arrow-left-alt2' }` }></i>
-							</button>
-
-							${ getPageNumbers( validCurrentPage, totalPages ).map( ( p, idx ) => {
-								if ( p === '...' ) return html`<span key=${ `el_${ idx }` } className="wp-pagination-ellipsis">…</span>`;
-								return html`
-									<button
-										key=${ `p_${ p }` }
-										type="button"
-										className=${ `wp-pagination-num-btn ${ p === validCurrentPage ? 'is-active' : '' }` }
-										onClick=${ () => { setCurrentPage( p ); sound.play( 'click' ); } }
-									>
-										${ p }
-									</button>
-								`;
-							} ) }
-
-							<button
-								type="button"
-								className="wp-pagination-btn"
-								disabled=${ validCurrentPage >= totalPages }
-								onClick=${ () => { setCurrentPage( prev => Math.min( totalPages, prev + 1 ) ); sound.play( 'click' ); } }
-								title=${ __( 'Next Page', 'workpress' ) }
-							>
-								<i className=${ `dashicons ${ rtl ? 'dashicons-arrow-left-alt2' : 'dashicons-arrow-right-alt2' }` }></i>
-							</button>
-						</div>
-					` }
-				</div>
+				<${Pagination}
+					currentPage=${ validCurrentPage }
+					totalPages=${ totalPages }
+					totalItems=${ totalItems }
+					itemsPerPage=${ itemsPerPage }
+					onPageChange=${ ( p ) => { setCurrentPage( p ); sound.play( 'click' ); } }
+					itemLabel=${ __( 'items', 'workpress' ) }
+				/>
 			` }
 
 			<!-- نافذة التقرير التنفيذي وكتاب المعرفة -->

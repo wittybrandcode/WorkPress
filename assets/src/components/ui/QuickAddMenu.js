@@ -12,6 +12,7 @@ export default function QuickAddMenu({
 	onNewTask,
 	onNewContribution,
 	onNewRequest,
+	onNewBroadcast,
 	isAdmin = false,
 	userCaps = {}
 }) {
@@ -38,36 +39,50 @@ export default function QuickAddMenu({
 	const items = [
 		(isAdmin || userCaps.canManageProjects) && {
 			id: 'project',
-			title: __( 'مشروع جديد', 'workpress' ),
-			subtitle: __( 'إنشاء مساحة عمل ومشروع جديد مع المستهدفات', 'workpress' ),
+			title: __( 'New Project', 'workpress' ),
+			subtitle: __( 'Create a new workspace and project with deliverables', 'workpress' ),
 			icon: 'dashicons-category',
 			action: () => handleAction(onNewProject)
 		},
 		(isAdmin || userCaps.canCreateTasks) && {
 			id: 'task',
-			title: __( 'مهمة جديدة', 'workpress' ),
-			subtitle: __( 'إسناد مهمة جديدة وتحديد المسؤوليات', 'workpress' ),
+			title: __( 'New Task', 'workpress' ),
+			subtitle: __( 'Assign new task and define responsibilities', 'workpress' ),
 			icon: 'dashicons-clipboard',
 			action: () => handleAction(onNewTask)
 		},
+		(isAdmin || userCaps.canManageBroadcasts || true) && {
+			id: 'broadcast',
+			title: __( 'Managerial Directive / Broadcast', 'workpress' ),
+			subtitle: __( 'Publish managerial directive or operational alert to the horizon stream', 'workpress' ),
+			icon: 'dashicons-megaphone',
+			action: () => handleAction(onNewBroadcast ? onNewBroadcast : () => { window.location.hash = '#/broadcasts'; })
+		},
 		{
 			id: 'contribution',
-			title: __( 'مساهمة / حل معتمد', 'workpress' ),
-			subtitle: __( 'إرفاق إنجاز أو توثيق مساهمة للمراجعة والاعتماد', 'workpress' ),
+			title: __( 'Verified Solution / Contribution', 'workpress' ),
+			subtitle: __( 'Attach deliverable or document solution for review and signoff', 'workpress' ),
 			icon: 'dashicons-share-alt2',
 			action: () => handleAction(onNewContribution)
 		},
 		{
 			id: 'request',
-			title: __( 'طلب / مقترح وارد', 'workpress' ),
-			subtitle: __( 'تقديم مقترح أو طلب مشروع جديد للفرز والمعالجة', 'workpress' ),
+			title: __( 'Intake Form Request', 'workpress' ),
+			subtitle: __( 'Submit proposal or new project request for triage', 'workpress' ),
 			icon: 'dashicons-email-alt',
 			action: () => handleAction(onNewRequest ? onNewRequest : () => { window.location.hash = '#/requests'; })
 		},
+		(isAdmin || userCaps.canManageRequests || true) && {
+			id: 'forms',
+			title: __( 'Intake Forms Builder', 'workpress' ),
+			subtitle: __( 'Design and customize intake form templates', 'workpress' ),
+			icon: 'dashicons-forms',
+			action: () => handleAction(() => { window.location.hash = '#/forms'; })
+		},
 		{
 			id: 'knowledge',
-			title: __( 'أصل معرفي / توثيق', 'workpress' ),
-			subtitle: __( 'تدوين درس مستفاد أو حل قياسي في بنك المعرفة', 'workpress' ),
+			title: __( 'Knowledge Asset / Documentation', 'workpress' ),
+			subtitle: __( 'Document lessons learned or benchmark solution in knowledge base', 'workpress' ),
 			icon: 'dashicons-book',
 			action: () => handleAction(() => { window.location.hash = '#/knowledge'; })
 		}
@@ -84,7 +99,7 @@ export default function QuickAddMenu({
 					type="button"
 					className=${`button wp-btn ${isOpen ? 'is-active' : ''}`}
 					onClick=${() => { setIsOpen(!isOpen); sound.play('button'); }}
-					title=${ __( 'Quick Add / إضافة سريعة', 'workpress' ) }
+					title=${ __( 'Quick Add', 'workpress' ) }
 					aria-haspopup="true"
 					style=${{ 
 						height: '30px', 
@@ -102,7 +117,7 @@ export default function QuickAddMenu({
 						<i className="dashicons dashicons-plus-alt2" style=${{ fontSize: '15px' }}></i>
 					</span>
 					<span className="has-text-weight-bold" style=${{ fontSize: '0.78rem' }}>
-						${ __( 'إضافة', 'workpress' ) }
+						${ __( 'Add', 'workpress' ) }
 					</span>
 					<i className="dashicons dashicons-arrow-down-alt2" style=${{ fontSize: '10px', opacity: 0.6, [rtl ? 'marginRight' : 'marginLeft']: '1px' }}></i>
 				</button>
@@ -138,10 +153,10 @@ export default function QuickAddMenu({
 						style=${{ backgroundColor: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}
 					>
 						<span className="has-text-weight-bold" style=${{ fontSize: '0.75rem', color: '#0f172a' }}>
-							${ __( 'إضافة جديدة إلى WorkPress', 'workpress' ) }
+							${ __( 'New addition to WorkPress', 'workpress' ) }
 						</span>
 						<span className="tag is-small" style=${{ borderRadius: 0, height: '18px', fontSize: '0.68rem', backgroundColor: '#f1f5f9', color: '#64748b' }}>
-							${ items.length } ${ __( 'خيارات', 'workpress' ) }
+							${ items.length } ${ __( 'options', 'workpress' ) }
 						</span>
 					</div>
 

@@ -1,5 +1,5 @@
 # 📑 الفهرس المرجعي العام لتوثيق منظومة WorkPress
-## WorkPress Master Documentation & Engineering Architecture Hub (v2.3.0-Stable)
+## WorkPress Master Documentation & Engineering Architecture Hub (v1.0.0-Stable)
 
 > **هذا الملف هو الخريطة المرجعية العليا لكافة وثائق، معمارية، أدلة، ومراجع منظومة WorkPress.**  
 > تم تنظيم وتطهير التوثيق بالكامل في **7 محاور هندسية وتاريخية متخصصة** تمثل المرجع المؤسسي والبرمجي المتكامل للمطورين والمنشآت.  
@@ -12,6 +12,7 @@
 ```
 docs/
 ├── README.md                                         # (أنت هنا) الفهرس المرجعي العام الشامل
+├── RELEASE_READINESS_AND_CLEANUP_AUDIT_REPORT.md      # 📋 تقرير فحص الجاهزية والتطهير الشامل للإصدار v2.5.0-Stable
 │
 ├── 🏛️ core/                                         # 1. النواة التأسيسية والدستور المعماري الدائم
 │   ├── FIRST_PRINCIPLES.md                          # الدستور المعماري الأعلى غير القابل للكسر (المبادئ الـ 21 + الملاحق التكميلية)
@@ -23,9 +24,9 @@ docs/
 │   └── WEBHOOKS_AND_INTEGRATIONS_ARCHITECTURE.md     # ⚡ المعمارية البرمجية الشاملة لمحرك خطافات الويب
 │
 ├── 🔌 api/                                          # 2. مراجع المطورين والـ API للتكامل والتوسع البرمجي
-│   ├── REST_API_REFERENCE.md                        # 🌐 المرجع الكامل لـ 45+ نقطة نهاية REST API والمصادقة ونماذج JSON
+│   ├── REST_API_REFERENCE.md                        # 🌐 المرجع الكامل لـ 50+ نقطة نهاية REST API والمصادقة ونماذج JSON
 │   ├── HOOKS_AND_FILTERS.md                         # 🪝 مرجع كافة الخطافات (do_action) والفلاتر (apply_filters)
-│   └── SERVICES_REFERENCE.md                        # ⚙️ المرجع المعماري لخدمات النواة الـ 17 ودوالها العامة
+│   └── SERVICES_REFERENCE.md                        # ⚙️ المرجع المعماري لخدمات النواة الـ 18 ودوالها العامة
 │
 ├── 📖 guides/                                       # 3. الأدلة التشغيلية ودليل المطور الشامل
 │   ├── DEVELOPER_GUIDE.md                           # 🛠️ دليل المطور، إعداد البيئة، الاختبارات، ومعايير الكود
@@ -70,9 +71,9 @@ docs/
 ---
 
 ### 2. 🔌 مراجع المطورين والـ API (`docs/api/`)
-* [REST_API_REFERENCE.md](api/REST_API_REFERENCE.md): 🌐 **المرجع الكامل والشامل لواجهة الـ REST API** (45+ نقطة نهاية، الترويسات، المصادقة، مصفوفات الصلاحيات، وحمولات JSON).
+* [REST_API_REFERENCE.md](api/REST_API_REFERENCE.md): 🌐 **المرجع الكامل والشامل لواجهة الـ REST API** (50+ نقطة نهاية تشمل النشريات والتنبيهات، الترويسات، المصادقة، مصفوفات الصلاحيات، وحمولات JSON).
 * [HOOKS_AND_FILTERS.md](api/HOOKS_AND_FILTERS.md): 🪝 **مرجع الخطافات والفلاتر البرمجية** لكافة أحداث المهام، المساهمات، المشاريع، ونقاط التعديل.
-* [SERVICES_REFERENCE.md](api/SERVICES_REFERENCE.md): ⚙️ **المرجع المعماري لطبقة الخدمات المركزية الـ 17** ودوالها العامة وعقود تبادل البيانات.
+* [SERVICES_REFERENCE.md](api/SERVICES_REFERENCE.md): ⚙️ **المرجع المعماري لطبقة الخدمات المركزية الـ 18** ودوالها العامة وعقود تبادل البيانات.
 
 ---
 
@@ -94,7 +95,9 @@ docs/
 ---
 
 ### 5. 🛡️ التدقيق والمراجعة المعمارية (`docs/audits/`)
+* [RELEASE_READINESS_AND_CLEANUP_AUDIT_REPORT.md](RELEASE_READINESS_AND_CLEANUP_AUDIT_REPORT.md): 📋 **تقرير التدقيق المعماري وجاهزية الإصدار المستقر v2.5.0-Stable**.
 * [ARCHITECTURE_AND_SECURITY_AUDIT.md](audits/ARCHITECTURE_AND_SECURITY_AUDIT.md): 🔍 **التقرير المعماري والأمني الشامل** ونتائج الفحص الآلي وحزم الاختبارات (100% Pass Rate).
+* [ATOMIC_EXPERT_SYSTEM_AUDIT_REPORT.md](audits/ATOMIC_EXPERT_SYSTEM_AUDIT_REPORT.md): 🔍 **تقرير فحص ومطابقة القدرات والخطافات الذرية**.
 
 ---
 
@@ -104,7 +107,8 @@ docs/
 ---
 
 ### 7. 🗄️ الأرشيف التاريخي للخطط والترقيات (`docs/archive/`)
-* [archive/plans/](archive/plans/): 📁 **الأرشيف التاريخي للخطط التنفيذية المكتملة بنجاح**، متضمناً خطة التدقيق الذري الشامل، خطة التدويل والتعريب الكبرى، وخطة تطوير التقارير والمساهمات ومعمارية أشرطة الأدوات الموحدة.
+* [archive/plans/](archive/plans/): 📁 **الأرشيف التاريخي للخطط التنفيذية المكتملة بنجاح**، متضمناً خطة محرك النشريات، خطة التدويل والتوطين الرباعي الشامل، خطة تدقيق دورة العمليات CRUD، وخطة التحصين الذري للقدرات.
 
 ---
-*تم تنقيح وبناء هذا التوثيق ليمثل المرجع الهندسي القياسي لـ WorkPress v2.3.0-Stable.*
+*تم تنقيح وبناء هذا التوثيق ليمثل المرجع الهندسي القياسي لـ WorkPress v1.0.0-Stable.*
+

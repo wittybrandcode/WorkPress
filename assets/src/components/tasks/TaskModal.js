@@ -23,7 +23,8 @@ export default function TaskModal( { isActive, onClose, onSave, onSaved, task = 
 	const priorityOptions = [
 		{ value: 'low', label: __( 'Low', 'workpress' ) },
 		{ value: 'medium', label: __( 'Medium', 'workpress' ) },
-		{ value: 'high', label: __( 'High', 'workpress' ) }
+		{ value: 'high', label: __( 'High', 'workpress' ) },
+		{ value: 'urgent', label: __( 'Urgent', 'workpress' ) }
 	];
 
 	useEffect( () => {

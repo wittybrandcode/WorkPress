@@ -35,13 +35,40 @@ $auth_config = array(
 	'redirectTo'       => $redirect_to,
 	'initialView'      => $initial_view,
 	'loggedOutMessage' => $logged_out,
+	'i18n'             => array(
+		'Sign In' => __( 'Sign In', 'workpress' ),
+		'Password Recovery' => __( 'Password Recovery', 'workpress' ),
+		'Lost your password?' => __( 'Lost your password?', 'workpress' ),
+		'Welcome back, please enter your credentials to continue' => __( 'Welcome back, please enter your credentials to continue', 'workpress' ),
+		'Enter your email or username to reset your password' => __( 'Enter your email or username to reset your password', 'workpress' ),
+		'Username or Email' => __( 'Username or Email', 'workpress' ),
+		'Password' => __( 'Password', 'workpress' ),
+		'Account username or email@domain.com' => __( 'Account username or email@domain.com', 'workpress' ),
+		'Remember Me' => __( 'Remember Me', 'workpress' ),
+		'Hide password' => __( 'Hide password', 'workpress' ),
+		'Show password' => __( 'Show password', 'workpress' ),
+		'Verifying credentials...' => __( 'Verifying credentials...', 'workpress' ),
+		'Access Workspace' => __( 'Access Workspace', 'workpress' ),
+		'Email or Username' => __( 'Email or Username', 'workpress' ),
+		'Enter your registered email' => __( 'Enter your registered email', 'workpress' ),
+		'Sending request...' => __( 'Sending request...', 'workpress' ),
+		'Send password reset link' => __( 'Send password reset link', 'workpress' ),
+		'Return to main website' => __( 'Return to main website', 'workpress' ),
+		'WorkPress Engine v2.0' => __( 'WorkPress Engine v2.0', 'workpress' ),
+		'You have been successfully and securely logged out.' => __( 'You have been successfully and securely logged out.', 'workpress' ),
+		'Verified successfully! Redirecting to workspace...' => __( 'Verified successfully! Redirecting to workspace...', 'workpress' ),
+		'Invalid login credentials, please try again.' => __( 'Invalid login credentials, please try again.', 'workpress' ),
+		'Could not connect to server, please check connection and try again.' => __( 'Could not connect to server, please check connection and try again.', 'workpress' ),
+		'If that account exists, a confirmation link has been sent to your email.' => __( 'If that account exists, a confirmation link has been sent to your email.', 'workpress' ),
+		'Failed to send recovery request, please contact site administration.' => __( 'Failed to send recovery request, please contact site administration.', 'workpress' ),
+	),
 );
 ?><!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="<?php echo esc_attr( get_bloginfo( 'language' ) ); ?>" dir="<?php echo is_rtl() ? 'rtl' : 'ltr'; ?>">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><?php echo esc_html( $site_name ); ?> — تسجيل الدخول الموحد | WorkPress</title>
+    <title><?php echo esc_html( sprintf( __( '%1$s — Unified Sign In | %2$s', 'workpress' ), $site_name ? $site_name : 'WorkPress', 'WorkPress' ) ); ?></title>
 
     <link rel="icon" type="image/svg+xml" href="<?php echo esc_url( $favicon_url ); ?>">
 
@@ -69,18 +96,18 @@ $auth_config = array(
         <noscript>
             <div class="wp-auth-container">
                 <div class="wp-auth-card">
-                    <h1 class="wp-auth-title" style="margin-bottom: 1rem;">تسجيل الدخول</h1>
+                    <h1 class="wp-auth-title" style="margin-bottom: 1rem;"><?php esc_html_e( 'Sign In', 'workpress' ); ?></h1>
                     <form method="post" action="<?php echo esc_url( site_url( 'wp-login.php', 'login_post' ) ); ?>">
                         <div class="wp-auth-group">
-                            <label class="wp-auth-label">اسم المستخدم أو البريد</label>
+                            <label class="wp-auth-label"><?php esc_html_e( 'Username or Email', 'workpress' ); ?></label>
                             <input type="text" name="log" class="wp-auth-input" required />
                         </div>
                         <div class="wp-auth-group">
-                            <label class="wp-auth-label">كلمة المرور</label>
+                            <label class="wp-auth-label"><?php esc_html_e( 'Password', 'workpress' ); ?></label>
                             <input type="password" name="pwd" class="wp-auth-input" required />
                         </div>
                         <input type="hidden" name="redirect_to" value="<?php echo esc_attr( $redirect_to ? $redirect_to : admin_url( 'admin.php?page=workpress#/' ) ); ?>" />
-                        <button type="submit" class="wp-auth-btn">تسجيل الدخول</button>
+                        <button type="submit" class="wp-auth-btn"><?php esc_html_e( 'Sign In', 'workpress' ); ?></button>
                     </form>
                 </div>
             </div>

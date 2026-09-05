@@ -21,13 +21,25 @@ export default function RequestConversionModal({
 
 	return html`
 		<div className="modal is-active">
-			<div className="modal-background" onClick=${() => setApprovingProject( null )}></div>
-			<div className="modal-card" style=${{ maxWidth: '560px' }}>
-				<header className="modal-card-head" style=${{ backgroundColor: '#1e293b' }}>
-					<p className="modal-card-title has-text-white is-size-6 has-text-weight-bold">
+			<!-- Non-clickable backdrop strictly preventing accidental loss of user work -->
+			<div className="modal-background"></div>
+			<div className="modal-card is-medium" style=${{ maxWidth: '560px' }}>
+				<header className="modal-card-head">
+					<p className="modal-card-title has-text-weight-bold">
 						${ __( 'Approve & Initialize Project Workspace', 'workpress' ) }
 					</p>
-					<button className="delete" aria-label="close" onClick=${() => setApprovingProject( null )}></button>
+					<button 
+						type="button"
+						className="wp-modal-close-btn" 
+						aria-label=${ __( 'Close', 'workpress' ) } 
+						title=${ __( 'Close', 'workpress' ) } 
+						onClick=${() => setApprovingProject( null )}
+					>
+						<svg viewBox="0 0 24 24" width="16" height="16">
+							<line x1="18" y1="6" x2="6" y2="18"></line>
+							<line x1="6" y1="6" x2="18" y2="18"></line>
+						</svg>
+					</button>
 				</header>
 
 				<section className="modal-card-body p-5">

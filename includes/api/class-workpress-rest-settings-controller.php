@@ -118,6 +118,10 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 			'favicon_url'           => get_option( 'workpress_custom_favicon_url', '' ),
 			'favicon_effective_url' => self::get_custom_favicon_url(),
 			'default_favicon_url'   => WORKPRESS_URL . 'assets/brand/favicon.svg',
+			'broadcast_notice'      => get_option( 'workpress_broadcast_notice', array(
+				'enabled' => true,
+				'text'    => __( 'Welcome to WorkPress — please document your achievements via contributions and keep tasks updated.', 'workpress' )
+			) ),
 		) );
 	}
 
@@ -254,6 +258,14 @@ class WorkPress_REST_Settings_Controller extends WP_REST_Controller {
 
 		if ( isset( $params['favicon_url'] ) ) {
 			update_option( 'workpress_custom_favicon_url', esc_url_raw( $params['favicon_url'] ) );
+		}
+
+		if ( isset( $params['broadcast_notice'] ) && is_array( $params['broadcast_notice'] ) ) {
+			$broadcast = array(
+				'enabled' => ! empty( $params['broadcast_notice']['enabled'] ),
+				'text'    => sanitize_text_field( $params['broadcast_notice']['text'] ?? '' ),
+			);
+			update_option( 'workpress_broadcast_notice', $broadcast );
 		}
 
 		return $this->get_settings( $request );

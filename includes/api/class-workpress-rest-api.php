@@ -34,6 +34,7 @@ class WorkPress_REST_API {
 		require_once WORKPRESS_PATH . 'includes/api/class-workpress-rest-export-controller.php';
 		require_once WORKPRESS_PATH . 'includes/api/class-workpress-rest-portal-controller.php';
 		require_once WORKPRESS_PATH . 'includes/api/class-workpress-rest-report-controller.php';
+		require_once WORKPRESS_PATH . 'includes/api/class-workpress-rest-broadcasts-controller.php';
 		require_once WORKPRESS_PATH . 'includes/api/class-workpress-rest-webhooks-controller.php';
 
 		$projects_controller = new WorkPress_REST_Projects_Controller();
@@ -71,6 +72,9 @@ class WorkPress_REST_API {
 
 		$report_controller = new WorkPress_REST_Report_Controller();
 		$report_controller->register_routes();
+
+		$broadcasts_controller = new WorkPress_REST_Broadcasts_Controller();
+		$broadcasts_controller->register_routes();
 
 		$webhooks_controller = new WorkPress_REST_Webhooks_Controller();
 		$webhooks_controller->register_routes();

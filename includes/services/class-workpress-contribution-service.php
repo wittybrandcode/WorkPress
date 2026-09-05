@@ -316,7 +316,7 @@ class WorkPress_Contribution_Service {
 			WorkPress_Hooks::fire_contribution_created( $comment_id, $task_id, $user_id );
 		}
 
-		if ( class_exists( 'WorkPress_Task_Service' ) ) {
+		if ( ! in_array( $type, array( 'state_change', 'trash_request' ), true ) && class_exists( 'WorkPress_Task_Service' ) ) {
 			WorkPress_Task_Service::derive_and_sync_task_state( $task_id );
 		}
 
@@ -731,6 +731,7 @@ class WorkPress_Contribution_Service {
 			'type'              => $type,
 			'type_label'        => isset( $type_labels[ $type ] ) ? $type_labels[ $type ] : $type,
 			'is_accepted'       => $is_accepted,
+			'is_solution'       => $is_accepted,
 			'can_accept'        => $can_accept,
 			'accepted_by'       => (int) get_comment_meta( $comment->comment_ID, '_workpress_accepted_by', true ),
 			'accepted_at'       => get_comment_meta( $comment->comment_ID, '_workpress_accepted_at', true ),

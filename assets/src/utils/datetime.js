@@ -5,6 +5,8 @@
  * and Maghrebi month naming conventions with WordPress timezone support.
  */
 
+import { __, sprintf } from './i18n.js';
+
 export const MONTH_NAMES = {
 	maghrebi: [
 		'جانفي', 'فيفري', 'مارس', 'أفريل', 'ماي', 'جوان',
@@ -230,25 +232,23 @@ export function formatRelativeTime( dateInput, options = {} ) {
 
 	// If in the future or within 30 seconds
 	if ( diffInSeconds < 30 && diffInSeconds >= -30 ) {
-		return 'الآن';
+		return __( 'Just now', 'workpress' );
 	}
 
 	// Within 1 hour
 	if ( diffInSeconds >= 30 && diffInSeconds < 3600 ) {
 		const minutes = Math.floor( diffInSeconds / 60 );
-		if ( minutes <= 1 ) return 'منذ دقيقة';
-		if ( minutes === 2 ) return 'منذ دقيقتين';
-		if ( minutes >= 3 && minutes <= 10 ) return `منذ ${ minutes } دقائق`;
-		return `منذ ${ minutes } دقيقة`;
+		if ( minutes <= 1 ) return __( '1 minute ago', 'workpress' );
+		if ( minutes === 2 ) return __( '2 minutes ago', 'workpress' );
+		return sprintf( __( '%d minutes ago', 'workpress' ), minutes );
 	}
 
 	// Within 24 hours
 	if ( diffInSeconds >= 3600 && diffInSeconds < 86400 ) {
 		const hours = Math.floor( diffInSeconds / 3600 );
-		if ( hours === 1 ) return 'منذ ساعة';
-		if ( hours === 2 ) return 'منذ ساعتين';
-		if ( hours >= 3 && hours <= 10 ) return `منذ ${ hours } ساعات`;
-		return `منذ ${ hours } ساعة`;
+		if ( hours === 1 ) return __( '1 hour ago', 'workpress' );
+		if ( hours === 2 ) return __( '2 hours ago', 'workpress' );
+		return sprintf( __( '%d hours ago', 'workpress' ), hours );
 	}
 
 	// Yesterday
@@ -257,12 +257,12 @@ export function formatRelativeTime( dateInput, options = {} ) {
 	if ( date.getDate() === yesterday.getDate() &&
 		date.getMonth() === yesterday.getMonth() &&
 		date.getFullYear() === yesterday.getFullYear() ) {
-		return `أمس في ${ formatTime( date ) }`;
+		return sprintf( __( 'Yesterday at %s', 'workpress' ), formatTime( date ) );
 	}
 
 	// Within this calendar year
 	if ( date.getFullYear() === now.getFullYear() ) {
-		return `${ date.getDate() } ${ getMonthName( date.getMonth(), options.monthNaming ) } في ${ formatTime( date ) }`;
+		return sprintf( __( '%1$s %2$s at %3$s', 'workpress' ), date.getDate(), getMonthName( date.getMonth(), options.monthNaming ), formatTime( date ) );
 	}
 
 	// Older years
@@ -399,13 +399,13 @@ export function formatDetailedDuration( fromDate, toDate = new Date() ) {
 
 	const parts = [];
 	if ( years > 0 ) {
-		parts.push( `${ years } سنة` );
+		parts.push( sprintf( __( '%d yr', 'workpress' ), years ) );
 	}
 	if ( months > 0 ) {
-		parts.push( `${ months } أشهر` );
+		parts.push( sprintf( __( '%d mo', 'workpress' ), months ) );
 	}
 	if ( days > 0 || ( years === 0 && months === 0 ) ) {
-		parts.push( `${ days } يوما` );
+		parts.push( sprintf( __( '%d d', 'workpress' ), days ) );
 	}
 	parts.push( timePart );
 

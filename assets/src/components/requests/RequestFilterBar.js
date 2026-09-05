@@ -170,6 +170,27 @@ export default function RequestFilterBar({
 				<i className="dashicons dashicons-list-view" style=${{ fontSize: '15px', width: '15px', height: '15px' }}></i>
 			</button>
 		</div>
+
+		<!-- Intake Forms Builder Direct Link -->
+		<a
+			href="#/forms"
+			className="button wp-btn ml-1"
+			title=${ __( 'Intake Forms Builder', 'workpress' ) }
+			style=${{
+				height: '28px',
+				padding: '0 8px',
+				fontSize: '0.78rem',
+				gap: '4px',
+				display: 'inline-flex',
+				alignItems: 'center',
+				borderRadius: 0,
+				border: '1px solid #cbd5e1',
+				textDecoration: 'none'
+			}}
+		>
+			<i className="dashicons dashicons-forms" style=${{ fontSize: '14px', width: '14px', height: '14px' }}></i>
+			<span className="has-text-weight-bold">${ __( 'Intake Forms', 'workpress' ) }</span>
+		</a>
 	`;
 
 	return html`

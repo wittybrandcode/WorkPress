@@ -36,6 +36,9 @@ export default function ProjectDetailPage( { projectId: propProjectId, refreshKe
 			setProject( projData );
 			setMembers( membersData );
 			setTasks( tasksData );
+			if ( projData && ( projData.name || projData.title ) ) {
+				window.dispatchEvent( new CustomEvent( 'workpress_page_title', { detail: { title: projData.name || projData.title } } ) );
+			}
 		}).catch( err => {
 			console.error( err );
 			toast( __( 'Failed to load workspace data', 'workpress' ), 'danger' );

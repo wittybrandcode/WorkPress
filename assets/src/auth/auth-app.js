@@ -20,6 +20,10 @@
     const { h, render, Component } = window.preact;
     const html = window.htm.bind(h);
     const config = window.workpressAuthConfig || {};
+    const i18n = config.i18n || {};
+    function __(key) {
+        return (i18n && i18n[key]) || key;
+    }
 
     /**
      * Official WorkPress Brand Vector Logo (SVG)
@@ -66,7 +70,7 @@
                 lostUser: '',
                 loading: false,
                 errorMessage: config.errorMessage || '',
-                successMessage: config.loggedOutMessage ? 'تم تسجيل خروجك بنجاح وأمان.' : ''
+                successMessage: config.loggedOutMessage ? __('You have been successfully and securely logged out.') : ''
             };
         }
 
@@ -96,7 +100,7 @@
                 if (res.ok && data.success) {
                     this.setState({
                         loading: false,
-                        successMessage: 'تم التحقق بنجاح! جاري التوجيه إلى مساحة العمل...'
+                        successMessage: __('Verified successfully! Redirecting to workspace...')
                     });
 
                     // Resolve smart landing target or fallback
@@ -112,13 +116,13 @@
                 } else {
                     this.setState({
                         loading: false,
-                        errorMessage: data.message || 'بيانات الدخول غير صحيحة، يرجى المحاولة ثانية.'
+                        errorMessage: data.message || __('Invalid login credentials, please try again.')
                     });
                 }
             } catch (err) {
                 this.setState({
                     loading: false,
-                    errorMessage: 'تعذر الاتصال بالخادم، يرجى التأكد من اتصالك والمحاولة ثانية.'
+                    errorMessage: __('Could not connect to server, please check connection and try again.')
                 });
             }
         }
@@ -142,12 +146,12 @@
                 // Standard WP LostPassword always responds with status
                 this.setState({
                     loading: false,
-                    successMessage: 'إذا كان البريد أو اسم المستخدم مسجلاً، فقد تم إرسال رابط تأكيد الاستعادة إلى بريدك الإلكتروني.'
+                    successMessage: __('If that account exists, a confirmation link has been sent to your email.')
                 });
             } catch (err) {
                 this.setState({
                     loading: false,
-                    errorMessage: 'فشل إرسال طلب الاستعادة، يرجى التواصل مع إدارة الموقع.'
+                    errorMessage: __('Failed to send recovery request, please contact site administration.')
                 });
             }
         }
@@ -167,10 +171,10 @@
                                 </a>
                             </div>
                             <h1 class="wp-auth-title">
-                                ${activeTab === 'login' ? 'تسجيل الدخول' : 'استعادة كلمة المرور'}
+                                ${activeTab === 'login' ? __('Sign In') : __('Password Recovery')}
                             </h1>
                             <p class="wp-auth-subtitle">
-                                ${activeTab === 'login' ? 'مرحباً بك، يرجى إدخال بيانات الدخول للمتابعة' : 'أدخل بريدك الإلكتروني أو اسم المستخدم لإعادة تعيين كلمة المرور'}
+                                ${activeTab === 'login' ? __('Welcome back, please enter your credentials to continue') : __('Enter your email or username to reset your password')}
                             </p>
                         </div>
 
@@ -182,7 +186,7 @@
                                 onClick=${() => this.setState({ activeTab: 'login', errorMessage: '', successMessage: '' })}
                             >
                                 <i class="dashicons dashicons-lock" style="font-size: 16px; margin-left: 4px;"></i>
-                                <span>تسجيل الدخول</span>
+                                <span>${__('Sign In')}</span>
                             </button>
                             <button 
                                 type="button" 
@@ -190,7 +194,7 @@
                                 onClick=${() => this.setState({ activeTab: 'lostpassword', errorMessage: '', successMessage: '' })}
                             >
                                 <i class="dashicons dashicons-unlock" style="font-size: 16px; margin-left: 4px;"></i>
-                                <span>نسيت كلمة المرور؟</span>
+                                <span>${__('Lost your password?')}</span>
                             </button>
                         </div>
 
@@ -213,14 +217,14 @@
                         ${activeTab === 'login' && html`
                             <form onSubmit=${this.handleLoginSubmit.bind(this)}>
                                 <div class="wp-auth-group">
-                                    <label class="wp-auth-label">اسم المستخدم أو البريد الإلكتروني</label>
+                                    <label class="wp-auth-label">${__('Username or Email')}</label>
                                     <div class="wp-auth-input-wrapper">
                                         <input 
                                             type="text" 
                                             class="wp-auth-input" 
                                             value=${username} 
                                             onInput=${e => this.setState({ username: e.target.value })} 
-                                            placeholder="اسم الحساب أو email@domain.com"
+                                            placeholder="${__('Account username or email@domain.com')}"
                                             required 
                                             autoFocus 
                                             disabled=${loading}
@@ -229,7 +233,7 @@
                                 </div>
 
                                 <div class="wp-auth-group">
-                                    <label class="wp-auth-label">كلمة المرور</label>
+                                    <label class="wp-auth-label">${__('Password')}</label>
                                     <div class="wp-auth-input-wrapper">
                                         <input 
                                             type="${showPassword ? 'text' : 'password'}" 
@@ -244,7 +248,7 @@
                                             type="button" 
                                             class="wp-auth-toggle-pass"
                                             onClick=${() => this.setState({ showPassword: !showPassword })}
-                                            title="${showPassword ? 'إخفاء كلمة المرور' : 'إظهار كلمة المرور'}"
+                                            title="${showPassword ? __('Hide password') : __('Show password')}"
                                         >
                                             <i class="dashicons ${showPassword ? 'dashicons-hidden' : 'dashicons-visibility'}" style="font-size: 18px;"></i>
                                         </button>
@@ -259,7 +263,7 @@
                                             checked=${remember} 
                                             onChange=${e => this.setState({ remember: e.target.checked })} 
                                         />
-                                        <span>تذكر بيانات دخولي</span>
+                                        <span>${__('Remember Me')}</span>
                                     </label>
 
                                     <button 
@@ -267,7 +271,7 @@
                                         style="background: none; border: none; color: var(--wp-primary); font-size: 0.82rem; font-weight: 700; cursor: pointer;"
                                         onClick=${() => this.setState({ activeTab: 'lostpassword', errorMessage: '', successMessage: '' })}
                                     >
-                                        فقدت كلمة المرور؟
+                                        ${__('Lost your password?')}
                                     </button>
                                 </div>
 
@@ -278,10 +282,10 @@
                                 >
                                     ${loading ? html`
                                         <div class="wp-auth-spinner"></div>
-                                        <span>جاري التحقق والمصادقة...</span>
+                                        <span>${__('Verifying credentials...')}</span>
                                     ` : html`
                                         <i class="dashicons dashicons-yes-alt"></i>
-                                        <span>دخول مساحة العمل</span>
+                                        <span>${__('Access Workspace')}</span>
                                     `}
                                 </button>
                             </form>
@@ -291,14 +295,14 @@
                         ${activeTab === 'lostpassword' && html`
                             <form onSubmit=${this.handleLostPasswordSubmit.bind(this)}>
                                 <div class="wp-auth-group">
-                                    <label class="wp-auth-label">البريد الإلكتروني أو اسم المستخدم</label>
+                                    <label class="wp-auth-label">${__('Email or Username')}</label>
                                     <div class="wp-auth-input-wrapper">
                                         <input 
                                             type="text" 
                                             class="wp-auth-input" 
                                             value=${lostUser} 
                                             onInput=${e => this.setState({ lostUser: e.target.value })} 
-                                            placeholder="أدخل بريدك الإلكتروني المسجل"
+                                            placeholder="${__('Enter your registered email')}"
                                             required 
                                             autoFocus 
                                             disabled=${loading}
@@ -314,10 +318,10 @@
                                 >
                                     ${loading ? html`
                                         <div class="wp-auth-spinner"></div>
-                                        <span>جاري إرسال الطلب...</span>
+                                        <span>${__('Sending request...')}</span>
                                     ` : html`
                                         <i class="dashicons dashicons-email-alt"></i>
-                                        <span>إرسال رابط استعادة كلمة المرور</span>
+                                        <span>${__('Send password reset link')}</span>
                                     `}
                                 </button>
                             </form>
@@ -327,10 +331,10 @@
                         <div class="wp-auth-footer">
                             <a href="${config.siteUrl || '/'}" class="wp-auth-back-link">
                                 <i class="dashicons dashicons-arrow-right-alt"></i>
-                                <span>العودة للموقع الرئيسي</span>
+                                <span>${__('Return to main website')}</span>
                             </a>
 
-                            <span>WorkPress Engine v2.0</span>
+                            <span>${__('WorkPress Engine v2.0')}</span>
                         </div>
 
                     </div>

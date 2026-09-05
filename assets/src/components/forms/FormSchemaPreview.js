@@ -12,13 +12,25 @@ export default function FormSchemaPreview({
 
 	return html`
 		<div className="modal is-active">
-			<div className="modal-background" onClick=${onClose}></div>
-			<div className="modal-card" style=${{ maxWidth: '780px', width: '90%' }}>
-				<header className="modal-card-head" style=${{ backgroundColor: '#0f172a', color: '#ffffff' }}>
-					<p className="modal-card-title has-text-white is-size-6 has-text-weight-bold">
+			<!-- Non-clickable backdrop strictly preventing accidental loss of user work -->
+			<div className="modal-background"></div>
+			<div className="modal-card is-large" style=${{ maxWidth: '780px', width: '90%' }}>
+				<header className="modal-card-head">
+					<p className="modal-card-title has-text-weight-bold">
 						${ __( 'Live Preview: How this form looks to clients in the portal (/portal/#/new-request)', 'workpress' ) }
 					</p>
-					<button className="delete" aria-label="close" onClick=${onClose}></button>
+					<button 
+						type="button"
+						className="wp-modal-close-btn" 
+						aria-label=${ __( 'Close', 'workpress' ) } 
+						title=${ __( 'Close', 'workpress' ) } 
+						onClick=${ onClose }
+					>
+						<svg viewBox="0 0 24 24" width="16" height="16">
+							<line x1="18" y1="6" x2="6" y2="18"></line>
+							<line x1="6" y1="6" x2="18" y2="18"></line>
+						</svg>
+					</button>
 				</header>
 				<section className="modal-card-body" style=${{ backgroundColor: '#0a0e17', color: '#f8fafc', padding: '2rem' }}>
 					<div style=${{ border: '1px solid rgba(255,255,255,0.1)', padding: '1.5rem', backgroundColor: 'rgba(15,23,42,0.8)' }}>

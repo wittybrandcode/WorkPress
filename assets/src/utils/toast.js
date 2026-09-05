@@ -1,4 +1,5 @@
 import sound from './sound.js';
+import { __, sprintf, isRtl } from './i18n.js';
 
 /**
  * WorkPress World-Class Central Actionable Decision & Toast Engine
@@ -24,7 +25,7 @@ function ensureContainer() {
 	if ( ! toastContainer || ! document.body.contains( toastContainer ) ) {
 		toastContainer = document.createElement( 'div' );
 		toastContainer.className = 'wp-toast-deck-container';
-		toastContainer.setAttribute( 'dir', 'rtl' );
+		toastContainer.setAttribute( 'dir', isRtl() ? 'rtl' : 'ltr' );
 		document.body.appendChild( toastContainer );
 	}
 }
@@ -52,7 +53,7 @@ function updateDismissAllButton() {
 		
 		const innerBtn = dismissAllBtn.querySelector( 'button' );
 		if ( innerBtn ) {
-			innerBtn.innerHTML = `<i class="dashicons dashicons-no-alt"></i> <span>إغلاق الكل (${ activeToasts.size })</span>`;
+			innerBtn.innerHTML = `<i class="dashicons dashicons-no-alt"></i> <span>${ sprintf( __( 'Close All (%d)', 'workpress' ), activeToasts.size ) }</span>`;
 		}
 	} else if ( dismissAllBtn ) {
 		if ( dismissAllBtn.parentNode ) {
@@ -133,7 +134,7 @@ export function toast( message, typeOrOptions = 'info', durationOrOptions = 3500
 		actionEl.className = 'wp-toast-action-btn';
 		actionEl.href = options.action.url || '#';
 		const actIcon = options.action.icon || 'dashicons-admin-links';
-		actionEl.innerHTML = `<i class="dashicons ${ actIcon }"></i> <span>${ options.action.label || 'انتقال' }</span>`;
+		actionEl.innerHTML = `<i class="dashicons ${ actIcon }"></i> <span>${ options.action.label || __( 'Navigate', 'workpress' ) }</span>`;
 		
 		actionEl.onclick = ( e ) => {
 			if ( ! options.action.url || options.action.url === '#' ) e.preventDefault();
@@ -188,7 +189,7 @@ export function toast( message, typeOrOptions = 'info', durationOrOptions = 3500
 		const closeBtn = document.createElement( 'button' );
 		closeBtn.type = 'button';
 		closeBtn.className = 'wp-toast-close-btn';
-		closeBtn.setAttribute( 'title', 'إغلاق الإشعار' );
+		closeBtn.setAttribute( 'title', __( 'Dismiss notification', 'workpress' ) );
 		closeBtn.innerHTML = '<i class="dashicons dashicons-no-alt"></i>';
 		closeBtn.onclick = ( e ) => {
 			e.stopPropagation();

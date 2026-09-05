@@ -12,7 +12,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v2.3.0--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
+  <a href="https://github.com/wittybrandcode/WorkPress/releases"><img src="https://img.shields.io/badge/Release-v1.0.0--Stable-10b981?style=for-the-badge&logo=git&logoColor=white" alt="Release" /></a>
+  <a href="#"><img src="https://img.shields.io/badge/Languages-AR%20|%20EN%20|%20FR%20|%20ES-2563eb?style=for-the-badge&logo=translate&logoColor=white" alt="Multilingual 4 Languages" /></a>
   <a href="https://wordpress.org/"><img src="https://img.shields.io/badge/WordPress-6.0%20➔%207.x-21759b?style=for-the-badge&logo=wordpress&logoColor=white" alt="WordPress" /></a>
   <a href="https://php.net/"><img src="https://img.shields.io/badge/PHP-8.0%20➔%208.3-777bb4?style=for-the-badge&logo=php&logoColor=white" alt="PHP" /></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-GPLv2-00192f?style=for-the-badge" alt="License" /></a>
@@ -108,16 +109,18 @@
 
 ## 🚀 High-Density Productive Engines
 
-1. **Ultra-Dense Kanban Studio:** 220px cover cards, distinct project badge row, compact footer with priority chips, time badges, and assignee avatars with smooth drag-and-drop.
+1. **Ultra-Dense Kanban Studio:** 220px cover cards, distinct project badge row, compact footer with priority chips, time badges, dynamic loaded/total lane ratio (`20 / 114` -> `114 / 114`), and end-of-lane stop indicators.
 2. **Master Gantt Suite:** 4 time scales (24h live day, full days, weeks, months), a pulsating Live Current Time Needle, and one-click `[ Expand All ]` & `[ Collapse All ]` tree controls.
-3. **Knowledge Base & Book Generator:** Automatic indexing of accepted solutions, full-text search, and one-click export to comprehensive **Markdown (.md) knowledge books** and **A4 PDF handover certificates**.
-4. **Project Cold Storage (Hibernation Engine):** Automatic freezing (`status: frozen`) when a client is demoted, and instant thawing upon reactivation to protect proprietary assets.
-5. **Precision Time Tracker:** Session tracker with quick increment chips `[ +15m ]` `[ +30m ]` `[ +1h ]` `[ +2h ]` `[ +4h ]` and a sticky action header for long task views.
-6. **Web Audio Sound Suite:** Pure sine, acoustic grand piano, and tactile ASMR mechanical feedback with a granular event matrix and undoable action toasts.
+3. **Live Horizon Broadcasts & Operational Alerts:** Real-time event ticker with bounded vertical emergence, solid color priority badges, executive 30px navigation controls, and dedicated management directives hub (`BroadcastsPage.js`).
+4. **Universal 4-Language Localization Engine:** 100% parity across Arabic, English, French, and Spanish with instant reactive DOM flipping (`LanguageQuickMenu.js`) and 2,269 synchronized canonical gettext keys.
+5. **Knowledge Base & Book Generator:** Automatic indexing of accepted solutions, full-text search, and one-click export to comprehensive **Markdown (.md) knowledge books** and **A4 PDF handover certificates**.
+6. **Project Cold Storage (Hibernation Engine):** Automatic freezing (`status: frozen`) when a client is demoted, and instant thawing upon reactivation to protect proprietary assets.
+7. **Precision Time Tracker:** Session tracker with quick increment chips `[ +15m ]` `[ +30m ]` `[ +1h ]` `[ +2h ]` `[ +4h ]` and a sticky action header for long task views.
+8. **Web Audio Sound Suite:** Pure sine, acoustic grand piano, and tactile ASMR mechanical feedback with a granular event matrix and undoable action toasts.
 
 ---
 
-## ⚙️ 17 Backend Core Services
+## ⚙️ 18 Backend Core Services
 
 | Service Class | Responsibility |
 | :--- | :--- |
@@ -126,6 +129,7 @@
 | `WorkPress_Contribution_Service` | Evidence recording, pending deletion requests, and solution acceptance |
 | `WorkPress_Knowledge_Service` | Extraction of accepted solutions, markdown book generation, and search indexing |
 | `WorkPress_Portal_Service` | Client portal workspace, deliverable feedback, and digital sign-offs |
+| `WorkPress_Broadcast_Service` | Live horizon event streams, management directives, automated operational alerts, and ticker sync |
 | `WorkPress_Webhook_Service` | HMAC-SHA256 signature generation and Discord/Slack/Teams dispatchers |
 | `WorkPress_Hibernation_Service` | Automatic freezing and thawing of client projects upon role changes |
 | `WorkPress_Membership_Service` | Project membership verification, lead checks, and client email matching |
@@ -231,42 +235,46 @@
 
 ## 🚀 منظومة المحركات الإنتاجية المدمجة (High-Density Productive Engines)
 
-### 1. لوحة الكانبان فائقة الكثافة (Ultra-Dense Kanban Studio)
+### 1. لوحة الكانبان فائقة الكثافة ومؤشر التحميل (Kanban Studio & Ratio)
 - بطاقات مهام غنية بأغلفة بارزة بارتفاع **220px** وزوايا حادة **0px**.
 - سطر مستقل للمشروع المنتمي مع أيقونة المحفظة، وشريط أدوات سفلي متراص يضم شارات الأولوية والحالة وعدادات الوقت وتكليفات الأعضاء.
-- سحب وإفلات تفاعلي سلس مع تحديث فوري للحالات وسجل التدقيق.
+- **مؤشر نسبة المهام المحملة ومصد التوقف:** شارة ديناميكية لعدد المهام المعروضة مقابل الإجمالي (`20 / 114` ➔ `114 / 114`) مع علامة الإنجاز الزمردية (`✓`) ومصد القاع لمنع التكرار العبثي للطلبات.
 
-### 2. مخطط جانت والجدولة الزمنية المؤسسية (Master Gantt Suite)
+### 2. محرك النشريات والتنبيهات التشغيلية الحية (Live Horizon Broadcasts)
+- **شريط التنبيهات المدمج (`BroadcastTicker`):** حركة بزوغ عمودية مقيدة، شارات أولوية ملونة مصمتة (`Solid Fill`)، وأزرار تنقل متناسقة بمقاس `30px` مطابقة تماماً لزر الإضافة السريع.
+- **مركز النشريات المتكامل (`BroadcastsPage`):** أفق تشغيلي حي، كشف للمهام الحرجة، توجيهات الإدارة، ومودال تفاصيل تفاعلي.
+
+### 3. محرك التدويل وتعدد اللغات الفوري (Universal 4-Language i18n Engine)
+- تطابق كامل 100% بين **4 لغات معتمدة** (العربية، الإنجليزية، الفرنسية، الإسبانية) بـ **2,269 مفتاحاً معيارياً**.
+- مبدل لغات فوري (`LanguageQuickMenu`) مع دعم التبديل الآني للاتجاه (`RTL/LTR`) والخطوط عبر المتصفح مباشرة.
+
+### 4. مخطط جانت والجدولة الزمنية المؤسسية (Master Gantt Suite)
 - **4 مقاييس زمنية متكاملة:** (24 ساعة لليوم الحالي، أيام كاملة بأسماء عربية، أسابيع، وشهور).
 - **مؤشر الوقت الحي (Live Current Time Needle):** خط رأسي أحمر نابض يوضح الساعة والدقيقة الفعلية لليوم.
 - **أزرار التحكم الجماعي في شجرة المشاريع:** أزرار `[ توسيع الكل ]` و `[ طي الكل ]` لإدارة مئات المهام المتفرعة بنقرة واحدة.
 - بطاقات معاينة عائمة ذكية عريضة **350px** بنظام التصاق يمنع حجب البارات.
 
-### 3. بنك المعرفة والأرشفة الحية (Knowledge Base Engine)
+### 5. بنك المعرفة والأرشفة الحية (Knowledge Base Engine)
 - استخلاص تلقائي فوري لكافة الحلول والمساهمات المعتمدة وتحويلها إلى بنك معرفي قابل للبحث والاسترجاع.
 - **مولد كتيب المعرفة الشامل (.md):** تصدير كامل المعرفة الهندسية المعتمدة بصيغة Markdown بضغطة زر.
 - وثائق استلام واعتماد مجهزة للتصدير والطباعة الرسمية بجودة **A4 Corporate PDF**.
 
-### 4. ثلاجة المشاريع السيادية (Project Cold Storage & Hibernation)
+### 6. ثلاجة المشاريع السيادية (Project Cold Storage & Hibernation)
 - محرك تجميد وإذابة آلي للمشاريع (`status: frozen`) عند تغيير أو خفض رتبة العملاء لحماية سرية وأمان المنشأة.
 
-### 5. متتبع الوقت وشرائح الإضافة السريعة (Task Time Tracker)
+### 7. متتبع الوقت وشرائح الإضافة السريعة (Task Time Tracker)
 - تتبع الساعات المقدرة والفعلية مع شرائح الإضافة السريعة `[ +15د ]` `[ +30د ]` `[ +1س ]` `[ +2س ]` `[ +4س ]`.
 - ترويسة إجرائية مثبتة (`Sticky Action Bar`) في صفحة تفاصيل المهمة لتسهيل الحفظ والتعديل أثناء التمرير.
 
-### 6. المؤثرات الصوتية والتوست التفاعلي الشامل (Audio & Notification Suite)
+### 8. المؤثرات الصوتية والتوست التفاعلي الشامل (Audio & Notification Suite)
 - حزمة نغمات إلكترونية وميكانيكية وبيانو مدمجة بمحرك `Web Audio API` لتأكيد العمليات (الاعتماد، الحذف، التنبيهات).
 - نظام توست إشعارات ملون وشامل يتيح التراجع الفوري عن القرارات الخاطئة.
 
-### 7. الدستور البصري الموحد وهندسة الحواف الحادة 0px (Universal Visual System v2.3.0)
+### 9. الدستور البصري الموحد وهندسة الحواف الحادة 0px (Universal Visual System)
 - **دستور الأزرار الثلاثي الموحد (`Universal Tri-State Button Law`):** توحيد أزرار المنظومة على 3 حالات: الافتراضي أبيض نقي بإطار رمادي دقيق وزوايا حادة `0px`، التحويم برمادي داكن أردوازي (`#334155`) مع خط وأيقونة بيضاء ناصعة، والنشط بأخضر الشعار (`#10b981`). حظر كامل لقوس قزح الأزرار الملونة.
 - **دستور الأيقونات المونوكرومي الموحد (`Universal Monochrome Icon Law`):** أسود فحمي `#0f172a` حصرياً لكافة الأيقونات في الوضع الافتراضي، مع الانقلاب للأبيض الناصع عند التفاعل.
-- **أيقونة الثلج الشهيرة للمشاريع المجمدة (`SnowflakeIcon`):** تصميم SVG دقيق مخصص للمشاريع المجمدة بدلاً من القفل.
 - **زر الإضافة السريع الموحد (+) مع القائمة المنسدلة الذكية (`QuickAddMenu`):** جمع عمليات الإضافة في زر واحد بالـ Breadcrumb مع نافذة تقديم الطلبات السريعة (`RequestModal`).
 - **أشرطة الأدوات الموحدة بالهيدر (`UnifiedToolbar` via Portal):** تعميم شريط الأدوات الموحد في كافة الصفحات الرئيسية ليركب أسفل الـ Breadcrumb.
-- **سجل الأيقونات الدلالي الموحد (`iconRegistry.js`):** ارتباط دلالي ثابت لكل كيان لمنع التكرار العشوائي للأيقونات.
-- **لوحة كانبان المؤسسية المونوكرومية:** إلغاء ألوان قوس قزح في رؤوس الأعمدة واعتماد النمط الفحمي والرمادي الفخم.
-- **التجميد الكلي لقائمة الإعدادات الجانبية:** ثبات كلي بنسبة 0 بكسل حركة أثناء التمرير العمودي دون اصطدام بالـ Breadcrumb.
 
 ---
 
@@ -294,10 +302,11 @@
 
 للحصول على التوثيق المعماري والبرمجي الكامل:
 * 📑 **[الفهرس العام للتوثيق (Master Docs Index)](docs/README.md)**
+* 📋 **[تقرير التدقيق المعماري وجاهزية الإصدار المستقر v2.5.0](docs/RELEASE_READINESS_AND_CLEANUP_AUDIT_REPORT.md)**
 * 🏛️ **[المبادئ الـ 21 الحاكمة والدستور المعماري](docs/core/FIRST_PRINCIPLES.md)**
 * 🌐 **[مرجع واجهة الـ REST API الشامل](docs/api/REST_API_REFERENCE.md)**
 * 🪝 **[مرجع الخطافات والفلاتر البرمجية (Hooks & Filters)](docs/api/HOOKS_AND_FILTERS.md)**
-* ⚙️ **[مرجع خدمات النواة الـ 17 (Services Architecture)](docs/api/SERVICES_REFERENCE.md)**
+* ⚙️ **[مرجع خدمات النواة الـ 18 (Services Architecture)](docs/api/SERVICES_REFERENCE.md)**
 * 🛠️ **[دليل المطور وإعداد البيئة والاختبارات](docs/guides/DEVELOPER_GUIDE.md)**
 * 🏢 **[دليل بوابة العميل المستقلة (Client Portal)](docs/guides/CLIENT_PORTAL_GUIDE.md)**
 * 🎨 **[دليل نظام التصميم وهندسة 0px (Design System)](docs/design-system/DESIGN_SYSTEM_GUIDELINES.md)**

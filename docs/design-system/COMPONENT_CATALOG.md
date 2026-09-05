@@ -2,8 +2,8 @@
 ## Preact 18 Component Hierarchy, Props Contracts, CSS Hooks & Usage Patterns
 
 > **نوع الوثيقة:** المرجع التقني لمكونات الواجهة الأمامية (Frontend Components)  
-> **الإصدار المعتمد:** WorkPress v2.2.1-Stable  
-> **التقنية:** Preact 18 + HTM (No-Build Standalone Architecture)  
+> **الإصدار المعتمد:** WorkPress v1.0.0-Stable  
+> **التقنية:** Preact 18 + HTM (No-Build Standalone Architecture — 136 ES Modules)  
 > **المسار المصدري:** `assets/src/components/` & `assets/src/pages/`
 
 ---
@@ -12,16 +12,26 @@
 
 ```
 App.js (Main SPA Shell & Global State)
-├── Header & Navigation (Plaza, Kanban, Gantt, Knowledge, Settings)
-├── Global Modals & Toasts (ToastContainer, AudioEffects)
+├── Header Strip 1: Brand, Navigation, User Session, Notifications, LanguageQuickMenu
+├── Header Strip 2 (Horizon): BroadcastTicker, QuickAddMenu (+) Speed Dial
+├── Filterbar Portal Root (#wp-filterbar-portal-root): ProjectFilterBar, TaskFilterBar, etc.
 │
-└── Routed Pages:
+├── Global Modals & System:
+│   ├── BroadcastDetailModal, RequestModal, TaskModal, ProjectModal, ContributionModal
+│   └── ToastContainer, AudioEffects, ErrorBoundary
+│
+└── Routed Pages (11 Central Workspaces):
     ├── PlazaPage.js              ──► StatCards, ActivityFeed, QuickActions
-    ├── KanbanPage.js             ──► KanbanColumn, TaskCard, TaskDetailModal
-    ├── GanttPage.js              ──► GanttControls, GanttTimeline, TimeNeedle
+    ├── KanbanPage.js             ──► KanbanColumn, TaskCard, LoadedRatioBadge, LaneStopIndicator
+    ├── GanttPage.js              ──► GanttControls, GanttTimeline, TimeNeedle, TreeExpander
+    ├── BroadcastsPage.js         ──► LiveHorizonCards, DirectivesManager, AutomatedRulesStudio
+    ├── ContributionsPage.js      ──► ContributionCard, ContributionTableView, ContributionBulkBar
+    ├── ReportsPage.js            ──► MultiDomainAnalytics, ProjectHealth, VelocityRadar, PrintExport
+    ├── RequestsPage.js           ──► RequestList, TriageStudio, ConvertToProject
     ├── KnowledgePage.js          ──► SolutionCard, MarkdownViewer, BookExport
-    ├── SettingsPage.js           ──► SoundKitSelector, WebhooksStudio, FormBuilder
-    └── TaskDetailPage.js        ──► TimeTracker, Checklists, Attachments, ContributionStream
+    ├── SettingsPage.js           ──► SoundKitSelector, WebhooksStudio, RolesMatrix, FormBuilder
+    ├── ProjectDetailPage.js      ──► DeliverablesVault, MilestoneStream, MemberList
+    └── TaskDetailPage.js         ──► TimeTracker, Checklists, Attachments, StickyActionBar
 ```
 
 ---
@@ -158,4 +168,52 @@ App.js (Main SPA Shell & Global State)
     * **اليسار:** 4 أزرار وظيفية مربعة (المعاينة، الذهاب للمهمة، اعتماد/إلغاء الحل، المزيد من الخيارات).
 
 ---
-*تم تصميم وتوثيق كافة المكونات للعمل المباشر في المتصفح بنظام Preact 18 + HTM بكفاءة مطلقة ودون أي أدوات بناء وسيطة.*
+
+### 14. `BroadcastTicker.js` (شريط التنبيهات والأفق الحي)
+* **المسار:** `assets/src/components/ui/BroadcastTicker.js`
+* **المسؤولية:** شريط تنبيهات تشغيلي حي مدمج بالشريط الثاني بالهيدر. يدعم الظهور العمودي المقيد، الشارات الملونة المصمتة (`Solid Fill`)، وأزرار التنقل التنفيذية بارتفاع `30px` مطابقة تماماً لزر الإضافة السريع.
+* **المعايير الهندسية:**
+  * **الارتفاع:** `30px` مطابق للمقاييس التنفيذية المعتمدة.
+  * **شارات الأولوية المصمتة:** أحمر صريح (`is-urgent`)، برتقالي (`is-warning`)، أخضر زمردي (`is-celebration`)، نيلي (`is-directive`) بنص وأيقونة بيضاء ناصعة (`#ffffff`).
+  * **الخط والتفاعل:** خط غليظ (`font-weight: 800/700`) وحجم `0.94rem`، مع تأثير تحويم أسود صريح بدون تسطير.
+  * **أزرار التنقل:** حاوية موحدة بحدود `1px solid #cbd5e1` وزوايا `0px` وأيقونات `16px`.
+
+---
+
+### 15. `BroadcastDetailModal.js` (نافذة تفاصيل التنبيه والنشرية)
+* **المسار:** `assets/src/components/broadcasts/BroadcastDetailModal.js`
+* **المسؤولية:** نافذة مودال منبثقة متكاملة تعرض كامل تفاصيل التوجيه الإداري أو التنبيه التشغيلي، الموعد النهائي، وشارات الأولوية، مع زر وصول مباشر لمركز النشريات.
+
+---
+
+### 16. `QuickAddMenu.js` (زر الإضافة السريع الموحد والقائمة الذكية)
+* **المسار:** `assets/src/components/ui/QuickAddMenu.js`
+* **المسؤولية:** زر ذري بارتفاع `30px` وزوايا حادة `0px` يدمج كافة عمليات الإنشاء (مشروع، مهمة، مساهمة، مقترح/طلب، نشرية) في قائمة منسدلة سريعة مدعومة بالمؤثرات الصوتية.
+
+---
+
+### 17. `LanguageQuickMenu.js` (مبدل اللغات الفوري التفاعلي)
+* **المسار:** `assets/src/components/ui/LanguageQuickMenu.js`
+* **المسؤولية:** قائمة منسدلة في الهيدر لتبديل لغة المنظومة فورياً بين (العربية، الإنجليزية، الفرنسية، الإسبانية) مع تحديث فوري لاتجاه الـ DOM (`RTL/LTR`) والخطوط وحفظ التفضيل عبر الـ REST API دون إعادة تحميل الصفحة.
+
+---
+
+### 18. `ContributionBulkBar.js` (شريط الإجراءات الجماعية للمساهمات)
+* **المسار:** `assets/src/components/contributions/ContributionBulkBar.js`
+* **المسؤولية:** شريط عائم سفلي ذو تصميم تنفيذي أسود يظهر تلقائياً عند تحديد عناصر متعددة في صفحة المساهمات، يتيح اعتماد الحلول جماعياً، حذف المساهمات، أو إلغاء التحديد.
+
+---
+
+### 19. `ContributionTableView.js` (عرض الجدول التنفيذي للمساهمات)
+* **المسار:** `assets/src/components/contributions/ContributionTableView.js`
+* **المسؤولية:** جدول مدمج عالي الكثافة لعرض مئات المساهمات بأسلوب جدولي منظم يتيح الفرز والترتيب والتحديد المتعدد والوصول السريع لملفات المرفقات.
+
+---
+
+### 20. `TaskFilterBar.js` (شريط أدوات وفلاتر المهام الموحد)
+* **المسار:** `assets/src/components/tasks/TaskFilterBar.js`
+* **المسؤولية:** شريط فلترة قياسي للمهام يُحقن بالـ Portal، يضم فلاتر المشاريع، الأولويات، المكلفين، الترتيب الزمني، والبحث اللحظي مع عدادات المهام المباشرة.
+
+---
+*تم تصميم وتوثيق كافة المكونات للعمل المباشر في المتصفح بنظام Preact 18 + HTM بكفاءة مطلقة ودون أي أدوات بناء وسيطة وفق معايير WorkPress v1.0.0-Stable.*
+

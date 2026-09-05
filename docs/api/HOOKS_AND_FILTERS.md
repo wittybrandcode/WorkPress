@@ -2,7 +2,7 @@
 ## Action Hooks, Filters, Parameter Signatures & Extension Examples
 
 > **نوع الوثيقة:** المرجع التقني الشامل لكافة نقاط التوسعة البرمجية (Extension Points)  
-> **الإصدار المعتمد:** WorkPress v2.2.1-Stable  
+> **الإصدار المعتمد:** WorkPress v1.0.0-Stable  
 > **الفئة المستهدفة:** مطورو إضافات ووردبريس والمهندسون التقنيون  
 > **المرجع الحاكم:** [ARCHITECTURE.md](../core/ARCHITECTURE.md) | [class-workpress-hooks.php](../../includes/hooks/class-workpress-hooks.php)
 
@@ -57,8 +57,8 @@ add_action( 'workpress_task_assigned', function( $task_id, $user_ids, $assigner_
 
 ---
 
-### 4. `workpress_task_closed` & `workpress_task_deleted`
-يتم إطلاقهما عند إغلاق المهمة رسمياً أو حذفها.
+### 4. `workpress_task_closed` & `workpress_task_deleted` & `workpress_task_reopened`
+يتم إطلاقها عند إغلاق المهمة رسمياً، حذفها، أو إعادة فتحها للنقاش.
 
 ---
 
@@ -110,8 +110,8 @@ add_action( 'workpress_project_request_submitted', function( $project_id, $clien
 
 ---
 
-### 2. `workpress_project_request_approved`
-يُطلق عند موافقة الإدارة على طلب المشروع وتحويله إلى مشروع نشط (`active`).
+### 2. `workpress_project_request_approved` & `under_review` & `rejected`
+تُطلق عند تغيير مسار دراسة واعتماد طلبات المشاريع في البوابة.
 
 ---
 
@@ -120,30 +120,87 @@ add_action( 'workpress_project_request_submitted', function( $project_id, $clien
 
 ---
 
-### 4. `workpress_project_membership_changed`
-يُطلق عند إضافة أو ترقية رتبة عضو داخل المشروع (`lead`, `manager`, `specialist`, `viewer`).
+### 4. `workpress_project_membership_changed` & `workpress_project_member_removed`
+يُطلقان عند إضافة، ترقية رتبة، أو إزالة عضو داخل المشروع (`lead`, `manager`, `specialist`, `viewer`).
 
+---
+
+## 📢 5. خطافات التنبيهات الإدارية والبث الحي (Broadcasts & Directives Actions)
+
+### 1. `workpress_broadcast_created`
+يُطلق عند إنشاء توجيه إداري أو تنبيه تشغيلي جديد.
 ```php
-add_action( 'workpress_project_membership_changed', function( $project_id, $user_id, $role ) {
-    // تحديث صلاحيات العضو في أنظمة المنشأة الخارجية
+add_action( 'workpress_broadcast_created', function( $broadcast_id, $data, $user_id ) {
+    // إرسال تنبيه عبر Slack / Telegram أو قناة إدارية مخصصة
 }, 10, 3 );
+```
+
+### 2. `workpress_broadcast_updated`
+يُطلق عند تعديل نص، أولوية، أو جدولة تنبيه قائم.
+```php
+add_action( 'workpress_broadcast_updated', function( $broadcast_id, $data, $user_id ) {
+    // مزامنة التعديل
+}, 10, 3 );
+```
+
+### 3. `workpress_broadcast_deleted`
+يُطلق عند أرشفة أو إزالة تنبيه إداري.
+```php
+add_action( 'workpress_broadcast_deleted', function( $broadcast_id, $hard_delete ) {
+    // تفريغ الكاش الخارجي
+}, 10, 2 );
 ```
 
 ---
 
-## 🎨 5. فلاتر التعديل والتخصيص (Filters)
+## ✍️ 6. خطافات تسليمات العميل والإغلاق الرقمي (Sign-off & Portal Feedback)
 
-### `workpress_prepare_task_response`
+### 1. `workpress_client_deliverable_accepted`
+يُطلق عند اعتماد العميل لمخرج أو تسليمة محددة داخل البوابة.
+```php
+add_action( 'workpress_client_deliverable_accepted', function( $deliverable_id, $task_id, $project_id, $user_id ) {
+    // تحديث مراحل المشروع أو إصدار فاتورة المرحلة
+}, 10, 4 );
+```
+
+### 2. `workpress_client_project_signed_off`
+يُطلق عند الإغلاق والاعتماد النهائي للمشروع وتوقيعه رقمياً ببصمة SHA-256 مشفرة.
+```php
+add_action( 'workpress_client_project_signed_off', function( $project_id, $user_id, $notes, $sha256_fingerprint ) {
+    // حفظ السجل المشفر أو إنشاء شهادة الإنجاز الرسمية
+}, 10, 4 );
+```
+
+---
+
+## 🎨 7. فلاتر التعديل والتخصيص (Core Filters)
+
+### 1. `workpress_prepare_task_response`
 يتيح للمطورين تعديل أو إضافة حقول مخصصة على كائن المهمة قبل إرساله في استجابات REST API.
-
-* **مثال تطبيقي:**
 ```php
 add_filter( 'workpress_prepare_task_response', function( $response, $post ) {
-    // إضافة حقل مخصص للاستجابة
     $response['custom_erp_code'] = get_post_meta( $post->ID, '_custom_erp_code', true );
     return $response;
 }, 10, 2 );
 ```
 
+### 2. `workpress_prepare_project_response`
+يتيح تخصيص وإثراء كائنات المشاريع المُرجعة في REST API.
+
+### 3. `workpress_broadcast_stream`
+يتيح حقن تنبيهات أو توجيهات إضافية في شريط البث الحي اللحظي من مصادر بيانات خارجية.
+```php
+add_filter( 'workpress_broadcast_stream', function( $stream ) {
+    // إضافة تنبيه مخصص من نظام خارجي
+    return $stream;
+} );
+```
+
+### 4. `workpress_workflow_transitions` & `workpress_workflow_state_labels`
+تخصيص مسارات الانتقال المسموحة بين حالات المهام ومسمياتها بحسب سياسة المنشأة.
+
+### 5. `workpress_registered_capabilities`
+يتيح للمطورين إضافة أو تعديل مصفوفة الصلاحيات المدارة عبر لوحة التحكم.
+
 ---
-*تم توثيق كافة الخطافات بنسبة 100% لتوفير أقصى درجات القابلية للتوسع والتكامل البرمجي.*
+*تم توثيق كافة الخطافات بنسبة 100% لتوفير أقصى درجات القابلية للتوسع والتكامل البرمجي لنظام WorkPress v1.0.0-Stable.*

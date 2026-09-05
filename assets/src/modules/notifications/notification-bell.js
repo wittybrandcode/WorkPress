@@ -302,7 +302,7 @@ function NotificationBell() {
 												borderRadius: 0,
 												flexShrink: 0
 											}}
-											title="نوع الحدث"
+											title=${ __( 'Event Type', 'workpress' ) }
 										>
 											<i className=${`dashicons ${typeIcon}`} style=${{ fontSize: '15px', width: '15px', height: '15px', lineHeight: '15px' }}></i>
 										</div>
@@ -335,7 +335,7 @@ function NotificationBell() {
 													<button 
 														className="button is-small p-1" 
 														style=${{ height: '22px', width: '22px', borderRadius: 0, border: '1px solid #fecaca', backgroundColor: '#fef2f2', color: '#dc2626' }}
-														title="مراجعة طلب الحذف في سلة المهملات"
+														title=${ __( 'Review trash request in trash bin', 'workpress' ) }
 														onClick=${(e) => { e.preventDefault(); e.stopPropagation(); setIsOpen(false); window.location.hash = '#/settings?tab=export'; }}
 													>
 														<i className="dashicons dashicons-trash" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>
@@ -346,7 +346,7 @@ function NotificationBell() {
 													<button 
 														className="button is-small p-1" 
 														style=${{ height: '22px', width: '22px', borderRadius: 0, border: '1px solid #e2e8f0', backgroundColor: '#ffffff', color: '#3b82f6' }}
-														title="تحديد كمقروء"
+														title=${ __( 'Mark as read', 'workpress' ) }
 														onClick=${(e) => { e.preventDefault(); e.stopPropagation(); markAsRead(n.id); }}
 													>
 														<i className="dashicons dashicons-yes" style=${{ fontSize: '13px', width: '13px', height: '13px' }}></i>

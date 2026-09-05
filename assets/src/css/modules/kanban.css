@@ -5,55 +5,142 @@
  * @subpackage CSS
  */
 
+/* Lock page vertical scroll when inside Kanban view */
+body.wp-kanban-view-active,
+html.wp-kanban-view-active {
+    overflow-y: hidden !important;
+}
+
+body.wp-kanban-view-active #wpbody-content,
+body.wp-kanban-view-active #workpress-app,
+body.wp-kanban-view-active .workpress-spa {
+    overflow-y: visible !important;
+}
+
+/* Header in Kanban view sits firmly flush at the top without sticky recalculations or gaps */
+body.wp-kanban-view-active .workpress-header-wrapper {
+    position: relative !important;
+    top: 0 !important;
+    margin-bottom: 0 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Kanban Page Container: Guaranteed uncollapsible breathing room between FilterBar and Columns */
+.admin-workspace.wp-kanban-page {
+    padding-top: 14px !important;
+    margin-top: 0 !important;
+    box-sizing: border-box !important;
+}
+
 /* ==========================================================================
    Kanban Board Layout
    ========================================================================== */
+.wp-kanban-board,
 .workpress-kanban-board {
     display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
-    padding-bottom: 2rem;
-    height: calc(100vh - 200px);
-    align-items: flex-start;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    padding-bottom: 14px !important;
+    margin-top: 0 !important;
+    box-sizing: border-box !important;
+    height: calc(100vh - 212px) !important;
+    max-height: calc(100vh - 212px) !important;
+    gap: 16px;
+    align-items: stretch !important;
 }
 
-.workpress-kanban-board .column {
-    flex: 1;
-    min-width: 320px;
-    background-color: #ebecf0;
+@media screen and (max-width: 782px) {
+    .wp-kanban-board,
+    .workpress-kanban-board {
+        height: calc(100vh - 226px) !important;
+        max-height: calc(100vh - 226px) !important;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .wp-kanban-board,
+    .workpress-kanban-board {
+        height: calc(100vh - 180px) !important;
+        max-height: calc(100vh - 180px) !important;
+    }
+}
+
+/* Square Column Folding Button (Exact 1:1 Aspect Ratio) */
+.wp-kanban-fold-btn {
+    width: 24px !important;
+    height: 24px !important;
+    min-width: 24px !important;
+    max-width: 24px !important;
+    min-height: 24px !important;
+    max-height: 24px !important;
+    padding: 0 !important;
+    aspect-ratio: 1 / 1 !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
     border-radius: 0 !important;
-    margin-inline-end: 1rem;
-    display: flex;
-    flex-direction: column;
-    max-height: 100%;
+    box-sizing: border-box !important;
+    flex-shrink: 0 !important;
+    border: 1px solid #cbd5e1 !important;
+    background: #ffffff !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease !important;
 }
 
-.workpress-kanban-board .column:last-child {
-    margin-inline-end: 0;
+.wp-kanban-fold-btn i,
+.wp-kanban-fold-btn .dashicons {
+    font-size: 14px !important;
+    width: 14px !important;
+    height: 14px !important;
+    line-height: 1 !important;
+    display: inline-block !important;
+    color: #0f172a !important;
+}
+
+.wp-kanban-fold-btn:hover {
+    background: #334155 !important;
+    border-color: #334155 !important;
+}
+
+.wp-kanban-fold-btn:hover i,
+.wp-kanban-fold-btn:hover .dashicons {
+    color: #ffffff !important;
+}
+
+.wp-kanban-fold-btn.is-active {
+    background: #10b981 !important;
+    border-color: #10b981 !important;
+}
+
+.wp-kanban-fold-btn.is-active i,
+.wp-kanban-fold-btn.is-active .dashicons {
+    color: #ffffff !important;
 }
 
 /* Kanban Columns */
 .wp-kanban-column {
-    min-height: 400px;
-    background-color: var(--wp-bg-column);
+    flex: 1 1 0;
+    min-width: 290px;
+    height: 100% !important;
+    max-height: 100% !important;
+    background-color: #f1f5f9;
     border: 1px solid #cbd5e1 !important;
     border-radius: 0 !important;
-    transition: background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease !important;
-    display: flex;
-    flex-direction: column;
-    max-height: 100%;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
 }
 
-.workpress-kanban-column-header,
 .wp-kanban-column-header {
-    padding: 1rem;
+    padding: 0.75rem 1rem;
     font-weight: 700;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
     background: #ffffff;
-    border-bottom: 1px solid #e2e8f0;
+    border-bottom: 1px solid #cbd5e1;
 }
 
 .wp-kanban-column-header-icon {
@@ -98,6 +185,21 @@
 }
 
 /* Draggable Task Card */
+.workpress-spa .wp-task-card {
+    margin-bottom: 0.75rem;
+    border-radius: 0 !important;
+    background-color: #ffffff;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08) !important;
+    transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease !important;
+}
+
+.workpress-spa .wp-task-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.12) !important;
+    border-color: #94a3b8 !important;
+}
+
 .workpress-kanban-dropzone .card {
     margin-bottom: 0.75rem;
     cursor: grab;
@@ -155,19 +257,88 @@
 
 /* Scrollbar for Kanban */
 .wp-kanban-scroll {
-    overflow-y: auto;
+    flex: 1 1 auto;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 #f1f5f9;
 }
 .wp-kanban-scroll::-webkit-scrollbar {
     width: 6px;
     height: 6px;
 }
 .wp-kanban-scroll::-webkit-scrollbar-track {
-    background: transparent;
+    background: #f1f5f9;
 }
 .wp-kanban-scroll::-webkit-scrollbar-thumb {
-    background: var(--wp-border);
+    background: #cbd5e1;
     border-radius: 0;
 }
 .wp-kanban-scroll::-webkit-scrollbar-thumb:hover {
-    background: var(--wp-text-muted);
+    background: #94a3b8;
 }
+
+/* Compact Folded Card Styles - Single Line Mode */
+.wp-task-card.is-compact {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    height: 34px !important;
+    min-height: 34px !important;
+    max-height: 34px !important;
+    padding: 0 8px !important;
+    margin-bottom: 5px !important;
+    box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04) !important;
+    white-space: nowrap !important;
+    border-radius: 0 !important;
+    box-sizing: border-box !important;
+    position: relative !important;
+}
+.wp-task-card.is-compact:hover {
+    transform: translateY(-1px) !important;
+    box-shadow: 0 2px 6px rgba(15, 23, 42, 0.08) !important;
+    border-color: #94a3b8 !important;
+}
+
+/* Infinite Scroll Loader at bottom of column */
+.wp-kanban-loader {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 0;
+    color: #64748b;
+    font-size: 0.75rem;
+    font-weight: 700;
+}
+
+.wp-kanban-loader i,
+.wp-kanban-loader .dashicons {
+    animation: wpKanbanSpin 0.8s linear infinite;
+    color: #64748b !important;
+}
+
+@keyframes wpKanbanSpin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Per-Column Search Box in Kanban Header */
+.wp-kanban-col-search {
+    border-bottom: 1px solid #cbd5e1;
+    background-color: #ffffff;
+}
+.wp-kanban-col-search .input {
+    box-shadow: none !important;
+    transition: all 0.15s ease;
+}
+.wp-kanban-col-search .input:focus {
+    background-color: #ffffff !important;
+    border-color: #0f172a !important;
+    box-shadow: 0 0 0 1px #0f172a !important;
+}
+
+
+
+

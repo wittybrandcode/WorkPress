@@ -12,15 +12,19 @@ import KnowledgePage from './pages/KnowledgePage.js';
 import ContributionsPage from './pages/ContributionsPage.js';
 import ReportsPage from './pages/ReportsPage.js';
 import IntakeFormsPage from './pages/IntakeFormsPage.js?v=2';
+import BroadcastsPage from './pages/BroadcastsPage.js';
 import SettingsPage from './pages/SettingsPage.js';
 import SettingsQuickMenu from './components/settings/SettingsQuickMenu.js';
 import SoundQuickToggle from './components/ui/SoundQuickToggle.js';
 import LanguageQuickMenu from './components/ui/LanguageQuickMenu.js';
 import QuickAddMenu from './components/ui/QuickAddMenu.js';
+import Breadcrumb from './components/ui/Breadcrumb.js';
+import BroadcastTicker from './components/ui/BroadcastTicker.js';
 import ProjectModal from './components/projects/ProjectModal.js';
 import TaskModal from './components/tasks/TaskModal.js';
 import ContributionModal from './components/contributions/ContributionModal.js';
 import RequestModal from './components/requests/RequestModal.js';
+import BroadcastModal from './components/broadcasts/BroadcastModal.js';
 import ErrorBoundary from './components/ui/ErrorBoundary.js';
 import sound from './utils/sound.js';
 
@@ -32,6 +36,7 @@ export default function App() {
 	const [ isTaskModalOpen, setIsTaskModalOpen ] = useState( false );
 	const [ isContributionModalOpen, setIsContributionModalOpen ] = useState( false );
 	const [ isRequestModalOpen, setIsRequestModalOpen ] = useState( false );
+	const [ isBroadcastModalOpen, setIsBroadcastModalOpen ] = useState( false );
 
 	// T1+T2: Capability-based UI guards (Atomic Audit T1, T2)
 	const settings = window.workpressSettings || {};
@@ -42,7 +47,10 @@ export default function App() {
 	const [brandRevision, setBrandRevision] = useState(0);
 
 	useEffect( () => {
-		const handleHashChange = () => setRoute( window.location.hash || '#/' );
+		const handleHashChange = () => {
+			setRoute( window.location.hash || '#/' );
+			window.scrollTo( 0, 0 );
+		};
 		const handleBrandUpdate = () => setBrandRevision( ( prev ) => prev + 1 );
 		const handleLocaleUpdate = ( newLoc ) => {
 			setLocaleState( newLoc );
@@ -52,6 +60,16 @@ export default function App() {
 		window.addEventListener( 'hashchange', handleHashChange );
 		window.addEventListener( 'workpress_brand_updated', handleBrandUpdate );
 		const unsubscribeLocale = onLocaleChange( handleLocaleUpdate );
+
+		// Global shield for third-party browser extensions (e.g. Core Web Vitals VM crashes on startTime)
+		const handleGlobalError = ( event ) => {
+			if ( event && event.message && event.message.includes( "reading 'startTime'" ) ) {
+				event.preventDefault();
+				event.stopImmediatePropagation();
+				return true;
+			}
+		};
+		window.addEventListener( 'error', handleGlobalError, true );
 
 		// Universal Session Keep-Alive (Refresh nonce on tab visibility & every 15 mins)
 		const refreshNonce = async () => {
@@ -94,6 +112,7 @@ export default function App() {
 		return () => {
 			window.removeEventListener( 'hashchange', handleHashChange );
 			window.removeEventListener( 'workpress_brand_updated', handleBrandUpdate );
+			window.removeEventListener( 'error', handleGlobalError, true );
 			document.removeEventListener( 'visibilitychange', handleVisibilityChange );
 			if ( typeof unsubscribeLocale === 'function' ) unsubscribeLocale();
 			clearInterval( keepAliveInterval );
@@ -119,7 +138,7 @@ export default function App() {
 		currentViewName = __( 'Intake Forms Builder', 'workpress' );
 	} else if ( route === '#/kanban' ) {
 		PageComponent = KanbanPage;
-		currentViewName = __( 'Kanban', 'workpress' );
+		currentViewName = __( 'Tasks', 'workpress' );
 	} else if ( route === '#/gantt' || route.startsWith( '#/gantt' ) ) {
 		PageComponent = GanttPage;
 		currentViewName = __( 'Gantt Chart', 'workpress' );
@@ -136,6 +155,9 @@ export default function App() {
 	} else if ( route === '#/reports' || route.startsWith( '#/reports' ) ) {
 		PageComponent = ReportsPage;
 		currentViewName = __( 'Reports', 'workpress' );
+	} else if ( route === '#/broadcasts' || route.startsWith( '#/broadcasts' ) ) {
+		PageComponent = BroadcastsPage;
+		currentViewName = __( 'Broadcasts & Operational Alerts', 'workpress' );
 	} else if ( route.startsWith( '#/settings' ) ) {
 		// T1: Settings route protected — admin only
 		if ( isAdmin ) {
@@ -166,54 +188,64 @@ export default function App() {
 	const rtl = isRtl();
 
 	return html`
-		<div dir=${ rtl ? 'rtl' : 'ltr' } className="workpress-spa has-background-light" style=${{ minHeight: '100vh', paddingBottom: '2rem' }}>
+		<div dir=${ rtl ? 'rtl' : 'ltr' } className="workpress-spa has-background-light" style=${{ minHeight: '100vh', height: route === '#/kanban' ? '100vh' : 'auto', paddingBottom: route === '#/kanban' ? '0' : '2rem' }}>
 			
-			<div className="workpress-header-wrapper mb-4 has-background-white">
+			<div className=${ `workpress-header-wrapper ${ route === '#/kanban' ? 'mb-0' : 'mb-4' } has-background-white` }>
 				<!-- الشريط الأول: الهوية والروابط -->
 				<div className="is-flex is-justify-content-space-between is-align-items-center p-3" style=${{ borderBottom: '1px solid #f0f0f0' }}>
-					<!-- الهوية: الشعار الرسمي SVG بحجم كبير وواضح -->
-					<div className="is-flex is-align-items-center">
-						<a href="#/" className="is-flex is-align-items-center" title="WorkPress — where work becomes memory" style=${{ textDecoration: 'none', outline: 'none', boxShadow: 'none', padding: '2px 0' }}>
-							<${WorkPressLogo} height=${36} key=${brandRevision} />
+					<!-- الهوية والمسار التوجيهي الذكي أمام الشعار (Contextual Breadcrumb) -->
+					<div className="is-flex is-align-items-center" style=${{ gap: '10px', minWidth: 0, flexShrink: 1 }}>
+						<a href="#/" className="is-flex is-align-items-center" title=${ __( 'CoWorkPress — Return to main dashboard', 'workpress' ) } style=${{ textDecoration: 'none', outline: 'none', boxShadow: 'none', padding: '2px 0', flexShrink: 0 }}>
+							<${WorkPressLogo} height=${34} key=${brandRevision} />
 						</a>
+
+						<span style=${{ color: '#cbd5e1', fontSize: '1.1rem', fontWeight: 300, flexShrink: 0, userSelect: 'none' }}>/</span>
+
+						<!-- مسار التصفح الشجري الذكي Breadcrumb مدمج في الهيدر أمام الشعار -->
+						<${Breadcrumb} route=${route} />
 					</div>
 					
 					<!-- الروابط وأيقونات الإجراءات (التنبيهات والإعدادات في آخر الهيدر بعد الأزرار) -->
-					<div className="is-flex is-align-items-center" style=${{ gap: '12px' }}>
-						<!-- أزرار التبويبات الرئيسية -->
+					<div className="is-flex is-align-items-center" style=${{ gap: '12px', flexShrink: 0 }}>
+						<!-- أزرار التبويبات الرئيسية بالترتيب القياسي المحدد بدقة -->
 						<div className="buttons mb-0" style=${{ gap: '4px' }}>
-							<a href="#/" className=${`button wp-header-btn ${route === '#/' ? 'is-active' : ''}`}>
-								<span className="icon"><i className="dashicons dashicons-dashboard"></i></span>
-								<span className="has-text-weight-bold">CoWorkPress</span>
-							</a>
-							<a href="#/projects" className=${`button wp-header-btn ${route === '#/projects' ? 'is-active' : ''}`}>
+							<!-- 1. المشاريع -->
+							<a href="#/projects" className=${`button wp-header-btn ${route === '#/projects' || route.startsWith('#/projects/') ? 'is-active' : ''}`}>
 								<span className="icon"><i className="dashicons dashicons-category"></i></span>
 								<span className="has-text-weight-bold">${ __( 'Projects', 'workpress' ) }</span>
 							</a>
-							<a href="#/requests" className=${`button wp-header-btn ${route.startsWith('#/requests') ? 'is-active' : ''}`} title=${ __( 'Project Requests', 'workpress' ) }>
-								<span className="icon"><i className="dashicons dashicons-email-alt"></i></span>
-								<span className="has-text-weight-bold">${ __( 'Requests', 'workpress' ) }</span>
-							</a>
-							<a href="#/forms" className=${`button wp-header-btn ${route.startsWith('#/forms') || route.startsWith('#/intake-forms') ? 'is-active' : ''}`} title=${ __( 'Intake Forms Builder', 'workpress' ) }>
-								<span className="icon"><i className="dashicons dashicons-forms"></i></span>
-								<span className="has-text-weight-bold">${ __( 'Intake Forms', 'workpress' ) }</span>
-							</a>
-							<a href="#/kanban" className=${`button wp-header-btn ${route === '#/kanban' ? 'is-active' : ''}`}>
+
+							<!-- 2. المهام (الكانبان سابقاً) -->
+							<a href="#/kanban" className=${`button wp-header-btn ${route === '#/kanban' || route.startsWith('#/tasks/') ? 'is-active' : ''}`}>
 								<span className="icon"><i className="dashicons dashicons-columns"></i></span>
-								<span className="has-text-weight-bold">${ __( 'Kanban', 'workpress' ) }</span>
+								<span className="has-text-weight-bold">${ __( 'Tasks', 'workpress' ) }</span>
 							</a>
-							<a href="#/gantt" className=${`button wp-header-btn ${route.startsWith('#/gantt') ? 'is-active' : ''}`} title=${ __( 'Gantt Chart', 'workpress' ) }>
-								<span className="icon"><i className="dashicons dashicons-calendar-alt"></i></span>
-								<span className="has-text-weight-bold">${ __( 'Gantt Chart', 'workpress' ) }</span>
-							</a>
-							<a href="#/knowledge" className=${`button wp-header-btn ${route === '#/knowledge' ? 'is-active' : ''}`}>
-								<span className="icon"><i className="dashicons dashicons-book"></i></span>
-								<span className="has-text-weight-bold">${ __( 'Knowledge Base', 'workpress' ) }</span>
-							</a>
+
+							<!-- 3. المساهمات -->
 							<a href="#/contributions" className=${`button wp-header-btn ${route === '#/contributions' ? 'is-active' : ''}`}>
 								<span className="icon"><i className="dashicons dashicons-share-alt2"></i></span>
 								<span className="has-text-weight-bold">${ __( 'Contributions', 'workpress' ) }</span>
 							</a>
+
+							<!-- 4. المعرفة -->
+							<a href="#/knowledge" className=${`button wp-header-btn ${route === '#/knowledge' ? 'is-active' : ''}`}>
+								<span className="icon"><i className="dashicons dashicons-book"></i></span>
+								<span className="has-text-weight-bold">${ __( 'Knowledge Base', 'workpress' ) }</span>
+							</a>
+
+							<!-- 5. الطلبات -->
+							<a href="#/requests" className=${`button wp-header-btn ${route === '#/requests' || (route.startsWith('#/requests') && !route.includes('/forms')) ? 'is-active' : ''}`} title=${ __( 'Project Requests', 'workpress' ) }>
+								<span className="icon"><i className="dashicons dashicons-email-alt"></i></span>
+								<span className="has-text-weight-bold">${ __( 'Requests', 'workpress' ) }</span>
+							</a>
+
+							<!-- 6. مخطط جانت -->
+							<a href="#/gantt" className=${`button wp-header-btn ${route.startsWith('#/gantt') ? 'is-active' : ''}`} title=${ __( 'Gantt Chart', 'workpress' ) }>
+								<span className="icon"><i className="dashicons dashicons-calendar-alt"></i></span>
+								<span className="has-text-weight-bold">${ __( 'Gantt Chart', 'workpress' ) }</span>
+							</a>
+
+							<!-- 7. التقارير -->
 							<a href="#/reports" className=${`button wp-header-btn ${route.startsWith('#/reports') ? 'is-active' : ''}`} title=${ __( 'Reports', 'workpress' ) }>
 								<span className="icon"><i className="dashicons dashicons-analytics"></i></span>
 								<span className="has-text-weight-bold">${ __( 'Reports', 'workpress' ) }</span>
@@ -222,29 +254,33 @@ export default function App() {
 
 						<!-- التنبيهات والإعدادات في آخر الهيدر بعد الأزرار -->
 						<div className="is-flex is-align-items-center" style=${{ [rtl ? 'borderRight' : 'borderLeft']: '1px solid #e2e8f0', gap: '6px', [rtl ? 'paddingRight' : 'paddingLeft']: '8px' }}>
+							<a
+								href="#/broadcasts"
+								className=${`button wp-header-btn ${route.startsWith('#/broadcasts') ? 'is-active' : ''}`}
+								title=${ __( 'Broadcasts & Operational Alerts Hub', 'workpress' ) }
+								style=${{ minWidth: '34px', padding: '0 8px', borderRadius: 0 }}
+							>
+								<span className="icon" style=${{ color: '#0f172a' }}><i className="dashicons dashicons-megaphone"></i></span>
+							</a>
 							${ hooks.applyFilters('workpress_header_brand_actions', []).map((Component, i) => html`<${Component} key=${i} />`) }
 							${ isAdmin && html`<${SettingsQuickMenu} route=${route} />` }
 						</div>
 					</div>
 				</div>
 
-				<!-- الشريط الثاني المدمج (Compact) -->
+				<!-- الشريط الثاني المدمج (Compact Horizon) المخصص للأفق الحي والنشريات -->
 				<div className="px-4 py-2 is-flex is-justify-content-space-between is-align-items-center has-background-white-ter" style=${{ fontSize: '0.85rem' }}>
-					<!-- مسار التصفح Breadcrumb -->
-					<nav className="breadcrumb has-succeeds-separator mb-0" aria-label="breadcrumbs">
-						<ul style=${{ margin: 0 }}>
-							<li><a href="#/" className="has-text-grey">WorkPress</a></li>
-							<li className="is-active"><a href="#" aria-current="page" className="has-text-weight-bold has-text-dark">${currentViewName}</a></li>
-						</ul>
-					</nav>
+					<!-- شريط التعليمات والإعلانات والتنبيهات التشغيلية الحية بمساحة كاملة -->
+					<${BroadcastTicker} />
 
 					<!-- زر الإضافة السريع الموحد (+) مع القائمة المنسدلة -->
-					<div className="is-flex is-align-items-center" style=${{ gap: '8px' }}>
+					<div className="is-flex is-align-items-center" style=${{ gap: '8px', flexShrink: 0 }}>
 						<${QuickAddMenu}
 							onNewProject=${ () => setIsProjectModalOpen( true ) }
 							onNewTask=${ () => setIsTaskModalOpen( true ) }
 							onNewContribution=${ () => setIsContributionModalOpen( true ) }
 							onNewRequest=${ () => setIsRequestModalOpen( true ) }
+							onNewBroadcast=${ () => setIsBroadcastModalOpen( true ) }
 							isAdmin=${ isAdmin }
 							userCaps=${ userCaps }
 						/>
@@ -285,6 +321,15 @@ export default function App() {
 				isActive=${ isRequestModalOpen }
 				onClose=${ () => setIsRequestModalOpen( false ) }
 				onSave=${ () => { setIsRequestModalOpen(false); setRefreshKey(prev => prev + 1); } }
+			/>
+
+			<${BroadcastModal}
+				isActive=${ isBroadcastModalOpen }
+				onClose=${ () => setIsBroadcastModalOpen( false ) }
+				onSaved=${ () => {
+					setIsBroadcastModalOpen( false );
+					setRefreshKey( prev => prev + 1 );
+				} }
 			/>
 		</div>
 	`;

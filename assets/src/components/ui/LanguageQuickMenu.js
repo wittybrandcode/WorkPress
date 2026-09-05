@@ -85,7 +85,7 @@ export default function LanguageQuickMenu() {
 				<button 
 					className=${`button wp-header-btn ${isOpen ? 'is-active' : ''}`}
 					onClick=${() => setIsOpen(!isOpen)}
-					title=${ syncActive ? `${ __( 'Synced with WordPress:', 'workpress' ) } ${wpLangObj.label}` : __( 'Change Language / تغيير اللغة', 'workpress' ) }
+					title=${ syncActive ? `${ __( 'Synced with WordPress:', 'workpress' ) } ${wpLangObj.label}` : __( 'Change Language', 'workpress' ) }
 					aria-haspopup="true"
 					style=${{ 
 						height: '32px', 

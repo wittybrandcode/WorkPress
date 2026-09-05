@@ -99,7 +99,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 			isActive=${ isActive } 
 			onClose=${ onClose } 
 			title=${ task ? sprintf( __( 'Assign Task: %s', 'workpress' ), task.title ) : __( 'Assign Task', 'workpress' ) }
-			size="wp-mega-modal"
+			size="is-medium"
 			footer=${ footer }
 		>
 			<div className="p-2" style=${{ minHeight: '300px' }}>
@@ -126,7 +126,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 										className="box wp-card is-flex is-align-items-center is-justify-content-space-between p-3"
 										style=${{ 
 											cursor: 'pointer', 
-											borderRadius: '8px',
+											borderRadius: 0, 
 											border: isAssigned ? '2px solid #6366f1' : '1px solid #e2e8f0',
 											backgroundColor: isAssigned ? 'rgba(99, 102, 241, 0.06)' : '#fff',
 											boxShadow: isAssigned ? '0 4px 12px rgba(99, 102, 241, 0.1)' : '0 1px 3px rgba(0,0,0,0.02)',
@@ -140,10 +140,10 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 													<img 
 														src=${ avatarUrl } 
 														alt=${ member.name } 
-														style=${{ width: '36px', height: '36px', borderRadius: '50%', border: '1px solid #cbd5e1', objectFit: 'cover' }} 
+														style=${{ width: '36px', height: '36px', borderRadius: 0, border: '1px solid #cbd5e1', objectFit: 'cover' }} 
 													/>
 												` : html`
-													<div style=${{ width: '36px', height: '36px', borderRadius: '50%', backgroundColor: '#6366f1', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '14px' }}>
+													<div style=${{ width: '36px', height: '36px', borderRadius: 0, backgroundColor: '#6366f1', color: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '800', fontSize: '14px' }}>
 														${initial}
 													</div>
 												`}
@@ -151,7 +151,7 @@ export default function TaskAssignmentModal( { isActive, onClose, task } ) {
 											<div>
 												<div className="has-text-weight-bold has-text-dark is-size-6">${ member.name }</div>
 												<div className="is-flex is-align-items-center" style=${{ gap: '6px', marginTop: '2px' }}>
-													<span className="tag is-small" style=${{ fontSize: '0.68rem', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: '4px' }}>
+													<span className="tag is-small" style=${{ fontSize: '0.68rem', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: 0 }}>
 														${ member.project_role === 'manager' ? __( 'Project Manager', 'workpress' ) : __( 'Team Member', 'workpress' ) }
 													</span>
 													${member.email && html`

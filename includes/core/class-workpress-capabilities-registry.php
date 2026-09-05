@@ -79,9 +79,10 @@ class WorkPress_Capabilities_Registry {
 			'system_tools' => array(
 				'label' => __( 'System Administration', 'workpress' ),
 				'caps'  => array(
-					'manage_workpress_settings' => __( 'Manage system settings and matrix customizations', 'workpress' ),
-					'manage_intake_forms'       => __( 'Design and build intake form templates', 'workpress' ),
-					'manage_webhooks'           => __( 'Manage webhooks and external integrations', 'workpress' ),
+					'manage_workpress_settings'   => __( 'Manage system settings and matrix customizations', 'workpress' ),
+					'manage_workpress_broadcasts' => __( 'Manage managerial broadcasts and operational alert rules', 'workpress' ),
+					'manage_intake_forms'         => __( 'Design and build intake form templates', 'workpress' ),
+					'manage_webhooks'             => __( 'Manage webhooks and external integrations', 'workpress' ),
 				),
 			),
 			'portal_features' => array(

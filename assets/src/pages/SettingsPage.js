@@ -71,6 +71,8 @@ export default function SettingsPage() {
 	const [logoId, setLogoId] = useState(wpSettings.customLogoId || 0);
 	const [faviconUrl, setFaviconUrl] = useState(wpSettings.customFaviconUrl || '');
 	const [faviconId, setFaviconId] = useState(wpSettings.customFaviconId || 0);
+	const [broadcastEnabled, setBroadcastEnabled] = useState(wpSettings.broadcastNotice?.enabled !== false);
+	const [broadcastText, setBroadcastText] = useState(wpSettings.broadcastNotice?.text || '');
 	const [isSettingsSaving, setIsSettingsSaving] = useState(false);
 
 	useEffect(() => {
@@ -195,6 +197,10 @@ export default function SettingsPage() {
 			logo_url: logoUrl,
 			favicon_id: faviconId,
 			favicon_url: faviconUrl,
+			broadcast_notice: {
+				enabled: broadcastEnabled,
+				text: broadcastText
+			}
 		}).then((res) => {
 			setIsSettingsSaving(false);
 			if (window.workpressSettings) {
@@ -205,6 +211,7 @@ export default function SettingsPage() {
 				window.workpressSettings.customLogoId = logoId;
 				window.workpressSettings.customFaviconUrl = faviconUrl;
 				window.workpressSettings.customFaviconId = faviconId;
+				window.workpressSettings.broadcastNotice = { enabled: broadcastEnabled, text: broadcastText };
 				window.workpressSettings.logoUrl = (res && res.logo_effective_url) ? res.logo_effective_url : (logoUrl || (wpSettings.defaultLogoUrl || (wpSettings.pluginUrl + 'assets/brand/workpress.svg')));
 				window.workpressSettings.faviconUrl = (res && res.favicon_effective_url) ? res.favicon_effective_url : (faviconUrl || (wpSettings.defaultFaviconUrl || (wpSettings.pluginUrl + 'assets/brand/favicon.svg')));
 			}
@@ -218,6 +225,9 @@ export default function SettingsPage() {
 
 			// Fire global event for live header logo re-render
 			window.dispatchEvent(new CustomEvent('workpress_brand_updated', { detail: { logoUrl, faviconUrl } }));
+
+			// Fire global event for live broadcast ticker update
+			window.dispatchEvent(new CustomEvent('workpress_broadcast_updated', { detail: { enabled: broadcastEnabled, text: broadcastText } }));
 
 			toast( __( 'System and branding settings saved successfully.', 'workpress' ), 'success' );
 		}).catch(err => {
@@ -701,6 +711,10 @@ export default function SettingsPage() {
 						setFaviconId=${setFaviconId}
 						defaultLogoUrl=${wpSettings.defaultLogoUrl || (wpSettings.pluginUrl + 'assets/brand/workpress.svg')}
 						defaultFaviconUrl=${wpSettings.defaultFaviconUrl || (wpSettings.pluginUrl + 'assets/brand/favicon.svg')}
+						broadcastEnabled=${broadcastEnabled}
+						setBroadcastEnabled=${setBroadcastEnabled}
+						broadcastText=${broadcastText}
+						setBroadcastText=${setBroadcastText}
 						isSettingsSaving=${isSettingsSaving}
 						handleSaveLocalizationSettings=${handleSaveLocalizationSettings}
 						handleSaveGeneralSettings=${handleSaveGeneralSettings}

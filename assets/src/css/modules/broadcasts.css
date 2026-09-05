@@ -1,0 +1,307 @@
+/**
+ * WorkPress Broadcasts & Operational Alerts Stylesheet
+ *
+ * Enforces 0px sharp executive geometry, smooth vertical emergence
+ * animations inside bounded slots, and live horizon monitoring cards.
+ *
+ * @package WorkPress
+ * @subpackage CSS/Modules
+ * @version 2.5.0
+ */
+
+/* 1. Bounded Vertical Ticker Animations & Layout */
+.wp-broadcast-slot {
+	position: relative;
+	height: 30px;
+	flex: 1 1 auto;
+	overflow: hidden;
+	display: flex;
+	align-items: center;
+	min-width: 0; /* Critical for flex child text-overflow: ellipsis to work */
+}
+
+.wp-broadcast-slide-enter {
+	animation: wpSlideFromBottom 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.wp-broadcast-slide-exit {
+	animation: wpSlideToTop 0.35s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+@keyframes wpSlideFromBottom {
+	0% {
+		opacity: 0;
+		transform: translateY(100%);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
+
+@keyframes wpSlideToTop {
+	0% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+	100% {
+		opacity: 0;
+		transform: translateY(-100%);
+	}
+}
+
+.wp-broadcast-clickable-text {
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: inline-block;
+	max-width: 100%;
+	transition: color 0.15s ease;
+	font-size: 0.94rem;
+	font-weight: 700;
+	color: #334155;
+	text-decoration: none !important;
+}
+
+.wp-broadcast-clickable-text strong {
+	font-weight: 800;
+	color: #1e293b;
+	transition: color 0.15s ease;
+}
+
+.wp-broadcast-clickable-text span {
+	font-weight: 700;
+	color: #475569;
+	transition: color 0.15s ease;
+}
+
+.wp-broadcast-clickable-text:hover,
+.wp-broadcast-clickable-text:focus {
+	color: #000000 !important;
+	text-decoration: none !important;
+}
+
+.wp-broadcast-clickable-text:hover strong,
+.wp-broadcast-clickable-text:focus strong {
+	color: #000000 !important;
+	text-decoration: none !important;
+}
+
+.wp-broadcast-clickable-text:hover span,
+.wp-broadcast-clickable-text:focus span {
+	color: #000000 !important;
+	text-decoration: none !important;
+}
+
+/* 2. Priority & Category Badges (Full Solid Fill, 0px Sharp Geometry) */
+.wp-broadcast-badge {
+	display: inline-flex;
+	align-items: center;
+	gap: 5px;
+	padding: 0 8px;
+	height: 24px;
+	font-size: 0.74rem;
+	font-weight: 800;
+	line-height: 24px;
+	border-radius: 0 !important;
+	text-transform: uppercase;
+	letter-spacing: 0.03em;
+	white-space: nowrap;
+	flex-shrink: 0;
+	box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+}
+
+.wp-broadcast-badge i,
+.wp-broadcast-badge span {
+	color: #ffffff !important;
+	font-weight: 800;
+}
+
+.wp-broadcast-badge.is-urgent {
+	background-color: #dc2626 !important;
+	color: #ffffff !important;
+	border: 1px solid #b91c1c !important;
+}
+
+.wp-broadcast-badge.is-warning {
+	background-color: #ea580c !important;
+	color: #ffffff !important;
+	border: 1px solid #c2410c !important;
+}
+
+.wp-broadcast-badge.is-info {
+	background-color: #0284c7 !important;
+	color: #ffffff !important;
+	border: 1px solid #0369a1 !important;
+}
+
+.wp-broadcast-badge.is-celebration {
+	background-color: #059669 !important;
+	color: #ffffff !important;
+	border: 1px solid #047857 !important;
+}
+
+.wp-broadcast-badge.is-directive {
+	background-color: #4f46e5 !important;
+	color: #ffffff !important;
+	border: 1px solid #4338ca !important;
+}
+
+/* 3. Live Stream Cards in Broadcast Hub */
+.wp-broadcast-card {
+	border-radius: 0 !important;
+	border: 1px solid #e2e8f0;
+	background: #ffffff;
+	transition: box-shadow 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+
+.wp-broadcast-card:hover {
+	border-color: #cbd5e1;
+	box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+	transform: translateY(-2px);
+}
+
+.wp-broadcast-card.is-priority-urgent {
+	border-inline-start: 4px solid #ef4444;
+}
+
+.wp-broadcast-card.is-priority-warning {
+	border-inline-start: 4px solid #f59e0b;
+}
+
+.wp-broadcast-card.is-priority-info {
+	border-inline-start: 4px solid #3b82f6;
+}
+
+.wp-broadcast-card.is-priority-celebration {
+	border-inline-start: 4px solid #10b981;
+}
+
+/* 4. Executive Live Horizon Pulsing Dot */
+.wp-broadcast-pulse {
+	width: 8px;
+	height: 8px;
+	border-radius: 50%;
+	display: inline-block;
+}
+
+.wp-broadcast-pulse.is-urgent {
+	background-color: #ef4444;
+	box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+	animation: wpPulseRed 1.8s infinite;
+}
+
+.wp-broadcast-pulse.is-active {
+	background-color: #10b981;
+	box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+	animation: wpPulseGreen 2s infinite;
+}
+
+@keyframes wpPulseRed {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7);
+	}
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 6px rgba(239, 68, 68, 0);
+	}
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(239, 68, 68, 0);
+	}
+}
+
+@keyframes wpPulseGreen {
+	0% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7);
+	}
+	70% {
+		transform: scale(1);
+		box-shadow: 0 0 0 6px rgba(16, 185, 129, 0);
+	}
+	100% {
+		transform: scale(0.95);
+		box-shadow: 0 0 0 0 rgba(16, 185, 129, 0);
+	}
+}
+
+/* 5. Ticker Rotation Controls (Executive height: 30px matching Quick Add button) */
+.wp-broadcast-controls {
+	display: inline-flex !important;
+	align-items: center !important;
+	height: 30px !important;
+	border: 1px solid #cbd5e1 !important;
+	background-color: #ffffff !important;
+	box-sizing: border-box !important;
+	border-radius: 0 !important;
+	opacity: 1 !important;
+	user-select: none !important;
+	vertical-align: middle !important;
+	box-shadow: none !important;
+}
+
+.wp-broadcast-controls .wp-broadcast-ctrl-btn,
+.wp-broadcast-controls button {
+	height: 28px !important;
+	width: 30px !important;
+	min-width: 30px !important;
+	padding: 0 !important;
+	margin: 0 !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	background-color: #ffffff !important;
+	border: none !important;
+	border-radius: 0 !important;
+	cursor: pointer !important;
+	color: #0f172a !important;
+	box-shadow: none !important;
+	transition: background-color 0.15s ease, color 0.15s ease !important;
+	outline: none !important;
+}
+
+.wp-broadcast-controls .wp-broadcast-ctrl-btn:hover,
+.wp-broadcast-controls button:hover {
+	background-color: #f1f5f9 !important;
+	color: #0f172a !important;
+}
+
+.wp-broadcast-controls .wp-broadcast-ctrl-btn:active,
+.wp-broadcast-controls button:active {
+	background-color: #e2e8f0 !important;
+}
+
+.wp-broadcast-controls .wp-broadcast-ctrl-btn i,
+.wp-broadcast-controls button i {
+	font-size: 16px !important;
+	width: 16px !important;
+	height: 16px !important;
+	line-height: 16px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	color: #0f172a !important;
+}
+
+.wp-broadcast-controls .wp-broadcast-ctrl-counter {
+	height: 28px !important;
+	padding: 0 9px !important;
+	display: inline-flex !important;
+	align-items: center !important;
+	justify-content: center !important;
+	font-size: 0.78rem !important;
+	font-weight: 700 !important;
+	color: #334155 !important;
+	background-color: #f8fafc !important;
+	border-inline-start: 1px solid #cbd5e1 !important;
+	border-inline-end: 1px solid #cbd5e1 !important;
+	white-space: nowrap !important;
+	line-height: 28px !important;
+}
+

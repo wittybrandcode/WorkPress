@@ -535,10 +535,12 @@
 .wp-icon-btn.is-selected * {
     color: #ffffff !important;
 }
+.wp-icon-btn.is-micro,
 .wp-icon-btn.is-dense { width: 22px; height: 22px; }
 .wp-icon-btn.is-small { width: 26px; height: 26px; }
 .wp-icon-btn.is-medium { width: 32px; height: 32px; }
 .wp-icon-btn .dashicons { font-size: 15px; width: 15px; height: 15px; line-height: 1; }
+.wp-icon-btn.is-micro .dashicons,
 .wp-icon-btn.is-dense .dashicons { font-size: 13px; width: 13px; height: 13px; }
 .wp-icon-btn.is-medium .dashicons { font-size: 18px; width: 18px; height: 18px; }
 
@@ -855,67 +857,191 @@
 }
 
 /* ==========================================================================
-   Modals & Overlays
+   Modals & Overlays (Executive 0px Universal System)
    ========================================================================== */
 .modal {
-    z-index: 99999; 
+    z-index: 100000;
+    align-items: center;
+    justify-content: center;
 }
+
 .modal-background,
 .workpress-spa .modal-background {
-    background-color: rgba(0, 0, 0, 0.75) !important;
-    background: rgba(0, 0, 0, 0.75) !important;
-    backdrop-filter: blur(10px) !important;
-    -webkit-backdrop-filter: blur(10px) !important;
+    background-color: rgba(15, 23, 42, 0.72) !important;
+    background: rgba(15, 23, 42, 0.72) !important;
+    backdrop-filter: blur(6px) !important;
+    -webkit-backdrop-filter: blur(6px) !important;
 }
 
 .workpress-spa .modal-card,
 .modal-card {
-    width: 60% !important;
-    max-width: 60% !important;
-    min-width: 600px !important;
+    width: 100% !important;
+    max-width: min(680px, 94vw) !important;
+    min-width: 0 !important;
+    margin: 0 auto !important;
     border-radius: 0 !important;
-    border: 1px solid #e2e8f0 !important;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+    border: 1px solid #cbd5e1 !important;
+    box-shadow: 0 25px 50px -12px rgba(15, 23, 42, 0.35), 0 0 0 1px rgba(15, 23, 42, 0.05) !important;
     background-color: #ffffff !important;
-    max-height: calc(100vh - 60px) !important;
-    display: flex;
-    flex-direction: column;
+    max-height: calc(100vh - 48px) !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
 }
+
+/* Size Variants */
+.workpress-spa .modal-card.is-small,
+.workpress-spa .modal-card.wp-modal-sm {
+    max-width: min(480px, 92vw) !important;
+}
+
+.workpress-spa .modal-card.is-medium,
+.workpress-spa .modal-card.wp-modal-md {
+    max-width: min(640px, 94vw) !important;
+}
+
+.workpress-spa .modal-card.is-large,
+.workpress-spa .modal-card.wp-modal-lg,
+.workpress-spa .modal-card.wp-mega-modal {
+    max-width: min(840px, 95vw) !important;
+}
+
+.workpress-spa .modal-card.is-xlarge,
+.workpress-spa .modal-card.wp-modal-xl,
+.workpress-spa .modal-card.wp-report-modal {
+    max-width: min(1080px, 96vw) !important;
+}
+
 .workpress-spa .modal-card-head {
     border-radius: 0 !important;
-    border-bottom: 1px solid #f1f5f9 !important;
+    border-bottom: 1px solid #e2e8f0 !important;
     background-color: #ffffff !important;
-    padding: 16px 20px !important;
-    flex: 0 0 auto;
+    padding: 14px 20px !important;
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: 12px !important;
 }
+
+.workpress-spa .modal-card-title {
+    margin: 0 !important;
+    color: #0f172a !important;
+    font-weight: 800 !important;
+    font-size: 1.1rem !important;
+    line-height: 1.3 !important;
+    flex-grow: 1 !important;
+}
+
+/* Executive 0px Close Button */
+.wp-modal-close-btn,
+.workpress-spa .modal-card-head .delete {
+    position: relative !important;
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+    min-height: 32px !important;
+    max-width: 32px !important;
+    max-height: 32px !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    border: 1px solid #e2e8f0 !important;
+    background-color: #f8fafc !important;
+    color: #64748b !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    transition: all 0.15s ease-in-out !important;
+    flex-shrink: 0 !important;
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.wp-modal-close-btn:hover,
+.workpress-spa .modal-card-head .delete:hover {
+    background-color: #0f172a !important;
+    border-color: #0f172a !important;
+    color: #ffffff !important;
+}
+
+.wp-modal-close-btn:active,
+.workpress-spa .modal-card-head .delete:active {
+    transform: scale(0.96) !important;
+}
+
+.wp-modal-close-btn svg {
+    width: 16px;
+    height: 16px;
+    stroke: currentColor;
+    stroke-width: 2.2;
+    fill: none;
+    stroke-linecap: square;
+    stroke-linejoin: miter;
+    pointer-events: none;
+}
+
 .workpress-spa .modal-card-foot {
     border-radius: 0 !important;
-    border-top: 1px solid #f1f5f9 !important;
+    border-top: 1px solid #e2e8f0 !important;
     background-color: #f8fafc !important;
-    padding: 14px 20px !important;
-    flex: 0 0 auto;
+    padding: 12px 20px !important;
+    flex: 0 0 auto !important;
 }
+
 .workpress-spa .modal-card-body {
     border-radius: 0 !important;
     background-color: #ffffff !important;
-    overflow-y: auto;
-    flex: 1 1 auto;
+    overflow-y: auto !important;
+    flex: 1 1 auto !important;
+    padding: 20px 24px !important;
 }
-.workpress-spa .delete {
-    border-radius: 0 !important;
-    background-color: #0f172a !important;
-    transition: background-color 0.2s ease;
+
+/* RTL / LTR Directional Support for Modals */
+body.rtl .workpress-spa .modal-card-head,
+html[dir="rtl"] .workpress-spa .modal-card-head {
+    direction: rtl;
+    text-align: right;
 }
-.workpress-spa .delete:hover {
-    background-color: #f14668 !important;
+body.rtl .workpress-spa .modal-card-title,
+html[dir="rtl"] .workpress-spa .modal-card-title {
+    text-align: right;
+}
+body.rtl .workpress-spa .modal-card-body,
+html[dir="rtl"] .workpress-spa .modal-card-body {
+    direction: rtl;
+    text-align: right;
+}
+body.rtl .workpress-spa .modal-card-foot,
+html[dir="rtl"] .workpress-spa .modal-card-foot {
+    direction: rtl;
+}
+
+body:not(.rtl) .workpress-spa .modal-card-head,
+html[dir="ltr"] .workpress-spa .modal-card-head {
+    direction: ltr;
+    text-align: left;
+}
+body:not(.rtl) .workpress-spa .modal-card-title,
+html[dir="ltr"] .workpress-spa .modal-card-title {
+    text-align: left;
+}
+body:not(.rtl) .workpress-spa .modal-card-body,
+html[dir="ltr"] .workpress-spa .modal-card-body {
+    direction: ltr;
+    text-align: left;
+}
+body:not(.rtl) .workpress-spa .modal-card-foot,
+html[dir="ltr"] .workpress-spa .modal-card-foot {
+    direction: ltr;
 }
 
 .modal.is-active .modal-card {
-    animation: wpModalZoomIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    animation: wpModalZoomIn 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
 @keyframes wpModalZoomIn {
-    0% { opacity: 0; transform: scale(0.95) translateY(10px); }
+    0% { opacity: 0; transform: scale(0.97) translateY(8px); }
     100% { opacity: 1; transform: scale(1) translateY(0); }
 }
 
@@ -1095,3 +1221,109 @@ body.rtl .wp-toast-deck-container {
     left: 0;
     right: auto;
 }
+
+/* ==========================================================================
+   WorkPress Executive Breadcrumb & Broadcast Ticker Horizon
+   ========================================================================== */
+.workpress-spa .wp-breadcrumb {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.82rem;
+}
+
+.workpress-spa .wp-breadcrumb ul {
+    display: inline-flex;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.workpress-spa .wp-breadcrumb a.wp-breadcrumb-link {
+    color: #64748b;
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.workpress-spa .wp-breadcrumb a.wp-breadcrumb-link:hover {
+    color: #0f172a;
+}
+
+.workpress-spa .wp-breadcrumb-back-btn {
+    height: 24px;
+    width: 24px;
+    padding: 0;
+    border-radius: 0;
+    border: 1px solid #cbd5e1;
+    background-color: #ffffff;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.workpress-spa .wp-breadcrumb-back-btn:hover {
+    background-color: #334155 !important;
+    border-color: #334155 !important;
+}
+
+.workpress-spa .wp-breadcrumb-back-btn:hover i {
+    color: #ffffff !important;
+}
+
+/* Broadcast Ticker */
+.workpress-spa .wp-broadcast-ticker {
+    height: 30px;
+    flex: 1 1 auto;
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+    overflow: hidden;
+    font-size: 0.85rem;
+}
+
+.workpress-spa .wp-broadcast-ticker:hover .wp-broadcast-marquee {
+    animation-play-state: paused !important;
+}
+
+.workpress-spa .wp-broadcast-track-wrapper {
+    flex: 1;
+    overflow: hidden;
+    position: relative;
+    white-space: nowrap;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.workpress-spa .wp-broadcast-marquee {
+    display: inline-block;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.workpress-spa .wp-broadcast-marquee.is-rtl {
+    animation: workpress-marquee-rtl 28s linear infinite;
+}
+
+.workpress-spa .wp-broadcast-marquee.is-ltr {
+    animation: workpress-marquee-ltr 28s linear infinite;
+}
+
+@keyframes workpress-marquee-rtl {
+    0% {
+        transform: translateX(-100%);
+    }
+    100% {
+        transform: translateX(calc(100% + 1200px));
+    }
+}
+
+@keyframes workpress-marquee-ltr {
+    0% {
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(calc(-100% - 1200px));
+    }
+}
+
+

@@ -67,13 +67,22 @@ class WorkPress_Task_Service {
 			);
 		}
 
+		// Keyword search in title/content
+		if ( ! empty( $args['search'] ) ) {
+			$query_args['s'] = sanitize_text_field( $args['search'] );
+		}
+
 		$meta_query = array();
 		if ( ! empty( $args['status'] ) ) {
-			$meta_query[] = array(
-				'key'     => '_workpress_status',
-				'value'   => sanitize_key( $args['status'] ),
-				'compare' => '=',
-			);
+			$statuses = is_array( $args['status'] ) ? $args['status'] : explode( ',', $args['status'] );
+			$statuses = array_filter( array_map( 'sanitize_key', array_map( 'trim', $statuses ) ) );
+			if ( ! empty( $statuses ) ) {
+				$meta_query[] = array(
+					'key'     => '_workpress_status',
+					'value'   => count( $statuses ) === 1 ? reset( $statuses ) : array_values( $statuses ),
+					'compare' => count( $statuses ) === 1 ? '=' : 'IN',
+				);
+			}
 		}
 
 		if ( ! empty( $args['priority'] ) ) {
@@ -84,7 +93,38 @@ class WorkPress_Task_Service {
 			);
 		}
 
+		if ( ! empty( $args['assignee'] ) ) {
+			if ( 'unassigned' === $args['assignee'] ) {
+				$meta_query[] = array(
+					'relation' => 'OR',
+					array(
+						'key'     => '_workpress_assignee_ids',
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key'     => '_workpress_assignee_ids',
+						'value'   => 'a:0:{}',
+						'compare' => '=',
+					),
+					array(
+						'key'     => '_workpress_assignee_ids',
+						'value'   => '',
+						'compare' => '=',
+					),
+				);
+			} elseif ( is_numeric( $args['assignee'] ) ) {
+				$meta_query[] = array(
+					'key'     => '_workpress_assignee_ids',
+					'value'   => '"' . (int) $args['assignee'] . '"',
+					'compare' => 'LIKE',
+				);
+			}
+		}
+
 		if ( ! empty( $meta_query ) ) {
+			if ( count( $meta_query ) > 1 ) {
+				$meta_query['relation'] = 'AND';
+			}
 			$query_args['meta_query'] = $meta_query;
 		}
 
@@ -260,6 +300,14 @@ class WorkPress_Task_Service {
 			$changes[] = __( 'Project', 'workpress' );
 		}
 
+		if ( isset( $data['due_at'] ) ) {
+			$due = sanitize_text_field( $data['due_at'] );
+			if ( $due !== ( $task['due_at'] ?? '' ) ) {
+				update_post_meta( $task_id, '_workpress_due_at', $due );
+				$changes[] = __( 'Due date', 'workpress' );
+			}
+		}
+
 		if ( isset( $data['cover_id'] ) ) {
 			if ( empty( $data['cover_id'] ) ) {
 				delete_post_meta( $task_id, '_workpress_cover_id' );
@@ -306,7 +354,13 @@ class WorkPress_Task_Service {
 		$priority = get_post_meta( $post->ID, '_workpress_priority', true ) ?: 'medium';
 
 		$cover_id  = (int) get_post_meta( $post->ID, '_workpress_cover_id', true );
+		if ( ! $cover_id ) {
+			$cover_id = (int) get_post_thumbnail_id( $post->ID );
+		}
 		$cover_url = $cover_id ? wp_get_attachment_image_url( $cover_id, 'large' ) : '';
+		if ( ! $cover_url && $cover_id ) {
+			$cover_url = wp_get_attachment_url( $cover_id ) ?: '';
+		}
 
 		$checklists = self::get_task_checklists( $post->ID );
 		$checklists_count = count( $checklists );

@@ -24,6 +24,11 @@ class WorkPress_Install {
 	const TAX_PROJECT = 'workpress_project';
 
 	/**
+	 * CPT Broadcast constant.
+	 */
+	const CPT_BROADCAST = 'wp_broadcast';
+
+	/**
 	 * Initialize hooks.
 	 */
 	public static function init() {
@@ -46,6 +51,7 @@ class WorkPress_Install {
 	public static function register_entities() {
 		self::register_taxonomy();
 		self::register_post_type();
+		self::register_broadcast_post_type();
 	}
 
 	/**
@@ -117,6 +123,27 @@ class WorkPress_Install {
 		);
 
 		register_post_type( self::CPT_WORK_ITEM, $args );
+	}
+
+	/**
+	 * Register 'wp_broadcast' Custom Post Type.
+	 */
+	private static function register_broadcast_post_type() {
+		$labels = array(
+			'name'          => _x( 'Broadcasts', 'post type general name', 'workpress' ),
+			'singular_name' => _x( 'Broadcast', 'post type singular name', 'workpress' ),
+		);
+
+		$args = array(
+			'labels'             => $labels,
+			'public'             => false,
+			'publicly_queryable' => false,
+			'show_ui'            => false,
+			'supports'           => array( 'title', 'editor', 'author', 'custom-fields' ),
+			'show_in_rest'       => false,
+		);
+
+		register_post_type( self::CPT_BROADCAST, $args );
 	}
 
 	/**
@@ -243,6 +270,7 @@ class WorkPress_Install {
 				'read_workpress_tasks', 'create_workpress_tasks', 'edit_assigned_tasks', 'edit_others_workpress_tasks', 'change_task_status', 'assign_tasks',
 				'read_contributions', 'add_contributions', 'edit_contributions', 'delete_contributions', 'accept_solutions', 'revoke_solutions',
 				'view_incoming_requests', 'triage_requests', 'approve_requests', 'reject_requests',
+				'manage_workpress_broadcasts',
 				'read_knowledge_base', 'generate_executive_reports', 'export_knowledge_book',
 			);
 			foreach ( $editor_caps as $cap ) {

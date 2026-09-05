@@ -190,6 +190,15 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 		if ( $request->get_param( 'status' ) ) {
 			$args['status'] = sanitize_text_field( $request->get_param( 'status' ) );
 		}
+		if ( $request->get_param( 'priority' ) ) {
+			$args['priority'] = sanitize_key( $request->get_param( 'priority' ) );
+		}
+		if ( $request->get_param( 'assignee' ) ) {
+			$args['assignee'] = sanitize_text_field( $request->get_param( 'assignee' ) );
+		}
+		if ( $request->get_param( 'search' ) ) {
+			$args['search'] = sanitize_text_field( $request->get_param( 'search' ) );
+		}
 		if ( $request->get_param( 'number' ) ) {
 			$args['number'] = (int) $request->get_param( 'number' );
 		}
@@ -228,14 +237,23 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_missing_title', __( 'Task title is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
-		$task = WorkPress_Task_Service::create_task( array(
+		$task_args = array(
 			'title'      => $title,
 			'content'    => $content,
 			'project_id' => $project_id,
 			'priority'   => $priority ? $priority : 'medium',
 			'due_at'     => $due_at,
 			'cover_id'   => $cover_id,
-		) );
+		);
+
+		if ( $request->has_param( 'estimated_hours' ) ) {
+			$task_args['estimated_hours'] = (float) $request->get_param( 'estimated_hours' );
+		}
+		if ( $request->has_param( 'status' ) ) {
+			$task_args['status'] = sanitize_key( $request->get_param( 'status' ) );
+		}
+
+		$task = WorkPress_Task_Service::create_task( $task_args );
 
 		if ( is_wp_error( $task ) ) {
 			return $task;
@@ -325,13 +343,25 @@ class WorkPress_REST_Tasks_Controller extends WP_REST_Controller {
 			WorkPress_Task_Service::trash_request( $task_id, $reason, get_current_user_id() );
 		}
 
-		$task = WorkPress_Task_Service::update_task( $task_id, array(
+		$update_args = array(
 			'title'      => $title,
 			'content'    => $content,
 			'project_id' => $project_id,
 			'priority'   => $priority,
 			'cover_id'   => $cover_id,
-		) );
+		);
+
+		if ( $request->has_param( 'estimated_hours' ) ) {
+			$update_args['estimated_hours'] = (float) $request->get_param( 'estimated_hours' );
+		}
+
+		if ( $request->has_param( 'due_at' ) ) {
+			$update_args['due_at'] = sanitize_text_field( $request->get_param( 'due_at' ) );
+		} elseif ( $request->has_param( 'due_date' ) ) {
+			$update_args['due_at'] = sanitize_text_field( $request->get_param( 'due_date' ) );
+		}
+
+		$task = WorkPress_Task_Service::update_task( $task_id, $update_args );
 
 		if ( is_wp_error( $task ) ) {
 			return $task;

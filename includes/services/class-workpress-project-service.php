@@ -142,6 +142,22 @@ class WorkPress_Project_Service {
 		update_term_meta( $term_id, '_workpress_start_at', $start_at );
 		update_term_meta( $term_id, '_workpress_due_at', $due_at );
 
+		if ( isset( $data['is_client_request'] ) ) {
+			update_term_meta( $term_id, '_workpress_is_client_request', ! empty( $data['is_client_request'] ) ? 1 : 0 );
+		}
+		if ( isset( $data['requested_budget'] ) ) {
+			update_term_meta( $term_id, '_workpress_requested_budget', sanitize_text_field( $data['requested_budget'] ) );
+		}
+		if ( isset( $data['requested_due_date'] ) ) {
+			update_term_meta( $term_id, '_workpress_requested_due_date', sanitize_text_field( $data['requested_due_date'] ) );
+		}
+		if ( isset( $data['budget'] ) ) {
+			update_term_meta( $term_id, '_workpress_budget', (float) $data['budget'] );
+		}
+		if ( isset( $data['client_id'] ) ) {
+			update_term_meta( $term_id, '_workpress_client_id', (int) $data['client_id'] );
+		}
+
 		// Set lead as manager member.
 		WorkPress_Membership_Service::add_member( $term_id, $lead_id, WorkPress_Membership_Service::ROLE_MANAGER );
 
@@ -237,6 +253,26 @@ class WorkPress_Project_Service {
 		
 		if ( isset( $data['lead_id'] ) ) {
 			update_term_meta( $project_id, '_workpress_lead_id', (int) $data['lead_id'] );
+		}
+
+		if ( isset( $data['budget'] ) ) {
+			update_term_meta( $project_id, '_workpress_budget', (float) $data['budget'] );
+		}
+
+		if ( isset( $data['is_client_request'] ) ) {
+			update_term_meta( $project_id, '_workpress_is_client_request', ! empty( $data['is_client_request'] ) ? 1 : 0 );
+		}
+
+		if ( isset( $data['requested_budget'] ) ) {
+			update_term_meta( $project_id, '_workpress_requested_budget', sanitize_text_field( $data['requested_budget'] ) );
+		}
+
+		if ( isset( $data['requested_due_date'] ) ) {
+			update_term_meta( $project_id, '_workpress_requested_due_date', sanitize_text_field( $data['requested_due_date'] ) );
+		}
+
+		if ( isset( $data['status'] ) && 'active' === $data['status'] ) {
+			delete_term_meta( $project_id, '_workpress_trash_reason' );
 		}
 
 		self::invalidate_project_cache( $project_id );
@@ -383,6 +419,7 @@ class WorkPress_Project_Service {
 			'request_attachments' => get_term_meta( $term->term_id, '_workpress_request_attachments', true ) ?: array(),
 			'requested_budget'    => get_term_meta( $term->term_id, '_workpress_requested_budget', true ),
 			'requested_due_date'  => get_term_meta( $term->term_id, '_workpress_requested_due_date', true ),
+			'budget'              => (float) get_term_meta( $term->term_id, '_workpress_budget', true ),
 			'review_notes'        => get_term_meta( $term->term_id, '_workpress_review_notes', true ) ?: '',
 			'rejection_reason'    => get_term_meta( $term->term_id, '_workpress_rejection_reason', true ) ?: '',
 		);

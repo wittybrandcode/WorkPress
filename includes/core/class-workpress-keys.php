@@ -25,6 +25,7 @@ final class WorkPress_Keys {
 	const CPT_PROJECT   = 'wp_project';
 	const CPT_TASK      = 'wp_task';
 	const CPT_TEMPLATE  = 'wp_template';
+	const CPT_BROADCAST = 'wp_broadcast';
 
 	// =========================================================================
 	// 2. Taxonomies & Comments
@@ -180,6 +181,7 @@ final class WorkPress_Keys {
 	const CAP_MANAGE_SETTINGS         = 'manage_workpress_settings';
 	const CAP_ACCESS_PORTAL           = 'access_workpress_portal';
 	const CAP_ACCESS_CLIENT_PORTAL    = 'access_workpress_portal';
+	const CAP_MANAGE_BROADCASTS       = 'manage_workpress_broadcasts';
 	const ROLE_CLIENT                 = 'workpress_client';
 
 	/**

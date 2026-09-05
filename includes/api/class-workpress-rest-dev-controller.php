@@ -75,7 +75,7 @@ class WorkPress_REST_Dev_Controller extends WP_REST_Controller {
 	 */
 	public function seed_data( $request ) {
 		if ( ! class_exists( 'WorkPress_Dev_Seeder' ) ) {
-			return new WP_Error( 'seeder_missing', 'WorkPress_Dev_Seeder class not found', array( 'status' => 500 ) );
+			return new WP_Error( 'seeder_missing', __( 'WorkPress_Dev_Seeder class not found', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		$result = WorkPress_Dev_Seeder::seed();
@@ -90,7 +90,7 @@ class WorkPress_REST_Dev_Controller extends WP_REST_Controller {
 	 */
 	public function purge_data( $request ) {
 		if ( ! class_exists( 'WorkPress_Dev_Seeder' ) ) {
-			return new WP_Error( 'seeder_missing', 'WorkPress_Dev_Seeder class not found', array( 'status' => 500 ) );
+			return new WP_Error( 'seeder_missing', __( 'WorkPress_Dev_Seeder class not found', 'workpress' ), array( 'status' => 500 ) );
 		}
 
 		$result = WorkPress_Dev_Seeder::purge();

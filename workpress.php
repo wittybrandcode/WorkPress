@@ -3,7 +3,7 @@
  * Plugin Name: WorkPress
  * Plugin URI:  https://workpress.local
  * Description: Native Organizational Memory & Work Management Engine for WordPress.
- * Version:     2.3.0
+ * Version:     1.0.0
  * Author:      WorkPress Team
  * Text Domain: workpress
  * Domain Path: /languages
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 // Define Constants.
-define( 'WORKPRESS_VERSION', '2.3.0' );
+define( 'WORKPRESS_VERSION', '1.0.0' );
 define( 'WORKPRESS_PATH', plugin_dir_path( __FILE__ ) );
 define( 'WORKPRESS_URL', plugin_dir_url( __FILE__ ) );
 
@@ -48,6 +48,7 @@ require_once WORKPRESS_PATH . 'includes/services/class-workpress-export-service.
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-portal-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-portal-signoff-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-report-service.php';
+require_once WORKPRESS_PATH . 'includes/services/class-workpress-broadcast-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-webhook-service.php';
 require_once WORKPRESS_PATH . 'includes/services/class-workpress-hibernation-service.php';
 WorkPress_Hibernation_Service::init();

@@ -48,6 +48,9 @@ export default function TaskDetailPage( { taskId: propTaskId, refreshKey } ) {
 		tasksApi.get( taskId ).then( ( taskData ) => {
 			setTask( taskData );
 			setIsNotFound( false );
+			if ( taskData && taskData.title ) {
+				window.dispatchEvent( new CustomEvent( 'workpress_page_title', { detail: { title: taskData.title } } ) );
+			}
 			if ( taskData && taskData.project_id ) {
 				projectsApi.members.list( taskData.project_id )
 					.then( ( members ) => {

@@ -68,8 +68,9 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 
 	return html`
 		<div className="modal is-active wp-report-modal" style=${{ zIndex: 100000 }}>
-			<div className="modal-background" onClick=${ onClose } style=${{ backgroundColor: 'rgba(15, 23, 42, 0.75)' }}></div>
-			<div className="modal-card" style=${{ 
+			<!-- Non-clickable backdrop strictly preventing accidental loss of user work -->
+			<div className="modal-background"></div>
+			<div className="modal-card is-xlarge wp-report-modal" style=${{ 
 				borderRadius: 0, 
 				backgroundColor: '#f8fafc', 
 				border: '1px solid #cbd5e1', 
@@ -156,11 +157,17 @@ export default function ReportModal( { isActive, onClose, projectId, projectName
 						` }
 
 						<button 
-							className="delete mr-2" 
-							aria-label="close" 
-							onClick=${ onClose } 
-							style=${{ backgroundColor: '#475569' }}
-						></button>
+							type="button"
+							className="wp-modal-close-btn" 
+							aria-label=${ __( 'Close', 'workpress' ) } 
+							title=${ __( 'Close', 'workpress' ) } 
+							onClick=${ onClose }
+						>
+							<svg viewBox="0 0 24 24" width="16" height="16">
+								<line x1="18" y1="6" x2="6" y2="18"></line>
+								<line x1="6" y1="6" x2="18" y2="18"></line>
+							</svg>
+						</button>
 					</div>
 				</header>
 

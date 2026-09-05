@@ -36,8 +36,14 @@ export const projectsApi = {
 	trashRequest: ( id, reason ) => apiFetch( { path: '/workpress/v1/trash/request', method: 'POST', data: { entity_type: 'project', entity_id: id, reason } } ),
 	members: {
 		list: ( pid ) => apiFetch( { path: `/workpress/v1/projects/${ pid }/members` } ),
-		add: ( pid, data ) => apiFetch( { path: `/workpress/v1/projects/${ pid }/members`, method: 'POST', data } ),
+		add: ( pid, dataOrUid, role ) => {
+			const data = ( typeof dataOrUid === 'object' && dataOrUid !== null )
+				? dataOrUid
+				: { user_id: dataOrUid, role: role || 'member' };
+			return apiFetch( { path: `/workpress/v1/projects/${ pid }/members`, method: 'POST', data } );
+		},
 		update: ( pid, uid, role ) => apiFetch( { path: `/workpress/v1/projects/${ pid }/members/${ uid }`, method: 'PUT', data: { role } } ),
+		updateRole: ( pid, uid, role ) => apiFetch( { path: `/workpress/v1/projects/${ pid }/members/${ uid }`, method: 'PUT', data: { role } } ),
 		remove: ( pid, uid ) => apiFetch( { path: `/workpress/v1/projects/${ pid }/members/${ uid }`, method: 'DELETE' } ),
 	},
 };
@@ -168,5 +174,22 @@ export const webhooksApi = {
 	test: ( data ) => apiFetch( { path: '/workpress/v1/webhooks/test', method: 'POST', data } ),
 };
 
-
-
+export const broadcastsApi = {
+	getStream: () => apiFetch( { path: '/workpress/v1/broadcasts/stream' } ),
+	getRules: () => apiFetch( { path: '/workpress/v1/broadcasts/rules' } ),
+	updateRules: ( rules ) => apiFetch( { path: '/workpress/v1/broadcasts/rules', method: 'POST', data: rules } ),
+	list: ( filters = {} ) => {
+		const cleanFilters = {};
+		Object.keys( filters ).forEach( k => {
+			if ( filters[k] !== undefined && filters[k] !== null && filters[k] !== '' ) {
+				cleanFilters[k] = filters[k];
+			}
+		} );
+		const query = new URLSearchParams( cleanFilters ).toString();
+		return apiFetch( { path: `/workpress/v1/broadcasts${ query ? '?' + query : '' }` } );
+	},
+	get: ( id ) => apiFetch( { path: `/workpress/v1/broadcasts/${ id }` } ),
+	create: ( data ) => apiFetch( { path: '/workpress/v1/broadcasts', method: 'POST', data } ),
+	update: ( id, data ) => apiFetch( { path: `/workpress/v1/broadcasts/${ id }`, method: 'PUT', data } ),
+	delete: ( id ) => apiFetch( { path: `/workpress/v1/broadcasts/${ id }`, method: 'DELETE' } ),
+};

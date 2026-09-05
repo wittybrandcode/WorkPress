@@ -82,6 +82,9 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 	}
 
 	public function create_item_permissions_check( $request ) {
+		if ( $request->get_param( 'is_client_request' ) ) {
+			return current_user_can( 'manage_options' ) || current_user_can( 'create_workpress_projects' ) || current_user_can( 'submit_work_requests' );
+		}
 		return current_user_can( 'manage_options' ) || current_user_can( 'create_workpress_projects' );
 	}
 
@@ -98,7 +101,7 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_missing_name', __( 'Project name is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
-		$project = WorkPress_Project_Service::create_project( array(
+		$create_data = array(
 			'name'        => $name,
 			'description' => $description,
 			'prefix'      => $prefix,
@@ -106,7 +109,28 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 			'status'      => $status,
 			'start_at'    => $start_at,
 			'due_at'      => $due_at,
-		) );
+		);
+
+		if ( $request->has_param( 'is_client_request' ) ) {
+			$create_data['is_client_request'] = rest_sanitize_boolean( $request->get_param( 'is_client_request' ) );
+		}
+		if ( $request->has_param( 'requested_budget' ) ) {
+			$create_data['requested_budget'] = (float) $request->get_param( 'requested_budget' );
+		}
+		if ( $request->has_param( 'requested_due_date' ) ) {
+			$create_data['requested_due_date'] = sanitize_text_field( $request->get_param( 'requested_due_date' ) );
+		}
+		if ( $request->has_param( 'budget' ) ) {
+			$create_data['budget'] = (float) $request->get_param( 'budget' );
+		}
+		if ( $request->has_param( 'lead_id' ) ) {
+			$create_data['lead_id'] = (int) $request->get_param( 'lead_id' );
+		}
+		if ( $request->has_param( 'client_id' ) ) {
+			$create_data['client_id'] = (int) $request->get_param( 'client_id' );
+		}
+
+		$project = WorkPress_Project_Service::create_project( $create_data );
 
 		if ( is_wp_error( $project ) ) {
 			return $project;
@@ -162,7 +186,7 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 			return new WP_Error( 'rest_missing_name', __( 'Project name is required', 'workpress' ), array( 'status' => 400 ) );
 		}
 
-		$project = WorkPress_Project_Service::update_project( $project_id, array(
+		$update_data = array(
 			'name'        => $name,
 			'description' => $description,
 			'prefix'      => $prefix,
@@ -170,7 +194,34 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 			'status'      => $status,
 			'start_at'    => $start_at,
 			'due_at'      => $due_at,
-		) );
+		);
+
+		if ( $request->has_param( 'is_client_request' ) ) {
+			$update_data['is_client_request'] = rest_sanitize_boolean( $request->get_param( 'is_client_request' ) );
+		}
+		if ( $request->has_param( 'requested_budget' ) ) {
+			$update_data['requested_budget'] = (float) $request->get_param( 'requested_budget' );
+		}
+		if ( $request->has_param( 'requested_due_date' ) ) {
+			$update_data['requested_due_date'] = sanitize_text_field( $request->get_param( 'requested_due_date' ) );
+		}
+		if ( $request->has_param( 'budget' ) ) {
+			$update_data['budget'] = (float) $request->get_param( 'budget' );
+		}
+		if ( $request->has_param( 'lead_id' ) ) {
+			$update_data['lead_id'] = (int) $request->get_param( 'lead_id' );
+		}
+		if ( $request->has_param( 'client_id' ) ) {
+			$update_data['client_id'] = (int) $request->get_param( 'client_id' );
+		}
+		if ( $request->has_param( 'review_notes' ) ) {
+			$update_data['review_notes'] = sanitize_textarea_field( $request->get_param( 'review_notes' ) );
+		}
+		if ( $request->has_param( 'rejection_reason' ) ) {
+			$update_data['rejection_reason'] = sanitize_textarea_field( $request->get_param( 'rejection_reason' ) );
+		}
+
+		$project = WorkPress_Project_Service::update_project( $project_id, $update_data );
 
 		if ( is_wp_error( $project ) ) {
 			return $project;
@@ -219,13 +270,38 @@ class WorkPress_REST_Projects_Controller extends WP_REST_Controller {
 				),
 				'status' => array(
 					'type'              => 'string',
-					'enum'              => array( 'active', 'on_hold', 'completed', 'archived' ),
+					'enum'              => array( 'active', 'on_hold', 'completed', 'archived', 'pending', 'in_review', 'rejected' ),
 					'default'           => 'active',
 					'sanitize_callback' => 'sanitize_key',
 				),
 				'cover_id' => array(
 					'type'    => 'integer',
 					'default' => 0,
+				),
+				'is_client_request' => array(
+					'type'    => 'boolean',
+					'default' => false,
+				),
+				'requested_budget' => array(
+					'type' => array( 'number', 'null' ),
+				),
+				'requested_due_date' => array(
+					'type' => array( 'string', 'null' ),
+				),
+				'budget' => array(
+					'type' => 'number',
+				),
+				'lead_id' => array(
+					'type' => 'integer',
+				),
+				'client_id' => array(
+					'type' => 'integer',
+				),
+				'review_notes' => array(
+					'type' => 'string',
+				),
+				'rejection_reason' => array(
+					'type' => 'string',
 				),
 			),
 		);

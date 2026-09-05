@@ -20,16 +20,28 @@ export default function WebhookModal({
 	if (!isOpen || !editingItem) return null;
 
 	return html`
-		<div className="modal is-active" style=${{ zIndex: 1000 }}>
-			<div className="modal-background" onClick=${onClose} style=${{ backgroundColor: 'rgba(15, 23, 42, 0.65)' }}></div>
-			<div className="modal-card wp-webhook-modal-card">
+		<div className="modal is-active">
+			<!-- Non-clickable backdrop strictly preventing accidental loss of user work -->
+			<div className="modal-background"></div>
+			<div className="modal-card is-large wp-webhook-modal-card">
 				
 				<!-- MODAL HEADER -->
-				<header className="modal-card-head" style=${{ background: '#0f172a', borderBottom: 'none', padding: '18px 24px', borderRadius: 0 }}>
-					<p className="modal-card-title" style=${{ color: '#fff', fontSize: '1.1rem', fontWeight: '800' }}>
+				<header className="modal-card-head">
+					<p className="modal-card-title has-text-weight-bold">
 						${editingItem.id ? __( 'Edit Webhook Settings', 'workpress' ) : __( 'Create New Webhook', 'workpress' )}
 					</p>
-					<button className="delete" aria-label="close" onClick=${onClose}></button>
+					<button 
+						type="button"
+						className="wp-modal-close-btn" 
+						aria-label=${ __( 'Close', 'workpress' ) } 
+						title=${ __( 'Close', 'workpress' ) } 
+						onClick=${ onClose }
+					>
+						<svg viewBox="0 0 24 24" width="16" height="16">
+							<line x1="18" y1="6" x2="6" y2="18"></line>
+							<line x1="6" y1="6" x2="18" y2="18"></line>
+						</svg>
+					</button>
 				</header>
 
 				<!-- MODAL BODY -->

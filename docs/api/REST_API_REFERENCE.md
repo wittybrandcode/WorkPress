@@ -2,7 +2,7 @@
 ## Complete REST API Endpoints, Authentication, Permissions & Data Schemas
 
 > **نوع الوثيقة:** المرجع البرمجي والتقني الشامل لواجهة برمجة التطبيقات REST API  
-> **الإصدار المعتمد:** WorkPress v2.3.0-Stable  
+> **الإصدار المعتمد:** WorkPress v1.0.0-Stable  
 > **المسار الأساسي (Base URL):** `/wp-json/workpress/v1/`  
 > **المرجع الحاكم:** [ARCHITECTURE.md](../core/ARCHITECTURE.md) | [FIRST_PRINCIPLES.md](../core/FIRST_PRINCIPLES.md)
 
@@ -267,4 +267,48 @@ X-WP-Nonce: [WP_REST_NONCE]
 * **الوصف:** إرسال نبضة اختبار تجريبية مشفرة بـ HMAC-SHA256 للتحقق من الاتصال.
 
 ---
-*تم توثيق كافة نقاط النهاية وفق معايير OpenAPI / WordPress REST API 2.0.*
+
+## 📡 8. مسارات النشريات والتنبيهات التشغيلية (`/broadcasts`)
+
+### `GET /broadcasts/stream`
+* **الوصف:** جلب الدفق الحي اللحظي لشريط التنبيهات والأفق الرقمي (تجميع آلي للتوجيهات الإدارية، التنبيهات الحرجة، المهام المتأخرة، واحتفاءات الإنجاز).
+* **الصلاحية المطلوبة:** `access_workpress_admin` أو مستخدم مسجل.
+* **نموذج الاستجابة (Response):**
+```json
+[
+  {
+    "id": 12,
+    "type": "directive",
+    "category": "directive",
+    "priority": "urgent",
+    "title": "توجيه إداري عاجل",
+    "content": "يرجى اعتماد وثائق التسليم النهائية للمشاريع قبل نهاية الأسبوع.",
+    "action_url": "#/projects"
+  }
+]
+```
+
+### `GET /broadcasts/directives`
+* **الوصف:** استرجاع قائمة التوجيهات والتعاميم الإدارية الحالية.
+* **الصلاحية المطلوبة:** `access_workpress_admin`.
+
+### `POST /broadcasts/directives`
+* **الوصف:** نشر توجيه إداري جديد للبث الفوري في شريط التنبيهات.
+* **الصلاحية المطلوبة:** `manage_workpress_settings` أو مدير عام.
+* **جسم الطلب (Body):**
+```json
+{
+  "title": "تعميم ترقية البنية التحتية",
+  "content": "تم تفعيل محرك الترجمة الرباعي بنجاح.",
+  "priority": "info",
+  "action_url": "#/broadcasts"
+}
+```
+
+### `GET /broadcasts/rules` & `POST /broadcasts/rules`
+* **الوصف:** قراءة وتحديث قواعد التنبيهات الآلية (مهلة اقتراب الموعد النهائي بالساعات، تنبيهات التأخير، الاحتفاءات).
+* **الصلاحية المطلوبة:** `manage_workpress_settings`.
+
+---
+*تم توثيق كافة نقاط النهاية وفق معايير OpenAPI / WordPress REST API 2.0 للإصدار WorkPress v1.0.0-Stable.*
+
